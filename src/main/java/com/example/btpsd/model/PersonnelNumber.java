@@ -15,8 +15,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "currency")
-public class Currency implements Serializable {
+@Table(name = "personnelNumber")
+public class PersonnelNumber implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,11 +29,7 @@ public class Currency implements Serializable {
     @NonNull
     private String description;
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "currency")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "personnelNumber")
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "currency")
-    @JsonIgnore
-    private Set<ModelSpecifications> modelSpecifications = new HashSet<>();
 }

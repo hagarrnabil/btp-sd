@@ -1,8 +1,13 @@
 package com.example.btpsd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Length;
 import lombok.*;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -10,8 +15,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "modelServiceSpecification")
-public class ModelServiceSpecification {
+@Table(name = "modelSpecifications")
+public class ModelSpecifications implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +35,12 @@ public class ModelServiceSpecification {
     @NonNull
     private String description;
 
-    private String searchItem;
+    private String searchTerm;
+
+    @ManyToOne
+    private ModelSpecificationsDetails modelSpecificationsDetails;
+
+    @ManyToOne
+    private Currency currency;
 
 }
