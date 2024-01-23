@@ -20,13 +20,15 @@ public class ModelSpecificationsDetails implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long modelSpecDetails;
 
 
     @Builder.Default
     private Boolean selectionCheckBox = true;
 
-    private Integer lineIndex;
+    @Column(unique = true, columnDefinition = "char(225)")
+    @Length(max = 225)
+    private String lineIndex;
 
     @Builder.Default
     private Boolean deletionIndicator = true;
@@ -95,4 +97,10 @@ public class ModelSpecificationsDetails implements Serializable {
 
     @ManyToOne
     private Currency currency;
+
+    public ModelSpecificationsDetails addModelSpecifications(ModelSpecifications modelSpecifications){
+        modelSpecifications.setModelSpecificationsDetails(this);
+        this.modelSpecifications.add(modelSpecifications);
+        return this;
+    }
 }

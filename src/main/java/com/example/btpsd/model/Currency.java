@@ -20,7 +20,7 @@ public class Currency implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long currency;
 
     @Column(unique = true, columnDefinition = "char(225)", nullable = false)
     @Length(max = 225)
@@ -36,4 +36,16 @@ public class Currency implements Serializable {
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "currency")
     @JsonIgnore
     private Set<ModelSpecifications> modelSpecifications = new HashSet<>();
+
+    public Currency addModelSpecifications(ModelSpecifications modelSpecifications){
+        modelSpecifications.setCurrency(this);
+        this.modelSpecifications.add(modelSpecifications);
+        return this;
+    }
+
+    public Currency addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
+        modelSpecificationsDetails.setCurrency(this);
+        this.modelSpecificationsDetails.add(modelSpecificationsDetails);
+        return this;
+    }
 }

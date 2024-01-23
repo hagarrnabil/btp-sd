@@ -20,7 +20,7 @@ public class ModelSpecifications implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long modelSpec;
 
     @Column(unique = true, columnDefinition = "char(225)", nullable = false)
     @Length(max = 225)
