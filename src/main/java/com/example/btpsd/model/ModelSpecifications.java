@@ -2,6 +2,7 @@ package com.example.btpsd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import lombok.*;
 
@@ -32,7 +33,7 @@ public class ModelSpecifications implements Serializable {
     @Builder.Default
     private Boolean serviceSelection = true;
 
-    @NonNull
+    @NotNull
     private String description;
 
     private String searchTerm;

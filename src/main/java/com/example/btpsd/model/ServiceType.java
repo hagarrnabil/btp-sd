@@ -2,6 +2,7 @@ package com.example.btpsd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -26,10 +27,16 @@ public class ServiceType implements Serializable {
     @Length(max = 225)
     private String code;
 
-    @NonNull
+    @NotNull
     private String description;
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceType")
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
+
+    public ServiceType addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
+        modelSpecificationsDetails.setServiceType(this);
+        this.modelSpecificationsDetails.add(modelSpecificationsDetails);
+        return this;
+    }
 }
