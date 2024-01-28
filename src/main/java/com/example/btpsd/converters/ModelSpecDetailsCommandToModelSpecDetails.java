@@ -24,40 +24,40 @@ public class ModelSpecDetailsCommandToModelSpecDetails implements Converter<Mode
         }
 
         final ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
-        modelSpecificationsDetails.setModelSpecDetails(source.getModelSpecDetails());
-        if (source.getCurrency() != null) {
+        modelSpecificationsDetails.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
+        if (source.getCurrencyCode() != null) {
             Currency currency = new Currency();
-            currency.setCurrency(source.getCurrency());
+            currency.setCurrencyCode(source.getCurrencyCode());
             modelSpecificationsDetails.setCurrency(currency);
             currency.addModelSpecDetails(modelSpecificationsDetails);
         }
-        if (source.getPersonnelNumber() != null) {
+        if (source.getPersonnelNumberCode() != null) {
             PersonnelNumber personnelNumber = new PersonnelNumber();
-            personnelNumber.setPersonnelNumber(source.getPersonnelNumber());
+            personnelNumber.setPersonnelNumberCode(source.getPersonnelNumberCode());
             modelSpecificationsDetails.setPersonnelNumber(personnelNumber);
             personnelNumber.addModelSpecDetails(modelSpecificationsDetails);
         }
-        if (source.getServiceType() != null) {
+        if (source.getServiceTypeCode() != null) {
             ServiceType serviceType = new ServiceType();
-            serviceType.setServiceType(source.getServiceType());
+            serviceType.setServiceTypeCode(source.getServiceTypeCode());
             modelSpecificationsDetails.setServiceType(serviceType);
             serviceType.addModelSpecDetails(modelSpecificationsDetails);
         }
-        if (source.getMaterialGroup() != null) {
+        if (source.getMaterialGroupCode() != null) {
             MaterialGroup materialGroup = new MaterialGroup();
-            materialGroup.setMaterialGroup(source.getMaterialGroup());
+            materialGroup.setMaterialGroupCode(source.getMaterialGroupCode());
             modelSpecificationsDetails.setMaterialGroup(materialGroup);
             materialGroup.addModelSpecDetails(modelSpecificationsDetails);
         }
-        if (source.getUnitOfMeasurement() != null) {
+        if (source.getUnitOfMeasurementCode() != null) {
             UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-            unitOfMeasurement.setUnitOfMeasurement(source.getUnitOfMeasurement());
+            unitOfMeasurement.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
             modelSpecificationsDetails.setUnitOfMeasurement(unitOfMeasurement);
             unitOfMeasurement.addModelSpecDetails(modelSpecificationsDetails);
         }
-        if (source.getServiceNumber() != null) {
+        if (source.getServiceNumberCode() != null) {
             ServiceNumber serviceNumber = new ServiceNumber();
-            serviceNumber.setServiceNumber(source.getServiceNumber());
+            serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
             modelSpecificationsDetails.setServiceNumber(serviceNumber);
             serviceNumber.addModelSpecDetails(modelSpecificationsDetails);
         }

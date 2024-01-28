@@ -1,8 +1,6 @@
 package com.example.btpsd.converters;
 
-import com.example.btpsd.commands.ModelSpecificationsCommand;
 import com.example.btpsd.commands.ModelSpecificationsDetailsCommand;
-import com.example.btpsd.model.ModelSpecifications;
 import com.example.btpsd.model.ModelSpecificationsDetails;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -26,24 +24,24 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         }
 
         final ModelSpecificationsDetailsCommand modelSpecificationsDetailsCommand = new ModelSpecificationsDetailsCommand();
-        modelSpecificationsDetailsCommand.setModelSpecDetails(source.getModelSpecDetails());
+        modelSpecificationsDetailsCommand.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
         if (source.getPersonnelNumber() != null) {
-            modelSpecificationsDetailsCommand.setPersonnelNumber(source.getPersonnelNumber().getPersonnelNumber());
+            modelSpecificationsDetailsCommand.setPersonnelNumberCode(source.getPersonnelNumber().getPersonnelNumberCode());
         }
         if (source.getCurrency() != null) {
-            modelSpecificationsDetailsCommand.setCurrency(source.getCurrency().getCurrency());
+            modelSpecificationsDetailsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());
         }
         if (source.getServiceType() != null) {
-            modelSpecificationsDetailsCommand.setServiceType(source.getServiceType().getServiceType());
+            modelSpecificationsDetailsCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
         }
         if (source.getMaterialGroup() != null) {
-            modelSpecificationsDetailsCommand.setMaterialGroup(source.getMaterialGroup().getMaterialGroup());
+            modelSpecificationsDetailsCommand.setMaterialGroupCode(source.getMaterialGroup().getMaterialGroupCode());
         }
         if (source.getUnitOfMeasurement() != null) {
-            modelSpecificationsDetailsCommand.setUnitOfMeasurement(source.getUnitOfMeasurement().getUnitOfMeasurement());
+            modelSpecificationsDetailsCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurement().getUnitOfMeasurementCode());
         }
         if (source.getServiceNumber() != null) {
-            modelSpecificationsDetailsCommand.setServiceNumber(source.getServiceNumber().getServiceNumber());
+            modelSpecificationsDetailsCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
 
         modelSpecificationsDetailsCommand.setSelectionCheckBox(source.getSelectionCheckBox());

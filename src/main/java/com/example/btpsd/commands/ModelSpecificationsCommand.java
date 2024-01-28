@@ -11,9 +11,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class ModelSpecificationsCommand implements Serializable {
 
-    private Long modelSpec;
-    private Long modelSpecDetails;
-    private Long currency;
+    private Long modelSpecCode;
+    private Long modelSpecDetailsCode;
+    private Long currencyCode;
     private String modelServSpec;
     private Boolean blockingIndicator = true;
     private Boolean serviceSelection = true;

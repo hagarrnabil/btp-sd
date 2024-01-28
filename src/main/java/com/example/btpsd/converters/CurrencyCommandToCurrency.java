@@ -25,7 +25,7 @@ public class CurrencyCommandToCurrency implements Converter<CurrencyCommand, Cur
         }
 
         final Currency currency = new Currency();
-        currency.setCurrency(source.getCurrency());
+        currency.setCurrencyCode(source.getCurrencyCode());
         currency.setCode(source.getCode());
         currency.setDescription(source.getDescription());
         if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {

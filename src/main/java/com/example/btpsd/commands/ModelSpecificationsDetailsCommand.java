@@ -14,13 +14,13 @@ import java.util.Set;
 @NoArgsConstructor
 public class ModelSpecificationsDetailsCommand implements Serializable {
 
-    private Long modelSpecDetails;
-    private Long currency;
-    private Long personnelNumber;
-    private Long serviceType;
-    private Long materialGroup;
-    private Long unitOfMeasurement;
-    private Long serviceNumber;
+    private Long modelSpecDetailsCode;
+    private Long currencyCode;
+    private Long personnelNumberCode;
+    private Long serviceTypeCode;
+    private Long materialGroupCode;
+    private Long unitOfMeasurementCode;
+    private Long serviceNumberCode;
     private Boolean selectionCheckBox = true;
     private String lineIndex;
     private Boolean deletionIndicator = true;

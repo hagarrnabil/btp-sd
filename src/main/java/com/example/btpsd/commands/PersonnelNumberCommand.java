@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class PersonnelNumberCommand implements Serializable {
 
-    private Long personnelNumber;
+    private Long personnelNumberCode;
 
     private String code;
 

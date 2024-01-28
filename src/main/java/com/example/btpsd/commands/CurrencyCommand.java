@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class CurrencyCommand implements Serializable {
 
-    private Long currency;
+    private Long currencyCode;
 
     private String code;
 

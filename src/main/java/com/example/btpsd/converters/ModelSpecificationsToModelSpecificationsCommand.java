@@ -20,12 +20,12 @@ public class ModelSpecificationsToModelSpecificationsCommand implements Converte
         }
 
         final ModelSpecificationsCommand modelSpecificationsCommand = new ModelSpecificationsCommand();
-        modelSpecificationsCommand.setModelSpec(source.getModelSpec());
+        modelSpecificationsCommand.setModelSpecCode(source.getModelSpecCode());
         if (source.getModelSpecificationsDetails() != null) {
-            modelSpecificationsCommand.setModelSpecDetails(source.getModelSpecificationsDetails().getModelSpecDetails());
+            modelSpecificationsCommand.setModelSpecCode(source.getModelSpecificationsDetails().getModelSpecDetailsCode());
         }
         if (source.getCurrency() != null) {
-            modelSpecificationsCommand.setCurrency(source.getCurrency().getCurrency());
+            modelSpecificationsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());
         }
         modelSpecificationsCommand.setModelServSpec(source.getModelServSpec());
         modelSpecificationsCommand.setBlockingIndicator(source.getBlockingIndicator());

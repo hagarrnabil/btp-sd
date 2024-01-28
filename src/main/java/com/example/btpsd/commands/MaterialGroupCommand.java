@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class MaterialGroupCommand implements Serializable {
 
-    private Long materialGroup;
+    private Long materialGroupCode;
 
     private String code;
 

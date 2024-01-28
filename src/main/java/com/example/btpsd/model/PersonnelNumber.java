@@ -21,7 +21,7 @@ public class PersonnelNumber implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long personnelNumber;
+    private Long personnelNumberCode;
 
     @Column(unique = true, columnDefinition = "char(225)", nullable = false)
     @Length(max = 225)

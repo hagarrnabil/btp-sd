@@ -1,8 +1,6 @@
 package com.example.btpsd.converters;
 
-import com.example.btpsd.commands.MaterialGroupCommand;
 import com.example.btpsd.commands.PersonnelNumberCommand;
-import com.example.btpsd.model.MaterialGroup;
 import com.example.btpsd.model.PersonnelNumber;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +24,7 @@ public class PersonnelNumberToPersonnelNumberCommand implements Converter<Person
         }
 
         final PersonnelNumberCommand personnelNumberCommand = new PersonnelNumberCommand();
-        personnelNumberCommand.setPersonnelNumber(source.getPersonnelNumber());
+        personnelNumberCommand.setPersonnelNumberCode(source.getPersonnelNumberCode());
         personnelNumberCommand.setCode(source.getCode());
         personnelNumberCommand.setDescription(source.getDescription());
         if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){

@@ -24,7 +24,7 @@ public class MaterialGroupCommandToMaterialGroup implements Converter<MaterialGr
         }
 
         final MaterialGroup materialGroup = new MaterialGroup();
-        materialGroup.setMaterialGroup(source.getMaterialGroup());
+        materialGroup.setMaterialGroupCode(source.getMaterialGroupCode());
         materialGroup.setCode(source.getCode());
         materialGroup.setDescription(source.getDescription());
         if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {

@@ -20,8 +20,19 @@ public class ModelSpecificationsDetails implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long modelSpecDetails;
+    private Long modelSpecDetailsCode;
 
+    private Long serviceNumberCode;
+
+    private Long serviceTypeCode;
+
+    private Long materialGroupCode;
+
+    private Long personnelNumberCode;
+
+    private Long unitOfMeasurementCode;
+
+    private Long currencyCode;
 
     @Builder.Default
     private Boolean selectionCheckBox = true;
@@ -53,7 +64,7 @@ public class ModelSpecificationsDetails implements Serializable {
     @Length(max = 225)
     private String externalServiceNumber;
 
-    private Integer netValue = quantity * grossPrice;
+    private Integer netValue;
 
     private String serviceText;
 

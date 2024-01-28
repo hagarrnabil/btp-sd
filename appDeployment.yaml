@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: dev
+    kyma-grafana: enabled
+  name: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dev
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: dev
+        kyma-grafana: enabled
+    spec:
+      containers:
+        - image: hagarrnabil/dev
+          name: dev
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: dev
+                optional: true
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: dev
+  name: dev
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: dev
+  type: ClusterIP
+status:
+  loadBalancer: {}

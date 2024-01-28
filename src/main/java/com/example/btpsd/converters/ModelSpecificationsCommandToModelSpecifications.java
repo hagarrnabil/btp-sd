@@ -22,16 +22,16 @@ public class ModelSpecificationsCommandToModelSpecifications implements Converte
         }
 
         final ModelSpecifications modelSpecifications = new ModelSpecifications();
-        modelSpecifications.setModelSpec(source.getModelSpec());
-        if (source.getModelSpecDetails() != null) {
+        modelSpecifications.setModelSpecCode(source.getModelSpecCode());
+        if (source.getModelSpecDetailsCode() != null) {
             ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
-            modelSpecificationsDetails.setModelSpecDetails(source.getModelSpecDetails());
+            modelSpecificationsDetails.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
             modelSpecifications.setModelSpecificationsDetails(modelSpecificationsDetails);
             modelSpecificationsDetails.addModelSpecifications(modelSpecifications);
         }
-        if (source.getCurrency() != null) {
+        if (source.getCurrencyCode() != null) {
             Currency currency = new Currency();
-            currency.setCurrency(source.getCurrency());
+            currency.setCurrencyCode(source.getCurrencyCode());
             modelSpecifications.setCurrency(currency);
             currency.addModelSpecifications(modelSpecifications);
         }

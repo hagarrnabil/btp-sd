@@ -61,7 +61,7 @@ public class CurrencyServiceImpl implements CurrencyService{
 
         Currency detachedCurrency = currencyCommandToCurrency.convert(command);
         Currency savedCurrency = currencyRepository.save(detachedCurrency);
-        log.debug("Saved Currency Id:" + savedCurrency.getCurrency());
+        log.debug("Saved Currency Id:" + savedCurrency.getCurrencyCode());
         return currencyToCurrencyCommand.convert(savedCurrency);
 
     }

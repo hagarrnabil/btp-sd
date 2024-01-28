@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class ServiceNumberCommand implements Serializable {
 
-    private Long serviceNumber;
+    private Long serviceNumberCode;
 
     private String code;
 

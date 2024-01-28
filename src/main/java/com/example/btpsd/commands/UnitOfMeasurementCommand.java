@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class UnitOfMeasurementCommand implements Serializable {
 
-    private Long unitOfMeasurement;
+    private Long unitOfMeasurementCode;
 
     private String code;
 

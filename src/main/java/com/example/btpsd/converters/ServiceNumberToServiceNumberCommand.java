@@ -1,8 +1,6 @@
 package com.example.btpsd.converters;
 
-import com.example.btpsd.commands.MaterialGroupCommand;
 import com.example.btpsd.commands.ServiceNumberCommand;
-import com.example.btpsd.model.MaterialGroup;
 import com.example.btpsd.model.ServiceNumber;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +24,7 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         }
 
         final ServiceNumberCommand serviceNumberCommand = new ServiceNumberCommand();
-        serviceNumberCommand.setServiceNumber(source.getServiceNumber());
+        serviceNumberCommand.setServiceNumberCode(source.getServiceNumberCode());
         serviceNumberCommand.setCode(source.getCode());
         serviceNumberCommand.setDescription(source.getDescription());
         if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){

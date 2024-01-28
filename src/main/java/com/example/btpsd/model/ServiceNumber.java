@@ -21,7 +21,7 @@ public class ServiceNumber implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long serviceNumber;
+    private Long serviceNumberCode;
 
     @Column(unique = true, columnDefinition = "char(225)", nullable = false)
     @Length(max = 225)
