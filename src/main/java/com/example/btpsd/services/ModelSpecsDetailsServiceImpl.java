@@ -69,11 +69,9 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
     }
 
     @Override
-    public ModelSpecificationsDetails updateModelSpecDetails(ModelSpecificationsDetails newModelSpecDetails, Long l) {
+    public ModelSpecificationsDetails updateModelSpecDetails(ModelSpecificationsDetails newModelSpecDetails, Long modelSpecDetailsCode) {
 
-        return modelSpecificationsDetailsRepository.findById(l).map(oldModelSpecDetails -> {
-            if (newModelSpecDetails.getModelSpecDetailsCode() != oldModelSpecDetails.getModelSpecDetailsCode())
-                oldModelSpecDetails.setModelSpecDetailsCode(newModelSpecDetails.getModelSpecDetailsCode());
+        return modelSpecificationsDetailsRepository.findById(modelSpecDetailsCode).map(oldModelSpecDetails -> {
             if (newModelSpecDetails.getSelectionCheckBox() != oldModelSpecDetails.getSelectionCheckBox())
                 oldModelSpecDetails.setSelectionCheckBox(newModelSpecDetails.getSelectionCheckBox());
             if (newModelSpecDetails.getLineIndex() != oldModelSpecDetails.getLineIndex())
@@ -114,37 +112,37 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setSupplementaryLine(newModelSpecDetails.getSupplementaryLine());
             if (newModelSpecDetails.getLotSizeForCostingIsOne() != oldModelSpecDetails.getLotSizeForCostingIsOne())
                 oldModelSpecDetails.setLotSizeForCostingIsOne(newModelSpecDetails.getLotSizeForCostingIsOne());
-            if ((newModelSpecDetails.getServiceNumber() != null)) {
+            if (newModelSpecDetails.getServiceNumberCode() != null) {
                 ServiceNumber serviceNumber = new ServiceNumber();
                 serviceNumber.setServiceNumberCode(newModelSpecDetails.getServiceNumberCode());
                 oldModelSpecDetails.setServiceNumber(serviceNumber);
                 serviceNumber.addModelSpecDetails(oldModelSpecDetails);
             }
-            if ((newModelSpecDetails.getCurrency() != null)) {
+            if (newModelSpecDetails.getCurrencyCode() != null) {
                 Currency currency = new Currency();
                 currency.setCurrencyCode(newModelSpecDetails.getCurrencyCode());
                 oldModelSpecDetails.setCurrency(currency);
                 currency.addModelSpecDetails(oldModelSpecDetails);
             }
-            if ((newModelSpecDetails.getPersonnelNumber() != null)) {
+            if (newModelSpecDetails.getPersonnelNumberCode() != null) {
                 PersonnelNumber personnelNumber = new PersonnelNumber();
                 personnelNumber.setPersonnelNumberCode(newModelSpecDetails.getPersonnelNumberCode());
                 oldModelSpecDetails.setPersonnelNumber(personnelNumber);
                 personnelNumber.addModelSpecDetails(oldModelSpecDetails);
             }
-            if ((newModelSpecDetails.getServiceType() != null)) {
+            if (newModelSpecDetails.getServiceTypeCode() != null) {
                 ServiceType serviceType = new ServiceType();
-                serviceType.setServiceTypeCode(newModelSpecDetails.getServiceTypeCode());
+                serviceType.setServiceTypeCode(newModelSpecDetails.getServiceNumberCode());
                 oldModelSpecDetails.setServiceType(serviceType);
                 serviceType.addModelSpecDetails(oldModelSpecDetails);
             }
-            if ((newModelSpecDetails.getMaterialGroup() != null)) {
+            if (newModelSpecDetails.getMaterialGroupCode() != null) {
                 MaterialGroup materialGroup = new MaterialGroup();
                 materialGroup.setMaterialGroupCode(newModelSpecDetails.getMaterialGroupCode());
                 oldModelSpecDetails.setMaterialGroup(materialGroup);
                 materialGroup.addModelSpecDetails(oldModelSpecDetails);
             }
-            if ((newModelSpecDetails.getUnitOfMeasurement() != null)) {
+            if (newModelSpecDetails.getUnitOfMeasurementCode() != null) {
                 UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
                 unitOfMeasurement.setUnitOfMeasurementCode(newModelSpecDetails.getUnitOfMeasurementCode());
                 oldModelSpecDetails.setUnitOfMeasurement(unitOfMeasurement);

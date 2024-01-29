@@ -34,6 +34,12 @@ public class MaterialGroup implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
+    public MaterialGroup(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
+        this.code = code;
+        this.description = description;
+        this.modelSpecificationsDetails = modelSpecificationsDetails;
+    }
+
     public MaterialGroup addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setMaterialGroup(this);
         this.modelSpecificationsDetails.add(modelSpecificationsDetails);

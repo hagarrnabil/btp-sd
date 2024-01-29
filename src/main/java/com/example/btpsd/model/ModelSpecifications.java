@@ -20,7 +20,7 @@ public class ModelSpecifications implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long modelSpecCode;
 
-    private Long modelSpecDetails;
+    private Long modelSpecDetailsCode;
 
     private Long currencyCode;
 
@@ -46,4 +46,17 @@ public class ModelSpecifications implements Serializable {
     @ManyToOne
     private Currency currency;
 
+    public ModelSpecifications(Long modelSpecDetailsCode, Long currencyCode, String modelServSpec, Boolean blockingIndicator,
+                               Boolean serviceSelection, String description, String searchTerm,
+                               ModelSpecificationsDetails modelSpecificationsDetails, Currency currency) {
+        this.modelSpecDetailsCode = modelSpecDetailsCode;
+        this.currencyCode = currencyCode;
+        this.modelServSpec = modelServSpec;
+        this.blockingIndicator = blockingIndicator;
+        this.serviceSelection = serviceSelection;
+        this.description = description;
+        this.searchTerm = searchTerm;
+        this.modelSpecificationsDetails = modelSpecificationsDetails;
+        this.currency = currency;
+    }
 }

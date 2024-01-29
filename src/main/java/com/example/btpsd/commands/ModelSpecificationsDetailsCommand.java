@@ -32,7 +32,7 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private Boolean unlimitedOverFulfillment = true;
     private Integer pricePerUnitOfMeasurement;
     private String externalServiceNumber;
-    private Integer netValue = quantity * grossPrice;
+    private Integer netValue;
     private String serviceText;
     private String lineText;
     private String formula;

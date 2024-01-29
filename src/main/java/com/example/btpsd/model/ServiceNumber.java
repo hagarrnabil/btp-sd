@@ -34,6 +34,12 @@ public class ServiceNumber implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
+    public ServiceNumber(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
+        this.code = code;
+        this.description = description;
+        this.modelSpecificationsDetails = modelSpecificationsDetails;
+    }
+
     public ServiceNumber addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setServiceNumber(this);
         this.modelSpecificationsDetails.add(modelSpecificationsDetails);

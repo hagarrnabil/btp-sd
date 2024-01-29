@@ -67,21 +67,22 @@ public class ModelSpecDetailsCommandToModelSpecDetails implements Converter<Mode
         modelSpecificationsDetails.setDeletionIndicator(source.getDeletionIndicator());
         modelSpecificationsDetails.setShortText(source.getShortText());
         modelSpecificationsDetails.setQuantity(source.getQuantity());
-        modelSpecificationsDetails.setGrossPrice(modelSpecificationsDetails.getGrossPrice());
-        modelSpecificationsDetails.setOverFulfilmentPercentage(modelSpecificationsDetails.getOverFulfilmentPercentage());
-        modelSpecificationsDetails.setPriceChangedAllowed(modelSpecificationsDetails.getPriceChangedAllowed());
-        modelSpecificationsDetails.setUnlimitedOverFulfillment(modelSpecificationsDetails.getUnlimitedOverFulfillment());
-        modelSpecificationsDetails.setPricePerUnitOfMeasurement(modelSpecificationsDetails.getPricePerUnitOfMeasurement());
-        modelSpecificationsDetails.setExternalServiceNumber(modelSpecificationsDetails.getExternalServiceNumber());
-        modelSpecificationsDetails.setNetValue(modelSpecificationsDetails.getNetValue());
-        modelSpecificationsDetails.setServiceText(modelSpecificationsDetails.getServiceText());
-        modelSpecificationsDetails.setLineText(modelSpecificationsDetails.getLineText());
-        modelSpecificationsDetails.setFormula(modelSpecificationsDetails.getFormula());
-        modelSpecificationsDetails.setLineNumber(modelSpecificationsDetails.getLineNumber());
-        modelSpecificationsDetails.setAlternatives(modelSpecificationsDetails.getAlternatives());
-        modelSpecificationsDetails.setBiddersLine(modelSpecificationsDetails.getBiddersLine());
-        modelSpecificationsDetails.setSupplementaryLine(modelSpecificationsDetails.getSupplementaryLine());
-        modelSpecificationsDetails.setLotSizeForCostingIsOne(modelSpecificationsDetails.getLotSizeForCostingIsOne());
+        modelSpecificationsDetails.setGrossPrice(source.getGrossPrice());
+        modelSpecificationsDetails.setOverFulfilmentPercentage(source.getOverFulfilmentPercentage());
+        modelSpecificationsDetails.setPriceChangedAllowed(source.getPriceChangedAllowed());
+        modelSpecificationsDetails.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
+        modelSpecificationsDetails.setPricePerUnitOfMeasurement(source.getPricePerUnitOfMeasurement());
+        modelSpecificationsDetails.setExternalServiceNumber(source.getExternalServiceNumber());
+        modelSpecificationsDetails.setNetValue(source.getNetValue());
+        modelSpecificationsDetails.setServiceText(source.getServiceText());
+        modelSpecificationsDetails.setLineText(source.getLineText());
+        modelSpecificationsDetails.setFormula(source.getFormula());
+        modelSpecificationsDetails.setLineNumber(source.getLineNumber());
+        modelSpecificationsDetails.setAlternatives(source.getAlternatives());
+        modelSpecificationsDetails.setBiddersLine(source.getBiddersLine());
+        modelSpecificationsDetails.setSupplementaryLine(source.getSupplementaryLine());
+        modelSpecificationsDetails.setLotSizeForCostingIsOne(source
+                .getLotSizeForCostingIsOne());
 
         if (source.getModelSpecificationsCommands() != null && source.getModelSpecificationsCommands().size() > 0) {
         source.getModelSpecificationsCommands()

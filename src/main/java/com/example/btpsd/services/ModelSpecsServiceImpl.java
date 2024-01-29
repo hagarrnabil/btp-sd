@@ -71,11 +71,9 @@ public class ModelSpecsServiceImpl implements ModelSpecsService {
     }
 
     @Override
-    public ModelSpecifications updateModelSpecs(ModelSpecifications newModelSpecs, Long l) {
+    public ModelSpecifications updateModelSpecs(ModelSpecifications newModelSpecs, Long modelSpecCode) {
 
-        return modelSpecificationRepository.findById(l).map(oldModelSpecs -> {
-            if (newModelSpecs.getModelSpecCode() != oldModelSpecs.getModelSpecCode())
-                oldModelSpecs.setModelSpecCode(newModelSpecs.getModelSpecCode());
+        return modelSpecificationRepository.findById(modelSpecCode).map(oldModelSpecs -> {
             if (newModelSpecs.getModelServSpec() != oldModelSpecs.getModelServSpec())
                 oldModelSpecs.setModelServSpec(newModelSpecs.getModelServSpec());
             if (newModelSpecs.getBlockingIndicator() != oldModelSpecs.getBlockingIndicator())
@@ -86,13 +84,13 @@ public class ModelSpecsServiceImpl implements ModelSpecsService {
                 oldModelSpecs.setDescription(newModelSpecs.getDescription());
             if (newModelSpecs.getSearchTerm() != oldModelSpecs.getSearchTerm())
                 oldModelSpecs.setSearchTerm(newModelSpecs.getSearchTerm());
-            if ((newModelSpecs.getModelSpecificationsDetails() != null)) {
+            if (newModelSpecs.getModelSpecDetailsCode() != null) {
                 ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
-                modelSpecificationsDetails.setModelSpecDetailsCode(newModelSpecs.getModelSpecDetails());
+                modelSpecificationsDetails.setModelSpecDetailsCode(newModelSpecs.getModelSpecDetailsCode());
                 oldModelSpecs.setModelSpecificationsDetails(modelSpecificationsDetails);
                 modelSpecificationsDetails.addModelSpecifications(oldModelSpecs);
             }
-            if ((newModelSpecs.getCurrency() != null)) {
+            if (newModelSpecs.getCurrencyCode() != null) {
                 Currency currency = new Currency();
                 currency.setCurrencyCode(newModelSpecs.getCurrencyCode());
                 oldModelSpecs.setCurrency(currency);

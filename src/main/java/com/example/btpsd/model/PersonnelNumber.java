@@ -34,6 +34,12 @@ public class PersonnelNumber implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
+    public PersonnelNumber(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
+        this.code = code;
+        this.description = description;
+        this.modelSpecificationsDetails = modelSpecificationsDetails;
+    }
+
     public PersonnelNumber addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setPersonnelNumber(this);
         this.modelSpecificationsDetails.add(modelSpecificationsDetails);

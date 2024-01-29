@@ -14,7 +14,7 @@ public interface ModelSpecsService {
     void deleteById(Long idToDelete);
 
     ModelSpecificationsCommand saveModelSpecsCommand(ModelSpecificationsCommand command);
-    ModelSpecifications updateModelSpecs(ModelSpecifications newModelSpecs, Long l);
+    ModelSpecifications updateModelSpecs(ModelSpecifications newModelSpecs, Long modelSpecCode);
 
     ModelSpecificationsCommand findModelSpecsCommandById(Long l);
 

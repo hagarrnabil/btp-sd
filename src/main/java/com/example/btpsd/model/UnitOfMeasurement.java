@@ -34,6 +34,12 @@ public class UnitOfMeasurement implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
+    public UnitOfMeasurement(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
+        this.code = code;
+        this.description = description;
+        this.modelSpecificationsDetails = modelSpecificationsDetails;
+    }
+
     public UnitOfMeasurement addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setUnitOfMeasurement(this);
         this.modelSpecificationsDetails.add(modelSpecificationsDetails);

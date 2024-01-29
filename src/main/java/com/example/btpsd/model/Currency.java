@@ -38,6 +38,14 @@ public class Currency implements Serializable {
     @JsonIgnore
     private Set<ModelSpecifications> modelSpecifications = new HashSet<>();
 
+    public Currency(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails,
+                    Set<ModelSpecifications> modelSpecifications) {
+        this.code = code;
+        this.description = description;
+        this.modelSpecificationsDetails = modelSpecificationsDetails;
+        this.modelSpecifications = modelSpecifications;
+    }
+
     public Currency addModelSpecifications(ModelSpecifications modelSpecifications){
         modelSpecifications.setCurrency(this);
         this.modelSpecifications.add(modelSpecifications);

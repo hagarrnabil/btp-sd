@@ -34,6 +34,12 @@ public class ServiceType implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
+    public ServiceType(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
+        this.code = code;
+        this.description = description;
+        this.modelSpecificationsDetails = modelSpecificationsDetails;
+    }
+
     public ServiceType addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setServiceType(this);
         this.modelSpecificationsDetails.add(modelSpecificationsDetails);

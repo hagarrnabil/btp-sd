@@ -38,8 +38,8 @@ public class ModelSpecificationsCommandToModelSpecifications implements Converte
         modelSpecifications.setModelServSpec(source.getModelServSpec());
         modelSpecifications.setBlockingIndicator(source.getBlockingIndicator());
         modelSpecifications.setServiceSelection(source.getServiceSelection());
-        modelSpecifications.setDescription(modelSpecifications.getDescription());
-        modelSpecifications.setSearchTerm(modelSpecifications.getSearchTerm());
+        modelSpecifications.setDescription(source.getDescription());
+        modelSpecifications.setSearchTerm(source.getSearchTerm());
 
         return modelSpecifications;
 

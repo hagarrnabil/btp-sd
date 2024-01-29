@@ -22,7 +22,7 @@ public class ModelSpecificationsToModelSpecificationsCommand implements Converte
         final ModelSpecificationsCommand modelSpecificationsCommand = new ModelSpecificationsCommand();
         modelSpecificationsCommand.setModelSpecCode(source.getModelSpecCode());
         if (source.getModelSpecificationsDetails() != null) {
-            modelSpecificationsCommand.setModelSpecCode(source.getModelSpecificationsDetails().getModelSpecDetailsCode());
+            modelSpecificationsCommand.setModelSpecDetailsCode(source.getModelSpecificationsDetails().getModelSpecDetailsCode());
         }
         if (source.getCurrency() != null) {
             modelSpecificationsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());
