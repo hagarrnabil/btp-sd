@@ -34,6 +34,8 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Long currencyCode;
 
+    private Long formulaCode;
+
     @Builder.Default
     private Boolean selectionCheckBox = true;
 
@@ -70,7 +72,7 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private String lineText;
 
-    private String formula;
+//    private String formula;
 
     @Column(unique = true, columnDefinition = "char(225)")
     @Length(max = 225)
@@ -109,15 +111,28 @@ public class ModelSpecificationsDetails implements Serializable {
     @ManyToOne
     private Currency currency;
 
-    public ModelSpecificationsDetails(Long serviceNumberCode, Long serviceTypeCode, Long materialGroupCode, Long personnelNumberCode,
-                                      Long unitOfMeasurementCode, Long currencyCode, Boolean selectionCheckBox, String lineIndex,
-                                      Boolean deletionIndicator, String shortText, Integer quantity, Integer grossPrice,
-                                      Integer overFulfilmentPercentage, Boolean priceChangedAllowed, Boolean unlimitedOverFulfillment,
-                                      Integer pricePerUnitOfMeasurement, String externalServiceNumber, Integer netValue, String serviceText,
-                                      String lineText, String formula, String lineNumber, String alternatives, Boolean biddersLine,
-                                      Boolean supplementaryLine, Boolean lotSizeForCostingIsOne, Set<ModelSpecifications> modelSpecifications,
-                                      ServiceNumber serviceNumber, UnitOfMeasurement unitOfMeasurement, MaterialGroup materialGroup,
-                                      ServiceType serviceType, PersonnelNumber personnelNumber, Currency currency) {
+    @ManyToOne
+    private Formula formula;
+
+    public ModelSpecificationsDetails(Long serviceNumberCode, Long serviceTypeCode,
+                                      Long materialGroupCode, Long personnelNumberCode,
+                                      Long unitOfMeasurementCode, Long currencyCode,
+                                      Boolean selectionCheckBox, String lineIndex,
+                                      Boolean deletionIndicator, String shortText,
+                                      Integer quantity, Integer grossPrice,
+                                      Integer overFulfilmentPercentage,
+                                      Boolean priceChangedAllowed,
+                                      Boolean unlimitedOverFulfillment,
+                                      Integer pricePerUnitOfMeasurement,
+                                      String externalServiceNumber, Integer netValue,
+                                      String serviceText, String lineText, String lineNumber,
+                                      String alternatives, Boolean biddersLine,
+                                      Boolean supplementaryLine, Boolean lotSizeForCostingIsOne,
+                                      Set<ModelSpecifications> modelSpecifications,
+                                      ServiceNumber serviceNumber,
+                                      UnitOfMeasurement unitOfMeasurement, MaterialGroup materialGroup,
+                                      ServiceType serviceType, PersonnelNumber personnelNumber,
+                                      Currency currency, Formula formula) {
         this.serviceNumberCode = serviceNumberCode;
         this.serviceTypeCode = serviceTypeCode;
         this.materialGroupCode = materialGroupCode;
@@ -138,7 +153,6 @@ public class ModelSpecificationsDetails implements Serializable {
         this.netValue = netValue;
         this.serviceText = serviceText;
         this.lineText = lineText;
-        this.formula = formula;
         this.lineNumber = lineNumber;
         this.alternatives = alternatives;
         this.biddersLine = biddersLine;
@@ -151,6 +165,7 @@ public class ModelSpecificationsDetails implements Serializable {
         this.serviceType = serviceType;
         this.personnelNumber = personnelNumber;
         this.currency = currency;
+        this.formula = formula;
     }
 
     public ModelSpecificationsDetails addModelSpecifications(ModelSpecifications modelSpecifications){

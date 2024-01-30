@@ -100,8 +100,8 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setNetValue(newModelSpecDetails.getNetValue());
             if (newModelSpecDetails.getLineText() != oldModelSpecDetails.getLineText())
                 oldModelSpecDetails.setLineText(newModelSpecDetails.getLineText());
-            if (newModelSpecDetails.getFormula() != oldModelSpecDetails.getFormula())
-                oldModelSpecDetails.setFormula(newModelSpecDetails.getFormula());
+//            if (newModelSpecDetails.getFormula() != oldModelSpecDetails.getFormula())
+//                oldModelSpecDetails.setFormula(newModelSpecDetails.getFormula());
             if (newModelSpecDetails.getLineNumber() != oldModelSpecDetails.getLineNumber())
                 oldModelSpecDetails.setLineNumber(newModelSpecDetails.getLineNumber());
             if (newModelSpecDetails.getAlternatives() != oldModelSpecDetails.getAlternatives())
@@ -123,6 +123,12 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 currency.setCurrencyCode(newModelSpecDetails.getCurrencyCode());
                 oldModelSpecDetails.setCurrency(currency);
                 currency.addModelSpecDetails(oldModelSpecDetails);
+            }
+            if (newModelSpecDetails.getFormulaCode() != null) {
+                Formula formula = new Formula();
+                formula.setFormulaCode(newModelSpecDetails.getFormulaCode());
+                oldModelSpecDetails.setFormula(formula);
+                formula.addModelSpecDetails(oldModelSpecDetails);
             }
             if (newModelSpecDetails.getPersonnelNumberCode() != null) {
                 PersonnelNumber personnelNumber = new PersonnelNumber();

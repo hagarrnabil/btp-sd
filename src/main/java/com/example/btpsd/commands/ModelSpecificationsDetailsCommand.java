@@ -16,6 +16,7 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
 
     private Long modelSpecDetailsCode;
     private Long currencyCode;
+    private Long formulaCode;
     private Long personnelNumberCode;
     private Long serviceTypeCode;
     private Long materialGroupCode;

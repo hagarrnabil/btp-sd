@@ -31,6 +31,12 @@ public class ModelSpecDetailsCommandToModelSpecDetails implements Converter<Mode
             modelSpecificationsDetails.setCurrency(currency);
             currency.addModelSpecDetails(modelSpecificationsDetails);
         }
+        if (source.getFormulaCode() != null) {
+            Formula formula = new Formula();
+            formula.setFormulaCode(source.getFormulaCode());
+            modelSpecificationsDetails.setFormula(formula);
+            formula.addModelSpecDetails(modelSpecificationsDetails);
+        }
         if (source.getPersonnelNumberCode() != null) {
             PersonnelNumber personnelNumber = new PersonnelNumber();
             personnelNumber.setPersonnelNumberCode(source.getPersonnelNumberCode());
@@ -76,7 +82,7 @@ public class ModelSpecDetailsCommandToModelSpecDetails implements Converter<Mode
         modelSpecificationsDetails.setNetValue(source.getNetValue());
         modelSpecificationsDetails.setServiceText(source.getServiceText());
         modelSpecificationsDetails.setLineText(source.getLineText());
-        modelSpecificationsDetails.setFormula(source.getFormula());
+//        modelSpecificationsDetails.setFormula(source.getFormula());
         modelSpecificationsDetails.setLineNumber(source.getLineNumber());
         modelSpecificationsDetails.setAlternatives(source.getAlternatives());
         modelSpecificationsDetails.setBiddersLine(source.getBiddersLine());

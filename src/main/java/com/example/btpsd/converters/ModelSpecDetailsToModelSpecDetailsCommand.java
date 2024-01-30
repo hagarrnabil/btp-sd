@@ -31,6 +31,9 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         if (source.getCurrency() != null) {
             modelSpecificationsDetailsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());
         }
+        if (source.getFormula() != null) {
+            modelSpecificationsDetailsCommand.setFormulaCode(source.getFormula().getFormulaCode());
+        }
         if (source.getServiceType() != null) {
             modelSpecificationsDetailsCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
         }
@@ -57,7 +60,7 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setNetValue(source.getNetValue());
         modelSpecificationsDetailsCommand.setServiceText(source.getServiceText());
         modelSpecificationsDetailsCommand.setLineText(source.getLineText());
-        modelSpecificationsDetailsCommand.setFormula(source.getFormula());
+//        modelSpecificationsDetailsCommand.setFormula(source.getFormula());
         modelSpecificationsDetailsCommand.setLineNumber(source.getLineNumber());
         modelSpecificationsDetailsCommand.setAlternatives(source.getAlternatives());
         modelSpecificationsDetailsCommand.setBiddersLine(source.getBiddersLine());
