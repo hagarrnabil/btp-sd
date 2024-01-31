@@ -10,5 +10,5 @@
 ### [ServiceNumbers] https://sd-dev.c0749e2.kyma.ondemand.com/servicenumbers       : This is a link to all the available service numbers in our SD project.
 ### [PersonnelNumbers] https://sd-dev.c0749e2.kyma.ondemand.com/personnelnumbers   : This is a link to all the available personnel numbers in our SD project.
 ### [UnitOfMeasurements] https://sd-dev.c0749e2.kyma.ondemand.com/measurements     : This is a link to all the available unit of measurements in our SD project.
-
+### [Formulas] https://sd-dev.c0749e2.kyma.ondemand.com/formulas                   : This is a link to all the available formulas in our SD project.
  

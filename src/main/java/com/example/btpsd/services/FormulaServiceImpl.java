@@ -74,18 +74,16 @@ public class FormulaServiceImpl implements FormulaService{
         return formulaRepository.findById(l).map(oldFormula -> {
             if (newFormulaCommand.getDescription() != oldFormula.getDescription())
                 oldFormula.setDescription(newFormulaCommand.getDescription());
-            if (newFormulaCommand.getParameterDescription() != oldFormula.getParameterDescription())
-                oldFormula.setParameterDescription(newFormulaCommand.getParameterDescription());
+            if (newFormulaCommand.getParameterDescriptions() != oldFormula.getParameterDescriptions())
+                oldFormula.setParameterDescriptions(newFormulaCommand.getParameterDescriptions());
             if (newFormulaCommand.getFormulaLogic() != oldFormula.getFormulaLogic())
                 oldFormula.setFormulaLogic(newFormulaCommand.getFormulaLogic());
             if (newFormulaCommand.getInsertParameters() != oldFormula.getInsertParameters())
                 oldFormula.setInsertParameters(newFormulaCommand.getInsertParameters());
             if (newFormulaCommand.getInsertModifiers() != oldFormula.getInsertModifiers())
                 oldFormula.setInsertModifiers(newFormulaCommand.getInsertModifiers());
-            if (newFormulaCommand.getEnterLength() != oldFormula.getEnterLength())
-                oldFormula.setEnterLength(newFormulaCommand.getEnterLength());
-            if (newFormulaCommand.getEnterWidth() != oldFormula.getEnterWidth())
-                oldFormula.setEnterWidth(newFormulaCommand.getEnterWidth());
+            if (newFormulaCommand.getTestParameters() != oldFormula.getTestParameters())
+                oldFormula.setTestParameters(newFormulaCommand.getTestParameters());
             return formulaRepository.save(oldFormula);
         }).orElseThrow(() -> new RuntimeException("Formula not found"));
 

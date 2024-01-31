@@ -14,6 +14,7 @@ public interface FormulaService {
     void deleteById(Long idToDelete);
 
     FormulaCommand saveFormulaCommand(FormulaCommand command);
+
     Formula updateFormula(FormulaCommand newFormulaCommand, Long l);
 
     FormulaCommand findFormulaCommandById(Long l);

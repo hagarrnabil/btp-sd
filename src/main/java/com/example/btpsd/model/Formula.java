@@ -7,7 +7,9 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -33,14 +35,11 @@ public class Formula implements Serializable {
     @NotNull
     private Integer numberOfParameters;
 
+    @ElementCollection
+    private List<Character> parameterIds = new ArrayList<Character>();
 
-    @Column(unique = true, columnDefinition = "char(1)", nullable = false)
-    @Length(max = 1)
-    private String parameterId;
-
-    @Column(unique = true, columnDefinition = "char(100)", nullable = false)
-    @Length(max = 100)
-    private String parameterDescription;
+    @ElementCollection
+    private List<String> parameterDescriptions = new ArrayList<String>();
 
     private String formulaLogic;
 
@@ -48,13 +47,12 @@ public class Formula implements Serializable {
 
     private String insertModifiers;
 
-    private Integer enterLength;
-
-    private Integer enterWidth;
+    @ElementCollection
+    private List<Integer> testParameters = new ArrayList<Integer>();
 
     private String expression;
 
-    private Double result;
+    private Integer result;
 
     private String showResults;
 
@@ -62,27 +60,25 @@ public class Formula implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
-    public Formula(String formula, String description, Integer numberOfParameters, String parameterId,
-                   String parameterDescription, String formulaLogic, String insertParameters, String insertModifiers,
-                   Integer enterLength, Integer enterWidth, String expression, Double result, String showResults,
-                   Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
+    public Formula(String formula, String description, Integer numberOfParameters, List<Character> parameterIds, List<String> parameterDescriptions,
+                   String formulaLogic, String insertParameters, String insertModifiers, List<Integer> testParameters, String expression, Integer result,
+                   String showResults, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
         this.formula = formula;
         this.description = description;
         this.numberOfParameters = numberOfParameters;
-        this.parameterId = parameterId;
-        this.parameterDescription = parameterDescription;
+        this.parameterIds = parameterIds;
+        this.parameterDescriptions = parameterDescriptions;
         this.formulaLogic = formulaLogic;
         this.insertParameters = insertParameters;
         this.insertModifiers = insertModifiers;
-        this.enterLength = enterLength;
-        this.enterWidth = enterWidth;
+        this.testParameters = testParameters;
         this.expression = expression;
         this.result = result;
         this.showResults = showResults;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
     }
 
-    public Formula addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
+    public Formula addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails) {
         modelSpecificationsDetails.setFormula(this);
         this.modelSpecificationsDetails.add(modelSpecificationsDetails);
         return this;

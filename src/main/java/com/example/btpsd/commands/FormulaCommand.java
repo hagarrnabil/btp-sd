@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -22,9 +24,9 @@ public class FormulaCommand implements Serializable {
 
     private Integer numberOfParameters;
 
-    private String parameterId;
+    private List<Character> parameterIds = new ArrayList<Character>();
 
-    private String parameterDescription;
+    private List<String> parameterDescriptions = new ArrayList<String>();
 
     private String formulaLogic;
 
@@ -32,13 +34,11 @@ public class FormulaCommand implements Serializable {
 
     private String insertModifiers;
 
-    private Integer enterLength;
-
-    private Integer enterWidth;
+    private List<Integer> testParameters = new ArrayList<Integer>();
 
     private String expression;
 
-    private Double result;
+    private Integer result;
 
     private String showResults;
 
