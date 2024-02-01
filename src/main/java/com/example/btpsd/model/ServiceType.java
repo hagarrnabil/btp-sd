@@ -25,7 +25,7 @@ public class ServiceType implements Serializable {
 
     @Column(unique = true, columnDefinition = "char(225)", nullable = false)
     @Length(max = 225)
-    private String code;
+    private String serviceId;
 
     @NotNull
     private String description;
@@ -35,7 +35,7 @@ public class ServiceType implements Serializable {
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
     public ServiceType(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
-        this.code = code;
+        this.serviceId = code;
         this.description = description;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
     }

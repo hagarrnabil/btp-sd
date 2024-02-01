@@ -35,9 +35,11 @@ public class Formula implements Serializable {
     @NotNull
     private Integer numberOfParameters;
 
+    @NotNull
     @ElementCollection
     private List<Character> parameterIds = new ArrayList<Character>();
 
+    @NotNull
     @ElementCollection
     private List<String> parameterDescriptions = new ArrayList<String>();
 

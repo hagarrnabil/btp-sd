@@ -73,7 +73,7 @@ public class ServiceTypeServiceImpl implements ServiceTypeService{
     public ServiceType updateServiceType(ServiceTypeCommand newServiceTypeCommand, Long l) {
 
         return serviceTypeRepository.findById(l).map(oldServiceType -> {
-            if (newServiceTypeCommand.getCode() != oldServiceType.getCode()) oldServiceType.setCode(newServiceTypeCommand.getCode());
+            if (newServiceTypeCommand.getServiceId() != oldServiceType.getServiceId()) oldServiceType.setServiceId(newServiceTypeCommand.getServiceId());
             if (newServiceTypeCommand.getDescription() != oldServiceType.getDescription()) oldServiceType.setDescription(newServiceTypeCommand.getDescription());
             return serviceTypeRepository.save(oldServiceType);
         }).orElseThrow(() -> new RuntimeException("Service Type not found"));

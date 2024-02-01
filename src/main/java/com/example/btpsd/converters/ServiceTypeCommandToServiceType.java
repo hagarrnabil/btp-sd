@@ -25,7 +25,7 @@ public class ServiceTypeCommandToServiceType implements Converter<ServiceTypeCom
 
         final ServiceType serviceType = new ServiceType();
         serviceType.setServiceTypeCode(source.getServiceTypeCode());
-        serviceType.setCode(source.getCode());
+        serviceType.setServiceId(source.getServiceId());
         serviceType.setDescription(source.getDescription());
         if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {
             source.getModelSpecificationsDetailsCommands()

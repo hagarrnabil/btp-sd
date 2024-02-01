@@ -16,7 +16,7 @@ public class ServiceTypeCommand implements Serializable {
 
     private Long serviceTypeCode;
 
-    private String code;
+    private String serviceId;
 
     private String description;
 
