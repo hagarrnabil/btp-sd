@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+import vdm.com.example.datamodel.odata.services.UnitofMeasurementService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,6 +58,11 @@ public class Formula implements Serializable {
     private Integer result;
 
     private String showResults;
+
+//    final private UnitofMeasurementService unitofMeasurementService;
+//
+//    private odata =
+
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "formula")
     @JsonIgnore
