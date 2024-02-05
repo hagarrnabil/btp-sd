@@ -46,11 +46,11 @@
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.projectlombok</groupId>-->
-<!--            <artifactId>lombok</artifactId>-->
-<!--            <optional>true</optional>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>com.fathzer</groupId>
             <artifactId>javaluator</artifactId>
@@ -134,7 +134,7 @@
                         </goals>
                         <configuration>
                             <inputDirectory>${project.basedir}/src/main/resources/edmx</inputDirectory>
-                            <outputDirectory>${project.build.sourceDirectory}/vdm</outputDirectory>
+                            <outputDirectory>${project.build.sourceDirectory}</outputDirectory>
                             <packageName>com.example.datamodel.odata</packageName>
                             <defaultBasePath>odata/v4/</defaultBasePath>
                             <serviceMethodsPerEntitySet>true</serviceMethodsPerEntitySet>

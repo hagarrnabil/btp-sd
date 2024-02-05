@@ -1,15 +1,15 @@
 apiVersion: gateway.kyma-project.io/v1beta1
 kind: APIRule
 metadata:
-  name: 'sd-dev'
+  name: 'sd-test'
   labels: {}
   annotations: {}
-  namespace: sd-dev
+  namespace: sd-test
 spec:
   gateway: kyma-gateway.kyma-system.svc.cluster.local
-  host: sd-dev.c0749e2.kyma.ondemand.com
+  host: sd-test.c-55821bf.kyma.ondemand.com
   service:
-    name: sd-dev
+    name: sd-test
     port: 8080
   rules:
     - path: /.*
