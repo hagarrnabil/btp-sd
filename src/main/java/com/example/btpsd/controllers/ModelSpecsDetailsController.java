@@ -2,13 +2,16 @@ package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.ModelSpecificationsDetailsCommand;
 import com.example.btpsd.converters.ModelSpecDetailsToModelSpecDetailsCommand;
+import com.example.btpsd.model.Currency;
 import com.example.btpsd.model.ModelSpecificationsDetails;
+import com.example.btpsd.repositories.ModelSpecificationsDetailsRepository;
 import com.example.btpsd.services.ModelSpecsDetailsService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -16,7 +19,10 @@ import java.util.Set;
 @RestController
 public class ModelSpecsDetailsController {
 
+    private final ModelSpecificationsDetailsRepository modelSpecificationsDetailsRepository;
+
     private final ModelSpecsDetailsService modelSpecsDetailsService;
+
     private final ModelSpecDetailsToModelSpecDetailsCommand modelSpecDetailsToModelSpecDetailsCommand;
 
     @GetMapping("/modelspecdetails")
@@ -52,6 +58,13 @@ public class ModelSpecsDetailsController {
 
         ModelSpecificationsDetailsCommand command = modelSpecDetailsToModelSpecDetailsCommand.convert(modelSpecsDetailsService.updateModelSpecDetails(newModelSpecDetails,modelSpecDetails));
         return command;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/modelspecdetails/search")
+    @ResponseBody
+    public List<ModelSpecificationsDetails> Search(@RequestParam String keyword) {
+
+        return modelSpecificationsDetailsRepository.search(keyword);
     }
 
 }

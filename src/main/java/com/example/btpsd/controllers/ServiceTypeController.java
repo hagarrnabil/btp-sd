@@ -2,18 +2,23 @@ package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.ServiceTypeCommand;
 import com.example.btpsd.converters.ServiceTypeToServiceTypeCommand;
+import com.example.btpsd.model.ServiceType;
+import com.example.btpsd.repositories.ServiceTypeRepository;
 import com.example.btpsd.services.ServiceTypeService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
 public class ServiceTypeController {
+
+    private final ServiceTypeRepository serviceTypeRepository;
 
     private final ServiceTypeService serviceTypeService;
 
@@ -50,5 +55,13 @@ public class ServiceTypeController {
 
         ServiceTypeCommand command = serviceTypeToServiceTypeCommand.convert(serviceTypeService.updateServiceType(newServiceTypeCommand, serviceTypeCode));
         return command;
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/servicetypes/search")
+    @ResponseBody
+    public List<ServiceType> Search(@RequestParam String keyword) {
+
+        return serviceTypeRepository.search(keyword);
     }
 }

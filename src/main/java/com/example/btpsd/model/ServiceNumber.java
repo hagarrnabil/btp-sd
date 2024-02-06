@@ -29,6 +29,8 @@ public class ServiceNumber implements Serializable {
     @Length(max = 225)
     private String code;
 
+    private Long formulaCode;
+
     @NotNull
     private String description;
 
@@ -55,10 +57,25 @@ public class ServiceNumber implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
-    public ServiceNumber(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
+    @ManyToOne
+    private Formula formula;
+
+    public ServiceNumber(String code, String description, Boolean shortTextChangeAllowed,
+                         Boolean deletionIndicator, Boolean mainItem, Boolean checkBox,
+                         Integer numberToBeConverted, Integer convertedNumber, Instant lastChangeDate,
+                         Set<ModelSpecificationsDetails> modelSpecificationsDetails, Formula formula)
+    {
         this.code = code;
         this.description = description;
+        this.shortTextChangeAllowed = shortTextChangeAllowed;
+        this.deletionIndicator = deletionIndicator;
+        this.mainItem = mainItem;
+        this.checkBox = checkBox;
+        this.numberToBeConverted = numberToBeConverted;
+        this.convertedNumber = convertedNumber;
+        this.lastChangeDate = lastChangeDate;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
+        this.formula = formula;
     }
 
     public ServiceNumber addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){

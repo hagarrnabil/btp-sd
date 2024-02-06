@@ -73,8 +73,24 @@ public class ServiceNumberServiceImpl implements ServiceNumberService{
     public ServiceNumber updateServiceNumber(ServiceNumberCommand newServiceNumberCommand, Long l) {
 
         return serviceNumberRepository.findById(l).map(oldServiceNumber -> {
-            if (newServiceNumberCommand.getCode() != oldServiceNumber.getCode()) oldServiceNumber.setCode(newServiceNumberCommand.getCode());
-            if (newServiceNumberCommand.getDescription() != oldServiceNumber.getDescription()) oldServiceNumber.setDescription(newServiceNumberCommand.getDescription());
+            if (newServiceNumberCommand.getCode() != oldServiceNumber.getCode())
+                oldServiceNumber.setCode(newServiceNumberCommand.getCode());
+            if (newServiceNumberCommand.getDescription() != oldServiceNumber.getDescription())
+                oldServiceNumber.setDescription(newServiceNumberCommand.getDescription());
+            if (newServiceNumberCommand.getFormulaCode() != oldServiceNumber.getFormulaCode())
+                oldServiceNumber.setFormulaCode(newServiceNumberCommand.getFormulaCode());
+            if (newServiceNumberCommand.getShortTextChangeAllowed() != oldServiceNumber.getShortTextChangeAllowed())
+                oldServiceNumber.setShortTextChangeAllowed(newServiceNumberCommand.getShortTextChangeAllowed());
+            if (newServiceNumberCommand.getDeletionIndicator() != oldServiceNumber.getDeletionIndicator())
+                oldServiceNumber.setDeletionIndicator(newServiceNumberCommand.getDeletionIndicator());
+            if (newServiceNumberCommand.getMainItem() != oldServiceNumber.getMainItem())
+                oldServiceNumber.setMainItem(newServiceNumberCommand.getMainItem());
+            if (newServiceNumberCommand.getCheckBox() != oldServiceNumber.getCheckBox())
+                oldServiceNumber.setCheckBox(newServiceNumberCommand.getCheckBox());
+            if (newServiceNumberCommand.getNumberToBeConverted() != oldServiceNumber.getNumberToBeConverted())
+                oldServiceNumber.setNumberToBeConverted(newServiceNumberCommand.getNumberToBeConverted());
+            if (newServiceNumberCommand.getConvertedNumber() != oldServiceNumber.getConvertedNumber())
+                oldServiceNumber.setConvertedNumber(newServiceNumberCommand.getConvertedNumber());
             return serviceNumberRepository.save(oldServiceNumber);
         }).orElseThrow(() -> new RuntimeException("Service Number not found"));
 

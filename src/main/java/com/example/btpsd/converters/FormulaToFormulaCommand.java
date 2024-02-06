@@ -53,9 +53,6 @@ public class FormulaToFormulaCommand implements Converter<Formula, FormulaComman
         for (int i = 0; i < source.getTestParameters().size(); i++) {
             formulaCommand.setTestParameters(source.getTestParameters());
         }
-        for (int i = 0; i < source.getTestParameters().size(); i++) {
-            formulaCommand.setTestParameters(source.getTestParameters());
-        }
         for (int i = 0; i < source.getNumberOfParameters(); i++) {
             formulaCommand.setExpression("" + source.getParameterIds() + "=" + source.getTestParameters() + ";" + source.getFormulaLogic() + ";" + "");
         }

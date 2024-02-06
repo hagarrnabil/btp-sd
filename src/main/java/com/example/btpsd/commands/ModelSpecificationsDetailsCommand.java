@@ -36,7 +36,7 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private Integer netValue;
     private String serviceText;
     private String lineText;
-    private String formula;
+//    private String formula;
     private String lineNumber;
     private String alternatives;
     private Boolean biddersLine = true;

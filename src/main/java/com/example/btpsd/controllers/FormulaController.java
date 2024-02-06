@@ -2,18 +2,24 @@ package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.FormulaCommand;
 import com.example.btpsd.converters.FormulaToFormulaCommand;
+import com.example.btpsd.model.Currency;
+import com.example.btpsd.model.Formula;
+import com.example.btpsd.repositories.FormulaRepository;
 import com.example.btpsd.services.FormulaService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
 public class FormulaController {
+
+    private final FormulaRepository formulaRepository;
 
     private final FormulaService formulaService;
 
@@ -50,5 +56,13 @@ public class FormulaController {
 
         FormulaCommand command = formulaToFormulaCommand.convert(formulaService.updateFormula(newFormulaCommand, formulaCode));
         return command;
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/formulas/search")
+    @ResponseBody
+    public List<Formula> Search(@RequestParam String keyword) {
+
+        return formulaRepository.search(keyword);
     }
 }

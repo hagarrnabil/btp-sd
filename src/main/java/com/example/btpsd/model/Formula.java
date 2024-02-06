@@ -63,9 +63,16 @@ public class Formula implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
-    public Formula(String formula, String description, Integer numberOfParameters, List<Character> parameterIds, List<String> parameterDescriptions,
-                   String formulaLogic, String insertParameters, String insertModifiers, List<Integer> testParameters, String expression, Integer result,
-                   String showResults, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "formula")
+    @JsonIgnore
+    private Set<ServiceNumber> serviceNumbers = new HashSet<>();
+
+    public Formula(String formula, String description, Integer numberOfParameters,
+                   List<Character> parameterIds, List<String> parameterDescriptions,
+                   String formulaLogic, String insertParameters, String insertModifiers,
+                   List<Integer> testParameters, String expression, Integer result, String showResults,
+                   Set<ModelSpecificationsDetails> modelSpecificationsDetails, Set<ServiceNumber> serviceNumbers)
+    {
         this.formula = formula;
         this.description = description;
         this.numberOfParameters = numberOfParameters;
@@ -79,11 +86,18 @@ public class Formula implements Serializable {
         this.result = result;
         this.showResults = showResults;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
+        this.serviceNumbers = serviceNumbers;
     }
 
     public Formula addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails) {
         modelSpecificationsDetails.setFormula(this);
         this.modelSpecificationsDetails.add(modelSpecificationsDetails);
+        return this;
+    }
+
+    public Formula addServiceNumbers(ServiceNumber serviceNumber) {
+        serviceNumber.setFormula(this);
+        this.serviceNumbers.add(serviceNumber);
         return this;
     }
 }

@@ -27,6 +27,16 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         serviceNumberCommand.setServiceNumberCode(source.getServiceNumberCode());
         serviceNumberCommand.setCode(source.getCode());
         serviceNumberCommand.setDescription(source.getDescription());
+        serviceNumberCommand.setConvertedNumber(source.getConvertedNumber());
+        serviceNumberCommand.setNumberToBeConverted(source.getNumberToBeConverted());
+        serviceNumberCommand.setDeletionIndicator(source.getDeletionIndicator());
+        serviceNumberCommand.setShortTextChangeAllowed(source.getShortTextChangeAllowed());
+        serviceNumberCommand.setMainItem(source.getMainItem());
+        serviceNumberCommand.setCheckBox(source.getCheckBox());
+        serviceNumberCommand.setLastChangeDate(source.getLastChangeDate());
+        if (source.getFormula() != null) {
+            serviceNumberCommand.setFormulaCode(source.getFormula().getFormulaCode());
+        }
         if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
             source.getModelSpecificationsDetails()
                     .forEach(modelSpecificationsDetails -> serviceNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));

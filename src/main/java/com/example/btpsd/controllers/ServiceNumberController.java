@@ -2,18 +2,24 @@ package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.ServiceNumberCommand;
 import com.example.btpsd.converters.ServiceNumberToServiceNumberCommand;
+import com.example.btpsd.model.Currency;
+import com.example.btpsd.model.ServiceNumber;
+import com.example.btpsd.repositories.ServiceNumberRepository;
 import com.example.btpsd.services.ServiceNumberService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
 public class ServiceNumberController {
+
+    private final ServiceNumberRepository serviceNumberRepository;
 
     private final ServiceNumberService serviceNumberService;
 
@@ -50,5 +56,13 @@ public class ServiceNumberController {
 
         ServiceNumberCommand command = serviceNumberToServiceNumberCommand.convert(serviceNumberService.updateServiceNumber(newServiceNumberCommand, serviceNumberCode));
         return command;
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/servicenumbers/search")
+    @ResponseBody
+    public List<ServiceNumber> Search(@RequestParam String keyword) {
+
+        return serviceNumberRepository.search(keyword);
     }
 }
