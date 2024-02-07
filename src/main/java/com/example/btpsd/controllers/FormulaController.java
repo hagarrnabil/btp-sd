@@ -58,7 +58,6 @@ public class FormulaController {
         return command;
     }
 
-
     @RequestMapping(method = RequestMethod.GET, value = "/formulas/search")
     @ResponseBody
     public List<Formula> Search(@RequestParam String keyword) {

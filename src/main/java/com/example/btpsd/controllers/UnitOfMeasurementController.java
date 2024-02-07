@@ -10,28 +10,31 @@ import com.sap.cloud.sdk.cloudplatform.connectivity.HttpDestination;
 import com.sap.cloud.sdk.cloudplatform.connectivity.exception.DestinationAccessException;
 import com.sap.cloud.sdk.datamodel.odata.client.exception.ODataException;
 import com.sap.cloud.sdk.datamodel.odata.helper.Order;
+import com.sap.cloud.sdk.datamodel.odatav4.core.BatchResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+import static com.sap.cloud.sdk.cloudplatform.thread.ThreadContextExecutors.execute;
+
+//@RequiredArgsConstructor
+@CrossOrigin("*")
+@RestControllerAdvice
 @RestController
-@RequestMapping( "/measurements" )
+//@RequestMapping( "/measurements" )
 public class UnitOfMeasurementController {
 
     private static final Logger logger = LoggerFactory.getLogger(UnitOfMeasurementController.class);
     // TODO: uncomment the lines below and insert your API key, if you are using the sandbox service
-     private static final String APIKEY_HEADER = "apikey";
-     private static final String SANDBOX_APIKEY = "gudA2NIQcQD8vR9mz7CYbiTnZSMvo4wS";
+//     private static final String APIKEY_HEADER = "apikey";
+//     private static final String SANDBOX_APIKEY = "gudA2NIQcQD8vR9mz7CYbiTnZSMvo4wS";
 //    @RequestMapping( method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(method = RequestMethod.GET )
+    @RequestMapping(value = "/measurements", method = RequestMethod.GET )
     public String getAllUnitOfMeasures()
     {
 
@@ -46,29 +49,29 @@ public class UnitOfMeasurementController {
 
 //         DESTINATION 2:  Destination to the api.sap.com Sandbox
 //         Uncomment this section to test with sandbox in api.sap.com
-         final HttpDestination destination = DefaultDestination.builder()
-                                                 .property("Name", "mydestination")
-                                                 .property("URL", "https://sandbox.api.sap.com/sapreturnablepackagemanagement")
-                                                 .property("Type", "HTTP")
-                                                 .property("Authentication", "NoAuthentication")
-                                                 .build().asHttp();
+//         final HttpDestination destination = DefaultDestination.builder()
+//                                                 .property("Name", "mydestination")
+//                                                 .property("URL", "https://sandbox.api.sap.com/sapreturnablepackagemanagement/odata/v4/MasterDataService/UnitOfMeasures")
+//                                                 .property("Type", "HTTP")
+//                                                 .property("Authentication", "NoAuthentication")
+//                                                 .build().asHttp();
 
         // DESTINATION 3:  Destination to a SAP S/4HANA Cloud (public edition) tenant
         // Uncomment this section to test with actual SAP S/4HANA Cloud
-        //final HttpDestination destination = DefaultDestination.builder()
-        //                                         .property("Name", "mydestination")
-        //                                         .property("URL", "https://my######.s4hana.ondemand.com")
-        //                                         .property("Type", "HTTP")
-        //                                         .property("Authentication", "BasicAuthentication")
-        //                                         .property("User", "ADDRESS_MANAGER_###")
-        //                                         .property("Password", "WelcomeToTheClouds1!")
-        //                                         .build().asHttp();
+        final HttpDestination destination = DefaultDestination.builder()
+                                                 .property("Name", "mydestination")
+                                                 .property("URL", "https://my405604.s4hana.cloud.sap/ui#Shell-home")
+                                                 .property("Type", "HTTP")
+                                                 .property("Authentication", "BasicAuthentication")
+                                                 .property("User", "ziad")
+                                                 .property("Password", "Ziadsolex@466")
+                                                 .build().asHttp();
 
         final List<UnitOfMeasures> unitOfMeasures =
                 new DefaultUnitofMeasurementService()
                         .getAllUnitOfMeasures()
-                        .top(50)
-                        .withHeader(APIKEY_HEADER, SANDBOX_APIKEY)
+                        .top(2)
+//                        .withHeader(APIKEY_HEADER, SANDBOX_APIKEY)
                         .execute(destination);
 
         logger.info(String.format("Found %d unit of measure(s).", unitOfMeasures.size()));

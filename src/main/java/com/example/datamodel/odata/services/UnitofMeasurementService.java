@@ -45,7 +45,7 @@ public interface UnitofMeasurementService {
      * Creates a batch request builder object.
      * 
      * @return
-     *     A request builder to handle batch operation on this service. To perform execution, call the {@link com.sap.cloud.sdk.datamodel.odatav4.core.BatchRequestBuilder>#execute(Destination) execute} method on the request builder object.
+     *     A request builder to handle batch operation on this service. To perform execution, call the {@link com.sap.cloud.sdk.datamodel.odatav4.core.BatchRequestBuilder #execute(Destination) execute} method on the request builder object.
      */
     @Nonnull
     BatchRequestBuilder batch();
