@@ -78,10 +78,10 @@ public class FormulaServiceImpl implements FormulaService{
                 oldFormula.setParameterDescriptions(newFormulaCommand.getParameterDescriptions());
             if (newFormulaCommand.getFormulaLogic() != oldFormula.getFormulaLogic())
                 oldFormula.setFormulaLogic(newFormulaCommand.getFormulaLogic());
-            if (newFormulaCommand.getInsertParameters() != oldFormula.getInsertParameters())
-                oldFormula.setInsertParameters(newFormulaCommand.getInsertParameters());
-            if (newFormulaCommand.getInsertModifiers() != oldFormula.getInsertModifiers())
-                oldFormula.setInsertModifiers(newFormulaCommand.getInsertModifiers());
+//            if (newFormulaCommand.getInsertParameters() != oldFormula.getInsertParameters())
+//                oldFormula.setInsertParameters(newFormulaCommand.getInsertParameters());
+//            if (newFormulaCommand.getInsertModifiers() != oldFormula.getInsertModifiers())
+//                oldFormula.setInsertModifiers(newFormulaCommand.getInsertModifiers());
             if (newFormulaCommand.getTestParameters() != oldFormula.getTestParameters())
                 oldFormula.setTestParameters(newFormulaCommand.getTestParameters());
             return formulaRepository.save(oldFormula);

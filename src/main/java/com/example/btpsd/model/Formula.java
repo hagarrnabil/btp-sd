@@ -45,9 +45,9 @@ public class Formula implements Serializable {
 
     private String formulaLogic;
 
-    private String insertParameters;
-
-    private String insertModifiers;
+//    private String insertParameters;
+//
+//    private String insertModifiers;
 
     @ElementCollection
     private List<Integer> testParameters = new ArrayList<Integer>();
@@ -56,7 +56,7 @@ public class Formula implements Serializable {
 
     private Integer result;
 
-    private String showResults;
+//    private String showResults;
 
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "formula")
@@ -79,12 +79,12 @@ public class Formula implements Serializable {
         this.parameterIds = parameterIds;
         this.parameterDescriptions = parameterDescriptions;
         this.formulaLogic = formulaLogic;
-        this.insertParameters = insertParameters;
-        this.insertModifiers = insertModifiers;
+//        this.insertParameters = insertParameters;
+//        this.insertModifiers = insertModifiers;
         this.testParameters = testParameters;
         this.expression = expression;
         this.result = result;
-        this.showResults = showResults;
+//        this.showResults = showResults;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
         this.serviceNumbers = serviceNumbers;
     }

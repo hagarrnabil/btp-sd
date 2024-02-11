@@ -29,7 +29,7 @@ public class ServiceNumberCommand implements Serializable {
 
     private Boolean mainItem = true;
 
-    private Boolean checkBox = true;
+//    private Boolean checkBox = true;
 
     private Integer numberToBeConverted;
 

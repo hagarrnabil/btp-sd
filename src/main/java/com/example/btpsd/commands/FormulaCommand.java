@@ -30,9 +30,9 @@ public class FormulaCommand implements Serializable {
 
     private String formulaLogic;
 
-    private String insertParameters;
-
-    private String insertModifiers;
+//    private String insertParameters;
+//
+//    private String insertModifiers;
 
     private List<Integer> testParameters = new ArrayList<Integer>();
 
@@ -40,7 +40,7 @@ public class FormulaCommand implements Serializable {
 
     private Integer result;
 
-    private String showResults;
+//    private String showResults;
 
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();

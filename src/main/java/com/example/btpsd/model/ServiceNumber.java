@@ -43,8 +43,8 @@ public class ServiceNumber implements Serializable {
     @Builder.Default
     private Boolean mainItem = true;
 
-    @Builder.Default
-    private Boolean checkBox = true;
+//    @Builder.Default
+//    private Boolean checkBox = true;
 
     private Integer numberToBeConverted;
 
@@ -70,7 +70,7 @@ public class ServiceNumber implements Serializable {
         this.shortTextChangeAllowed = shortTextChangeAllowed;
         this.deletionIndicator = deletionIndicator;
         this.mainItem = mainItem;
-        this.checkBox = checkBox;
+//        this.checkBox = checkBox;
         this.numberToBeConverted = numberToBeConverted;
         this.convertedNumber = convertedNumber;
         this.lastChangeDate = lastChangeDate;

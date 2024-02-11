@@ -48,8 +48,8 @@ public class FormulaToFormulaCommand implements Converter<Formula, FormulaComman
             formulaCommand.setParameterDescriptions(source.getParameterDescriptions());
         }
         formulaCommand.setFormulaLogic(source.getFormulaLogic());
-        formulaCommand.setInsertParameters(source.getInsertParameters());
-        formulaCommand.setInsertModifiers(source.getInsertModifiers());
+//        formulaCommand.setInsertParameters(source.getInsertParameters());
+//        formulaCommand.setInsertModifiers(source.getInsertModifiers());
         for (int i = 0; i < source.getTestParameters().size(); i++) {
             formulaCommand.setTestParameters(source.getTestParameters());
         }
@@ -61,7 +61,7 @@ public class FormulaToFormulaCommand implements Converter<Formula, FormulaComman
         } catch (ScriptException e) {
             throw new RuntimeException(e);
         }
-        formulaCommand.setShowResults(source.getShowResults());
+//        formulaCommand.setShowResults(source.getShowResults());
         if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
             source.getModelSpecificationsDetails()
                     .forEach(modelSpecificationsDetails -> formulaCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));

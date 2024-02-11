@@ -93,6 +93,39 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.sap.cloud.sdk.s4hana</groupId>
+            <artifactId>s4hana-api-odata-v4</artifactId>
+            <version>4.29.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ws</groupId>
+            <artifactId>spring-ws-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>wss4j</groupId>
+            <artifactId>wss4j</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+            <artifactId>saaj-impl</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -122,27 +155,25 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>com.sap.cloud.sdk.datamodel</groupId>
-                <artifactId>odata-v4-generator-maven-plugin</artifactId>
-                <version>5.3.0</version>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.15.3</version>
                 <executions>
                     <execution>
-                        <id>generate-consumption</id>
-                        <phase>generate-sources</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
-                        <configuration>
-                            <inputDirectory>${project.basedir}/src/main/resources/edmx</inputDirectory>
-                            <outputDirectory>${project.build.sourceDirectory}</outputDirectory>
-                            <packageName>com.example.datamodel.odata</packageName>
-                            <defaultBasePath>odata/v4/</defaultBasePath>
-                            <serviceMethodsPerEntitySet>true</serviceMethodsPerEntitySet>
-                            <compileScope>COMPILE</compileScope>
-                            <overwriteFiles>true</overwriteFiles>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <schemaLanguage>WSDL</schemaLanguage>
+                    <generateDirectory>${project.basedir}/src/main/java</generateDirectory>
+                    <generatePackage>com.example.datamodel.wsdl</generatePackage>
+                    <schemaDirectory>src/main/resources/wsdl</schemaDirectory>
+                    <schemaIncludes>
+                        <schemaInclude>*.wsdl</schemaInclude>
+                    </schemaIncludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
