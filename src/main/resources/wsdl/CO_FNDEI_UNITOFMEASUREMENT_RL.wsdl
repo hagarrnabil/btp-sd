@@ -552,6 +552,20 @@
                     <xsd:element name="NumberOfDecimalPlaces" type="NumberValue"/>
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:element name="getUnitOfMeasurementRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="CommercialDescription" minOccurs="0" maxOccurs="unbounded" type="Description"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getUnitOfMeasurementResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="UnitOfMeasurement" type="tns:UnitOfMeasurement"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
             <xsd:complexType name="UnitOfMeasurementCode">
                 <xsd:sequence>
                     <xsd:element name="content">

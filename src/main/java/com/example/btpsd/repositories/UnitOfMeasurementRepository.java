@@ -1,7 +1,13 @@
 package com.example.btpsd.repositories;
 
-import com.example.btpsd.model.UnitOfMeasurement;
+import com.example.datamodel.wsdl.UnitOfMeasurement;
+import jakarta.annotation.PostConstruct;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
 
-public interface UnitOfMeasurementRepository extends CrudRepository<UnitOfMeasurement, Long> {
+import java.util.HashMap;
+import java.util.Map;
+
+public class UnitOfMeasurementRepository {
+
 }

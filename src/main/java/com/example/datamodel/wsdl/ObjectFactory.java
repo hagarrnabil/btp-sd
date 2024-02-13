@@ -42,6 +42,38 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetUnitOfMeasurementRequest }
+     * 
+     */
+    public GetUnitOfMeasurementRequest createGetUnitOfMeasurementRequest() {
+        return new GetUnitOfMeasurementRequest();
+    }
+
+    /**
+     * Create an instance of {@link Description }
+     * 
+     */
+    public Description createDescription() {
+        return new Description();
+    }
+
+    /**
+     * Create an instance of {@link GetUnitOfMeasurementResponse }
+     * 
+     */
+    public GetUnitOfMeasurementResponse createGetUnitOfMeasurementResponse() {
+        return new GetUnitOfMeasurementResponse();
+    }
+
+    /**
+     * Create an instance of {@link UnitOfMeasurement }
+     * 
+     */
+    public UnitOfMeasurement createUnitOfMeasurement() {
+        return new UnitOfMeasurement();
+    }
+
+    /**
      * Create an instance of {@link BusinessDocumentMessageHeader }
      * 
      */
@@ -114,14 +146,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Description }
-     * 
-     */
-    public Description createDescription() {
-        return new Description();
-    }
-
-    /**
      * Create an instance of {@link EmailURI }
      * 
      */
@@ -167,14 +191,6 @@ public class ObjectFactory {
      */
     public UUID createUUID() {
         return new UUID();
-    }
-
-    /**
-     * Create an instance of {@link UnitOfMeasurement }
-     * 
-     */
-    public UnitOfMeasurement createUnitOfMeasurement() {
-        return new UnitOfMeasurement();
     }
 
     /**
