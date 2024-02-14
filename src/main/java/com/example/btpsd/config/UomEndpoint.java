@@ -17,8 +17,7 @@ public class UomEndpoint {
         GetUnitOfMeasurementResponse response = new GetUnitOfMeasurementResponse();
 
         UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-//        unitOfMeasurement.setCode(request.);
-//        unitOfMeasurement.setCode("10");
+        unitOfMeasurement.setCode(request.getCode());
 //        unitOfMeasurement.setISOCode("DAY");
         unitOfMeasurement.setCategory(1);
         unitOfMeasurement.setAllownonwholeIndicator(true);

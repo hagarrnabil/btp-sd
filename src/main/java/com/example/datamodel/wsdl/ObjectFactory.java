@@ -50,11 +50,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Description }
+     * Create an instance of {@link UnitOfMeasurementCode }
      * 
      */
-    public Description createDescription() {
-        return new Description();
+    public UnitOfMeasurementCode createUnitOfMeasurementCode() {
+        return new UnitOfMeasurementCode();
     }
 
     /**
@@ -146,6 +146,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Description }
+     * 
+     */
+    public Description createDescription() {
+        return new Description();
+    }
+
+    /**
      * Create an instance of {@link EmailURI }
      * 
      */
@@ -191,14 +199,6 @@ public class ObjectFactory {
      */
     public UUID createUUID() {
         return new UUID();
-    }
-
-    /**
-     * Create an instance of {@link UnitOfMeasurementCode }
-     * 
-     */
-    public UnitOfMeasurementCode createUnitOfMeasurementCode() {
-        return new UnitOfMeasurementCode();
     }
 
     /**
