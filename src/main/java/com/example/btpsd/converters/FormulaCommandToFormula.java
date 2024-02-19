@@ -2,6 +2,7 @@ package com.example.btpsd.converters;
 
 import com.example.btpsd.commands.FormulaCommand;
 import com.example.btpsd.model.Formula;
+import com.example.btpsd.model.UnitOfMeasurement;
 import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,9 @@ import javax.script.ScriptException;
 public class FormulaCommandToFormula implements Converter<FormulaCommand, Formula> {
 
     private final ModelSpecDetailsCommandToModelSpecDetails modelSpecDetailsConverter;
+
+    private final ServiceNumberCommandToServiceNumber serviceNumberConverter;
+
     ScriptEngine engine = GraalJSScriptEngine.create(null,
             Context.newBuilder("js")
                     .allowHostAccess(HostAccess.ALL)
@@ -47,8 +51,6 @@ public class FormulaCommandToFormula implements Converter<FormulaCommand, Formul
             formula.setParameterDescriptions(source.getParameterDescriptions());
         }
         formula.setFormulaLogic(source.getFormulaLogic());
-//        formula.setInsertParameters(source.getInsertParameters());
-//        formula.setInsertModifiers(source.getInsertModifiers());
         for (int i = 0; i < source.getTestParameters().size(); i++) {
             formula.setTestParameters(source.getTestParameters());
         }
@@ -60,10 +62,19 @@ public class FormulaCommandToFormula implements Converter<FormulaCommand, Formul
         } catch (ScriptException e) {
             throw new RuntimeException(e);
         }
-//        formula.setShowResults(source.getShowResults());
+        if (source.getUnitOfMeasurementCode() != null) {
+            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+            unitOfMeasurement.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
+            formula.setUnitOfMeasurement(unitOfMeasurement);
+            unitOfMeasurement.addFormulas(formula);
+        }
         if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {
             source.getModelSpecificationsDetailsCommands()
                     .forEach(modelSpecificationsDetailsCommand -> formula.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));
+        }
+        if (source.getServiceNumberCommands() != null && source.getServiceNumberCommands().size() > 0) {
+            source.getServiceNumberCommands()
+                    .forEach(serviceNumberCommand -> formula.getServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
         }
         return formula;
     }

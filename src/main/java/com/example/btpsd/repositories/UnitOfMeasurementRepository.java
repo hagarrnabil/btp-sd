@@ -1,13 +1,14 @@
 package com.example.btpsd.repositories;
 
-import com.example.datamodel.wsdl.UnitOfMeasurement;
-import jakarta.annotation.PostConstruct;
+import com.example.btpsd.model.UnitOfMeasurement;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-public class UnitOfMeasurementRepository {
+public interface UnitOfMeasurementRepository extends CrudRepository<UnitOfMeasurement, Long>{
+
+    @Query("SELECT u FROM UnitOfMeasurement u WHERE CONCAT(u.description, ' ', u.unitOfMeasurementCode, ' ', u.code) LIKE %?1%")
+    public List<UnitOfMeasurement> search(String keyword);
 
 }

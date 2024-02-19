@@ -31,6 +31,12 @@ public class ServiceNumber implements Serializable {
 
     private Long formulaCode;
 
+    private Long unitOfMeasurementCode;
+
+    private Long serviceTypeCode;
+
+    private Long materialGroupCode;
+
     @NotNull
     private String description;
 
@@ -42,9 +48,6 @@ public class ServiceNumber implements Serializable {
 
     @Builder.Default
     private Boolean mainItem = true;
-
-//    @Builder.Default
-//    private Boolean checkBox = true;
 
     private Integer numberToBeConverted;
 
@@ -60,22 +63,35 @@ public class ServiceNumber implements Serializable {
     @ManyToOne
     private Formula formula;
 
-    public ServiceNumber(String code, String description, Boolean shortTextChangeAllowed,
-                         Boolean deletionIndicator, Boolean mainItem, Boolean checkBox,
-                         Integer numberToBeConverted, Integer convertedNumber, Instant lastChangeDate,
-                         Set<ModelSpecificationsDetails> modelSpecificationsDetails, Formula formula)
+    @ManyToOne
+    private UnitOfMeasurement unitOfMeasurement;
+
+    @ManyToOne
+    private ServiceType serviceType;
+
+    @ManyToOne
+    private MaterialGroup materialGroup;
+
+    public ServiceNumber(String code, Long formulaCode, Long unitOfMeasurementCode, Long serviceTypeCode, String description, Boolean shortTextChangeAllowed, Boolean deletionIndicator,
+                         Boolean mainItem, Integer numberToBeConverted, Integer convertedNumber, Instant lastChangeDate, Set<ModelSpecificationsDetails> modelSpecificationsDetails, Formula formula,
+                         UnitOfMeasurement unitOfMeasurement, ServiceType serviceType, MaterialGroup materialGroup)
     {
         this.code = code;
+        this.formulaCode = formulaCode;
+        this.unitOfMeasurementCode = unitOfMeasurementCode;
+        this.serviceTypeCode = serviceTypeCode;
         this.description = description;
         this.shortTextChangeAllowed = shortTextChangeAllowed;
         this.deletionIndicator = deletionIndicator;
         this.mainItem = mainItem;
-//        this.checkBox = checkBox;
         this.numberToBeConverted = numberToBeConverted;
         this.convertedNumber = convertedNumber;
         this.lastChangeDate = lastChangeDate;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
         this.formula = formula;
+        this.unitOfMeasurement = unitOfMeasurement;
+        this.serviceType = serviceType;
+        this.materialGroup = materialGroup;
     }
 
     public ServiceNumber addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){

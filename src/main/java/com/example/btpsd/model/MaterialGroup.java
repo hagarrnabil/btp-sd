@@ -34,15 +34,26 @@ public class MaterialGroup implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
-    public MaterialGroup(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "materialGroup")
+    @JsonIgnore
+    private Set<ServiceNumber> serviceNumbers = new HashSet<>();
+
+    public MaterialGroup(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails, Set<ServiceNumber> serviceNumbers) {
         this.code = code;
         this.description = description;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
+        this.serviceNumbers = serviceNumbers;
     }
 
     public MaterialGroup addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setMaterialGroup(this);
         this.modelSpecificationsDetails.add(modelSpecificationsDetails);
+        return this;
+    }
+
+    public MaterialGroup addServiceNumbers(ServiceNumber serviceNumber){
+        serviceNumber.setMaterialGroup(this);
+        this.serviceNumbers.add(serviceNumber);
         return this;
     }
 }

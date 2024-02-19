@@ -20,6 +20,8 @@ public class FormulaCommand implements Serializable {
 
     private String formula;
 
+    private Long unitOfMeasurementCode;
+
     private String description;
 
     private Integer numberOfParameters;
@@ -30,17 +32,11 @@ public class FormulaCommand implements Serializable {
 
     private String formulaLogic;
 
-//    private String insertParameters;
-//
-//    private String insertModifiers;
-
     private List<Integer> testParameters = new ArrayList<Integer>();
 
     private String expression;
 
     private Integer result;
-
-//    private String showResults;
 
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();

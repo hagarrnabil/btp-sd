@@ -32,10 +32,18 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         serviceNumberCommand.setDeletionIndicator(source.getDeletionIndicator());
         serviceNumberCommand.setShortTextChangeAllowed(source.getShortTextChangeAllowed());
         serviceNumberCommand.setMainItem(source.getMainItem());
-//        serviceNumberCommand.setCheckBox(source.getCheckBox());
         serviceNumberCommand.setLastChangeDate(source.getLastChangeDate());
         if (source.getFormula() != null) {
             serviceNumberCommand.setFormulaCode(source.getFormula().getFormulaCode());
+        }
+        if (source.getMaterialGroup() != null) {
+            serviceNumberCommand.setMaterialGroupCode(source.getMaterialGroup().getMaterialGroupCode());
+        }
+        if (source.getServiceType() != null) {
+            serviceNumberCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
+        }
+        if (source.getUnitOfMeasurement() != null) {
+            serviceNumberCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurement().getUnitOfMeasurementCode());
         }
         if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
             source.getModelSpecificationsDetails()

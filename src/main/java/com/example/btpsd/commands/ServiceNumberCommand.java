@@ -21,6 +21,12 @@ public class ServiceNumberCommand implements Serializable {
 
     private Long formulaCode;
 
+    private Long unitOfMeasurementCode;
+
+    private Long serviceTypeCode;
+
+    private Long materialGroupCode;
+
     private String description;
 
     private Boolean shortTextChangeAllowed = true;
@@ -28,8 +34,6 @@ public class ServiceNumberCommand implements Serializable {
     private Boolean deletionIndicator = true;
 
     private Boolean mainItem = true;
-
-//    private Boolean checkBox = true;
 
     private Integer numberToBeConverted;
 

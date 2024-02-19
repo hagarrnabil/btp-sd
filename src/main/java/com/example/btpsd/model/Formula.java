@@ -29,6 +29,8 @@ public class Formula implements Serializable {
     @Length(max = 4)
     private String formula;
 
+    private Long unitOfMeasurementCode;
+
     @NotNull
     private String description;
 
@@ -45,18 +47,12 @@ public class Formula implements Serializable {
 
     private String formulaLogic;
 
-//    private String insertParameters;
-//
-//    private String insertModifiers;
-
     @ElementCollection
     private List<Integer> testParameters = new ArrayList<Integer>();
 
     private String expression;
 
     private Integer result;
-
-//    private String showResults;
 
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "formula")
@@ -67,11 +63,12 @@ public class Formula implements Serializable {
     @JsonIgnore
     private Set<ServiceNumber> serviceNumbers = new HashSet<>();
 
-    public Formula(String formula, String description, Integer numberOfParameters,
-                   List<Character> parameterIds, List<String> parameterDescriptions,
-                   String formulaLogic, String insertParameters, String insertModifiers,
-                   List<Integer> testParameters, String expression, Integer result, String showResults,
-                   Set<ModelSpecificationsDetails> modelSpecificationsDetails, Set<ServiceNumber> serviceNumbers)
+    @ManyToOne
+    private UnitOfMeasurement unitOfMeasurement;
+
+    public Formula(String formula, String description, Integer numberOfParameters, List<Character> parameterIds, List<String> parameterDescriptions,
+                   String formulaLogic, List<Integer> testParameters, String expression, Integer result, Set<ModelSpecificationsDetails> modelSpecificationsDetails,
+                   Set<ServiceNumber> serviceNumbers, UnitOfMeasurement unitOfMeasurement)
     {
         this.formula = formula;
         this.description = description;
@@ -79,14 +76,12 @@ public class Formula implements Serializable {
         this.parameterIds = parameterIds;
         this.parameterDescriptions = parameterDescriptions;
         this.formulaLogic = formulaLogic;
-//        this.insertParameters = insertParameters;
-//        this.insertModifiers = insertModifiers;
         this.testParameters = testParameters;
         this.expression = expression;
         this.result = result;
-//        this.showResults = showResults;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
         this.serviceNumbers = serviceNumbers;
+        this.unitOfMeasurement = unitOfMeasurement;
     }
 
     public Formula addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails) {

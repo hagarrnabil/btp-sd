@@ -4,6 +4,7 @@ import com.example.btpsd.commands.FormulaCommand;
 import com.example.btpsd.converters.FormulaCommandToFormula;
 import com.example.btpsd.converters.FormulaToFormulaCommand;
 import com.example.btpsd.model.Formula;
+import com.example.btpsd.model.UnitOfMeasurement;
 import com.example.btpsd.repositories.FormulaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -78,12 +79,14 @@ public class FormulaServiceImpl implements FormulaService{
                 oldFormula.setParameterDescriptions(newFormulaCommand.getParameterDescriptions());
             if (newFormulaCommand.getFormulaLogic() != oldFormula.getFormulaLogic())
                 oldFormula.setFormulaLogic(newFormulaCommand.getFormulaLogic());
-//            if (newFormulaCommand.getInsertParameters() != oldFormula.getInsertParameters())
-//                oldFormula.setInsertParameters(newFormulaCommand.getInsertParameters());
-//            if (newFormulaCommand.getInsertModifiers() != oldFormula.getInsertModifiers())
-//                oldFormula.setInsertModifiers(newFormulaCommand.getInsertModifiers());
             if (newFormulaCommand.getTestParameters() != oldFormula.getTestParameters())
                 oldFormula.setTestParameters(newFormulaCommand.getTestParameters());
+            if (newFormulaCommand.getUnitOfMeasurementCode() != null) {
+                UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+                unitOfMeasurement.setUnitOfMeasurementCode(newFormulaCommand.getUnitOfMeasurementCode());
+                oldFormula.setUnitOfMeasurement(unitOfMeasurement);
+                unitOfMeasurement.addFormulas(oldFormula);
+            }
             return formulaRepository.save(oldFormula);
         }).orElseThrow(() -> new RuntimeException("Formula not found"));
 

@@ -34,15 +34,37 @@ public class UnitOfMeasurement implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
-    public UnitOfMeasurement(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "unitOfMeasurement")
+    @JsonIgnore
+    private Set<Formula> formulas = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "unitOfMeasurement")
+    @JsonIgnore
+    private Set<ServiceNumber> serviceNumbers = new HashSet<>();
+
+    public UnitOfMeasurement(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails, Set<Formula> formulas, Set<ServiceNumber> serviceNumbers) {
         this.code = code;
         this.description = description;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
+        this.formulas = formulas;
+        this.serviceNumbers = serviceNumbers;
     }
 
     public UnitOfMeasurement addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setUnitOfMeasurement(this);
         this.modelSpecificationsDetails.add(modelSpecificationsDetails);
+        return this;
+    }
+
+    public UnitOfMeasurement addFormulas(Formula formula){
+        formula.setUnitOfMeasurement(this);
+        this.formulas.add(formula);
+        return this;
+    }
+
+    public UnitOfMeasurement addServiceNumbers(ServiceNumber serviceNumber){
+        serviceNumber.setUnitOfMeasurement(this);
+        this.serviceNumbers.add(serviceNumber);
         return this;
     }
 }

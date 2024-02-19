@@ -14,6 +14,8 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
 
     private final ModelSpecDetailsCommandToModelSpecDetails modelSpecDetailsConverter;
 
+    private final FormulaCommandToFormula formulaConverter;
+
     @Synchronized
     @Nullable
     @Override
@@ -30,6 +32,10 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
         if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {
             source.getModelSpecificationsDetailsCommands()
                     .forEach(modelSpecificationsDetailsCommand -> unitOfMeasurement.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));
+        }
+        if (source.getFormulaCommands() != null && source.getFormulaCommands().size() > 0) {
+            source.getFormulaCommands()
+                    .forEach(formulaCommand -> unitOfMeasurement.getFormulas().add(formulaConverter.convert(formulaCommand)));
         }
         return unitOfMeasurement;
     }
