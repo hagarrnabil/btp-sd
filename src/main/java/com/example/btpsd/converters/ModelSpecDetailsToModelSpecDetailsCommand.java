@@ -46,6 +46,9 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         if (source.getServiceNumber() != null) {
             modelSpecificationsDetailsCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
+        if (source.getLineType() != null) {
+            modelSpecificationsDetailsCommand.setLineTypeCode(source.getLineType().getLineTypeCode());
+        }
         modelSpecificationsDetailsCommand.setSelectionCheckBox(source.getSelectionCheckBox());
         modelSpecificationsDetailsCommand.setLineIndex(source.getLineIndex());
         modelSpecificationsDetailsCommand.setDeletionIndicator(source.getDeletionIndicator());

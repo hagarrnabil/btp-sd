@@ -68,7 +68,12 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
             modelSpecificationsDetails.setServiceNumber(serviceNumber);
             serviceNumber.addModelSpecDetails(modelSpecificationsDetails);
         }
-
+        if (source.getLineTypeCode() != null) {
+            LineType lineType = new LineType();
+            lineType.setLineTypeCode(source.getLineTypeCode());
+            modelSpecificationsDetails.setLineType(lineType);
+            lineType.addModelSpecDetails(modelSpecificationsDetails);
+        }
         modelSpecificationsDetails.setSelectionCheckBox(source.getSelectionCheckBox());
         modelSpecificationsDetails.setLineIndex(source.getLineIndex());
         modelSpecificationsDetails.setDeletionIndicator(source.getDeletionIndicator());

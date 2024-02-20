@@ -154,6 +154,12 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setUnitOfMeasurement(unitOfMeasurement);
                 unitOfMeasurement.addModelSpecDetails(oldModelSpecDetails);
             }
+            if (newModelSpecDetails.getLineTypeCode() != null) {
+                LineType lineType = new LineType();
+                lineType.setLineTypeCode(newModelSpecDetails.getLineTypeCode());
+                oldModelSpecDetails.setLineType(lineType);
+                lineType.addModelSpecDetails(oldModelSpecDetails);
+            }
             return modelSpecificationsDetailsRepository.save(oldModelSpecDetails);
         }).orElseThrow(() -> new RuntimeException("Model Spec Details not found"));
     }

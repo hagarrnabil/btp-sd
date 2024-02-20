@@ -36,6 +36,8 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Long formulaCode;
 
+    private Long lineTypeCode;
+
     @Builder.Default
     private Boolean selectionCheckBox = true;
 
@@ -113,6 +115,9 @@ public class ModelSpecificationsDetails implements Serializable {
 
     @ManyToOne
     private Formula formula;
+
+    @ManyToOne
+    private LineType lineType;
 
     public ModelSpecificationsDetails(Long serviceNumberCode, Long serviceTypeCode,
                                       Long materialGroupCode, Long personnelNumberCode,

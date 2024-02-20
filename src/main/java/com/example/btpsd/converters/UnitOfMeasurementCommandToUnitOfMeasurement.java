@@ -16,6 +16,8 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
 
     private final FormulaCommandToFormula formulaConverter;
 
+    private final ServiceNumberCommandToServiceNumber serviceNumberConverter;
+
     @Synchronized
     @Nullable
     @Override
@@ -36,6 +38,10 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
         if (source.getFormulaCommands() != null && source.getFormulaCommands().size() > 0) {
             source.getFormulaCommands()
                     .forEach(formulaCommand -> unitOfMeasurement.getFormulas().add(formulaConverter.convert(formulaCommand)));
+        }
+        if (source.getServiceNumberCommands() != null && source.getServiceNumberCommands().size() > 0) {
+            source.getServiceNumberCommands()
+                    .forEach(serviceNumberCommand -> unitOfMeasurement.getServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
         }
         return unitOfMeasurement;
     }

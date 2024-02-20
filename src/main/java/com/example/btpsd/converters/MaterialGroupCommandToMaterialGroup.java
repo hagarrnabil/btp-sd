@@ -14,6 +14,8 @@ public class MaterialGroupCommandToMaterialGroup implements Converter<MaterialGr
 
     private final ModelSpecDetailsCommandToModelSpecDetails modelSpecDetailsConverter;
 
+    private final ServiceNumberCommandToServiceNumber serviceNumberConverter;
+
     @Synchronized
     @Nullable
     @Override
@@ -30,6 +32,10 @@ public class MaterialGroupCommandToMaterialGroup implements Converter<MaterialGr
         if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {
             source.getModelSpecificationsDetailsCommands()
                     .forEach(modelSpecificationsDetailsCommand -> materialGroup.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));
+        }
+        if (source.getServiceNumberCommands() != null && source.getServiceNumberCommands().size() > 0) {
+            source.getServiceNumberCommands()
+                    .forEach(serviceNumberCommand -> materialGroup.getServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
         }
         return materialGroup;
     }

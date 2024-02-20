@@ -22,6 +22,7 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private Long materialGroupCode;
     private Long unitOfMeasurementCode;
     private Long serviceNumberCode;
+    private Long lineTypeCode;
     private Boolean selectionCheckBox = true;
     private String lineIndex;
     private Boolean deletionIndicator = true;

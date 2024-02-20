@@ -14,6 +14,8 @@ public class ServiceTypeCommandToServiceType implements Converter<ServiceTypeCom
 
     private final ModelSpecDetailsCommandToModelSpecDetails modelSpecDetailsConverter;
 
+    private final ServiceNumberCommandToServiceNumber serviceNumberConverter;
+
     @Synchronized
     @Nullable
     @Override
@@ -30,6 +32,10 @@ public class ServiceTypeCommandToServiceType implements Converter<ServiceTypeCom
         if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {
             source.getModelSpecificationsDetailsCommands()
                     .forEach(modelSpecificationsDetailsCommand -> serviceType.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));
+        }
+        if (source.getServiceNumberCommands() != null && source.getServiceNumberCommands().size() > 0) {
+            source.getServiceNumberCommands()
+                    .forEach(serviceNumberCommand -> serviceType.getServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
         }
         return serviceType;
     }

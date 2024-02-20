@@ -70,8 +70,10 @@ public class CurrencyServiceImpl implements CurrencyService{
     public Currency updateCurrency(CurrencyCommand newCurrencyCommand, Long l) {
 
         return currencyRepository.findById(l).map(oldCurrency -> {
-            if (newCurrencyCommand.getCode() != oldCurrency.getCode()) oldCurrency.setCode(newCurrencyCommand.getCode());
-            if (newCurrencyCommand.getDescription() != oldCurrency.getDescription()) oldCurrency.setDescription(newCurrencyCommand.getDescription());
+            if (newCurrencyCommand.getCode() != oldCurrency.getCode())
+                oldCurrency.setCode(newCurrencyCommand.getCode());
+            if (newCurrencyCommand.getDescription() != oldCurrency.getDescription())
+                oldCurrency.setDescription(newCurrencyCommand.getDescription());
             return currencyRepository.save(oldCurrency);
         }).orElseThrow(() -> new RuntimeException("Currency not found"));
 
