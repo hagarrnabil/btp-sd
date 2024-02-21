@@ -41,6 +41,8 @@ public class ServiceNumberCommand implements Serializable {
 
     private Instant lastChangeDate;
 
+    private String serviceText;
+
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
 }

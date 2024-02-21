@@ -85,8 +85,8 @@ public class ServiceNumberServiceImpl implements ServiceNumberService{
                 oldServiceNumber.setDeletionIndicator(newServiceNumberCommand.getDeletionIndicator());
             if (newServiceNumberCommand.getMainItem() != oldServiceNumber.getMainItem())
                 oldServiceNumber.setMainItem(newServiceNumberCommand.getMainItem());
-//            if (newServiceNumberCommand.getCheckBox() != oldServiceNumber.getCheckBox())
-//                oldServiceNumber.setCheckBox(newServiceNumberCommand.getCheckBox());
+            if (newServiceNumberCommand.getServiceText() != oldServiceNumber.getServiceText())
+                oldServiceNumber.setServiceText(newServiceNumberCommand.getServiceText());
             if (newServiceNumberCommand.getNumberToBeConverted() != oldServiceNumber.getNumberToBeConverted())
                 oldServiceNumber.setNumberToBeConverted(newServiceNumberCommand.getNumberToBeConverted());
             if (newServiceNumberCommand.getConvertedNumber() != oldServiceNumber.getConvertedNumber())

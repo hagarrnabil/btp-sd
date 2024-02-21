@@ -74,8 +74,6 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private String lineText;
 
-//    private String formula;
-
     @Column(unique = true, columnDefinition = "char(225)")
     @Length(max = 225)
     private String lineNumber;
@@ -90,6 +88,9 @@ public class ModelSpecificationsDetails implements Serializable {
 
     @Builder.Default
     private Boolean lotSizeForCostingIsOne = true;
+
+    private Boolean dontUseFormula;
+
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "modelSpecificationsDetails")
     @JsonIgnore

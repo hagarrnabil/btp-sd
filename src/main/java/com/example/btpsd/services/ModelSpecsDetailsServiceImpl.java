@@ -65,7 +65,6 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
         log.debug("Saved Model Spec Details Id:" + savedModelSpecDetails.getModelSpecDetailsCode());
         return modelSpecDetailsToModelSpecDetailsCommand.convert(savedModelSpecDetails);
 
-
     }
 
     @Override
@@ -100,8 +99,8 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setNetValue(newModelSpecDetails.getNetValue());
             if (newModelSpecDetails.getLineText() != oldModelSpecDetails.getLineText())
                 oldModelSpecDetails.setLineText(newModelSpecDetails.getLineText());
-//            if (newModelSpecDetails.getFormula() != oldModelSpecDetails.getFormula())
-//                oldModelSpecDetails.setFormula(newModelSpecDetails.getFormula());
+            if (newModelSpecDetails.getDontUseFormula() != oldModelSpecDetails.getDontUseFormula())
+                oldModelSpecDetails.setDontUseFormula(newModelSpecDetails.getDontUseFormula());
             if (newModelSpecDetails.getLineNumber() != oldModelSpecDetails.getLineNumber())
                 oldModelSpecDetails.setLineNumber(newModelSpecDetails.getLineNumber());
             if (newModelSpecDetails.getAlternatives() != oldModelSpecDetails.getAlternatives())

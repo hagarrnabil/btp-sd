@@ -33,6 +33,7 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         serviceNumberCommand.setShortTextChangeAllowed(source.getShortTextChangeAllowed());
         serviceNumberCommand.setMainItem(source.getMainItem());
         serviceNumberCommand.setLastChangeDate(source.getLastChangeDate());
+        serviceNumberCommand.setServiceText(source.getServiceText());
         if (source.getFormula() != null) {
             serviceNumberCommand.setFormulaCode(source.getFormula().getFormulaCode());
         }

@@ -1,13 +1,15 @@
 package com.example.btpsd.converters;
 
 import com.example.btpsd.commands.ModelSpecificationsDetailsCommand;
+import com.example.btpsd.model.Formula;
 import com.example.btpsd.model.ModelSpecificationsDetails;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<ModelSpecificationsDetails, ModelSpecificationsDetailsCommand> {
@@ -53,7 +55,14 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setLineIndex(source.getLineIndex());
         modelSpecificationsDetailsCommand.setDeletionIndicator(source.getDeletionIndicator());
         modelSpecificationsDetailsCommand.setShortText(source.getShortText());
-        modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
+        modelSpecificationsDetailsCommand.setDontUseFormula(source.getDontUseFormula());
+        if (source.getDontUseFormula() == false){
+            modelSpecificationsDetailsCommand.setFormulaCode(source.getFormula().getFormulaCode());
+            modelSpecificationsDetailsCommand.setQuantity(source.getFormula().getResult());
+        }
+        else {
+            modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
+        }
         modelSpecificationsDetailsCommand.setGrossPrice(source.getGrossPrice());
         modelSpecificationsDetailsCommand.setOverFulfilmentPercentage(source.getOverFulfilmentPercentage());
         modelSpecificationsDetailsCommand.setPriceChangedAllowed(source.getPriceChangedAllowed());
@@ -63,7 +72,6 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setNetValue(source.getNetValue());
         modelSpecificationsDetailsCommand.setServiceText(source.getServiceText());
         modelSpecificationsDetailsCommand.setLineText(source.getLineText());
-//        modelSpecificationsDetailsCommand.setFormula(source.getFormula());
         modelSpecificationsDetailsCommand.setLineNumber(source.getLineNumber());
         modelSpecificationsDetailsCommand.setAlternatives(source.getAlternatives());
         modelSpecificationsDetailsCommand.setBiddersLine(source.getBiddersLine());

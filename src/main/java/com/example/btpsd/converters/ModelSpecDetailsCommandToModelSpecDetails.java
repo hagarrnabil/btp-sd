@@ -5,10 +5,12 @@ import com.example.btpsd.model.*;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
+@Slf4j
 @Component
 public class
 ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificationsDetailsCommand, ModelSpecificationsDetails> {
@@ -31,12 +33,6 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
             currency.setCurrencyCode(source.getCurrencyCode());
             modelSpecificationsDetails.setCurrency(currency);
             currency.addModelSpecDetails(modelSpecificationsDetails);
-        }
-        if (source.getFormulaCode() != null) {
-            Formula formula = new Formula();
-            formula.setFormulaCode(source.getFormulaCode());
-            modelSpecificationsDetails.setFormula(formula);
-            formula.addModelSpecDetails(modelSpecificationsDetails);
         }
         if (source.getPersonnelNumberCode() != null) {
             PersonnelNumber personnelNumber = new PersonnelNumber();
@@ -74,11 +70,29 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
             modelSpecificationsDetails.setLineType(lineType);
             lineType.addModelSpecDetails(modelSpecificationsDetails);
         }
+        if (source.getFormulaCode() != null) {
+            Formula formula = new Formula();
+            formula.setFormulaCode(source.getFormulaCode());
+            modelSpecificationsDetails.setFormula(formula);
+            formula.addModelSpecDetails(modelSpecificationsDetails);
+        }
         modelSpecificationsDetails.setSelectionCheckBox(source.getSelectionCheckBox());
         modelSpecificationsDetails.setLineIndex(source.getLineIndex());
         modelSpecificationsDetails.setDeletionIndicator(source.getDeletionIndicator());
         modelSpecificationsDetails.setShortText(source.getShortText());
-        modelSpecificationsDetails.setQuantity(source.getQuantity());
+        modelSpecificationsDetails.setDontUseFormula(source.getDontUseFormula());
+        if (source.getDontUseFormula() == false){
+            Formula formula = new Formula();
+            formula.setFormulaCode(source.getFormulaCode());
+            modelSpecificationsDetails.setFormula(formula);
+            formula.addModelSpecDetails(modelSpecificationsDetails);
+            modelSpecificationsDetails.setQuantity(formula.getResult());
+            log.debug("formula's result = "+ formula.getResult());
+            log.debug("quantity = "+ modelSpecificationsDetails.getQuantity());
+        }
+        else {
+            modelSpecificationsDetails.setQuantity(source.getQuantity());
+        }
         modelSpecificationsDetails.setGrossPrice(source.getGrossPrice());
         modelSpecificationsDetails.setOverFulfilmentPercentage(source.getOverFulfilmentPercentage());
         modelSpecificationsDetails.setPriceChangedAllowed(source.getPriceChangedAllowed());
@@ -88,7 +102,6 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         modelSpecificationsDetails.setNetValue(source.getNetValue());
         modelSpecificationsDetails.setServiceText(source.getServiceText());
         modelSpecificationsDetails.setLineText(source.getLineText());
-//        modelSpecificationsDetails.setFormula(source.getFormula());
         modelSpecificationsDetails.setLineNumber(source.getLineNumber());
         modelSpecificationsDetails.setAlternatives(source.getAlternatives());
         modelSpecificationsDetails.setBiddersLine(source.getBiddersLine());

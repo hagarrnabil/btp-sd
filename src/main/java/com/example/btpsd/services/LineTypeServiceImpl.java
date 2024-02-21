@@ -85,6 +85,18 @@ public class LineTypeServiceImpl implements LineTypeService{
                 oldLineType.setContingencyLine(newLineTypeCommand.getContingencyLine());
             if (newLineTypeCommand.getAtpQuantity() != oldLineType.getAtpQuantity())
                 oldLineType.setAtpQuantity(newLineTypeCommand.getAtpQuantity());
+            if (newLineTypeCommand.getEZ() != oldLineType.getEZ())
+                oldLineType.setEZ(newLineTypeCommand.getEZ());
+            if (newLineTypeCommand.getHZ() != oldLineType.getHZ())
+                oldLineType.setHZ(newLineTypeCommand.getHZ());
+            if (newLineTypeCommand.getFZ() != oldLineType.getFZ())
+                oldLineType.setFZ(newLineTypeCommand.getFZ());
+            if (newLineTypeCommand.getIZ() != oldLineType.getIZ())
+                oldLineType.setIZ(newLineTypeCommand.getIZ());
+            if (newLineTypeCommand.getNZ() != oldLineType.getNZ())
+                oldLineType.setNZ(newLineTypeCommand.getNZ());
+            if (newLineTypeCommand.getPZ() != oldLineType.getPZ())
+                oldLineType.setPZ(newLineTypeCommand.getPZ());
             return lineTypeRepository.save(oldLineType);
         }).orElseThrow(() -> new RuntimeException("Line Type not found"));
 

@@ -56,6 +56,8 @@ public class ServiceNumber implements Serializable {
     @CreationTimestamp
     private Instant lastChangeDate;
 
+    private String serviceText;
+
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
@@ -72,14 +74,15 @@ public class ServiceNumber implements Serializable {
     @ManyToOne
     private MaterialGroup materialGroup;
 
-    public ServiceNumber(String code, Long formulaCode, Long unitOfMeasurementCode, Long serviceTypeCode, String description, Boolean shortTextChangeAllowed, Boolean deletionIndicator,
-                         Boolean mainItem, Integer numberToBeConverted, Integer convertedNumber, Instant lastChangeDate, Set<ModelSpecificationsDetails> modelSpecificationsDetails, Formula formula,
-                         UnitOfMeasurement unitOfMeasurement, ServiceType serviceType, MaterialGroup materialGroup)
+    public ServiceNumber(String code, Long formulaCode, Long unitOfMeasurementCode, Long serviceTypeCode, Long materialGroupCode, String description, Boolean shortTextChangeAllowed,
+                         Boolean deletionIndicator, Boolean mainItem, Integer numberToBeConverted, Integer convertedNumber, Instant lastChangeDate, String serviceText,
+                         Set<ModelSpecificationsDetails> modelSpecificationsDetails, Formula formula, UnitOfMeasurement unitOfMeasurement, ServiceType serviceType, MaterialGroup materialGroup)
     {
         this.code = code;
         this.formulaCode = formulaCode;
         this.unitOfMeasurementCode = unitOfMeasurementCode;
         this.serviceTypeCode = serviceTypeCode;
+        this.materialGroupCode = materialGroupCode;
         this.description = description;
         this.shortTextChangeAllowed = shortTextChangeAllowed;
         this.deletionIndicator = deletionIndicator;
@@ -87,6 +90,7 @@ public class ServiceNumber implements Serializable {
         this.numberToBeConverted = numberToBeConverted;
         this.convertedNumber = convertedNumber;
         this.lastChangeDate = lastChangeDate;
+        this.serviceText = serviceText;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
         this.formula = formula;
         this.unitOfMeasurement = unitOfMeasurement;

@@ -26,26 +26,50 @@ public class LineType implements Serializable {
     @Length(max = 225)
     private String code;
 
-    private Boolean standardLine;
+    @Column(columnDefinition="VARCHAR")
+    private String NZ;
 
-    private Boolean blanketLine;
+    @Column(columnDefinition="VARCHAR")
+    private String PZ;
 
-    private Boolean contingencyLine;
+    @Column(columnDefinition="VARCHAR")
+    private String EZ;
 
-    private Boolean atpQuantity;
+    @Column(columnDefinition="VARCHAR")
+    private String FZ;
 
-    private Boolean informatoryLine;
+    @Column(columnDefinition="VARCHAR")
+    private String HZ;
 
-    private Boolean internalLine;
+    @Column(columnDefinition="VARCHAR")
+    private String IZ;
+
+    private String standardLine;
+
+    private String blanketLine;
+
+    private String contingencyLine;
+
+    private String atpQuantity;
+
+    private String informatoryLine;
+
+    private String internalLine;
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "lineType")
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
-    public LineType(String code, Boolean standardLine, Boolean blanketLine, Boolean contingencyLine, Boolean atpQuantity, Boolean informatoryLine, Boolean internalLine,
-                    Set<ModelSpecificationsDetails> modelSpecificationsDetails)
+    public LineType(String code, String NZ, String PZ, String EZ, String FZ, String HZ, String IZ, String standardLine, String blanketLine, String contingencyLine,
+                    String atpQuantity, String informatoryLine, String internalLine, Set<ModelSpecificationsDetails> modelSpecificationsDetails)
     {
         this.code = code;
+        this.NZ = NZ;
+        this.PZ = PZ;
+        this.EZ = EZ;
+        this.FZ = FZ;
+        this.HZ = HZ;
+        this.IZ = IZ;
         this.standardLine = standardLine;
         this.blanketLine = blanketLine;
         this.contingencyLine = contingencyLine;

@@ -1,7 +1,6 @@
 package com.example.btpsd.commands;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,17 +18,29 @@ public class LineTypeCommand implements Serializable {
 
     private String code;
 
-    private Boolean standardLine;
+    private String NZ;
 
-    private Boolean blanketLine;
+    private String PZ;
 
-    private Boolean contingencyLine;
+    private String EZ;
 
-    private Boolean atpQuantity;
+    private String FZ;
 
-    private Boolean informatoryLine;
+    private String HZ;
 
-    private Boolean internalLine;
+    private String IZ;
+
+    private String standardLine;
+
+    private String blanketLine;
+
+    private String contingencyLine;
+
+    private String atpQuantity;
+
+    private String informatoryLine;
+
+    private String internalLine;
 
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
