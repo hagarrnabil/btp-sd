@@ -106,9 +106,7 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         modelSpecificationsDetails.setAlternatives(source.getAlternatives());
         modelSpecificationsDetails.setBiddersLine(source.getBiddersLine());
         modelSpecificationsDetails.setSupplementaryLine(source.getSupplementaryLine());
-        modelSpecificationsDetails.setLotSizeForCostingIsOne(source
-                .getLotSizeForCostingIsOne());
-
+        modelSpecificationsDetails.setLotSizeForCostingIsOne(source.getLotSizeForCostingIsOne());
         if (source.getModelSpecificationsCommands() != null && source.getModelSpecificationsCommands().size() > 0) {
         source.getModelSpecificationsCommands()
                 .forEach(modelSpecificationsCommand -> modelSpecificationsDetails.getModelSpecifications().add(modelSpecConverter.convert(modelSpecificationsCommand)));
