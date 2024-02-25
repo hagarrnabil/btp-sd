@@ -15,8 +15,8 @@ public class ModelSpecificationsCommand implements Serializable {
     private Long modelSpecDetailsCode;
     private Long currencyCode;
     private String modelServSpec;
-    private Boolean blockingIndicator = true;
-    private Boolean serviceSelection = true;
+    private Boolean blockingIndicator;
+    private Boolean serviceSelection;
     private String description;
     private String searchTerm;
 

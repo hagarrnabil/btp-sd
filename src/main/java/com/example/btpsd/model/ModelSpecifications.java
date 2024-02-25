@@ -29,11 +29,9 @@ public class ModelSpecifications implements Serializable {
     @Length(max = 225)
     private String modelServSpec;
 
-    @Builder.Default
-    private Boolean blockingIndicator = true;
+    private Boolean blockingIndicator;
 
-    @Builder.Default
-    private Boolean serviceSelection = true;
+    private Boolean serviceSelection;
 
     @NotNull
     private String description;

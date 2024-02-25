@@ -38,15 +38,13 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Long lineTypeCode;
 
-    @Builder.Default
-    private Boolean selectionCheckBox = true;
+    private Boolean selectionCheckBox;
 
     @Column(unique = true, columnDefinition = "char(225)")
     @Length(max = 225)
     private String lineIndex;
 
-    @Builder.Default
-    private Boolean deletionIndicator = true;
+    private Boolean deletionIndicator;
 
     private String shortText;
 
@@ -56,11 +54,9 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Integer overFulfilmentPercentage;
 
-    @Builder.Default
-    private Boolean priceChangedAllowed = true;
+    private Boolean priceChangedAllowed;
 
-    @Builder.Default
-    private Boolean unlimitedOverFulfillment = true;
+    private Boolean unlimitedOverFulfillment;
 
     private Integer pricePerUnitOfMeasurement;
 
@@ -80,14 +76,11 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private String alternatives;
 
-    @Builder.Default
-    private Boolean biddersLine = true;
+    private Boolean biddersLine;
 
-    @Builder.Default
-    private Boolean supplementaryLine = true;
+    private Boolean supplementaryLine;
 
-    @Builder.Default
-    private Boolean lotSizeForCostingIsOne = true;
+    private Boolean lotSizeForCostingIsOne;
 
     private Boolean dontUseFormula;
 

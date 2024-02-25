@@ -29,11 +29,11 @@ public class ServiceNumberCommand implements Serializable {
 
     private String description;
 
-    private Boolean shortTextChangeAllowed = true;
+    private Boolean shortTextChangeAllowed;
 
-    private Boolean deletionIndicator = true;
+    private Boolean deletionIndicator;
 
-    private Boolean mainItem = true;
+    private Boolean mainItem;
 
     private Integer numberToBeConverted;
 

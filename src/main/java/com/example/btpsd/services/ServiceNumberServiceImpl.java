@@ -3,7 +3,7 @@ package com.example.btpsd.services;
 import com.example.btpsd.commands.ServiceNumberCommand;
 import com.example.btpsd.converters.ServiceNumberCommandToServiceNumber;
 import com.example.btpsd.converters.ServiceNumberToServiceNumberCommand;
-import com.example.btpsd.model.ServiceNumber;
+import com.example.btpsd.model.*;
 import com.example.btpsd.repositories.ServiceNumberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -91,6 +91,30 @@ public class ServiceNumberServiceImpl implements ServiceNumberService{
                 oldServiceNumber.setNumberToBeConverted(newServiceNumberCommand.getNumberToBeConverted());
             if (newServiceNumberCommand.getConvertedNumber() != oldServiceNumber.getConvertedNumber())
                 oldServiceNumber.setConvertedNumber(newServiceNumberCommand.getConvertedNumber());
+            if (newServiceNumberCommand.getServiceTypeCode() != null) {
+                ServiceType serviceType = new ServiceType();
+                serviceType.setServiceTypeCode(newServiceNumberCommand.getServiceTypeCode());
+                oldServiceNumber.setServiceType(serviceType);
+                serviceType.addServiceNumbers(oldServiceNumber);
+            }
+            if (newServiceNumberCommand.getMaterialGroupCode() != null) {
+                MaterialGroup materialGroup = new MaterialGroup();
+                materialGroup.setMaterialGroupCode(newServiceNumberCommand.getMaterialGroupCode());
+                oldServiceNumber.setMaterialGroup(materialGroup);
+                materialGroup.addServiceNumbers(oldServiceNumber);
+            }
+            if (newServiceNumberCommand.getUnitOfMeasurementCode() != null) {
+                UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+                unitOfMeasurement.setUnitOfMeasurementCode(newServiceNumberCommand.getUnitOfMeasurementCode());
+                oldServiceNumber.setUnitOfMeasurement(unitOfMeasurement);
+                unitOfMeasurement.addServiceNumbers(oldServiceNumber);
+            }
+            if (newServiceNumberCommand.getFormulaCode() != null) {
+                Formula formula = new Formula();
+                formula.setFormulaCode(newServiceNumberCommand.getFormulaCode());
+                oldServiceNumber.setFormula(formula);
+                formula.addServiceNumbers(oldServiceNumber);
+            }
             return serviceNumberRepository.save(oldServiceNumber);
         }).orElseThrow(() -> new RuntimeException("Service Number not found"));
 

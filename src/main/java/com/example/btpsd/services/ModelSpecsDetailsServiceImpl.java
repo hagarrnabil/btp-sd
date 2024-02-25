@@ -137,7 +137,7 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
             }
             if (newModelSpecDetails.getServiceTypeCode() != null) {
                 ServiceType serviceType = new ServiceType();
-                serviceType.setServiceTypeCode(newModelSpecDetails.getServiceNumberCode());
+                serviceType.setServiceTypeCode(newModelSpecDetails.getServiceTypeCode());
                 oldModelSpecDetails.setServiceType(serviceType);
                 serviceType.addModelSpecDetails(oldModelSpecDetails);
             }

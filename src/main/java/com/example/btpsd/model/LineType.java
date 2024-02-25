@@ -27,22 +27,22 @@ public class LineType implements Serializable {
     private String code;
 
     @Column(columnDefinition="VARCHAR")
-    private String NZ;
+    private String nz;
 
     @Column(columnDefinition="VARCHAR")
-    private String PZ;
+    private String pz;
 
     @Column(columnDefinition="VARCHAR")
-    private String EZ;
+    private String ez;
 
     @Column(columnDefinition="VARCHAR")
-    private String FZ;
+    private String fz;
 
     @Column(columnDefinition="VARCHAR")
-    private String HZ;
+    private String hz;
 
     @Column(columnDefinition="VARCHAR")
-    private String IZ;
+    private String iz;
 
     private String standardLine;
 
@@ -60,16 +60,16 @@ public class LineType implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
-    public LineType(String code, String NZ, String PZ, String EZ, String FZ, String HZ, String IZ, String standardLine, String blanketLine, String contingencyLine,
+    public LineType(String code, String nz, String pz, String ez, String fz, String hz, String iz, String standardLine, String blanketLine, String contingencyLine,
                     String atpQuantity, String informatoryLine, String internalLine, Set<ModelSpecificationsDetails> modelSpecificationsDetails)
     {
         this.code = code;
-        this.NZ = NZ;
-        this.PZ = PZ;
-        this.EZ = EZ;
-        this.FZ = FZ;
-        this.HZ = HZ;
-        this.IZ = IZ;
+        this.nz = nz;
+        this.pz = pz;
+        this.ez = ez;
+        this.fz = fz;
+        this.hz = hz;
+        this.iz = iz;
         this.standardLine = standardLine;
         this.blanketLine = blanketLine;
         this.contingencyLine = contingencyLine;

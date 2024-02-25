@@ -23,15 +23,15 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private Long unitOfMeasurementCode;
     private Long serviceNumberCode;
     private Long lineTypeCode;
-    private Boolean selectionCheckBox = true;
+    private Boolean selectionCheckBox;
     private String lineIndex;
-    private Boolean deletionIndicator = true;
+    private Boolean deletionIndicator;
     private String shortText;
     private Integer quantity;
     private Integer grossPrice;
     private Integer overFulfilmentPercentage;
-    private Boolean priceChangedAllowed = true;
-    private Boolean unlimitedOverFulfillment = true;
+    private Boolean priceChangedAllowed;
+    private Boolean unlimitedOverFulfillment;
     private Integer pricePerUnitOfMeasurement;
     private String externalServiceNumber;
     private Integer netValue;
@@ -39,9 +39,9 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private String lineText;
     private String lineNumber;
     private String alternatives;
-    private Boolean biddersLine = true;
-    private Boolean supplementaryLine = true;
-    private Boolean lotSizeForCostingIsOne = true;
+    private Boolean biddersLine;
+    private Boolean supplementaryLine;
+    private Boolean lotSizeForCostingIsOne;
     private Boolean dontUseFormula;
     @JsonIgnore
     private Set<ModelSpecificationsCommand> modelSpecificationsCommands = new HashSet<>();

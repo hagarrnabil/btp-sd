@@ -40,14 +40,11 @@ public class ServiceNumber implements Serializable {
     @NotNull
     private String description;
 
-    @Builder.Default
-    private Boolean shortTextChangeAllowed = true;
+    private Boolean shortTextChangeAllowed;
 
-    @Builder.Default
-    private Boolean deletionIndicator = true;
+    private Boolean deletionIndicator;
 
-    @Builder.Default
-    private Boolean mainItem = true;
+    private Boolean mainItem;
 
     private Integer numberToBeConverted;
 

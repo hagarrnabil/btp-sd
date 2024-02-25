@@ -69,7 +69,7 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         modelSpecificationsDetailsCommand.setPricePerUnitOfMeasurement(source.getPricePerUnitOfMeasurement());
         modelSpecificationsDetailsCommand.setExternalServiceNumber(source.getExternalServiceNumber());
-        modelSpecificationsDetailsCommand.setNetValue(source.getNetValue());
+        modelSpecificationsDetailsCommand.setNetValue(source.getGrossPrice() * source.getQuantity());
         modelSpecificationsDetailsCommand.setServiceText(source.getServiceText());
         modelSpecificationsDetailsCommand.setLineText(source.getLineText());
         modelSpecificationsDetailsCommand.setLineNumber(source.getLineNumber());

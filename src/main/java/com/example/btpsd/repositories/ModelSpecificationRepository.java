@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface ModelSpecificationRepository extends CrudRepository<ModelSpecifications, Long> {
 
-    @Query("SELECT m FROM ModelSpecifications m WHERE CONCAT(m.searchTerm,' ',m.modelSpecCode,' ',m.description,' ',m.modelServSpec) LIKE %?1%")
+    @Query("SELECT m FROM ModelSpecifications m WHERE CONCAT(m.searchTerm,' ',m.modelSpecCode,' ',m.description,' ',m.modelServSpec,' ',m.currencyCode" +
+            ",' ',m.modelSpecDetailsCode) LIKE %?1%")
     public List<ModelSpecifications> search(String keyword);
 
 }

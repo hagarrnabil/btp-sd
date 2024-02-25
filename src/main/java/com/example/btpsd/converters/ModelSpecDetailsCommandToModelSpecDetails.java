@@ -99,7 +99,7 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         modelSpecificationsDetails.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         modelSpecificationsDetails.setPricePerUnitOfMeasurement(source.getPricePerUnitOfMeasurement());
         modelSpecificationsDetails.setExternalServiceNumber(source.getExternalServiceNumber());
-        modelSpecificationsDetails.setNetValue(source.getNetValue());
+        modelSpecificationsDetails.setNetValue(source.getGrossPrice() * source.getQuantity());
         modelSpecificationsDetails.setServiceText(source.getServiceText());
         modelSpecificationsDetails.setLineText(source.getLineText());
         modelSpecificationsDetails.setLineNumber(source.getLineNumber());

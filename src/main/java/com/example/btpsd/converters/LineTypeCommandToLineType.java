@@ -25,12 +25,12 @@ public class LineTypeCommandToLineType implements Converter<LineTypeCommand, Lin
         final LineType lineType = new LineType();
         lineType.setLineTypeCode(source.getLineTypeCode());
         lineType.setCode(source.getCode());
-        lineType.setHZ(source.getHZ());
-        lineType.setFZ(source.getFZ());
-        lineType.setEZ(source.getEZ());
-        lineType.setNZ(source.getNZ());
-        lineType.setPZ(source.getPZ());
-        lineType.setIZ(source.getIZ());
+        lineType.setEz(source.getEz());
+        lineType.setFz(source.getFz());
+        lineType.setHz(source.getHz());
+        lineType.setIz(source.getIz());
+        lineType.setNz(source.getNz());
+        lineType.setPz(source.getPz());
         lineType.setStandardLine(source.getStandardLine());
         lineType.setBlanketLine(source.getBlanketLine());
         lineType.setContingencyLine(source.getContingencyLine());

@@ -18,17 +18,17 @@ public class LineTypeCommand implements Serializable {
 
     private String code;
 
-    private String NZ;
+    private String nz;
 
-    private String PZ;
+    private String pz;
 
-    private String EZ;
+    private String ez;
 
-    private String FZ;
+    private String fz;
 
-    private String HZ;
+    private String hz;
 
-    private String IZ;
+    private String iz;
 
     private String standardLine;
 
