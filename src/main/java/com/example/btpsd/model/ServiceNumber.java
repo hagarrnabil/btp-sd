@@ -65,6 +65,8 @@ public class ServiceNumber implements Serializable {
     @ManyToOne
     private UnitOfMeasurement unitOfMeasurement;
 
+
+
     @ManyToOne
     private ServiceType serviceType;
 

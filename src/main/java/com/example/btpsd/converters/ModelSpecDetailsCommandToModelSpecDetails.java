@@ -86,9 +86,9 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
 //            log.debug("formula's result = "+ formula.getResult());
             log.debug("quantity = "+ modelSpecificationsDetails.getQuantity());
         }
-        else {
-            modelSpecificationsDetails.setQuantity(source.getQuantity());
-        }
+//        else {
+//            modelSpecificationsDetails.setQuantity(source.getQuantity());
+//        }
         modelSpecificationsDetails.setGrossPrice(source.getGrossPrice());
         modelSpecificationsDetails.setOverFulfilmentPercentage(source.getOverFulfilmentPercentage());
         modelSpecificationsDetails.setPriceChangedAllowed(source.getPriceChangedAllowed());
