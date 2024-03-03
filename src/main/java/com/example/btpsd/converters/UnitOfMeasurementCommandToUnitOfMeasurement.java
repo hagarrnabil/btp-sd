@@ -39,9 +39,17 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
             source.getFormulaCommands()
                     .forEach(formulaCommand -> unitOfMeasurement.getFormulas().add(formulaConverter.convert(formulaCommand)));
         }
-        if (source.getServiceNumberCommands() != null && source.getServiceNumberCommands().size() > 0) {
-            source.getServiceNumberCommands()
-                    .forEach(serviceNumberCommand -> unitOfMeasurement.getServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
+        if (source.getBaseServiceNumberCommands() != null && source.getBaseServiceNumberCommands().size() > 0) {
+            source.getBaseServiceNumberCommands()
+                    .forEach(serviceNumberCommand -> unitOfMeasurement.getBaseServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
+        }
+        if (source.getToBeConvertedServiceNumberCommands() != null && source.getToBeConvertedServiceNumberCommands().size() > 0) {
+            source.getToBeConvertedServiceNumberCommands()
+                    .forEach(serviceNumberCommand -> unitOfMeasurement.getToBeConvertedServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
+        }
+        if (source.getConvertedServiceNumberCommands() != null && source.getConvertedServiceNumberCommands().size() > 0) {
+            source.getConvertedServiceNumberCommands()
+                    .forEach(serviceNumberCommand -> unitOfMeasurement.getConvertedServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
         }
         return unitOfMeasurement;
     }

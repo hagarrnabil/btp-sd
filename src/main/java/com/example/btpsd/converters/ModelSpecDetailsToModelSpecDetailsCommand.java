@@ -56,10 +56,7 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setDeletionIndicator(source.getDeletionIndicator());
         modelSpecificationsDetailsCommand.setShortText(source.getShortText());
         modelSpecificationsDetailsCommand.setDontUseFormula(source.getDontUseFormula());
-        if (source.getDontUseFormula() == false){
-            modelSpecificationsDetailsCommand.setQuantity(source.getFormula().getResult());
-        }
-        else {
+        if (source.getDontUseFormula() == true){
             modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
         }
         modelSpecificationsDetailsCommand.setGrossPrice(source.getGrossPrice());
@@ -68,7 +65,7 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         modelSpecificationsDetailsCommand.setPricePerUnitOfMeasurement(source.getPricePerUnitOfMeasurement());
         modelSpecificationsDetailsCommand.setExternalServiceNumber(source.getExternalServiceNumber());
-//        modelSpecificationsDetailsCommand.setNetValue(source.getGrossPrice() * source.getQuantity());
+        modelSpecificationsDetailsCommand.setNetValue(source.getGrossPrice() * source.getQuantity());
         modelSpecificationsDetailsCommand.setServiceText(source.getServiceText());
         modelSpecificationsDetailsCommand.setLineText(source.getLineText());
         modelSpecificationsDetailsCommand.setLineNumber(source.getLineNumber());

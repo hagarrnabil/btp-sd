@@ -73,30 +73,8 @@ public class LineTypeServiceImpl implements LineTypeService{
         return lineTypeRepository.findById(l).map(oldLineType -> {
             if (newLineTypeCommand.getCode() != oldLineType.getCode())
                 oldLineType.setCode(newLineTypeCommand.getCode());
-            if (newLineTypeCommand.getBlanketLine() != oldLineType.getBlanketLine())
-                oldLineType.setBlanketLine(newLineTypeCommand.getBlanketLine());
-            if (newLineTypeCommand.getInternalLine() != oldLineType.getInternalLine())
-                oldLineType.setInternalLine(newLineTypeCommand.getInternalLine());
-            if (newLineTypeCommand.getStandardLine() != oldLineType.getStandardLine())
-                oldLineType.setStandardLine(newLineTypeCommand.getStandardLine());
-            if (newLineTypeCommand.getInformatoryLine() != oldLineType.getInformatoryLine())
-                oldLineType.setInformatoryLine(newLineTypeCommand.getInformatoryLine());
-            if (newLineTypeCommand.getContingencyLine() != oldLineType.getContingencyLine())
-                oldLineType.setContingencyLine(newLineTypeCommand.getContingencyLine());
-            if (newLineTypeCommand.getAtpQuantity() != oldLineType.getAtpQuantity())
-                oldLineType.setAtpQuantity(newLineTypeCommand.getAtpQuantity());
-            if (newLineTypeCommand.getEz() != oldLineType.getEz())
-                oldLineType.setEz(newLineTypeCommand.getEz());
-            if (newLineTypeCommand.getHz() != oldLineType.getHz())
-                oldLineType.setHz(newLineTypeCommand.getHz());
-            if (newLineTypeCommand.getFz() != oldLineType.getFz())
-                oldLineType.setFz(newLineTypeCommand.getFz());
-            if (newLineTypeCommand.getIz() != oldLineType.getIz())
-                oldLineType.setIz(newLineTypeCommand.getIz());
-            if (newLineTypeCommand.getNz() != oldLineType.getNz())
-                oldLineType.setNz(newLineTypeCommand.getNz());
-            if (newLineTypeCommand.getPz() != oldLineType.getPz())
-                oldLineType.setPz(newLineTypeCommand.getPz());
+            if (newLineTypeCommand.getDescription() != oldLineType.getDescription())
+                oldLineType.setDescription(newLineTypeCommand.getDescription());
             return lineTypeRepository.save(oldLineType);
         }).orElseThrow(() -> new RuntimeException("Line Type not found"));
 

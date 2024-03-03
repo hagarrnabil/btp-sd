@@ -81,21 +81,16 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         modelSpecificationsDetails.setDeletionIndicator(source.getDeletionIndicator());
         modelSpecificationsDetails.setShortText(source.getShortText());
         modelSpecificationsDetails.setDontUseFormula(source.getDontUseFormula());
-        if (source.getDontUseFormula() == false && source.getFormulaCode() != null){
-            modelSpecificationsDetails.setQuantity(modelSpecificationsDetails.getFormula().getResult());
-//            log.debug("formula's result = "+ formula.getResult());
-            log.debug("quantity = "+ modelSpecificationsDetails.getQuantity());
+        if (source.getDontUseFormula() == true ){
+            modelSpecificationsDetails.setQuantity(source.getQuantity());
         }
-//        else {
-//            modelSpecificationsDetails.setQuantity(source.getQuantity());
-//        }
         modelSpecificationsDetails.setGrossPrice(source.getGrossPrice());
         modelSpecificationsDetails.setOverFulfilmentPercentage(source.getOverFulfilmentPercentage());
         modelSpecificationsDetails.setPriceChangedAllowed(source.getPriceChangedAllowed());
         modelSpecificationsDetails.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         modelSpecificationsDetails.setPricePerUnitOfMeasurement(source.getPricePerUnitOfMeasurement());
         modelSpecificationsDetails.setExternalServiceNumber(source.getExternalServiceNumber());
-//        modelSpecificationsDetails.setNetValue(source.getGrossPrice() * source.getQuantity());
+        modelSpecificationsDetails.setNetValue(source.getGrossPrice() * source.getQuantity());
         modelSpecificationsDetails.setServiceText(source.getServiceText());
         modelSpecificationsDetails.setLineText(source.getLineText());
         modelSpecificationsDetails.setLineNumber(source.getLineNumber());

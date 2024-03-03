@@ -1,6 +1,9 @@
 package com.example.btpsd.commands;
 
+import com.example.btpsd.model.ServiceNumber;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,5 +30,11 @@ public class UnitOfMeasurementCommand implements Serializable {
     private Set<FormulaCommand> formulaCommands = new HashSet<>();
 
     @JsonIgnore
-    private Set<ServiceNumberCommand> serviceNumberCommands = new HashSet<>();
+    private Set<ServiceNumberCommand> baseServiceNumberCommands = new HashSet<>();
+
+    @JsonIgnore
+    private Set<ServiceNumberCommand> toBeConvertedServiceNumberCommands = new HashSet<>();
+
+    @JsonIgnore
+    private Set<ServiceNumberCommand> convertedServiceNumberCommands = new HashSet<>();
 }

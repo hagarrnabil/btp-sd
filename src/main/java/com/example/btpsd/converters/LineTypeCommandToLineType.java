@@ -25,18 +25,7 @@ public class LineTypeCommandToLineType implements Converter<LineTypeCommand, Lin
         final LineType lineType = new LineType();
         lineType.setLineTypeCode(source.getLineTypeCode());
         lineType.setCode(source.getCode());
-        lineType.setEz(source.getEz());
-        lineType.setFz(source.getFz());
-        lineType.setHz(source.getHz());
-        lineType.setIz(source.getIz());
-        lineType.setNz(source.getNz());
-        lineType.setPz(source.getPz());
-        lineType.setStandardLine(source.getStandardLine());
-        lineType.setBlanketLine(source.getBlanketLine());
-        lineType.setContingencyLine(source.getContingencyLine());
-        lineType.setInformatoryLine(source.getInformatoryLine());
-        lineType.setInternalLine(source.getInternalLine());
-        lineType.setAtpQuantity(source.getAtpQuantity());
+        lineType.setDescription(source.getDescription());
         if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {
             source.getModelSpecificationsDetailsCommands()
                     .forEach(modelSpecificationsDetailsCommand -> lineType.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));

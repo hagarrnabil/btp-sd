@@ -43,8 +43,14 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         if (source.getServiceType() != null) {
             serviceNumberCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
         }
-        if (source.getUnitOfMeasurement() != null) {
-            serviceNumberCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurement().getUnitOfMeasurementCode());
+        if (source.getBaseUnitOfMeasurement() != null) {
+            serviceNumberCommand.setUnitOfMeasurementCode(source.getBaseUnitOfMeasurement().getUnitOfMeasurementCode());
+        }
+        if (source.getToBeConvertedUnitOfMeasurement() != null) {
+            serviceNumberCommand.setUnitOfMeasurementCode(source.getToBeConvertedUnitOfMeasurement().getUnitOfMeasurementCode());
+        }
+        if (source.getConvertedUnitOfMeasurement() != null) {
+            serviceNumberCommand.setUnitOfMeasurementCode(source.getConvertedUnitOfMeasurement().getUnitOfMeasurementCode());
         }
         if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
             source.getModelSpecificationsDetails()

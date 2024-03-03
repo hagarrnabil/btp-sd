@@ -18,29 +18,7 @@ public class LineTypeCommand implements Serializable {
 
     private String code;
 
-    private String nz;
-
-    private String pz;
-
-    private String ez;
-
-    private String fz;
-
-    private String hz;
-
-    private String iz;
-
-    private String standardLine;
-
-    private String blanketLine;
-
-    private String contingencyLine;
-
-    private String atpQuantity;
-
-    private String informatoryLine;
-
-    private String internalLine;
+    private String description;
 
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();

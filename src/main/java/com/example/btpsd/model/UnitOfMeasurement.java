@@ -38,16 +38,28 @@ public class UnitOfMeasurement implements Serializable {
     @JsonIgnore
     private Set<Formula> formulas = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "unitOfMeasurement")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "baseUnitOfMeasurement")
     @JsonIgnore
-    private Set<ServiceNumber> serviceNumbers = new HashSet<>();
+    private Set<ServiceNumber> baseServiceNumbers = new HashSet<>();
 
-    public UnitOfMeasurement(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails, Set<Formula> formulas, Set<ServiceNumber> serviceNumbers) {
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "toBeConvertedUnitOfMeasurement")
+    @JsonIgnore
+    private Set<ServiceNumber> toBeConvertedServiceNumbers = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "convertedUnitOfMeasurement")
+    @JsonIgnore
+    private Set<ServiceNumber> convertedServiceNumbers = new HashSet<>();
+
+    public UnitOfMeasurement(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails, Set<Formula> formulas, Set<ServiceNumber> baseServiceNumbers,
+                             Set<ServiceNumber> toBeConvertedServiceNumbers, Set<ServiceNumber> convertedServiceNumbers)
+    {
         this.code = code;
         this.description = description;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
         this.formulas = formulas;
-        this.serviceNumbers = serviceNumbers;
+        this.baseServiceNumbers = baseServiceNumbers;
+        this.toBeConvertedServiceNumbers = toBeConvertedServiceNumbers;
+        this.convertedServiceNumbers = convertedServiceNumbers;
     }
 
     public UnitOfMeasurement addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
@@ -62,9 +74,21 @@ public class UnitOfMeasurement implements Serializable {
         return this;
     }
 
-    public UnitOfMeasurement addServiceNumbers(ServiceNumber serviceNumber){
-        serviceNumber.setUnitOfMeasurement(this);
-        this.serviceNumbers.add(serviceNumber);
+    public UnitOfMeasurement addBaseServiceNumbers(ServiceNumber serviceNumber){
+        serviceNumber.setBaseUnitOfMeasurement(this);
+        this.baseServiceNumbers.add(serviceNumber);
+        return this;
+    }
+
+    public UnitOfMeasurement addToBeConvertedServiceNumbers(ServiceNumber serviceNumber){
+        serviceNumber.setToBeConvertedUnitOfMeasurement(this);
+        this.toBeConvertedServiceNumbers.add(serviceNumber);
+        return this;
+    }
+
+    public UnitOfMeasurement addConvertedServiceNumbers(ServiceNumber serviceNumber){
+        serviceNumber.setConvertedUnitOfMeasurement(this);
+        this.convertedServiceNumbers.add(serviceNumber);
         return this;
     }
 }

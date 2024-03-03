@@ -2,6 +2,7 @@ package com.example.btpsd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -26,56 +27,16 @@ public class LineType implements Serializable {
     @Length(max = 225)
     private String code;
 
-    @Column(columnDefinition="VARCHAR")
-    private String nz;
-
-    @Column(columnDefinition="VARCHAR")
-    private String pz;
-
-    @Column(columnDefinition="VARCHAR")
-    private String ez;
-
-    @Column(columnDefinition="VARCHAR")
-    private String fz;
-
-    @Column(columnDefinition="VARCHAR")
-    private String hz;
-
-    @Column(columnDefinition="VARCHAR")
-    private String iz;
-
-    private String standardLine;
-
-    private String blanketLine;
-
-    private String contingencyLine;
-
-    private String atpQuantity;
-
-    private String informatoryLine;
-
-    private String internalLine;
+    @NotNull
+    private String description;
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "lineType")
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
-    public LineType(String code, String nz, String pz, String ez, String fz, String hz, String iz, String standardLine, String blanketLine, String contingencyLine,
-                    String atpQuantity, String informatoryLine, String internalLine, Set<ModelSpecificationsDetails> modelSpecificationsDetails)
-    {
+    public LineType(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
         this.code = code;
-        this.nz = nz;
-        this.pz = pz;
-        this.ez = ez;
-        this.fz = fz;
-        this.hz = hz;
-        this.iz = iz;
-        this.standardLine = standardLine;
-        this.blanketLine = blanketLine;
-        this.contingencyLine = contingencyLine;
-        this.atpQuantity = atpQuantity;
-        this.informatoryLine = informatoryLine;
-        this.internalLine = internalLine;
+        this.description = description;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
     }
 

@@ -106,8 +106,20 @@ public class ServiceNumberServiceImpl implements ServiceNumberService{
             if (newServiceNumberCommand.getUnitOfMeasurementCode() != null) {
                 UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
                 unitOfMeasurement.setUnitOfMeasurementCode(newServiceNumberCommand.getUnitOfMeasurementCode());
-                oldServiceNumber.setUnitOfMeasurement(unitOfMeasurement);
-                unitOfMeasurement.addServiceNumbers(oldServiceNumber);
+                oldServiceNumber.setBaseUnitOfMeasurement(unitOfMeasurement);
+                unitOfMeasurement.addBaseServiceNumbers(oldServiceNumber);
+            }
+            if (newServiceNumberCommand.getUnitOfMeasurementCode() != null) {
+                UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+                unitOfMeasurement.setUnitOfMeasurementCode(newServiceNumberCommand.getUnitOfMeasurementCode());
+                oldServiceNumber.setToBeConvertedUnitOfMeasurement(unitOfMeasurement);
+                unitOfMeasurement.addToBeConvertedServiceNumbers(oldServiceNumber);
+            }
+            if (newServiceNumberCommand.getUnitOfMeasurementCode() != null) {
+                UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+                unitOfMeasurement.setUnitOfMeasurementCode(newServiceNumberCommand.getUnitOfMeasurementCode());
+                oldServiceNumber.setConvertedUnitOfMeasurement(unitOfMeasurement);
+                unitOfMeasurement.addConvertedServiceNumbers(oldServiceNumber);
             }
             if (newServiceNumberCommand.getFormulaCode() != null) {
                 Formula formula = new Formula();

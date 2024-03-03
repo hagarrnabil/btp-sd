@@ -63,9 +63,13 @@ public class ServiceNumber implements Serializable {
     private Formula formula;
 
     @ManyToOne
-    private UnitOfMeasurement unitOfMeasurement;
+    private UnitOfMeasurement baseUnitOfMeasurement;
 
+    @ManyToOne
+    private UnitOfMeasurement toBeConvertedUnitOfMeasurement;
 
+    @ManyToOne
+    private UnitOfMeasurement convertedUnitOfMeasurement;
 
     @ManyToOne
     private ServiceType serviceType;
@@ -75,7 +79,8 @@ public class ServiceNumber implements Serializable {
 
     public ServiceNumber(String code, Long formulaCode, Long unitOfMeasurementCode, Long serviceTypeCode, Long materialGroupCode, String description, Boolean shortTextChangeAllowed,
                          Boolean deletionIndicator, Boolean mainItem, Integer numberToBeConverted, Integer convertedNumber, Instant lastChangeDate, String serviceText,
-                         Set<ModelSpecificationsDetails> modelSpecificationsDetails, Formula formula, UnitOfMeasurement unitOfMeasurement, ServiceType serviceType, MaterialGroup materialGroup)
+                         Set<ModelSpecificationsDetails> modelSpecificationsDetails, Formula formula, UnitOfMeasurement baseUnitOfMeasurement, UnitOfMeasurement toBeConvertedUnitOfMeasurement,
+                         UnitOfMeasurement convertedUnitOfMeasurement, ServiceType serviceType, MaterialGroup materialGroup)
     {
         this.code = code;
         this.formulaCode = formulaCode;
@@ -92,7 +97,9 @@ public class ServiceNumber implements Serializable {
         this.serviceText = serviceText;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
         this.formula = formula;
-        this.unitOfMeasurement = unitOfMeasurement;
+        this.baseUnitOfMeasurement = baseUnitOfMeasurement;
+        this.toBeConvertedUnitOfMeasurement = toBeConvertedUnitOfMeasurement;
+        this.convertedUnitOfMeasurement = convertedUnitOfMeasurement;
         this.serviceType = serviceType;
         this.materialGroup = materialGroup;
     }

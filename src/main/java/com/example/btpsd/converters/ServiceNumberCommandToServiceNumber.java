@@ -49,8 +49,20 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
         if (source.getUnitOfMeasurementCode() != null) {
             UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
             unitOfMeasurement.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
-            serviceNumber.setUnitOfMeasurement(unitOfMeasurement);
-            unitOfMeasurement.addServiceNumbers(serviceNumber);
+            serviceNumber.setBaseUnitOfMeasurement(unitOfMeasurement);
+            unitOfMeasurement.addBaseServiceNumbers(serviceNumber);
+        }
+        if (source.getUnitOfMeasurementCode() != null) {
+            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+            unitOfMeasurement.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
+            serviceNumber.setToBeConvertedUnitOfMeasurement(unitOfMeasurement);
+            unitOfMeasurement.addToBeConvertedServiceNumbers(serviceNumber);
+        }
+        if (source.getUnitOfMeasurementCode() != null) {
+            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+            unitOfMeasurement.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
+            serviceNumber.setConvertedUnitOfMeasurement(unitOfMeasurement);
+            unitOfMeasurement.addConvertedServiceNumbers(serviceNumber);
         }
         if (source.getMaterialGroupCode() != null) {
             MaterialGroup materialGroup= new MaterialGroup();
