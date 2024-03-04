@@ -36,7 +36,7 @@ public class FormulaCommand implements Serializable {
 
     private String expression;
 
-    private Integer result;
+    private Double result;
 
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
