@@ -6,6 +6,7 @@ import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.math3.random.RandomDataGenerator;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -64,6 +65,16 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
             modelSpecificationsDetails.setServiceNumber(serviceNumber);
             serviceNumber.addModelSpecDetails(modelSpecificationsDetails);
         }
+//        else {
+//            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+//            int min = 1;
+//            int max = 100;
+//            int randomWithRandomDataGenerator = randomDataGenerator.nextInt(min, max);
+//            ServiceNumber serviceNumber = new ServiceNumber();
+//            serviceNumber.setServiceNumberCode(Integer.parseInt(randomWithRandomDataGenerator));
+//            modelSpecificationsDetails.setServiceNumber(serviceNumber);
+//            serviceNumber.addModelSpecDetails(modelSpecificationsDetails);
+//        }
         if (source.getLineTypeCode() != null) {
             LineType lineType = new LineType();
             lineType.setLineTypeCode(source.getLineTypeCode());

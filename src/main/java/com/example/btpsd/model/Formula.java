@@ -48,11 +48,11 @@ public class Formula implements Serializable {
     private String formulaLogic;
 
     @ElementCollection
-    private List<Integer> testParameters = new ArrayList<Integer>();
+    private List<Double> testParameters = new ArrayList<Double>();
 
     private String expression;
 
-    private Double result;
+    private double result;
 
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "formula")
@@ -66,9 +66,9 @@ public class Formula implements Serializable {
     @ManyToOne
     private UnitOfMeasurement unitOfMeasurement;
 
-    public Formula(String formula, Long unitOfMeasurementCode, String description, Integer numberOfParameters, List<Character> parameterIds, List<String> parameterDescriptions,
-                   String formulaLogic, List<Integer> testParameters, String expression, Double result, Set<ModelSpecificationsDetails> modelSpecificationsDetails,
-                   Set<ServiceNumber> serviceNumbers, UnitOfMeasurement unitOfMeasurement)
+    public Formula(String formula, Long unitOfMeasurementCode, String description, Integer numberOfParameters, List<Character> parameterIds, List<String> parameterDescriptions, String formulaLogic,
+                   List<Double> testParameters, String expression, double result, Set<ModelSpecificationsDetails> modelSpecificationsDetails, Set<ServiceNumber> serviceNumbers,
+                   UnitOfMeasurement unitOfMeasurement)
     {
         this.formula = formula;
         this.unitOfMeasurementCode = unitOfMeasurementCode;

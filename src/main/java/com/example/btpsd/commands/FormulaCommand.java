@@ -32,11 +32,11 @@ public class FormulaCommand implements Serializable {
 
     private String formulaLogic;
 
-    private List<Integer> testParameters = new ArrayList<Integer>();
+    private List<Double> testParameters = new ArrayList<Double>();
 
     private String expression;
 
-    private Double result;
+    private double result;
 
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();

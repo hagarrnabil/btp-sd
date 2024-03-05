@@ -57,7 +57,7 @@ public class FormulaToFormulaCommand implements Converter<Formula, FormulaComman
             formulaCommand.setExpression("" + source.getParameterIds() + "=" + source.getTestParameters() + ";" + source.getFormulaLogic() + ";" + "");
         }
         try {
-            formulaCommand.setResult((Double) engine.eval(formulaCommand.getExpression()));
+            formulaCommand.setResult(Double.parseDouble(engine.eval(formulaCommand.getExpression()).toString()));
         } catch (ScriptException e) {
             throw new RuntimeException(e);
         }
