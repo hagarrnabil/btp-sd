@@ -3,10 +3,12 @@ package com.example.btpsd.converters;
 import com.example.btpsd.commands.ModelSpecificationsDetailsCommand;
 import com.example.btpsd.model.Formula;
 import com.example.btpsd.model.ModelSpecificationsDetails;
+import com.example.btpsd.model.ServiceNumber;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.math3.random.RandomDataGenerator;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 @Slf4j
@@ -48,6 +50,13 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         if (source.getServiceNumber() != null) {
             modelSpecificationsDetailsCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
+//        else {
+//            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+//            Long min = 100L;
+//            Long max = 10000L;
+//            Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
+//            modelSpecificationsDetailsCommand.setServiceNumberCode(randomWithRandomDataGenerator);
+//        }
         if (source.getLineType() != null) {
             modelSpecificationsDetailsCommand.setLineTypeCode(source.getLineType().getLineTypeCode());
         }

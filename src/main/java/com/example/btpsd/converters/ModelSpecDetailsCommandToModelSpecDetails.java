@@ -67,11 +67,11 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         }
 //        else {
 //            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
-//            int min = 1;
-//            int max = 100;
-//            int randomWithRandomDataGenerator = randomDataGenerator.nextInt(min, max);
+//            Long min = 100L;
+//            Long max = 10000L;
+//            Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
 //            ServiceNumber serviceNumber = new ServiceNumber();
-//            serviceNumber.setServiceNumberCode(Integer.parseInt(randomWithRandomDataGenerator));
+//            serviceNumber.setServiceNumberCode(randomWithRandomDataGenerator);
 //            modelSpecificationsDetails.setServiceNumber(serviceNumber);
 //            serviceNumber.addModelSpecDetails(modelSpecificationsDetails);
 //        }
