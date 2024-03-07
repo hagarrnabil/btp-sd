@@ -1,6 +1,7 @@
 package com.example.btpsd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -15,7 +16,6 @@ import java.util.Set;
 @Setter
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "serviceNumber")
@@ -63,12 +63,15 @@ public class ServiceNumber implements Serializable {
     private Formula formula;
 
     @ManyToOne
+    @JsonProperty("baseUnitOfMeasurement")
     private UnitOfMeasurement baseUnitOfMeasurement;
 
     @ManyToOne
+    @JsonProperty("toBeConvertedUnitOfMeasurement")
     private UnitOfMeasurement toBeConvertedUnitOfMeasurement;
 
     @ManyToOne
+    @JsonProperty("convertedUnitOfMeasurement")
     private UnitOfMeasurement convertedUnitOfMeasurement;
 
     @ManyToOne
@@ -76,6 +79,10 @@ public class ServiceNumber implements Serializable {
 
     @ManyToOne
     private MaterialGroup materialGroup;
+
+
+    public ServiceNumber() {
+    }
 
     public ServiceNumber(String code, Long formulaCode, Long unitOfMeasurementCode, Long serviceTypeCode, Long materialGroupCode, String description, Boolean shortTextChangeAllowed,
                          Boolean deletionIndicator, Boolean mainItem, Integer numberToBeConverted, Integer convertedNumber, Instant lastChangeDate, String serviceText,

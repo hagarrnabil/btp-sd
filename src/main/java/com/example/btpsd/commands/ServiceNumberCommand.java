@@ -1,6 +1,10 @@
 package com.example.btpsd.commands;
 
+import com.example.btpsd.model.UnitOfMeasurement;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +16,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class ServiceNumberCommand implements Serializable {
 
     private Long serviceNumberCode;
@@ -45,4 +48,13 @@ public class ServiceNumberCommand implements Serializable {
 
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
+
+    private UnitOfMeasurementCommand baseUnitOfMeasurement;
+
+    private UnitOfMeasurementCommand toBeConvertedUnitOfMeasurement;
+
+    private UnitOfMeasurementCommand convertedUnitOfMeasurement;
+
+    public ServiceNumberCommand() {
+    }
 }

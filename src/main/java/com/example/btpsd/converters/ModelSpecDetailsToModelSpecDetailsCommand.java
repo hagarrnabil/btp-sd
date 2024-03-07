@@ -65,9 +65,6 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setDeletionIndicator(source.getDeletionIndicator());
         modelSpecificationsDetailsCommand.setShortText(source.getShortText());
         modelSpecificationsDetailsCommand.setDontUseFormula(source.getDontUseFormula());
-        if (source.getDontUseFormula() == true){
-            modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
-        }
         modelSpecificationsDetailsCommand.setGrossPrice(source.getGrossPrice());
         modelSpecificationsDetailsCommand.setOverFulfilmentPercentage(source.getOverFulfilmentPercentage());
         modelSpecificationsDetailsCommand.setPriceChangedAllowed(source.getPriceChangedAllowed());
@@ -82,6 +79,9 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setBiddersLine(source.getBiddersLine());
         modelSpecificationsDetailsCommand.setSupplementaryLine(source.getSupplementaryLine());
         modelSpecificationsDetailsCommand.setLotSizeForCostingIsOne(source.getLotSizeForCostingIsOne());
+        if (source.getDontUseFormula() == true){
+            modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
+        }
 
         if (source.getModelSpecifications() != null && source.getModelSpecifications().size() > 0) {
             source.getModelSpecifications()

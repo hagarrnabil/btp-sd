@@ -13,7 +13,6 @@ import java.util.Set;
 @Setter
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "unitOfMeasurement")
@@ -22,6 +21,7 @@ public class UnitOfMeasurement implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long unitOfMeasurementCode;
+
 
     @Column(unique = true, columnDefinition = "char(225)", nullable = false)
     @Length(max = 225)
@@ -49,6 +49,9 @@ public class UnitOfMeasurement implements Serializable {
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "convertedUnitOfMeasurement")
     @JsonIgnore
     private Set<ServiceNumber> convertedServiceNumbers = new HashSet<>();
+
+    public UnitOfMeasurement() {
+    }
 
     public UnitOfMeasurement(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails, Set<Formula> formulas, Set<ServiceNumber> baseServiceNumbers,
                              Set<ServiceNumber> toBeConvertedServiceNumbers, Set<ServiceNumber> convertedServiceNumbers)
