@@ -46,24 +46,24 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
             serviceNumber.setServiceType(serviceType);
             serviceType.addServiceNumbers(serviceNumber);
         }
-//        if (source.getBaseUnitOfMeasurementCode() != null) {
-//            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-//            unitOfMeasurement.setBaseUnitOfMeasurementCode(source.getBaseUnitOfMeasurementCode());
-//            serviceNumber.setBaseUnitOfMeasurement(unitOfMeasurement);
-//            unitOfMeasurement.addBaseServiceNumbers(serviceNumber);
-//        }
-//        if (source.getToBeConvertedUnitOfMeasurementCode() != null) {
-//            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-//            unitOfMeasurement.setToBeConvertedUnitOfMeasurementCode(source.getToBeConvertedUnitOfMeasurementCode());
-//            serviceNumber.setToBeConvertedUnitOfMeasurement(unitOfMeasurement);
-//            unitOfMeasurement.addToBeConvertedServiceNumbers(serviceNumber);
-//        }
-//        if (source.getConvertedUnitOfMeasurementCode() != null) {
-//            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-//            unitOfMeasurement.setConvertedUnitOfMeasurementCode(source.getConvertedUnitOfMeasurementCode());
-//            serviceNumber.setConvertedUnitOfMeasurement(unitOfMeasurement);
-//            unitOfMeasurement.addConvertedServiceNumbers(serviceNumber);
-//        }
+        if (source.getBaseUnitOfMeasurement() != null) {
+            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+            serviceNumber.setBaseUnitOfMeasurement(source.getBaseUnitOfMeasurement());
+            serviceNumber.setBaseUnitOfMeasurement(unitOfMeasurement);
+            unitOfMeasurement.addBaseServiceNumbers(serviceNumber);
+        }
+        if (source.getToBeConvertedUnitOfMeasurement() != null) {
+            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+            serviceNumber.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
+            serviceNumber.setToBeConvertedUnitOfMeasurement(unitOfMeasurement);
+            unitOfMeasurement.addToBeConvertedServiceNumbers(serviceNumber);
+        }
+        if (source.getConvertedUnitOfMeasurement() != null) {
+            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+            serviceNumber.setConvertedUnitOfMeasurement(source.getConvertedUnitOfMeasurement());
+            serviceNumber.setConvertedUnitOfMeasurement(unitOfMeasurement);
+            unitOfMeasurement.addConvertedServiceNumbers(serviceNumber);
+        }
         if (source.getMaterialGroupCode() != null) {
             MaterialGroup materialGroup= new MaterialGroup();
             materialGroup.setMaterialGroupCode(source.getMaterialGroupCode());

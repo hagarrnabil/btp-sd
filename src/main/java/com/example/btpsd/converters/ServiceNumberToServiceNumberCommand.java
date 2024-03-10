@@ -43,15 +43,15 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         if (source.getServiceType() != null) {
             serviceNumberCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
         }
-//        if (source.getBaseUnitOfMeasurementCode() != null) {
-//            serviceNumberCommand.setBaseUnitOfMeasurementCode(source.getBaseUnitOfMeasurement().getBaseUnitOfMeasurementCode());
-//        }
-//        if (source.getToBeConvertedUnitOfMeasurementCode() != null) {
-//            serviceNumberCommand.setToBeConvertedUnitOfMeasurementCode(source.getToBeConvertedUnitOfMeasurement().getToBeConvertedUnitOfMeasurementCode());
-//        }
-//        if (source.getConvertedUnitOfMeasurementCode() != null) {
-//            serviceNumberCommand.setConvertedUnitOfMeasurementCode(source.getConvertedUnitOfMeasurement().getConvertedUnitOfMeasurementCode());
-//        }
+        if (source.getBaseUnitOfMeasurement() != null) {
+            serviceNumberCommand.setBaseUnitOfMeasurement(source.getBaseUnitOfMeasurement());
+        }
+        if (source.getToBeConvertedUnitOfMeasurement() != null) {
+            serviceNumberCommand.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
+        }
+        if (source.getConvertedUnitOfMeasurement() != null) {
+            serviceNumberCommand.setConvertedUnitOfMeasurement(source.getConvertedUnitOfMeasurement());
+        }
         if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
             source.getModelSpecificationsDetails()
                     .forEach(modelSpecificationsDetails -> serviceNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
