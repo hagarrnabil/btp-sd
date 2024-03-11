@@ -16,7 +16,7 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
 
     private final FormulaCommandToFormula formulaConverter;
 
-    private final ServiceNumberCommandToServiceNumber serviceNumberConverter;
+    private final ServiceNumberToServiceNumberCommand serviceNumberConverter;
 
     @Synchronized
     @Nullable
@@ -39,17 +39,17 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
             source.getFormulaCommands()
                     .forEach(formulaCommand -> unitOfMeasurement.getFormulas().add(formulaConverter.convert(formulaCommand)));
         }
-        if (source.getBaseServiceNumberCommands() != null && source.getBaseServiceNumberCommands().size() > 0) {
-            source.getBaseServiceNumberCommands()
-                    .forEach(serviceNumberCommand -> unitOfMeasurement.getBaseServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
+        if (source.getBaseServiceNumbers() != null && source.getBaseServiceNumbers().size() > 0) {
+            source.getBaseServiceNumbers()
+                    .forEach(serviceNumberCommand -> unitOfMeasurement.getBaseServiceNumbers().add(serviceNumberCommand));
         }
-        if (source.getToBeConvertedServiceNumberCommands() != null && source.getToBeConvertedServiceNumberCommands().size() > 0) {
-            source.getToBeConvertedServiceNumberCommands()
-                    .forEach(serviceNumberCommand -> unitOfMeasurement.getToBeConvertedServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
+        if (source.getToBeConvertedServiceNumbers() != null && source.getToBeConvertedServiceNumbers().size() > 0) {
+            source.getToBeConvertedServiceNumbers()
+                    .forEach(serviceNumberCommand -> unitOfMeasurement.getToBeConvertedServiceNumbers().add(serviceNumberCommand));
         }
-        if (source.getConvertedServiceNumberCommands() != null && source.getConvertedServiceNumberCommands().size() > 0) {
-            source.getConvertedServiceNumberCommands()
-                    .forEach(serviceNumberCommand -> unitOfMeasurement.getConvertedServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
+        if (source.getConvertedServiceNumbers() != null && source.getConvertedServiceNumbers().size() > 0) {
+            source.getConvertedServiceNumbers()
+                    .forEach(serviceNumberCommand -> unitOfMeasurement.getConvertedServiceNumbers().add(serviceNumberCommand));
         }
         return unitOfMeasurement;
     }
