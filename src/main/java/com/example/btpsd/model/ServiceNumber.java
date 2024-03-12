@@ -5,7 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
@@ -62,15 +65,21 @@ public class ServiceNumber implements Serializable {
     @ManyToOne
     private Formula formula;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "baseUnitOfMeasurement")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty("baseUnitOfMeasurement")
     private UnitOfMeasurement baseUnitOfMeasurement;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "toBeConvertedUnitOfMeasurement")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty("toBeConvertedUnitOfMeasurement")
     private UnitOfMeasurement toBeConvertedUnitOfMeasurement;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "convertedUnitOfMeasurement")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty("convertedUnitOfMeasurement")
     private UnitOfMeasurement convertedUnitOfMeasurement;
 

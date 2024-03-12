@@ -23,11 +23,11 @@ public class UnitOfMeasurement implements Serializable {
     private Long unitOfMeasurementCode;
 
 
-    @Column(unique = true, columnDefinition = "char(225)", nullable = false)
+    @Column(unique = true, columnDefinition = "char(225)")
     @Length(max = 225)
     private String code;
 
-    @NotNull
+//    @NotNull
     private String description;
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "unitOfMeasurement")
@@ -38,15 +38,15 @@ public class UnitOfMeasurement implements Serializable {
     @JsonIgnore
     private Set<Formula> formulas = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "baseUnitOfMeasurement")
+    @OneToMany(mappedBy = "baseUnitOfMeasurement", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<ServiceNumber> baseServiceNumbers = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "toBeConvertedUnitOfMeasurement")
+    @OneToMany(mappedBy = "toBeConvertedUnitOfMeasurement", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<ServiceNumber> toBeConvertedServiceNumbers = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "convertedUnitOfMeasurement")
+    @OneToMany(mappedBy = "convertedUnitOfMeasurement", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<ServiceNumber> convertedServiceNumbers = new HashSet<>();
 

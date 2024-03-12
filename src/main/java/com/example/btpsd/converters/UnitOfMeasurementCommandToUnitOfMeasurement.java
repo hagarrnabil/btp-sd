@@ -16,7 +16,7 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
 
     private final FormulaCommandToFormula formulaConverter;
 
-    private final ServiceNumberToServiceNumberCommand serviceNumberConverter;
+    private final ServiceNumberCommandToServiceNumber serviceNumberConverter;
 
     @Synchronized
     @Nullable
