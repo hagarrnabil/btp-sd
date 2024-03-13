@@ -29,13 +29,13 @@ public class UnitOfMeasurementCommand implements Serializable {
     private Set<FormulaCommand> formulaCommands = new HashSet<>();
 
     @JsonIgnore
-    private Set<ServiceNumber> baseServiceNumbers = new HashSet<>();
+    private Set<ServiceNumberCommand> baseServiceNumbers = new HashSet<>();
 
     @JsonIgnore
-    private Set<ServiceNumber> toBeConvertedServiceNumbers = new HashSet<>();
+    private Set<ServiceNumberCommand> toBeConvertedServiceNumbers = new HashSet<>();
 
     @JsonIgnore
-    private Set<ServiceNumber> convertedServiceNumbers = new HashSet<>();
+    private Set<ServiceNumberCommand> convertedServiceNumbers = new HashSet<>();
 
     public UnitOfMeasurementCommand() {
     }

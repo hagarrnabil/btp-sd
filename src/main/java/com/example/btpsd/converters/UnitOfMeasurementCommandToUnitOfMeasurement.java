@@ -41,15 +41,15 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
         }
         if (source.getBaseServiceNumbers() != null && source.getBaseServiceNumbers().size() > 0) {
             source.getBaseServiceNumbers()
-                    .forEach(serviceNumberCommand -> unitOfMeasurement.getBaseServiceNumbers().add(serviceNumberCommand));
+                    .forEach(baseServiceNumberCommand -> unitOfMeasurement.getBaseServiceNumbers().add(serviceNumberConverter.convert(baseServiceNumberCommand)));
         }
         if (source.getToBeConvertedServiceNumbers() != null && source.getToBeConvertedServiceNumbers().size() > 0) {
             source.getToBeConvertedServiceNumbers()
-                    .forEach(serviceNumberCommand -> unitOfMeasurement.getToBeConvertedServiceNumbers().add(serviceNumberCommand));
+                    .forEach(toBeConvertedServiceNumberCommand -> unitOfMeasurement.getToBeConvertedServiceNumbers().add(serviceNumberConverter.convert(toBeConvertedServiceNumberCommand)));
         }
         if (source.getConvertedServiceNumbers() != null && source.getConvertedServiceNumbers().size() > 0) {
             source.getConvertedServiceNumbers()
-                    .forEach(serviceNumberCommand -> unitOfMeasurement.getConvertedServiceNumbers().add(serviceNumberCommand));
+                    .forEach(convertedServiceNumberCommand -> unitOfMeasurement.getConvertedServiceNumbers().add(serviceNumberConverter.convert(convertedServiceNumberCommand)));
         }
         return unitOfMeasurement;
     }

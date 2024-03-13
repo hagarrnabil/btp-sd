@@ -27,7 +27,7 @@ public class UnitOfMeasurement implements Serializable {
     @Length(max = 225)
     private String code;
 
-//    @NotNull
+    //    @NotNull
     private String description;
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "unitOfMeasurement")

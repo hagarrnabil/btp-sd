@@ -65,19 +65,19 @@ public class ServiceNumber implements Serializable {
     @ManyToOne
     private Formula formula;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "baseUnitOfMeasurement")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty("baseUnitOfMeasurement")
     private UnitOfMeasurement baseUnitOfMeasurement;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "toBeConvertedUnitOfMeasurement")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty("toBeConvertedUnitOfMeasurement")
     private UnitOfMeasurement toBeConvertedUnitOfMeasurement;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "convertedUnitOfMeasurement")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty("convertedUnitOfMeasurement")
