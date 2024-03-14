@@ -16,7 +16,7 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
 
     private final FormulaCommandToFormula formulaConverter;
 
-    private final ServiceNumberCommandToServiceNumber serviceNumberConverter;
+    private final ServiceNumberToServiceNumberCommand serviceNumberConverter;
 
     @Synchronized
     @Nullable
@@ -41,15 +41,15 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
         }
         if (source.getBaseServiceNumbers() != null && source.getBaseServiceNumbers().size() > 0) {
             source.getBaseServiceNumbers()
-                    .forEach(baseServiceNumberCommand -> unitOfMeasurement.getBaseServiceNumbers().add(serviceNumberConverter.convert(baseServiceNumberCommand)));
+                    .forEach(baseServiceNumberCommand -> unitOfMeasurement.getBaseServiceNumbers().add(baseServiceNumberCommand));
         }
         if (source.getToBeConvertedServiceNumbers() != null && source.getToBeConvertedServiceNumbers().size() > 0) {
             source.getToBeConvertedServiceNumbers()
-                    .forEach(toBeConvertedServiceNumberCommand -> unitOfMeasurement.getToBeConvertedServiceNumbers().add(serviceNumberConverter.convert(toBeConvertedServiceNumberCommand)));
+                    .forEach(toBeConvertedServiceNumberCommand -> unitOfMeasurement.getToBeConvertedServiceNumbers().add(toBeConvertedServiceNumberCommand));
         }
         if (source.getConvertedServiceNumbers() != null && source.getConvertedServiceNumbers().size() > 0) {
             source.getConvertedServiceNumbers()
-                    .forEach(convertedServiceNumberCommand -> unitOfMeasurement.getConvertedServiceNumbers().add(serviceNumberConverter.convert(convertedServiceNumberCommand)));
+                    .forEach(convertedServiceNumberCommand -> unitOfMeasurement.getConvertedServiceNumbers().add(convertedServiceNumberCommand));
         }
         return unitOfMeasurement;
     }

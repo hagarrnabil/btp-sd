@@ -14,8 +14,6 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
 
     private final ModelSpecDetailsToModelSpecDetailsCommand modelSpecDetailsConverter;
 
-    private final UnitOfMeasurementToUnitOfMeasurementCommand unitOfMeasurementConverter;
-
     @Synchronized
     @Nullable
     @Override
@@ -46,13 +44,13 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
             serviceNumberCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
         }
         if (source.getBaseUnitOfMeasurement() != null) {
-            serviceNumberCommand.setBaseUnitOfMeasurement(unitOfMeasurementConverter.convert(source.getBaseUnitOfMeasurement()));
+            serviceNumberCommand.setBaseUnitOfMeasurement(source.getBaseUnitOfMeasurement());
         }
         if (source.getToBeConvertedUnitOfMeasurement() != null) {
-            serviceNumberCommand.setToBeConvertedUnitOfMeasurement(unitOfMeasurementConverter.convert(source.getBaseUnitOfMeasurement()));
+            serviceNumberCommand.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
         }
         if (source.getConvertedUnitOfMeasurement() != null) {
-            serviceNumberCommand.setConvertedUnitOfMeasurement(unitOfMeasurementConverter.convert(source.getBaseUnitOfMeasurement()));
+            serviceNumberCommand.setConvertedUnitOfMeasurement(source.getConvertedUnitOfMeasurement());
         }
         if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
             source.getModelSpecificationsDetails()
