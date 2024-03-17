@@ -81,12 +81,6 @@ public class FormulaServiceImpl implements FormulaService{
                 oldFormula.setFormulaLogic(newFormulaCommand.getFormulaLogic());
             if (newFormulaCommand.getTestParameters() != oldFormula.getTestParameters())
                 oldFormula.setTestParameters(newFormulaCommand.getTestParameters());
-            if (newFormulaCommand.getUnitOfMeasurementCode() != null) {
-                UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-                unitOfMeasurement.setUnitOfMeasurementCode(newFormulaCommand.getUnitOfMeasurementCode());
-                oldFormula.setUnitOfMeasurement(unitOfMeasurement);
-                unitOfMeasurement.addFormulas(oldFormula);
-            }
             return formulaRepository.save(oldFormula);
         }).orElseThrow(() -> new RuntimeException("Formula not found"));
 

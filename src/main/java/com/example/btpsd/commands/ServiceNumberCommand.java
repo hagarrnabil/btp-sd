@@ -49,11 +49,11 @@ public class ServiceNumberCommand implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
 
-    private UnitOfMeasurement baseUnitOfMeasurement;
+    private UnitOfMeasurementCommand baseUnitOfMeasurement;
 
-    private UnitOfMeasurement toBeConvertedUnitOfMeasurement;
+    private UnitOfMeasurementCommand toBeConvertedUnitOfMeasurement;
 
-    private UnitOfMeasurement convertedUnitOfMeasurement;
+    private UnitOfMeasurementCommand convertedUnitOfMeasurement;
 
     public ServiceNumberCommand() {
     }
