@@ -125,6 +125,11 @@
             <version>2.3.1</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-kernel</artifactId>
+            <version>1.7.8</version>
+        </dependency>
+        <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
             <version>2.3.1</version>
@@ -137,7 +142,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+<!--            <scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>
@@ -164,25 +169,24 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>com.sun.xml.ws</groupId>
-                <artifactId>jaxws-maven-plugin</artifactId>
-                <version>3.0.0</version>
+                <groupId>org.apache.axis2</groupId>
+                <artifactId>axis2-wsdl2code-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>wsimport</goal>
+                            <goal>wsdl2code</goal>
                         </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <wsdlFile>src/main/resources/wsdl/CO_FNDEI_UNITOFMEASUREMENT_RL.wsdl</wsdlFile>
+                            <outputDirectory>src/main/java</outputDirectory>
+                            <packageName>com.example.datamodel.wsdl</packageName>
+                            <databindingName>adb</databindingName>
+                            <syncMode>sync</syncMode>
+                            <unpackClasses>true</unpackClasses>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <packageName>com.example.datamodel.wsdl</packageName>
-                    <wsdlUrls>
-                        <wsdlUrl>src/main/resources/wsdl</wsdlUrl>
-                    </wsdlUrls>
-                    <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
-                    <destDir>com.example.datamodel.wsdl</destDir>
-                    <extension>true</extension>
-                </configuration>
             </plugin>
         </plugins>
     </build>

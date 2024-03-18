@@ -14,7 +14,7 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
 
     private final ModelSpecDetailsCommandToModelSpecDetails modelSpecDetailsConverter;
 
-    private final UnitOfMeasurementCommandToUnitOfMeasurement unitOfMeasurementConverter;
+//    private final UnitOfMeasurementCommandToUnitOfMeasurement unitOfMeasurementConverter;
 
     @Synchronized
     @Nullable
@@ -50,19 +50,19 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
         }
         if (source.getBaseUnitOfMeasurement() != null) {
 //            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-            serviceNumber.setBaseUnitOfMeasurement(unitOfMeasurementConverter.convert(source.getBaseUnitOfMeasurement()));
+            serviceNumber.setBaseUnitOfMeasurement((source.getBaseUnitOfMeasurement()));
 //            serviceNumber.setBaseUnitOfMeasurement(unitOfMeasurement);
 //            unitOfMeasurement.addBaseServiceNumbers(serviceNumber);
         }
         if (source.getToBeConvertedUnitOfMeasurement() != null) {
 //            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-            serviceNumber.setToBeConvertedUnitOfMeasurement(unitOfMeasurementConverter.convert(source.getToBeConvertedUnitOfMeasurement()));
+            serviceNumber.setToBeConvertedUnitOfMeasurement((source.getToBeConvertedUnitOfMeasurement()));
 //            serviceNumber.setToBeConvertedUnitOfMeasurement(unitOfMeasurement);
 //            unitOfMeasurement.addToBeConvertedServiceNumbers(serviceNumber);
         }
         if (source.getConvertedUnitOfMeasurement() != null) {
 //            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-            serviceNumber.setConvertedUnitOfMeasurement(unitOfMeasurementConverter.convert(source.getConvertedUnitOfMeasurement()));
+            serviceNumber.setConvertedUnitOfMeasurement((source.getConvertedUnitOfMeasurement()));
 //            serviceNumber.setConvertedUnitOfMeasurement(unitOfMeasurement);
 //            unitOfMeasurement.addConvertedServiceNumbers(serviceNumber);
         }
