@@ -1,94 +1,43 @@
 /**
- * ContactPersonInternalID.java
+ * UnitOfMeasurementMasterDataReplicationBundleRequest.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** ContactPersonInternalID bean class */
+/** UnitOfMeasurementMasterDataReplicationBundleRequest bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class ContactPersonInternalID extends com.sap.xi.fndei.ContactPersonInternalIDContent
+public class UnitOfMeasurementMasterDataReplicationBundleRequest
     implements org.apache.axis2.databinding.ADBBean {
-  /* This type was generated from the piece of schema that had
-  name = ContactPersonInternalID
-  Namespace URI = http://sap.com/xi/FNDEI
-  Namespace Prefix = ns1
-  */
 
-  /** field for ContactPersonInternalIDContent */
+  public static final javax.xml.namespace.QName MY_QNAME =
+      new javax.xml.namespace.QName(
+          "http://sap.com/xi/FNDEI", "UnitOfMeasurementMasterDataReplicationBundleRequest", "ns1");
+
+  /** field for UnitOfMeasurementMasterDataReplicationBundleRequest */
+  protected UnitOfMeasurementMasterDataReplicationBundleRequestMessage
+      localUnitOfMeasurementMasterDataReplicationBundleRequest;
 
   /**
    * Auto generated getter method
    *
-   * @return org.apache.axis2.databinding.types.Token
+   * @return com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequestMessage
    */
-  public org.apache.axis2.databinding.types.Token getContactPersonInternalIDContent() {
-    return localContactPersonInternalIDContent;
+  public UnitOfMeasurementMasterDataReplicationBundleRequestMessage
+      getUnitOfMeasurementMasterDataReplicationBundleRequest() {
+    return localUnitOfMeasurementMasterDataReplicationBundleRequest;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param ContactPersonInternalIDContent
+   * @param param UnitOfMeasurementMasterDataReplicationBundleRequest
    */
-  public void setContactPersonInternalIDContent(org.apache.axis2.databinding.types.Token param) {
+  public void setUnitOfMeasurementMasterDataReplicationBundleRequest(
+      UnitOfMeasurementMasterDataReplicationBundleRequestMessage param) {
 
-    if ((1 <= java.lang.String.valueOf(param).length())
-        && (java.lang.String.valueOf(param).length() <= 32)) {
-      this.localContactPersonInternalIDContent = param;
-    } else {
-      throw new java.lang.RuntimeException("Input values do not follow defined XSD restrictions");
-    }
-  }
-
-  public java.lang.String toString() {
-
-    return localContactPersonInternalIDContent.toString();
-  }
-
-  /** field for SchemeID This was an Attribute! */
-  protected com.sap.xi.fndei.SchemeID_type3 localSchemeID;
-
-  /**
-   * Auto generated getter method
-   *
-   * @return com.sap.xi.fndei.SchemeID_type3
-   */
-  public com.sap.xi.fndei.SchemeID_type3 getSchemeID() {
-    return localSchemeID;
-  }
-
-  /**
-   * Auto generated setter method
-   *
-   * @param param SchemeID
-   */
-  public void setSchemeID(com.sap.xi.fndei.SchemeID_type3 param) {
-
-    this.localSchemeID = param;
-  }
-
-  /** field for SchemeAgencyID This was an Attribute! */
-  protected com.sap.xi.fndei.SchemeAgencyID_type4 localSchemeAgencyID;
-
-  /**
-   * Auto generated getter method
-   *
-   * @return com.sap.xi.fndei.SchemeAgencyID_type4
-   */
-  public com.sap.xi.fndei.SchemeAgencyID_type4 getSchemeAgencyID() {
-    return localSchemeAgencyID;
-  }
-
-  /**
-   * Auto generated setter method
-   *
-   * @param param SchemeAgencyID
-   */
-  public void setSchemeAgencyID(com.sap.xi.fndei.SchemeAgencyID_type4 param) {
-
-    this.localSchemeAgencyID = param;
+    this.localUnitOfMeasurementMasterDataReplicationBundleRequest = param;
   }
 
   /**
@@ -100,8 +49,7 @@ public class ContactPersonInternalID extends com.sap.xi.fndei.ContactPersonInter
       final javax.xml.namespace.QName parentQName, final org.apache.axiom.om.OMFactory factory)
       throws org.apache.axis2.databinding.ADBException {
 
-    return factory.createOMElement(
-        new org.apache.axis2.databinding.ADBDataSource(this, parentQName));
+    return factory.createOMElement(new org.apache.axis2.databinding.ADBDataSource(this, MY_QNAME));
   }
 
   public void serialize(
@@ -116,52 +64,13 @@ public class ContactPersonInternalID extends com.sap.xi.fndei.ContactPersonInter
       boolean serializeType)
       throws javax.xml.stream.XMLStreamException, org.apache.axis2.databinding.ADBException {
 
-    java.lang.String prefix = null;
-    java.lang.String namespace = null;
+    // We can safely assume an element has only one type associated with it
 
-    prefix = parentQName.getPrefix();
-    namespace = parentQName.getNamespaceURI();
-    writeStartElement(prefix, namespace, parentQName.getLocalPart(), xmlWriter);
-
-    java.lang.String namespacePrefix = registerPrefix(xmlWriter, "http://sap.com/xi/FNDEI");
-    if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)) {
-      writeAttribute(
-          "xsi",
-          "http://www.w3.org/2001/XMLSchema-instance",
-          "type",
-          namespacePrefix + ":ContactPersonInternalID",
-          xmlWriter);
-    } else {
-      writeAttribute(
-          "xsi",
-          "http://www.w3.org/2001/XMLSchema-instance",
-          "type",
-          "ContactPersonInternalID",
-          xmlWriter);
-    }
-
-    if (localSchemeID != null) {
-      writeAttribute("", "schemeID", localSchemeID.toString(), xmlWriter);
-    }
-
-    if (localSchemeAgencyID != null) {
-      writeAttribute("", "schemeAgencyID", localSchemeAgencyID.toString(), xmlWriter);
-    }
-
-    if (localContactPersonInternalIDContent == null) {
-      // write the nil attribute
-
+    if (localUnitOfMeasurementMasterDataReplicationBundleRequest == null) {
       throw new org.apache.axis2.databinding.ADBException(
-          "ContactPersonInternalID.Content cannot be null!!");
-
-    } else {
-
-      xmlWriter.writeCharacters(
-          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-              localContactPersonInternalIDContent));
+          "UnitOfMeasurementMasterDataReplicationBundleRequest cannot be null!");
     }
-
-    xmlWriter.writeEndElement();
+    localUnitOfMeasurementMasterDataReplicationBundleRequest.serialize(MY_QNAME, xmlWriter);
   }
 
   private static java.lang.String generatePrefix(java.lang.String namespace) {
@@ -350,28 +259,6 @@ public class ContactPersonInternalID extends com.sap.xi.fndei.ContactPersonInter
     private static org.apache.commons.logging.Log log =
         org.apache.commons.logging.LogFactory.getLog(Factory.class);
 
-    public static ContactPersonInternalID fromString(
-        java.lang.String value, java.lang.String namespaceURI) {
-      ContactPersonInternalID returnValue = new ContactPersonInternalID();
-
-      returnValue.setContactPersonInternalIDContent(
-          org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(value));
-
-      return returnValue;
-    }
-
-    public static ContactPersonInternalID fromString(
-        javax.xml.stream.XMLStreamReader xmlStreamReader, java.lang.String content) {
-      if (content.indexOf(":") > -1) {
-        java.lang.String prefix = content.substring(0, content.indexOf(":"));
-        java.lang.String namespaceUri =
-            xmlStreamReader.getNamespaceContext().getNamespaceURI(prefix);
-        return ContactPersonInternalID.Factory.fromString(content, namespaceUri);
-      } else {
-        return ContactPersonInternalID.Factory.fromString(content, "");
-      }
-    }
-
     /**
      * static method to create the object Precondition: If this object is an element, the current or
      * next start element starts this object and any intervening reader events are ignorable If this
@@ -380,9 +267,10 @@ public class ContactPersonInternalID extends com.sap.xi.fndei.ContactPersonInter
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static ContactPersonInternalID parse(javax.xml.stream.XMLStreamReader reader)
-        throws java.lang.Exception {
-      ContactPersonInternalID object = new ContactPersonInternalID();
+    public static UnitOfMeasurementMasterDataReplicationBundleRequest parse(
+        javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
+      UnitOfMeasurementMasterDataReplicationBundleRequest object =
+          new UnitOfMeasurementMasterDataReplicationBundleRequest();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -395,77 +283,22 @@ public class ContactPersonInternalID extends com.sap.xi.fndei.ContactPersonInter
 
         currentQName = reader.getName();
 
-        if (reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "type") != null) {
-          java.lang.String fullTypeName =
-              reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "type");
-          if (fullTypeName != null) {
-            java.lang.String nsPrefix = null;
-            if (fullTypeName.indexOf(":") > -1) {
-              nsPrefix = fullTypeName.substring(0, fullTypeName.indexOf(":"));
-            }
-            nsPrefix = nsPrefix == null ? "" : nsPrefix;
-
-            java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
-
-            if (!"ContactPersonInternalID".equals(type)) {
-              // find namespace for the prefix
-              java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (ContactPersonInternalID)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
-            }
-          }
-        }
-
         // Note all attributes that were handled. Used to differ normal attributes
         // from anyAttributes.
         java.util.Vector handledAttributes = new java.util.Vector();
 
-        // handle attribute "schemeID"
-        java.lang.String tempAttribSchemeID = reader.getAttributeValue(null, "schemeID");
-
-        if (tempAttribSchemeID != null) {
-          java.lang.String content = tempAttribSchemeID;
-
-          object.setSchemeID(
-              com.sap.xi.fndei.SchemeID_type3.Factory.fromString(reader, tempAttribSchemeID));
-
-        } else {
-
-        }
-        handledAttributes.add("schemeID");
-
-        // handle attribute "schemeAgencyID"
-        java.lang.String tempAttribSchemeAgencyID =
-            reader.getAttributeValue(null, "schemeAgencyID");
-
-        if (tempAttribSchemeAgencyID != null) {
-          java.lang.String content = tempAttribSchemeAgencyID;
-
-          object.setSchemeAgencyID(
-              com.sap.xi.fndei.SchemeAgencyID_type4.Factory.fromString(
-                  reader, tempAttribSchemeAgencyID));
-
-        } else {
-
-        }
-        handledAttributes.add("schemeAgencyID");
-
         while (!reader.isEndElement()) {
-          if (reader.isStartElement() || reader.hasText()) {
+          if (reader.isStartElement()) {
 
-            if (reader.isStartElement() || reader.hasText()) {
+            if (reader.isStartElement()
+                && new javax.xml.namespace.QName(
+                        "http://sap.com/xi/FNDEI",
+                        "UnitOfMeasurementMasterDataReplicationBundleRequest")
+                    .equals(reader.getName())) {
 
-              nillableValue =
-                  reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "nil");
-              if ("true".equals(nillableValue) || "1".equals(nillableValue)) {
-                throw new org.apache.axis2.databinding.ADBException(
-                    "The element: " + "ContactPersonInternalID.Content" + "  cannot be null");
-              }
-
-              java.lang.String content = reader.getElementText();
-
-              object.setContactPersonInternalIDContent(
-                  org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(content));
+              object.setUnitOfMeasurementMasterDataReplicationBundleRequest(
+                  UnitOfMeasurementMasterDataReplicationBundleRequestMessage
+                      .Factory.parse(reader));
 
             } // End of if for expected property start element
             else {

@@ -1,109 +1,144 @@
 /**
- * UnitOfMeasurementMasterDataReplicationBundleRequestMessage.java
+ * BusinessDocumentMessageHeaderParty.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** UnitOfMeasurementMasterDataReplicationBundleRequestMessage bean class */
+/** BusinessDocumentMessageHeaderParty bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class UnitOfMeasurementMasterDataReplicationBundleRequestMessage
-    implements org.apache.axis2.databinding.ADBBean {
+public class BusinessDocumentMessageHeaderParty implements org.apache.axis2.databinding.ADBBean {
   /* This type was generated from the piece of schema that had
-  name = UnitOfMeasurementMasterDataReplicationBundleRequestMessage
+  name = BusinessDocumentMessageHeaderParty
   Namespace URI = http://sap.com/xi/FNDEI
   Namespace Prefix = ns1
   */
 
-  /** field for MessageHeader */
-  protected com.sap.xi.fndei.BusinessDocumentMessageHeader localMessageHeader;
-
-  /**
-   * Auto generated getter method
-   *
-   * @return com.sap.xi.fndei.BusinessDocumentMessageHeader
-   */
-  public com.sap.xi.fndei.BusinessDocumentMessageHeader getMessageHeader() {
-    return localMessageHeader;
-  }
-
-  /**
-   * Auto generated setter method
-   *
-   * @param param MessageHeader
-   */
-  public void setMessageHeader(com.sap.xi.fndei.BusinessDocumentMessageHeader param) {
-
-    this.localMessageHeader = param;
-  }
-
-  /** field for UnitOfMeasurementReplicationRequestMessage This was an Array! */
-  protected com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage[]
-      localUnitOfMeasurementReplicationRequestMessage;
+  /** field for InternalID */
+  protected PartyInternalID localInternalID;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
    *   in the serialized XML
    */
-  protected boolean localUnitOfMeasurementReplicationRequestMessageTracker = false;
+  protected boolean localInternalIDTracker = false;
 
-  public boolean isUnitOfMeasurementReplicationRequestMessageSpecified() {
-    return localUnitOfMeasurementReplicationRequestMessageTracker;
+  public boolean isInternalIDSpecified() {
+    return localInternalIDTracker;
   }
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage[]
+   * @return com.sap.xi.fndei.PartyInternalID
    */
-  public com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage[]
-      getUnitOfMeasurementReplicationRequestMessage() {
-    return localUnitOfMeasurementReplicationRequestMessage;
+  public PartyInternalID getInternalID() {
+    return localInternalID;
   }
-
-  /** validate the array for UnitOfMeasurementReplicationRequestMessage */
-  protected void validateUnitOfMeasurementReplicationRequestMessage(
-      com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage[] param) {}
 
   /**
    * Auto generated setter method
    *
-   * @param param UnitOfMeasurementReplicationRequestMessage
+   * @param param InternalID
    */
-  public void setUnitOfMeasurementReplicationRequestMessage(
-      com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage[] param) {
+  public void setInternalID(PartyInternalID param) {
+    localInternalIDTracker = param != null;
 
-    validateUnitOfMeasurementReplicationRequestMessage(param);
+    this.localInternalID = param;
+  }
 
-    localUnitOfMeasurementReplicationRequestMessageTracker = param != null;
+  /** field for StandardID This was an Array! */
+  protected PartyStandardID[] localStandardID;
 
-    this.localUnitOfMeasurementReplicationRequestMessage = param;
+  /*  This tracker boolean wil be used to detect whether the user called the set method
+   *   for this attribute. It will be used to determine whether to include this field
+   *   in the serialized XML
+   */
+  protected boolean localStandardIDTracker = false;
+
+  public boolean isStandardIDSpecified() {
+    return localStandardIDTracker;
+  }
+
+  /**
+   * Auto generated getter method
+   *
+   * @return com.sap.xi.fndei.PartyStandardID[]
+   */
+  public PartyStandardID[] getStandardID() {
+    return localStandardID;
+  }
+
+  /** validate the array for StandardID */
+  protected void validateStandardID(PartyStandardID[] param) {}
+
+  /**
+   * Auto generated setter method
+   *
+   * @param param StandardID
+   */
+  public void setStandardID(PartyStandardID[] param) {
+
+    validateStandardID(param);
+
+    localStandardIDTracker = param != null;
+
+    this.localStandardID = param;
   }
 
   /**
    * Auto generated add method for the array for convenience
    *
-   * @param param com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage
+   * @param param com.sap.xi.fndei.PartyStandardID
    */
-  public void addUnitOfMeasurementReplicationRequestMessage(
-      com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage param) {
-    if (localUnitOfMeasurementReplicationRequestMessage == null) {
-      localUnitOfMeasurementReplicationRequestMessage =
-          new com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage[] {};
+  public void addStandardID(PartyStandardID param) {
+    if (localStandardID == null) {
+      localStandardID = new PartyStandardID[] {};
     }
 
     // update the setting tracker
-    localUnitOfMeasurementReplicationRequestMessageTracker = true;
+    localStandardIDTracker = true;
 
-    java.util.List list =
-        org.apache.axis2.databinding.utils.ConverterUtil.toList(
-            localUnitOfMeasurementReplicationRequestMessage);
+    java.util.List list = org.apache.axis2.databinding.utils.ConverterUtil.toList(localStandardID);
     list.add(param);
-    this.localUnitOfMeasurementReplicationRequestMessage =
-        (com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage[])
-            list.toArray(
-                new com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage[list.size()]);
+    this.localStandardID =
+        (PartyStandardID[])
+            list.toArray(new PartyStandardID[list.size()]);
+  }
+
+  /** field for ContactPerson */
+  protected BusinessDocumentMessageHeaderPartyContactPerson localContactPerson;
+
+  /*  This tracker boolean wil be used to detect whether the user called the set method
+   *   for this attribute. It will be used to determine whether to include this field
+   *   in the serialized XML
+   */
+  protected boolean localContactPersonTracker = false;
+
+  public boolean isContactPersonSpecified() {
+    return localContactPersonTracker;
+  }
+
+  /**
+   * Auto generated getter method
+   *
+   * @return com.sap.xi.fndei.BusinessDocumentMessageHeaderPartyContactPerson
+   */
+  public BusinessDocumentMessageHeaderPartyContactPerson getContactPerson() {
+    return localContactPerson;
+  }
+
+  /**
+   * Auto generated setter method
+   *
+   * @param param ContactPerson
+   */
+  public void setContactPerson(
+      BusinessDocumentMessageHeaderPartyContactPerson param) {
+    localContactPersonTracker = param != null;
+
+    this.localContactPerson = param;
   }
 
   /**
@@ -146,29 +181,29 @@ public class UnitOfMeasurementMasterDataReplicationBundleRequestMessage
             "xsi",
             "http://www.w3.org/2001/XMLSchema-instance",
             "type",
-            namespacePrefix + ":UnitOfMeasurementMasterDataReplicationBundleRequestMessage",
+            namespacePrefix + ":BusinessDocumentMessageHeaderParty",
             xmlWriter);
       } else {
         writeAttribute(
             "xsi",
             "http://www.w3.org/2001/XMLSchema-instance",
             "type",
-            "UnitOfMeasurementMasterDataReplicationBundleRequestMessage",
+            "BusinessDocumentMessageHeaderParty",
             xmlWriter);
       }
     }
-
-    if (localMessageHeader == null) {
-      throw new org.apache.axis2.databinding.ADBException("MessageHeader cannot be null!!");
+    if (localInternalIDTracker) {
+      if (localInternalID == null) {
+        throw new org.apache.axis2.databinding.ADBException("InternalID cannot be null!!");
+      }
+      localInternalID.serialize(new javax.xml.namespace.QName("", "InternalID"), xmlWriter);
     }
-    localMessageHeader.serialize(new javax.xml.namespace.QName("", "MessageHeader"), xmlWriter);
-    if (localUnitOfMeasurementReplicationRequestMessageTracker) {
-      if (localUnitOfMeasurementReplicationRequestMessage != null) {
-        for (int i = 0; i < localUnitOfMeasurementReplicationRequestMessage.length; i++) {
-          if (localUnitOfMeasurementReplicationRequestMessage[i] != null) {
-            localUnitOfMeasurementReplicationRequestMessage[i].serialize(
-                new javax.xml.namespace.QName("", "UnitOfMeasurementReplicationRequestMessage"),
-                xmlWriter);
+    if (localStandardIDTracker) {
+      if (localStandardID != null) {
+        for (int i = 0; i < localStandardID.length; i++) {
+          if (localStandardID[i] != null) {
+            localStandardID[i].serialize(
+                new javax.xml.namespace.QName("", "StandardID"), xmlWriter);
           } else {
 
             // we don't have to do any thing since minOccures is zero
@@ -177,9 +212,14 @@ public class UnitOfMeasurementMasterDataReplicationBundleRequestMessage
         }
       } else {
 
-        throw new org.apache.axis2.databinding.ADBException(
-            "UnitOfMeasurementReplicationRequestMessage cannot be null!!");
+        throw new org.apache.axis2.databinding.ADBException("StandardID cannot be null!!");
       }
+    }
+    if (localContactPersonTracker) {
+      if (localContactPerson == null) {
+        throw new org.apache.axis2.databinding.ADBException("ContactPerson cannot be null!!");
+      }
+      localContactPerson.serialize(new javax.xml.namespace.QName("", "ContactPerson"), xmlWriter);
     }
     xmlWriter.writeEndElement();
   }
@@ -378,10 +418,9 @@ public class UnitOfMeasurementMasterDataReplicationBundleRequestMessage
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static UnitOfMeasurementMasterDataReplicationBundleRequestMessage parse(
-        javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
-      UnitOfMeasurementMasterDataReplicationBundleRequestMessage object =
-          new UnitOfMeasurementMasterDataReplicationBundleRequestMessage();
+    public static BusinessDocumentMessageHeaderParty parse(javax.xml.stream.XMLStreamReader reader)
+        throws java.lang.Exception {
+      BusinessDocumentMessageHeaderParty object = new BusinessDocumentMessageHeaderParty();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -406,11 +445,11 @@ public class UnitOfMeasurementMasterDataReplicationBundleRequestMessage
 
             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
 
-            if (!"UnitOfMeasurementMasterDataReplicationBundleRequestMessage".equals(type)) {
+            if (!"BusinessDocumentMessageHeaderParty".equals(type)) {
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (UnitOfMeasurementMasterDataReplicationBundleRequestMessage)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+              return (BusinessDocumentMessageHeaderParty)
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -426,30 +465,25 @@ public class UnitOfMeasurementMasterDataReplicationBundleRequestMessage
         while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
 
         if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "MessageHeader").equals(reader.getName())) {
+            && new javax.xml.namespace.QName("", "InternalID").equals(reader.getName())) {
 
-          object.setMessageHeader(
-              com.sap.xi.fndei.BusinessDocumentMessageHeader.Factory.parse(reader));
+          object.setInternalID(PartyInternalID.Factory.parse(reader));
 
           reader.next();
 
         } // End of if for expected property start element
         else {
-          // 1 - A start element we are not expecting indicates an invalid parameter was passed
-          throw new org.apache.axis2.databinding.ADBException(
-              "Unexpected subelement " + reader.getName());
+
         }
 
         while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
 
         if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "UnitOfMeasurementReplicationRequestMessage")
-                .equals(reader.getName())) {
+            && new javax.xml.namespace.QName("", "StandardID").equals(reader.getName())) {
 
           // Process the array and step past its final element's end.
 
-          list2.add(
-              com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage.Factory.parse(reader));
+          list2.add(PartyStandardID.Factory.parse(reader));
 
           // loop until we find a start element that is not part of this array
           boolean loopDone2 = false;
@@ -464,11 +498,8 @@ public class UnitOfMeasurementMasterDataReplicationBundleRequestMessage
               // two continuous end elements means we are exiting the xml structure
               loopDone2 = true;
             } else {
-              if (new javax.xml.namespace.QName("", "UnitOfMeasurementReplicationRequestMessage")
-                  .equals(reader.getName())) {
-                list2.add(
-                    com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage.Factory.parse(
-                        reader));
+              if (new javax.xml.namespace.QName("", "StandardID").equals(reader.getName())) {
+                list2.add(PartyStandardID.Factory.parse(reader));
 
               } else {
                 loopDone2 = true;
@@ -477,10 +508,26 @@ public class UnitOfMeasurementMasterDataReplicationBundleRequestMessage
           }
           // call the converter utility  to convert and set the array
 
-          object.setUnitOfMeasurementReplicationRequestMessage(
-              (com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage[])
+          object.setStandardID(
+              (PartyStandardID[])
                   org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
-                      com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage.class, list2));
+                      PartyStandardID.class, list2));
+
+        } // End of if for expected property start element
+        else {
+
+        }
+
+        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+
+        if (reader.isStartElement()
+            && new javax.xml.namespace.QName("", "ContactPerson").equals(reader.getName())) {
+
+          object.setContactPerson(
+              BusinessDocumentMessageHeaderPartyContactPerson.Factory.parse(
+                  reader));
+
+          reader.next();
 
         } // End of if for expected property start element
         else {

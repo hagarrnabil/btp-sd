@@ -1,42 +1,42 @@
 /**
- * BusinessScopeID.java
+ * BusinessScopeInstanceID.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** BusinessScopeID bean class */
+/** BusinessScopeInstanceID bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class BusinessScopeID extends com.sap.xi.fndei.BusinessScopeIDContent
+public class BusinessScopeInstanceID extends BusinessScopeInstanceIDContent
     implements org.apache.axis2.databinding.ADBBean {
   /* This type was generated from the piece of schema that had
-  name = BusinessScopeID
+  name = BusinessScopeInstanceID
   Namespace URI = http://sap.com/xi/FNDEI
   Namespace Prefix = ns1
   */
 
-  /** field for BusinessScopeIDContent */
+  /** field for BusinessScopeInstanceIDContent */
 
   /**
    * Auto generated getter method
    *
    * @return org.apache.axis2.databinding.types.Token
    */
-  public org.apache.axis2.databinding.types.Token getBusinessScopeIDContent() {
-    return localBusinessScopeIDContent;
+  public org.apache.axis2.databinding.types.Token getBusinessScopeInstanceIDContent() {
+    return localBusinessScopeInstanceIDContent;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param BusinessScopeIDContent
+   * @param param BusinessScopeInstanceIDContent
    */
-  public void setBusinessScopeIDContent(org.apache.axis2.databinding.types.Token param) {
+  public void setBusinessScopeInstanceIDContent(org.apache.axis2.databinding.types.Token param) {
 
     if ((1 <= java.lang.String.valueOf(param).length())
         && (java.lang.String.valueOf(param).length() <= 36)) {
-      this.localBusinessScopeIDContent = param;
+      this.localBusinessScopeInstanceIDContent = param;
     } else {
       throw new java.lang.RuntimeException("Input values do not follow defined XSD restrictions");
     }
@@ -44,18 +44,18 @@ public class BusinessScopeID extends com.sap.xi.fndei.BusinessScopeIDContent
 
   public java.lang.String toString() {
 
-    return localBusinessScopeIDContent.toString();
+    return localBusinessScopeInstanceIDContent.toString();
   }
 
   /** field for SchemeID This was an Attribute! */
-  protected com.sap.xi.fndei.SchemeID_type6 localSchemeID;
+  protected SchemeID_type5 localSchemeID;
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.SchemeID_type6
+   * @return com.sap.xi.fndei.SchemeID_type5
    */
-  public com.sap.xi.fndei.SchemeID_type6 getSchemeID() {
+  public SchemeID_type5 getSchemeID() {
     return localSchemeID;
   }
 
@@ -64,20 +64,20 @@ public class BusinessScopeID extends com.sap.xi.fndei.BusinessScopeIDContent
    *
    * @param param SchemeID
    */
-  public void setSchemeID(com.sap.xi.fndei.SchemeID_type6 param) {
+  public void setSchemeID(SchemeID_type5 param) {
 
     this.localSchemeID = param;
   }
 
   /** field for SchemeAgencyID This was an Attribute! */
-  protected com.sap.xi.fndei.SchemeAgencyID_type6 localSchemeAgencyID;
+  protected SchemeAgencyID_type5 localSchemeAgencyID;
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.SchemeAgencyID_type6
+   * @return com.sap.xi.fndei.SchemeAgencyID_type5
    */
-  public com.sap.xi.fndei.SchemeAgencyID_type6 getSchemeAgencyID() {
+  public SchemeAgencyID_type5 getSchemeAgencyID() {
     return localSchemeAgencyID;
   }
 
@@ -86,7 +86,7 @@ public class BusinessScopeID extends com.sap.xi.fndei.BusinessScopeIDContent
    *
    * @param param SchemeAgencyID
    */
-  public void setSchemeAgencyID(com.sap.xi.fndei.SchemeAgencyID_type6 param) {
+  public void setSchemeAgencyID(SchemeAgencyID_type5 param) {
 
     this.localSchemeAgencyID = param;
   }
@@ -129,11 +129,15 @@ public class BusinessScopeID extends com.sap.xi.fndei.BusinessScopeIDContent
           "xsi",
           "http://www.w3.org/2001/XMLSchema-instance",
           "type",
-          namespacePrefix + ":BusinessScopeID",
+          namespacePrefix + ":BusinessScopeInstanceID",
           xmlWriter);
     } else {
       writeAttribute(
-          "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "BusinessScopeID", xmlWriter);
+          "xsi",
+          "http://www.w3.org/2001/XMLSchema-instance",
+          "type",
+          "BusinessScopeInstanceID",
+          xmlWriter);
     }
 
     if (localSchemeID != null) {
@@ -144,17 +148,17 @@ public class BusinessScopeID extends com.sap.xi.fndei.BusinessScopeIDContent
       writeAttribute("", "schemeAgencyID", localSchemeAgencyID.toString(), xmlWriter);
     }
 
-    if (localBusinessScopeIDContent == null) {
+    if (localBusinessScopeInstanceIDContent == null) {
       // write the nil attribute
 
       throw new org.apache.axis2.databinding.ADBException(
-          "BusinessScopeID.Content cannot be null!!");
+          "BusinessScopeInstanceID.Content cannot be null!!");
 
     } else {
 
       xmlWriter.writeCharacters(
           org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-              localBusinessScopeIDContent));
+              localBusinessScopeInstanceIDContent));
     }
 
     xmlWriter.writeEndElement();
@@ -346,25 +350,25 @@ public class BusinessScopeID extends com.sap.xi.fndei.BusinessScopeIDContent
     private static org.apache.commons.logging.Log log =
         org.apache.commons.logging.LogFactory.getLog(Factory.class);
 
-    public static BusinessScopeID fromString(
+    public static BusinessScopeInstanceID fromString(
         java.lang.String value, java.lang.String namespaceURI) {
-      BusinessScopeID returnValue = new BusinessScopeID();
+      BusinessScopeInstanceID returnValue = new BusinessScopeInstanceID();
 
-      returnValue.setBusinessScopeIDContent(
+      returnValue.setBusinessScopeInstanceIDContent(
           org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(value));
 
       return returnValue;
     }
 
-    public static BusinessScopeID fromString(
+    public static BusinessScopeInstanceID fromString(
         javax.xml.stream.XMLStreamReader xmlStreamReader, java.lang.String content) {
       if (content.indexOf(":") > -1) {
         java.lang.String prefix = content.substring(0, content.indexOf(":"));
         java.lang.String namespaceUri =
             xmlStreamReader.getNamespaceContext().getNamespaceURI(prefix);
-        return BusinessScopeID.Factory.fromString(content, namespaceUri);
+        return BusinessScopeInstanceID.Factory.fromString(content, namespaceUri);
       } else {
-        return BusinessScopeID.Factory.fromString(content, "");
+        return BusinessScopeInstanceID.Factory.fromString(content, "");
       }
     }
 
@@ -376,9 +380,9 @@ public class BusinessScopeID extends com.sap.xi.fndei.BusinessScopeIDContent
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static BusinessScopeID parse(javax.xml.stream.XMLStreamReader reader)
+    public static BusinessScopeInstanceID parse(javax.xml.stream.XMLStreamReader reader)
         throws java.lang.Exception {
-      BusinessScopeID object = new BusinessScopeID();
+      BusinessScopeInstanceID object = new BusinessScopeInstanceID();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -403,11 +407,11 @@ public class BusinessScopeID extends com.sap.xi.fndei.BusinessScopeIDContent
 
             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
 
-            if (!"BusinessScopeID".equals(type)) {
+            if (!"BusinessScopeInstanceID".equals(type)) {
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (BusinessScopeID)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+              return (BusinessScopeInstanceID)
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -423,7 +427,7 @@ public class BusinessScopeID extends com.sap.xi.fndei.BusinessScopeIDContent
           java.lang.String content = tempAttribSchemeID;
 
           object.setSchemeID(
-              com.sap.xi.fndei.SchemeID_type6.Factory.fromString(reader, tempAttribSchemeID));
+              SchemeID_type5.Factory.fromString(reader, tempAttribSchemeID));
 
         } else {
 
@@ -438,7 +442,7 @@ public class BusinessScopeID extends com.sap.xi.fndei.BusinessScopeIDContent
           java.lang.String content = tempAttribSchemeAgencyID;
 
           object.setSchemeAgencyID(
-              com.sap.xi.fndei.SchemeAgencyID_type6.Factory.fromString(
+              SchemeAgencyID_type5.Factory.fromString(
                   reader, tempAttribSchemeAgencyID));
 
         } else {
@@ -455,12 +459,12 @@ public class BusinessScopeID extends com.sap.xi.fndei.BusinessScopeIDContent
                   reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "nil");
               if ("true".equals(nillableValue) || "1".equals(nillableValue)) {
                 throw new org.apache.axis2.databinding.ADBException(
-                    "The element: " + "BusinessScopeID.Content" + "  cannot be null");
+                    "The element: " + "BusinessScopeInstanceID.Content" + "  cannot be null");
               }
 
               java.lang.String content = reader.getElementText();
 
-              object.setBusinessScopeIDContent(
+              object.setBusinessScopeInstanceIDContent(
                   org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(content));
 
             } // End of if for expected property start element

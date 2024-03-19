@@ -18,341 +18,341 @@ public class ExtensionMapper {
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "content_type1".equals(typeName)) {
 
-      return com.sap.xi.fndei.Content_type1.Factory.parse(reader);
+      return Content_type1.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "listID_type0".equals(typeName)) {
 
-      return com.sap.xi.fndei.ListID_type0.Factory.parse(reader);
+      return ListID_type0.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeAgencyID_type6".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeAgencyID_type6.Factory.parse(reader);
+      return SchemeAgencyID_type6.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeAgencyID_type4".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeAgencyID_type4.Factory.parse(reader);
+      return SchemeAgencyID_type4.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeAgencyID_type5".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeAgencyID_type5.Factory.parse(reader);
+      return SchemeAgencyID_type5.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "CountryDiallingCode".equals(typeName)) {
 
-      return com.sap.xi.fndei.CountryDiallingCode.Factory.parse(reader);
+      return CountryDiallingCode.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "Indicator".equals(typeName)) {
 
-      return com.sap.xi.fndei.Indicator.Factory.parse(reader);
+      return Indicator.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "ContactPersonInternalID".equals(typeName)) {
 
-      return com.sap.xi.fndei.ContactPersonInternalID.Factory.parse(reader);
+      return ContactPersonInternalID.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "EmailURI".equals(typeName)) {
 
-      return com.sap.xi.fndei.EmailURI.Factory.parse(reader);
+      return EmailURI.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "listVersionID_type0".equals(typeName)) {
 
-      return com.sap.xi.fndei.ListVersionID_type0.Factory.parse(reader);
+      return ListVersionID_type0.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "BusinessScopeTypeCode.Content".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessScopeTypeCodeContent.Factory.parse(reader);
+      return BusinessScopeTypeCodeContent.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "AgencyIdentificationCode".equals(typeName)) {
 
-      return com.sap.xi.fndei.AgencyIdentificationCode.Factory.parse(reader);
+      return AgencyIdentificationCode.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "LANGUAGEINDEPENDENT_LONG_Name".equals(typeName)) {
 
-      return com.sap.xi.fndei.LANGUAGEINDEPENDENT_LONG_Name.Factory.parse(reader);
+      return LANGUAGEINDEPENDENT_LONG_Name.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "PhoneNumber".equals(typeName)) {
 
-      return com.sap.xi.fndei.PhoneNumber.Factory.parse(reader);
+      return PhoneNumber.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "content_type1".equals(typeName)) {
 
-      return com.sap.xi.fndei.Content_type1.Factory.parse(reader);
+      return Content_type1.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "PartyInternalID".equals(typeName)) {
 
-      return com.sap.xi.fndei.PartyInternalID.Factory.parse(reader);
+      return PartyInternalID.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "BusinessDocumentMessageID.Content".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessDocumentMessageIDContent.Factory.parse(reader);
+      return BusinessDocumentMessageIDContent.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "BusinessScopeTypeCode".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessScopeTypeCode.Factory.parse(reader);
+      return BusinessScopeTypeCode.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "Description".equals(typeName)) {
 
-      return com.sap.xi.fndei.Description.Factory.parse(reader);
+      return Description.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "UnitOfMeasurementReplicationRequestMessage".equals(typeName)) {
 
-      return com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage.Factory.parse(reader);
+      return UnitOfMeasurementReplicationRequestMessage.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "UUID.Content".equals(typeName)) {
 
-      return com.sap.xi.fndei.UUIDContent.Factory.parse(reader);
+      return UUIDContent.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "LANGUAGEINDEPENDENT_MEDIUM_Name".equals(typeName)) {
 
-      return com.sap.xi.fndei.LANGUAGEINDEPENDENT_MEDIUM_Name.Factory.parse(reader);
+      return LANGUAGEINDEPENDENT_MEDIUM_Name.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "MEDIUM_Name.Content".equals(typeName)) {
 
-      return com.sap.xi.fndei.MEDIUM_NameContent.Factory.parse(reader);
+      return MEDIUM_NameContent.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "NumberValue".equals(typeName)) {
 
-      return com.sap.xi.fndei.NumberValue.Factory.parse(reader);
+      return NumberValue.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "codeListName_type0".equals(typeName)) {
 
-      return com.sap.xi.fndei.CodeListName_type0.Factory.parse(reader);
+      return CodeListName_type0.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeAgencyID_type2".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeAgencyID_type2.Factory.parse(reader);
+      return SchemeAgencyID_type2.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "UnitOfMeasurementCode".equals(typeName)) {
 
-      return com.sap.xi.fndei.UnitOfMeasurementCode.Factory.parse(reader);
+      return UnitOfMeasurementCode.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeAgencyID_type3".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeAgencyID_type3.Factory.parse(reader);
+      return SchemeAgencyID_type3.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "CountryCode".equals(typeName)) {
 
-      return com.sap.xi.fndei.CountryCode.Factory.parse(reader);
+      return CountryCode.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeAgencyID_type0".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeAgencyID_type0.Factory.parse(reader);
+      return SchemeAgencyID_type0.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "PartyStandardID.Content".equals(typeName)) {
 
-      return com.sap.xi.fndei.PartyStandardIDContent.Factory.parse(reader);
+      return PartyStandardIDContent.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "BusinessScopeID".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessScopeID.Factory.parse(reader);
+      return BusinessScopeID.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeAgencyID_type1".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeAgencyID_type1.Factory.parse(reader);
+      return SchemeAgencyID_type1.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "listAgencySchemeID_type0".equals(typeName)) {
 
-      return com.sap.xi.fndei.ListAgencySchemeID_type0.Factory.parse(reader);
+      return ListAgencySchemeID_type0.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "PartyInternalID.Content".equals(typeName)) {
 
-      return com.sap.xi.fndei.PartyInternalIDContent.Factory.parse(reader);
+      return PartyInternalIDContent.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "BusinessScope".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessScope.Factory.parse(reader);
+      return BusinessScope.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "PhoneNumberAreaID".equals(typeName)) {
 
-      return com.sap.xi.fndei.PhoneNumberAreaID.Factory.parse(reader);
+      return PhoneNumberAreaID.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "BusinessDocumentMessageHeaderParty".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessDocumentMessageHeaderParty.Factory.parse(reader);
+      return BusinessDocumentMessageHeaderParty.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeID_type1".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeID_type1.Factory.parse(reader);
+      return SchemeID_type1.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeID_type2".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeID_type2.Factory.parse(reader);
+      return SchemeID_type2.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "listAgencyID_type0".equals(typeName)) {
 
-      return com.sap.xi.fndei.ListAgencyID_type0.Factory.parse(reader);
+      return ListAgencyID_type0.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeID_type3".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeID_type3.Factory.parse(reader);
+      return SchemeID_type3.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeID_type4".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeID_type4.Factory.parse(reader);
+      return SchemeID_type4.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeID_type5".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeID_type5.Factory.parse(reader);
+      return SchemeID_type5.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "GLOBAL_DateTime".equals(typeName)) {
 
-      return com.sap.xi.fndei.GLOBAL_DateTime.Factory.parse(reader);
+      return GLOBAL_DateTime.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeID_type6".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeID_type6.Factory.parse(reader);
+      return SchemeID_type6.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "PartyStandardID".equals(typeName)) {
 
-      return com.sap.xi.fndei.PartyStandardID.Factory.parse(reader);
+      return PartyStandardID.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "BusinessScopeInstanceID.Content".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessScopeInstanceIDContent.Factory.parse(reader);
+      return BusinessScopeInstanceIDContent.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "BusinessScopeInstanceID".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessScopeInstanceID.Factory.parse(reader);
+      return BusinessScopeInstanceID.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "BusinessDocumentMessageHeaderPartyContactPerson".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessDocumentMessageHeaderPartyContactPerson.Factory.parse(reader);
+      return BusinessDocumentMessageHeaderPartyContactPerson.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "schemeID_type0".equals(typeName)) {
 
-      return com.sap.xi.fndei.SchemeID_type0.Factory.parse(reader);
+      return SchemeID_type0.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "BusinessSystemID".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessSystemID.Factory.parse(reader);
+      return BusinessSystemID.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "BusinessDocumentMessageHeader".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessDocumentMessageHeader.Factory.parse(reader);
+      return BusinessDocumentMessageHeader.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "UnitOfMeasurement".equals(typeName)) {
 
-      return com.sap.xi.fndei.UnitOfMeasurement.Factory.parse(reader);
+      return UnitOfMeasurement.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "UnitOfMeasurementMasterDataReplicationBundleRequestMessage".equals(typeName)) {
 
-      return com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequestMessage.Factory
+      return UnitOfMeasurementMasterDataReplicationBundleRequestMessage.Factory
           .parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "BusinessDocumentMessageID".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessDocumentMessageID.Factory.parse(reader);
+      return BusinessDocumentMessageID.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "ContactPersonInternalID.Content".equals(typeName)) {
 
-      return com.sap.xi.fndei.ContactPersonInternalIDContent.Factory.parse(reader);
+      return ContactPersonInternalIDContent.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "LanguageCode".equals(typeName)) {
 
-      return com.sap.xi.fndei.LanguageCode.Factory.parse(reader);
+      return LanguageCode.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "BusinessScopeID.Content".equals(typeName)) {
 
-      return com.sap.xi.fndei.BusinessScopeIDContent.Factory.parse(reader);
+      return BusinessScopeIDContent.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "PhoneNumberSubscriberID".equals(typeName)) {
 
-      return com.sap.xi.fndei.PhoneNumberSubscriberID.Factory.parse(reader);
+      return PhoneNumberSubscriberID.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "UUID".equals(typeName)) {
 
-      return com.sap.xi.fndei.UUID.Factory.parse(reader);
+      return UUID.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI)
         && "PhoneNumberExtensionID".equals(typeName)) {
 
-      return com.sap.xi.fndei.PhoneNumberExtensionID.Factory.parse(reader);
+      return PhoneNumberExtensionID.Factory.parse(reader);
     }
 
     if ("http://sap.com/xi/FNDEI".equals(namespaceURI) && "MEDIUM_Name".equals(typeName)) {
 
-      return com.sap.xi.fndei.MEDIUM_Name.Factory.parse(reader);
+      return MEDIUM_Name.Factory.parse(reader);
     }
 
     throw new org.apache.axis2.databinding.ADBException(

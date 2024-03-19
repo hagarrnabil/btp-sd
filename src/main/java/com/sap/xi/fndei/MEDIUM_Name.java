@@ -1,43 +1,72 @@
 /**
- * UnitOfMeasurementMasterDataReplicationBundleRequest.java
+ * MEDIUM_Name.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** UnitOfMeasurementMasterDataReplicationBundleRequest bean class */
+/** MEDIUM_Name bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class UnitOfMeasurementMasterDataReplicationBundleRequest
+public class MEDIUM_Name extends MEDIUM_NameContent
     implements org.apache.axis2.databinding.ADBBean {
+  /* This type was generated from the piece of schema that had
+  name = MEDIUM_Name
+  Namespace URI = http://sap.com/xi/FNDEI
+  Namespace Prefix = ns1
+  */
 
-  public static final javax.xml.namespace.QName MY_QNAME =
-      new javax.xml.namespace.QName(
-          "http://sap.com/xi/FNDEI", "UnitOfMeasurementMasterDataReplicationBundleRequest", "ns1");
-
-  /** field for UnitOfMeasurementMasterDataReplicationBundleRequest */
-  protected com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequestMessage
-      localUnitOfMeasurementMasterDataReplicationBundleRequest;
+  /** field for MEDIUM_NameContent */
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequestMessage
+   * @return java.lang.String
    */
-  public com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequestMessage
-      getUnitOfMeasurementMasterDataReplicationBundleRequest() {
-    return localUnitOfMeasurementMasterDataReplicationBundleRequest;
+  public java.lang.String getMEDIUM_NameContent() {
+    return localMEDIUM_NameContent;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param UnitOfMeasurementMasterDataReplicationBundleRequest
+   * @param param MEDIUM_NameContent
    */
-  public void setUnitOfMeasurementMasterDataReplicationBundleRequest(
-      com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequestMessage param) {
+  public void setMEDIUM_NameContent(java.lang.String param) {
 
-    this.localUnitOfMeasurementMasterDataReplicationBundleRequest = param;
+    if ((1 <= java.lang.String.valueOf(param).length())
+        && (java.lang.String.valueOf(param).length() <= 40)) {
+      this.localMEDIUM_NameContent = param;
+    } else {
+      throw new java.lang.RuntimeException("Input values do not follow defined XSD restrictions");
+    }
+  }
+
+  public java.lang.String toString() {
+
+    return localMEDIUM_NameContent.toString();
+  }
+
+  /** field for LanguageCode This was an Attribute! */
+  protected LanguageCode localLanguageCode;
+
+  /**
+   * Auto generated getter method
+   *
+   * @return com.sap.xi.fndei.LanguageCode
+   */
+  public LanguageCode getLanguageCode() {
+    return localLanguageCode;
+  }
+
+  /**
+   * Auto generated setter method
+   *
+   * @param param LanguageCode
+   */
+  public void setLanguageCode(LanguageCode param) {
+
+    this.localLanguageCode = param;
   }
 
   /**
@@ -49,7 +78,8 @@ public class UnitOfMeasurementMasterDataReplicationBundleRequest
       final javax.xml.namespace.QName parentQName, final org.apache.axiom.om.OMFactory factory)
       throws org.apache.axis2.databinding.ADBException {
 
-    return factory.createOMElement(new org.apache.axis2.databinding.ADBDataSource(this, MY_QNAME));
+    return factory.createOMElement(
+        new org.apache.axis2.databinding.ADBDataSource(this, parentQName));
   }
 
   public void serialize(
@@ -64,13 +94,41 @@ public class UnitOfMeasurementMasterDataReplicationBundleRequest
       boolean serializeType)
       throws javax.xml.stream.XMLStreamException, org.apache.axis2.databinding.ADBException {
 
-    // We can safely assume an element has only one type associated with it
+    java.lang.String prefix = null;
+    java.lang.String namespace = null;
 
-    if (localUnitOfMeasurementMasterDataReplicationBundleRequest == null) {
-      throw new org.apache.axis2.databinding.ADBException(
-          "UnitOfMeasurementMasterDataReplicationBundleRequest cannot be null!");
+    prefix = parentQName.getPrefix();
+    namespace = parentQName.getNamespaceURI();
+    writeStartElement(prefix, namespace, parentQName.getLocalPart(), xmlWriter);
+
+    java.lang.String namespacePrefix = registerPrefix(xmlWriter, "http://sap.com/xi/FNDEI");
+    if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)) {
+      writeAttribute(
+          "xsi",
+          "http://www.w3.org/2001/XMLSchema-instance",
+          "type",
+          namespacePrefix + ":MEDIUM_Name",
+          xmlWriter);
+    } else {
+      writeAttribute(
+          "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "MEDIUM_Name", xmlWriter);
     }
-    localUnitOfMeasurementMasterDataReplicationBundleRequest.serialize(MY_QNAME, xmlWriter);
+
+    if (localLanguageCode != null) {
+      writeAttribute("", "languageCode", localLanguageCode.toString(), xmlWriter);
+    }
+
+    if (localMEDIUM_NameContent == null) {
+      // write the nil attribute
+
+      throw new org.apache.axis2.databinding.ADBException("MEDIUM_Name.Content cannot be null!!");
+
+    } else {
+
+      xmlWriter.writeCharacters(localMEDIUM_NameContent);
+    }
+
+    xmlWriter.writeEndElement();
   }
 
   private static java.lang.String generatePrefix(java.lang.String namespace) {
@@ -259,6 +317,27 @@ public class UnitOfMeasurementMasterDataReplicationBundleRequest
     private static org.apache.commons.logging.Log log =
         org.apache.commons.logging.LogFactory.getLog(Factory.class);
 
+    public static MEDIUM_Name fromString(java.lang.String value, java.lang.String namespaceURI) {
+      MEDIUM_Name returnValue = new MEDIUM_Name();
+
+      returnValue.setMEDIUM_NameContent(
+          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(value));
+
+      return returnValue;
+    }
+
+    public static MEDIUM_Name fromString(
+        javax.xml.stream.XMLStreamReader xmlStreamReader, java.lang.String content) {
+      if (content.indexOf(":") > -1) {
+        java.lang.String prefix = content.substring(0, content.indexOf(":"));
+        java.lang.String namespaceUri =
+            xmlStreamReader.getNamespaceContext().getNamespaceURI(prefix);
+        return MEDIUM_Name.Factory.fromString(content, namespaceUri);
+      } else {
+        return MEDIUM_Name.Factory.fromString(content, "");
+      }
+    }
+
     /**
      * static method to create the object Precondition: If this object is an element, the current or
      * next start element starts this object and any intervening reader events are ignorable If this
@@ -267,10 +346,9 @@ public class UnitOfMeasurementMasterDataReplicationBundleRequest
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static UnitOfMeasurementMasterDataReplicationBundleRequest parse(
-        javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
-      UnitOfMeasurementMasterDataReplicationBundleRequest object =
-          new UnitOfMeasurementMasterDataReplicationBundleRequest();
+    public static MEDIUM_Name parse(javax.xml.stream.XMLStreamReader reader)
+        throws java.lang.Exception {
+      MEDIUM_Name object = new MEDIUM_Name();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -283,22 +361,61 @@ public class UnitOfMeasurementMasterDataReplicationBundleRequest
 
         currentQName = reader.getName();
 
+        if (reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "type") != null) {
+          java.lang.String fullTypeName =
+              reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "type");
+          if (fullTypeName != null) {
+            java.lang.String nsPrefix = null;
+            if (fullTypeName.indexOf(":") > -1) {
+              nsPrefix = fullTypeName.substring(0, fullTypeName.indexOf(":"));
+            }
+            nsPrefix = nsPrefix == null ? "" : nsPrefix;
+
+            java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
+
+            if (!"MEDIUM_Name".equals(type)) {
+              // find namespace for the prefix
+              java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
+              return (MEDIUM_Name)
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
+            }
+          }
+        }
+
         // Note all attributes that were handled. Used to differ normal attributes
         // from anyAttributes.
         java.util.Vector handledAttributes = new java.util.Vector();
 
+        // handle attribute "languageCode"
+        java.lang.String tempAttribLanguageCode = reader.getAttributeValue(null, "languageCode");
+
+        if (tempAttribLanguageCode != null) {
+          java.lang.String content = tempAttribLanguageCode;
+
+          object.setLanguageCode(
+              LanguageCode.Factory.fromString(reader, tempAttribLanguageCode));
+
+        } else {
+
+        }
+        handledAttributes.add("languageCode");
+
         while (!reader.isEndElement()) {
-          if (reader.isStartElement()) {
+          if (reader.isStartElement() || reader.hasText()) {
 
-            if (reader.isStartElement()
-                && new javax.xml.namespace.QName(
-                        "http://sap.com/xi/FNDEI",
-                        "UnitOfMeasurementMasterDataReplicationBundleRequest")
-                    .equals(reader.getName())) {
+            if (reader.isStartElement() || reader.hasText()) {
 
-              object.setUnitOfMeasurementMasterDataReplicationBundleRequest(
-                  com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequestMessage
-                      .Factory.parse(reader));
+              nillableValue =
+                  reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "nil");
+              if ("true".equals(nillableValue) || "1".equals(nillableValue)) {
+                throw new org.apache.axis2.databinding.ADBException(
+                    "The element: " + "MEDIUM_Name.Content" + "  cannot be null");
+              }
+
+              java.lang.String content = reader.getElementText();
+
+              object.setMEDIUM_NameContent(
+                  org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
 
             } // End of if for expected property start element
             else {

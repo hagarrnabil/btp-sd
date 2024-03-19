@@ -10,6 +10,8 @@ package com.example.datamodel.wsdl;
  *  CO_FNDEI_UNITOFMEASUREMENT_RL_serviceStub java implementation
  */
 
+import com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequest;
+
 public class CO_FNDEI_UNITOFMEASUREMENT_RL_serviceStub extends org.apache.axis2.client.Stub
     implements CO_FNDEI_UNITOFMEASUREMENT_RL_service {
   protected org.apache.axis2.description.AxisOperation[] _operations;
@@ -114,7 +116,7 @@ public class CO_FNDEI_UNITOFMEASUREMENT_RL_serviceStub extends org.apache.axis2.
 
   /** Auto generated method signature */
   public void unitOfMeasurementMasterDataReplicationBundleRequest_Out(
-      com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequest
+      UnitOfMeasurementMasterDataReplicationBundleRequest
           unitOfMeasurementMasterDataReplicationBundleRequest0)
       throws java.rmi.RemoteException {
 
@@ -180,13 +182,13 @@ public class CO_FNDEI_UNITOFMEASUREMENT_RL_serviceStub extends org.apache.axis2.
   }
   // https://host:port/
   private org.apache.axiom.om.OMElement toOM(
-      com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequest param,
+      UnitOfMeasurementMasterDataReplicationBundleRequest param,
       boolean optimizeContent)
       throws org.apache.axis2.AxisFault {
 
     try {
       return param.getOMElement(
-          com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequest.MY_QNAME,
+          UnitOfMeasurementMasterDataReplicationBundleRequest.MY_QNAME,
           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
     } catch (org.apache.axis2.databinding.ADBException e) {
       throw org.apache.axis2.AxisFault.makeFault(e);
@@ -195,7 +197,7 @@ public class CO_FNDEI_UNITOFMEASUREMENT_RL_serviceStub extends org.apache.axis2.
 
   private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
       org.apache.axiom.soap.SOAPFactory factory,
-      com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequest param,
+      UnitOfMeasurementMasterDataReplicationBundleRequest param,
       boolean optimizeContent,
       javax.xml.namespace.QName elementQName)
       throws org.apache.axis2.AxisFault {
@@ -207,7 +209,7 @@ public class CO_FNDEI_UNITOFMEASUREMENT_RL_serviceStub extends org.apache.axis2.
           .getBody()
           .addChild(
               param.getOMElement(
-                  com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequest.MY_QNAME,
+                  UnitOfMeasurementMasterDataReplicationBundleRequest.MY_QNAME,
                   factory));
       return emptyEnvelope;
     } catch (org.apache.axis2.databinding.ADBException e) {
@@ -227,11 +229,11 @@ public class CO_FNDEI_UNITOFMEASUREMENT_RL_serviceStub extends org.apache.axis2.
 
     try {
 
-      if (com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequest.class.equals(type)) {
+      if (UnitOfMeasurementMasterDataReplicationBundleRequest.class.equals(type)) {
 
         javax.xml.stream.XMLStreamReader reader = param.getXMLStreamReaderWithoutCaching();
         java.lang.Object result =
-            com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequest.Factory.parse(
+            UnitOfMeasurementMasterDataReplicationBundleRequest.Factory.parse(
                 reader);
         reader.close();
         return result;

@@ -17,14 +17,14 @@ public class UnitOfMeasurementReplicationRequestMessage
   */
 
   /** field for ListCompleteTransmissionIndicator */
-  protected com.sap.xi.fndei.Indicator localListCompleteTransmissionIndicator;
+  protected Indicator localListCompleteTransmissionIndicator;
 
   /**
    * Auto generated getter method
    *
    * @return com.sap.xi.fndei.Indicator
    */
-  public com.sap.xi.fndei.Indicator getListCompleteTransmissionIndicator() {
+  public Indicator getListCompleteTransmissionIndicator() {
     return localListCompleteTransmissionIndicator;
   }
 
@@ -33,20 +33,20 @@ public class UnitOfMeasurementReplicationRequestMessage
    *
    * @param param ListCompleteTransmissionIndicator
    */
-  public void setListCompleteTransmissionIndicator(com.sap.xi.fndei.Indicator param) {
+  public void setListCompleteTransmissionIndicator(Indicator param) {
 
     this.localListCompleteTransmissionIndicator = param;
   }
 
   /** field for TransmissionStartDateTime */
-  protected com.sap.xi.fndei.GLOBAL_DateTime localTransmissionStartDateTime;
+  protected GLOBAL_DateTime localTransmissionStartDateTime;
 
   /**
    * Auto generated getter method
    *
    * @return com.sap.xi.fndei.GLOBAL_DateTime
    */
-  public com.sap.xi.fndei.GLOBAL_DateTime getTransmissionStartDateTime() {
+  public GLOBAL_DateTime getTransmissionStartDateTime() {
     return localTransmissionStartDateTime;
   }
 
@@ -55,13 +55,13 @@ public class UnitOfMeasurementReplicationRequestMessage
    *
    * @param param TransmissionStartDateTime
    */
-  public void setTransmissionStartDateTime(com.sap.xi.fndei.GLOBAL_DateTime param) {
+  public void setTransmissionStartDateTime(GLOBAL_DateTime param) {
 
     this.localTransmissionStartDateTime = param;
   }
 
   /** field for UnitOfMeasurement This was an Array! */
-  protected com.sap.xi.fndei.UnitOfMeasurement[] localUnitOfMeasurement;
+  protected UnitOfMeasurement[] localUnitOfMeasurement;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
@@ -78,19 +78,19 @@ public class UnitOfMeasurementReplicationRequestMessage
    *
    * @return com.sap.xi.fndei.UnitOfMeasurement[]
    */
-  public com.sap.xi.fndei.UnitOfMeasurement[] getUnitOfMeasurement() {
+  public UnitOfMeasurement[] getUnitOfMeasurement() {
     return localUnitOfMeasurement;
   }
 
   /** validate the array for UnitOfMeasurement */
-  protected void validateUnitOfMeasurement(com.sap.xi.fndei.UnitOfMeasurement[] param) {}
+  protected void validateUnitOfMeasurement(UnitOfMeasurement[] param) {}
 
   /**
    * Auto generated setter method
    *
    * @param param UnitOfMeasurement
    */
-  public void setUnitOfMeasurement(com.sap.xi.fndei.UnitOfMeasurement[] param) {
+  public void setUnitOfMeasurement(UnitOfMeasurement[] param) {
 
     validateUnitOfMeasurement(param);
 
@@ -104,9 +104,9 @@ public class UnitOfMeasurementReplicationRequestMessage
    *
    * @param param com.sap.xi.fndei.UnitOfMeasurement
    */
-  public void addUnitOfMeasurement(com.sap.xi.fndei.UnitOfMeasurement param) {
+  public void addUnitOfMeasurement(UnitOfMeasurement param) {
     if (localUnitOfMeasurement == null) {
-      localUnitOfMeasurement = new com.sap.xi.fndei.UnitOfMeasurement[] {};
+      localUnitOfMeasurement = new UnitOfMeasurement[] {};
     }
 
     // update the setting tracker
@@ -116,8 +116,8 @@ public class UnitOfMeasurementReplicationRequestMessage
         org.apache.axis2.databinding.utils.ConverterUtil.toList(localUnitOfMeasurement);
     list.add(param);
     this.localUnitOfMeasurement =
-        (com.sap.xi.fndei.UnitOfMeasurement[])
-            list.toArray(new com.sap.xi.fndei.UnitOfMeasurement[list.size()]);
+        (UnitOfMeasurement[])
+            list.toArray(new UnitOfMeasurement[list.size()]);
   }
 
   /**
@@ -431,7 +431,7 @@ public class UnitOfMeasurementReplicationRequestMessage
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
               return (UnitOfMeasurementReplicationRequestMessage)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -451,7 +451,7 @@ public class UnitOfMeasurementReplicationRequestMessage
                 .equals(reader.getName())) {
 
           object.setListCompleteTransmissionIndicator(
-              com.sap.xi.fndei.Indicator.Factory.parse(reader));
+              Indicator.Factory.parse(reader));
 
           reader.next();
 
@@ -469,7 +469,7 @@ public class UnitOfMeasurementReplicationRequestMessage
                 .equals(reader.getName())) {
 
           object.setTransmissionStartDateTime(
-              com.sap.xi.fndei.GLOBAL_DateTime.Factory.parse(reader));
+              GLOBAL_DateTime.Factory.parse(reader));
 
           reader.next();
 
@@ -487,7 +487,7 @@ public class UnitOfMeasurementReplicationRequestMessage
 
           // Process the array and step past its final element's end.
 
-          list3.add(com.sap.xi.fndei.UnitOfMeasurement.Factory.parse(reader));
+          list3.add(UnitOfMeasurement.Factory.parse(reader));
 
           // loop until we find a start element that is not part of this array
           boolean loopDone3 = false;
@@ -503,7 +503,7 @@ public class UnitOfMeasurementReplicationRequestMessage
               loopDone3 = true;
             } else {
               if (new javax.xml.namespace.QName("", "UnitOfMeasurement").equals(reader.getName())) {
-                list3.add(com.sap.xi.fndei.UnitOfMeasurement.Factory.parse(reader));
+                list3.add(UnitOfMeasurement.Factory.parse(reader));
 
               } else {
                 loopDone3 = true;
@@ -513,9 +513,9 @@ public class UnitOfMeasurementReplicationRequestMessage
           // call the converter utility  to convert and set the array
 
           object.setUnitOfMeasurement(
-              (com.sap.xi.fndei.UnitOfMeasurement[])
+              (UnitOfMeasurement[])
                   org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
-                      com.sap.xi.fndei.UnitOfMeasurement.class, list3));
+                      UnitOfMeasurement.class, list3));
 
         } // End of if for expected property start element
         else {

@@ -179,7 +179,7 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <wsdlFile>src/main/resources/wsdl/CO_FNDEI_UNITOFMEASUREMENT_RL.wsdl</wsdlFile>
-                            <outputDirectory>src/main/java</outputDirectory>
+                            <outputDirectory>src/main/main/java</outputDirectory>
                             <packageName>com.example.datamodel.wsdl</packageName>
                             <databindingName>adb</databindingName>
                             <syncMode>sync</syncMode>

@@ -1,42 +1,42 @@
 /**
- * PartyInternalID.java
+ * BusinessScopeID.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** PartyInternalID bean class */
+/** BusinessScopeID bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class PartyInternalID extends com.sap.xi.fndei.PartyInternalIDContent
+public class BusinessScopeID extends BusinessScopeIDContent
     implements org.apache.axis2.databinding.ADBBean {
   /* This type was generated from the piece of schema that had
-  name = PartyInternalID
+  name = BusinessScopeID
   Namespace URI = http://sap.com/xi/FNDEI
   Namespace Prefix = ns1
   */
 
-  /** field for PartyInternalIDContent */
+  /** field for BusinessScopeIDContent */
 
   /**
    * Auto generated getter method
    *
    * @return org.apache.axis2.databinding.types.Token
    */
-  public org.apache.axis2.databinding.types.Token getPartyInternalIDContent() {
-    return localPartyInternalIDContent;
+  public org.apache.axis2.databinding.types.Token getBusinessScopeIDContent() {
+    return localBusinessScopeIDContent;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param PartyInternalIDContent
+   * @param param BusinessScopeIDContent
    */
-  public void setPartyInternalIDContent(org.apache.axis2.databinding.types.Token param) {
+  public void setBusinessScopeIDContent(org.apache.axis2.databinding.types.Token param) {
 
     if ((1 <= java.lang.String.valueOf(param).length())
-        && (java.lang.String.valueOf(param).length() <= 32)) {
-      this.localPartyInternalIDContent = param;
+        && (java.lang.String.valueOf(param).length() <= 36)) {
+      this.localBusinessScopeIDContent = param;
     } else {
       throw new java.lang.RuntimeException("Input values do not follow defined XSD restrictions");
     }
@@ -44,18 +44,18 @@ public class PartyInternalID extends com.sap.xi.fndei.PartyInternalIDContent
 
   public java.lang.String toString() {
 
-    return localPartyInternalIDContent.toString();
+    return localBusinessScopeIDContent.toString();
   }
 
   /** field for SchemeID This was an Attribute! */
-  protected com.sap.xi.fndei.SchemeID_type2 localSchemeID;
+  protected SchemeID_type6 localSchemeID;
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.SchemeID_type2
+   * @return com.sap.xi.fndei.SchemeID_type6
    */
-  public com.sap.xi.fndei.SchemeID_type2 getSchemeID() {
+  public SchemeID_type6 getSchemeID() {
     return localSchemeID;
   }
 
@@ -64,20 +64,20 @@ public class PartyInternalID extends com.sap.xi.fndei.PartyInternalIDContent
    *
    * @param param SchemeID
    */
-  public void setSchemeID(com.sap.xi.fndei.SchemeID_type2 param) {
+  public void setSchemeID(SchemeID_type6 param) {
 
     this.localSchemeID = param;
   }
 
   /** field for SchemeAgencyID This was an Attribute! */
-  protected com.sap.xi.fndei.SchemeAgencyID_type2 localSchemeAgencyID;
+  protected SchemeAgencyID_type6 localSchemeAgencyID;
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.SchemeAgencyID_type2
+   * @return com.sap.xi.fndei.SchemeAgencyID_type6
    */
-  public com.sap.xi.fndei.SchemeAgencyID_type2 getSchemeAgencyID() {
+  public SchemeAgencyID_type6 getSchemeAgencyID() {
     return localSchemeAgencyID;
   }
 
@@ -86,7 +86,7 @@ public class PartyInternalID extends com.sap.xi.fndei.PartyInternalIDContent
    *
    * @param param SchemeAgencyID
    */
-  public void setSchemeAgencyID(com.sap.xi.fndei.SchemeAgencyID_type2 param) {
+  public void setSchemeAgencyID(SchemeAgencyID_type6 param) {
 
     this.localSchemeAgencyID = param;
   }
@@ -129,11 +129,11 @@ public class PartyInternalID extends com.sap.xi.fndei.PartyInternalIDContent
           "xsi",
           "http://www.w3.org/2001/XMLSchema-instance",
           "type",
-          namespacePrefix + ":PartyInternalID",
+          namespacePrefix + ":BusinessScopeID",
           xmlWriter);
     } else {
       writeAttribute(
-          "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "PartyInternalID", xmlWriter);
+          "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "BusinessScopeID", xmlWriter);
     }
 
     if (localSchemeID != null) {
@@ -144,17 +144,17 @@ public class PartyInternalID extends com.sap.xi.fndei.PartyInternalIDContent
       writeAttribute("", "schemeAgencyID", localSchemeAgencyID.toString(), xmlWriter);
     }
 
-    if (localPartyInternalIDContent == null) {
+    if (localBusinessScopeIDContent == null) {
       // write the nil attribute
 
       throw new org.apache.axis2.databinding.ADBException(
-          "PartyInternalID.Content cannot be null!!");
+          "BusinessScopeID.Content cannot be null!!");
 
     } else {
 
       xmlWriter.writeCharacters(
           org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-              localPartyInternalIDContent));
+              localBusinessScopeIDContent));
     }
 
     xmlWriter.writeEndElement();
@@ -346,25 +346,25 @@ public class PartyInternalID extends com.sap.xi.fndei.PartyInternalIDContent
     private static org.apache.commons.logging.Log log =
         org.apache.commons.logging.LogFactory.getLog(Factory.class);
 
-    public static PartyInternalID fromString(
+    public static BusinessScopeID fromString(
         java.lang.String value, java.lang.String namespaceURI) {
-      PartyInternalID returnValue = new PartyInternalID();
+      BusinessScopeID returnValue = new BusinessScopeID();
 
-      returnValue.setPartyInternalIDContent(
+      returnValue.setBusinessScopeIDContent(
           org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(value));
 
       return returnValue;
     }
 
-    public static PartyInternalID fromString(
+    public static BusinessScopeID fromString(
         javax.xml.stream.XMLStreamReader xmlStreamReader, java.lang.String content) {
       if (content.indexOf(":") > -1) {
         java.lang.String prefix = content.substring(0, content.indexOf(":"));
         java.lang.String namespaceUri =
             xmlStreamReader.getNamespaceContext().getNamespaceURI(prefix);
-        return PartyInternalID.Factory.fromString(content, namespaceUri);
+        return BusinessScopeID.Factory.fromString(content, namespaceUri);
       } else {
-        return PartyInternalID.Factory.fromString(content, "");
+        return BusinessScopeID.Factory.fromString(content, "");
       }
     }
 
@@ -376,9 +376,9 @@ public class PartyInternalID extends com.sap.xi.fndei.PartyInternalIDContent
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static PartyInternalID parse(javax.xml.stream.XMLStreamReader reader)
+    public static BusinessScopeID parse(javax.xml.stream.XMLStreamReader reader)
         throws java.lang.Exception {
-      PartyInternalID object = new PartyInternalID();
+      BusinessScopeID object = new BusinessScopeID();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -403,11 +403,11 @@ public class PartyInternalID extends com.sap.xi.fndei.PartyInternalIDContent
 
             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
 
-            if (!"PartyInternalID".equals(type)) {
+            if (!"BusinessScopeID".equals(type)) {
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (PartyInternalID)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+              return (BusinessScopeID)
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -423,7 +423,7 @@ public class PartyInternalID extends com.sap.xi.fndei.PartyInternalIDContent
           java.lang.String content = tempAttribSchemeID;
 
           object.setSchemeID(
-              com.sap.xi.fndei.SchemeID_type2.Factory.fromString(reader, tempAttribSchemeID));
+              SchemeID_type6.Factory.fromString(reader, tempAttribSchemeID));
 
         } else {
 
@@ -438,7 +438,7 @@ public class PartyInternalID extends com.sap.xi.fndei.PartyInternalIDContent
           java.lang.String content = tempAttribSchemeAgencyID;
 
           object.setSchemeAgencyID(
-              com.sap.xi.fndei.SchemeAgencyID_type2.Factory.fromString(
+              SchemeAgencyID_type6.Factory.fromString(
                   reader, tempAttribSchemeAgencyID));
 
         } else {
@@ -455,12 +455,12 @@ public class PartyInternalID extends com.sap.xi.fndei.PartyInternalIDContent
                   reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "nil");
               if ("true".equals(nillableValue) || "1".equals(nillableValue)) {
                 throw new org.apache.axis2.databinding.ADBException(
-                    "The element: " + "PartyInternalID.Content" + "  cannot be null");
+                    "The element: " + "BusinessScopeID.Content" + "  cannot be null");
               }
 
               java.lang.String content = reader.getElementText();
 
-              object.setPartyInternalIDContent(
+              object.setBusinessScopeIDContent(
                   org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(content));
 
             } // End of if for expected property start element

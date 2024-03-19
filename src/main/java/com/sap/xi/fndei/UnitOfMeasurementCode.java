@@ -1,67 +1,62 @@
 /**
- * Description.java
+ * UnitOfMeasurementCode.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** Description bean class */
+/** UnitOfMeasurementCode bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class Description implements org.apache.axis2.databinding.ADBBean {
+public class UnitOfMeasurementCode implements org.apache.axis2.databinding.ADBBean {
   /* This type was generated from the piece of schema that had
-  name = Description
+  name = UnitOfMeasurementCode
   Namespace URI = http://sap.com/xi/FNDEI
   Namespace Prefix = ns1
   */
 
-  /** field for String */
-  protected java.lang.String localString;
+  /** field for Content */
+  protected Content_type1 localContent;
 
   /**
    * Auto generated getter method
    *
-   * @return java.lang.String
+   * @return com.sap.xi.fndei.Content_type1
    */
-  public java.lang.String getString() {
-    return localString;
+  public Content_type1 getContent() {
+    return localContent;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param String
+   * @param param Content
    */
-  public void setString(java.lang.String param) {
+  public void setContent(Content_type1 param) {
 
-    this.localString = param;
+    this.localContent = param;
   }
 
-  public java.lang.String toString() {
-
-    return localString.toString();
-  }
-
-  /** field for LanguageCode This was an Attribute! */
-  protected com.sap.xi.fndei.LanguageCode localLanguageCode;
+  /** field for CodeListName This was an Attribute! */
+  protected CodeListName_type0 localCodeListName;
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.LanguageCode
+   * @return com.sap.xi.fndei.CodeListName_type0
    */
-  public com.sap.xi.fndei.LanguageCode getLanguageCode() {
-    return localLanguageCode;
+  public CodeListName_type0 getCodeListName() {
+    return localCodeListName;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param LanguageCode
+   * @param param CodeListName
    */
-  public void setLanguageCode(com.sap.xi.fndei.LanguageCode param) {
+  public void setCodeListName(CodeListName_type0 param) {
 
-    this.localLanguageCode = param;
+    this.localCodeListName = param;
   }
 
   /**
@@ -104,27 +99,26 @@ public class Description implements org.apache.axis2.databinding.ADBBean {
             "xsi",
             "http://www.w3.org/2001/XMLSchema-instance",
             "type",
-            namespacePrefix + ":Description",
+            namespacePrefix + ":UnitOfMeasurementCode",
             xmlWriter);
       } else {
         writeAttribute(
-            "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "Description", xmlWriter);
+            "xsi",
+            "http://www.w3.org/2001/XMLSchema-instance",
+            "type",
+            "UnitOfMeasurementCode",
+            xmlWriter);
       }
     }
 
-    if (localLanguageCode != null) {
-      writeAttribute("", "languageCode", localLanguageCode.toString(), xmlWriter);
+    if (localCodeListName != null) {
+      writeAttribute("", "codeListName", localCodeListName.toString(), xmlWriter);
     }
 
-    if (localString == null) {
-      // write the nil attribute
-
-      throw new org.apache.axis2.databinding.ADBException("string cannot be null!!");
-
-    } else {
-
-      xmlWriter.writeCharacters(localString);
+    if (localContent == null) {
+      throw new org.apache.axis2.databinding.ADBException("content cannot be null!!");
     }
+    localContent.serialize(new javax.xml.namespace.QName("", "content"), xmlWriter);
 
     xmlWriter.writeEndElement();
   }
@@ -315,27 +309,6 @@ public class Description implements org.apache.axis2.databinding.ADBBean {
     private static org.apache.commons.logging.Log log =
         org.apache.commons.logging.LogFactory.getLog(Factory.class);
 
-    public static Description fromString(java.lang.String value, java.lang.String namespaceURI) {
-      Description returnValue = new Description();
-
-      returnValue.setString(
-          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(value));
-
-      return returnValue;
-    }
-
-    public static Description fromString(
-        javax.xml.stream.XMLStreamReader xmlStreamReader, java.lang.String content) {
-      if (content.indexOf(":") > -1) {
-        java.lang.String prefix = content.substring(0, content.indexOf(":"));
-        java.lang.String namespaceUri =
-            xmlStreamReader.getNamespaceContext().getNamespaceURI(prefix);
-        return Description.Factory.fromString(content, namespaceUri);
-      } else {
-        return Description.Factory.fromString(content, "");
-      }
-    }
-
     /**
      * static method to create the object Precondition: If this object is an element, the current or
      * next start element starts this object and any intervening reader events are ignorable If this
@@ -344,9 +317,9 @@ public class Description implements org.apache.axis2.databinding.ADBBean {
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static Description parse(javax.xml.stream.XMLStreamReader reader)
+    public static UnitOfMeasurementCode parse(javax.xml.stream.XMLStreamReader reader)
         throws java.lang.Exception {
-      Description object = new Description();
+      UnitOfMeasurementCode object = new UnitOfMeasurementCode();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -371,11 +344,11 @@ public class Description implements org.apache.axis2.databinding.ADBBean {
 
             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
 
-            if (!"Description".equals(type)) {
+            if (!"UnitOfMeasurementCode".equals(type)) {
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (Description)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+              return (UnitOfMeasurementCode)
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -384,49 +357,46 @@ public class Description implements org.apache.axis2.databinding.ADBBean {
         // from anyAttributes.
         java.util.Vector handledAttributes = new java.util.Vector();
 
-        // handle attribute "languageCode"
-        java.lang.String tempAttribLanguageCode = reader.getAttributeValue(null, "languageCode");
+        // handle attribute "codeListName"
+        java.lang.String tempAttribCodeListName = reader.getAttributeValue(null, "codeListName");
 
-        if (tempAttribLanguageCode != null) {
-          java.lang.String content = tempAttribLanguageCode;
+        if (tempAttribCodeListName != null) {
+          java.lang.String content = tempAttribCodeListName;
 
-          object.setLanguageCode(
-              com.sap.xi.fndei.LanguageCode.Factory.fromString(reader, tempAttribLanguageCode));
+          object.setCodeListName(
+              CodeListName_type0.Factory.fromString(
+                  reader, tempAttribCodeListName));
 
         } else {
 
         }
-        handledAttributes.add("languageCode");
+        handledAttributes.add("codeListName");
 
-        while (!reader.isEndElement()) {
-          if (reader.isStartElement() || reader.hasText()) {
+        reader.next();
 
-            if (reader.isStartElement() || reader.hasText()) {
+        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
 
-              nillableValue =
-                  reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "nil");
-              if ("true".equals(nillableValue) || "1".equals(nillableValue)) {
-                throw new org.apache.axis2.databinding.ADBException(
-                    "The element: " + "string" + "  cannot be null");
-              }
+        if (reader.isStartElement()
+            && new javax.xml.namespace.QName("", "content").equals(reader.getName())) {
 
-              java.lang.String content = reader.getElementText();
+          object.setContent(Content_type1.Factory.parse(reader));
 
-              object.setString(
-                  org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+          reader.next();
 
-            } // End of if for expected property start element
-            else {
-              // 3 - A start element we are not expecting indicates an invalid parameter was passed
+        } // End of if for expected property start element
+        else {
+          // 1 - A start element we are not expecting indicates an invalid parameter was passed
+          throw new org.apache.axis2.databinding.ADBException(
+              "Unexpected subelement " + reader.getName());
+        }
 
-              throw new org.apache.axis2.databinding.ADBException(
-                  "Unexpected subelement " + reader.getName());
-            }
+        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
 
-          } else {
-            reader.next();
-          }
-        } // end of while loop
+        if (reader.isStartElement())
+          // 2 - A start element we are not expecting indicates a trailing invalid property
+
+          throw new org.apache.axis2.databinding.ADBException(
+              "Unexpected subelement " + reader.getName());
 
       } catch (javax.xml.stream.XMLStreamException e) {
         throw new java.lang.Exception(e);

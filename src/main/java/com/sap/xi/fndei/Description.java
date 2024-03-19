@@ -1,94 +1,67 @@
 /**
- * UUID.java
+ * Description.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** UUID bean class */
+/** Description bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class UUID extends com.sap.xi.fndei.UUIDContent
-    implements org.apache.axis2.databinding.ADBBean {
+public class Description implements org.apache.axis2.databinding.ADBBean {
   /* This type was generated from the piece of schema that had
-  name = UUID
+  name = Description
   Namespace URI = http://sap.com/xi/FNDEI
   Namespace Prefix = ns1
   */
 
-  /** field for UUIDContent */
+  /** field for String */
+  protected java.lang.String localString;
 
   /**
    * Auto generated getter method
    *
-   * @return org.apache.axis2.databinding.types.Token
+   * @return java.lang.String
    */
-  public org.apache.axis2.databinding.types.Token getUUIDContent() {
-    return localUUIDContent;
+  public java.lang.String getString() {
+    return localString;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param UUIDContent
+   * @param param String
    */
-  public void setUUIDContent(org.apache.axis2.databinding.types.Token param) {
+  public void setString(java.lang.String param) {
 
-    if (org.apache.axis2.databinding.utils.ConverterUtil.convertToString(param)
-        .matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")) {
-      this.localUUIDContent = param;
-    } else {
-      throw new java.lang.RuntimeException("Input values do not follow defined XSD restrictions");
-    }
+    this.localString = param;
   }
 
   public java.lang.String toString() {
 
-    return localUUIDContent.toString();
+    return localString.toString();
   }
 
-  /** field for SchemeID This was an Attribute! */
-  protected com.sap.xi.fndei.SchemeID_type1 localSchemeID;
+  /** field for LanguageCode This was an Attribute! */
+  protected LanguageCode localLanguageCode;
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.SchemeID_type1
+   * @return com.sap.xi.fndei.LanguageCode
    */
-  public com.sap.xi.fndei.SchemeID_type1 getSchemeID() {
-    return localSchemeID;
+  public LanguageCode getLanguageCode() {
+    return localLanguageCode;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param SchemeID
+   * @param param LanguageCode
    */
-  public void setSchemeID(com.sap.xi.fndei.SchemeID_type1 param) {
+  public void setLanguageCode(LanguageCode param) {
 
-    this.localSchemeID = param;
-  }
-
-  /** field for SchemeAgencyID This was an Attribute! */
-  protected com.sap.xi.fndei.SchemeAgencyID_type1 localSchemeAgencyID;
-
-  /**
-   * Auto generated getter method
-   *
-   * @return com.sap.xi.fndei.SchemeAgencyID_type1
-   */
-  public com.sap.xi.fndei.SchemeAgencyID_type1 getSchemeAgencyID() {
-    return localSchemeAgencyID;
-  }
-
-  /**
-   * Auto generated setter method
-   *
-   * @param param SchemeAgencyID
-   */
-  public void setSchemeAgencyID(com.sap.xi.fndei.SchemeAgencyID_type1 param) {
-
-    this.localSchemeAgencyID = param;
+    this.localLanguageCode = param;
   }
 
   /**
@@ -123,35 +96,34 @@ public class UUID extends com.sap.xi.fndei.UUIDContent
     namespace = parentQName.getNamespaceURI();
     writeStartElement(prefix, namespace, parentQName.getLocalPart(), xmlWriter);
 
-    java.lang.String namespacePrefix = registerPrefix(xmlWriter, "http://sap.com/xi/FNDEI");
-    if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)) {
-      writeAttribute(
-          "xsi",
-          "http://www.w3.org/2001/XMLSchema-instance",
-          "type",
-          namespacePrefix + ":UUID",
-          xmlWriter);
-    } else {
-      writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "UUID", xmlWriter);
+    if (serializeType) {
+
+      java.lang.String namespacePrefix = registerPrefix(xmlWriter, "http://sap.com/xi/FNDEI");
+      if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)) {
+        writeAttribute(
+            "xsi",
+            "http://www.w3.org/2001/XMLSchema-instance",
+            "type",
+            namespacePrefix + ":Description",
+            xmlWriter);
+      } else {
+        writeAttribute(
+            "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "Description", xmlWriter);
+      }
     }
 
-    if (localSchemeID != null) {
-      writeAttribute("", "schemeID", localSchemeID.toString(), xmlWriter);
+    if (localLanguageCode != null) {
+      writeAttribute("", "languageCode", localLanguageCode.toString(), xmlWriter);
     }
 
-    if (localSchemeAgencyID != null) {
-      writeAttribute("", "schemeAgencyID", localSchemeAgencyID.toString(), xmlWriter);
-    }
-
-    if (localUUIDContent == null) {
+    if (localString == null) {
       // write the nil attribute
 
-      throw new org.apache.axis2.databinding.ADBException("UUID.Content cannot be null!!");
+      throw new org.apache.axis2.databinding.ADBException("string cannot be null!!");
 
     } else {
 
-      xmlWriter.writeCharacters(
-          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localUUIDContent));
+      xmlWriter.writeCharacters(localString);
     }
 
     xmlWriter.writeEndElement();
@@ -343,24 +315,24 @@ public class UUID extends com.sap.xi.fndei.UUIDContent
     private static org.apache.commons.logging.Log log =
         org.apache.commons.logging.LogFactory.getLog(Factory.class);
 
-    public static UUID fromString(java.lang.String value, java.lang.String namespaceURI) {
-      UUID returnValue = new UUID();
+    public static Description fromString(java.lang.String value, java.lang.String namespaceURI) {
+      Description returnValue = new Description();
 
-      returnValue.setUUIDContent(
-          org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(value));
+      returnValue.setString(
+          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(value));
 
       return returnValue;
     }
 
-    public static UUID fromString(
+    public static Description fromString(
         javax.xml.stream.XMLStreamReader xmlStreamReader, java.lang.String content) {
       if (content.indexOf(":") > -1) {
         java.lang.String prefix = content.substring(0, content.indexOf(":"));
         java.lang.String namespaceUri =
             xmlStreamReader.getNamespaceContext().getNamespaceURI(prefix);
-        return UUID.Factory.fromString(content, namespaceUri);
+        return Description.Factory.fromString(content, namespaceUri);
       } else {
-        return UUID.Factory.fromString(content, "");
+        return Description.Factory.fromString(content, "");
       }
     }
 
@@ -372,8 +344,9 @@ public class UUID extends com.sap.xi.fndei.UUIDContent
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static UUID parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
-      UUID object = new UUID();
+    public static Description parse(javax.xml.stream.XMLStreamReader reader)
+        throws java.lang.Exception {
+      Description object = new Description();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -398,10 +371,11 @@ public class UUID extends com.sap.xi.fndei.UUIDContent
 
             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
 
-            if (!"UUID".equals(type)) {
+            if (!"Description".equals(type)) {
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (UUID) com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+              return (Description)
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -410,35 +384,19 @@ public class UUID extends com.sap.xi.fndei.UUIDContent
         // from anyAttributes.
         java.util.Vector handledAttributes = new java.util.Vector();
 
-        // handle attribute "schemeID"
-        java.lang.String tempAttribSchemeID = reader.getAttributeValue(null, "schemeID");
+        // handle attribute "languageCode"
+        java.lang.String tempAttribLanguageCode = reader.getAttributeValue(null, "languageCode");
 
-        if (tempAttribSchemeID != null) {
-          java.lang.String content = tempAttribSchemeID;
+        if (tempAttribLanguageCode != null) {
+          java.lang.String content = tempAttribLanguageCode;
 
-          object.setSchemeID(
-              com.sap.xi.fndei.SchemeID_type1.Factory.fromString(reader, tempAttribSchemeID));
-
-        } else {
-
-        }
-        handledAttributes.add("schemeID");
-
-        // handle attribute "schemeAgencyID"
-        java.lang.String tempAttribSchemeAgencyID =
-            reader.getAttributeValue(null, "schemeAgencyID");
-
-        if (tempAttribSchemeAgencyID != null) {
-          java.lang.String content = tempAttribSchemeAgencyID;
-
-          object.setSchemeAgencyID(
-              com.sap.xi.fndei.SchemeAgencyID_type1.Factory.fromString(
-                  reader, tempAttribSchemeAgencyID));
+          object.setLanguageCode(
+              LanguageCode.Factory.fromString(reader, tempAttribLanguageCode));
 
         } else {
 
         }
-        handledAttributes.add("schemeAgencyID");
+        handledAttributes.add("languageCode");
 
         while (!reader.isEndElement()) {
           if (reader.isStartElement() || reader.hasText()) {
@@ -449,13 +407,13 @@ public class UUID extends com.sap.xi.fndei.UUIDContent
                   reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "nil");
               if ("true".equals(nillableValue) || "1".equals(nillableValue)) {
                 throw new org.apache.axis2.databinding.ADBException(
-                    "The element: " + "UUID.Content" + "  cannot be null");
+                    "The element: " + "string" + "  cannot be null");
               }
 
               java.lang.String content = reader.getElementText();
 
-              object.setUUIDContent(
-                  org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(content));
+              object.setString(
+                  org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
 
             } // End of if for expected property start element
             else {

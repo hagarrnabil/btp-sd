@@ -4,7 +4,7 @@
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
-package src.com.sap.xi.fndei;
+package com.sap.xi.fndei;
 
 /** BusinessDocumentMessageHeader bean class */
 @SuppressWarnings({"unchecked", "unused"})
@@ -16,7 +16,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
   */
 
   /** field for ID */
-  protected com.sap.xi.fndei.BusinessDocumentMessageID localID;
+  protected BusinessDocumentMessageID localID;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
@@ -33,7 +33,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @return com.sap.xi.fndei.BusinessDocumentMessageID
    */
-  public com.sap.xi.fndei.BusinessDocumentMessageID getID() {
+  public BusinessDocumentMessageID getID() {
     return localID;
   }
 
@@ -42,14 +42,14 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @param param ID
    */
-  public void setID(com.sap.xi.fndei.BusinessDocumentMessageID param) {
+  public void setID(BusinessDocumentMessageID param) {
     localIDTracker = param != null;
 
     this.localID = param;
   }
 
   /** field for UUID */
-  protected com.sap.xi.fndei.UUID localUUID;
+  protected UUID localUUID;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
@@ -66,7 +66,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @return com.sap.xi.fndei.UUID
    */
-  public com.sap.xi.fndei.UUID getUUID() {
+  public UUID getUUID() {
     return localUUID;
   }
 
@@ -75,14 +75,14 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @param param UUID
    */
-  public void setUUID(com.sap.xi.fndei.UUID param) {
+  public void setUUID(UUID param) {
     localUUIDTracker = param != null;
 
     this.localUUID = param;
   }
 
   /** field for ReferenceID */
-  protected com.sap.xi.fndei.BusinessDocumentMessageID localReferenceID;
+  protected BusinessDocumentMessageID localReferenceID;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
@@ -99,7 +99,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @return com.sap.xi.fndei.BusinessDocumentMessageID
    */
-  public com.sap.xi.fndei.BusinessDocumentMessageID getReferenceID() {
+  public BusinessDocumentMessageID getReferenceID() {
     return localReferenceID;
   }
 
@@ -108,14 +108,14 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @param param ReferenceID
    */
-  public void setReferenceID(com.sap.xi.fndei.BusinessDocumentMessageID param) {
+  public void setReferenceID(BusinessDocumentMessageID param) {
     localReferenceIDTracker = param != null;
 
     this.localReferenceID = param;
   }
 
   /** field for ReferenceUUID */
-  protected com.sap.xi.fndei.UUID localReferenceUUID;
+  protected UUID localReferenceUUID;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
@@ -132,7 +132,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @return com.sap.xi.fndei.UUID
    */
-  public com.sap.xi.fndei.UUID getReferenceUUID() {
+  public UUID getReferenceUUID() {
     return localReferenceUUID;
   }
 
@@ -141,21 +141,21 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @param param ReferenceUUID
    */
-  public void setReferenceUUID(com.sap.xi.fndei.UUID param) {
+  public void setReferenceUUID(UUID param) {
     localReferenceUUIDTracker = param != null;
 
     this.localReferenceUUID = param;
   }
 
   /** field for CreationDateTime */
-  protected com.sap.xi.fndei.GLOBAL_DateTime localCreationDateTime;
+  protected GLOBAL_DateTime localCreationDateTime;
 
   /**
    * Auto generated getter method
    *
    * @return com.sap.xi.fndei.GLOBAL_DateTime
    */
-  public com.sap.xi.fndei.GLOBAL_DateTime getCreationDateTime() {
+  public GLOBAL_DateTime getCreationDateTime() {
     return localCreationDateTime;
   }
 
@@ -164,13 +164,13 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @param param CreationDateTime
    */
-  public void setCreationDateTime(com.sap.xi.fndei.GLOBAL_DateTime param) {
+  public void setCreationDateTime(GLOBAL_DateTime param) {
 
     this.localCreationDateTime = param;
   }
 
   /** field for TestDataIndicator */
-  protected com.sap.xi.fndei.Indicator localTestDataIndicator;
+  protected Indicator localTestDataIndicator;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
@@ -187,7 +187,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @return com.sap.xi.fndei.Indicator
    */
-  public com.sap.xi.fndei.Indicator getTestDataIndicator() {
+  public Indicator getTestDataIndicator() {
     return localTestDataIndicator;
   }
 
@@ -196,14 +196,14 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @param param TestDataIndicator
    */
-  public void setTestDataIndicator(com.sap.xi.fndei.Indicator param) {
+  public void setTestDataIndicator(Indicator param) {
     localTestDataIndicatorTracker = param != null;
 
     this.localTestDataIndicator = param;
   }
 
   /** field for ReconciliationIndicator */
-  protected com.sap.xi.fndei.Indicator localReconciliationIndicator;
+  protected Indicator localReconciliationIndicator;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
@@ -220,7 +220,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @return com.sap.xi.fndei.Indicator
    */
-  public com.sap.xi.fndei.Indicator getReconciliationIndicator() {
+  public Indicator getReconciliationIndicator() {
     return localReconciliationIndicator;
   }
 
@@ -229,14 +229,14 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @param param ReconciliationIndicator
    */
-  public void setReconciliationIndicator(com.sap.xi.fndei.Indicator param) {
+  public void setReconciliationIndicator(Indicator param) {
     localReconciliationIndicatorTracker = param != null;
 
     this.localReconciliationIndicator = param;
   }
 
   /** field for SenderBusinessSystemID */
-  protected com.sap.xi.fndei.BusinessSystemID localSenderBusinessSystemID;
+  protected BusinessSystemID localSenderBusinessSystemID;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
@@ -253,7 +253,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @return com.sap.xi.fndei.BusinessSystemID
    */
-  public com.sap.xi.fndei.BusinessSystemID getSenderBusinessSystemID() {
+  public BusinessSystemID getSenderBusinessSystemID() {
     return localSenderBusinessSystemID;
   }
 
@@ -262,14 +262,14 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @param param SenderBusinessSystemID
    */
-  public void setSenderBusinessSystemID(com.sap.xi.fndei.BusinessSystemID param) {
+  public void setSenderBusinessSystemID(BusinessSystemID param) {
     localSenderBusinessSystemIDTracker = param != null;
 
     this.localSenderBusinessSystemID = param;
   }
 
   /** field for RecipientBusinessSystemID */
-  protected com.sap.xi.fndei.BusinessSystemID localRecipientBusinessSystemID;
+  protected BusinessSystemID localRecipientBusinessSystemID;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
@@ -286,7 +286,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @return com.sap.xi.fndei.BusinessSystemID
    */
-  public com.sap.xi.fndei.BusinessSystemID getRecipientBusinessSystemID() {
+  public BusinessSystemID getRecipientBusinessSystemID() {
     return localRecipientBusinessSystemID;
   }
 
@@ -295,14 +295,14 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @param param RecipientBusinessSystemID
    */
-  public void setRecipientBusinessSystemID(com.sap.xi.fndei.BusinessSystemID param) {
+  public void setRecipientBusinessSystemID(BusinessSystemID param) {
     localRecipientBusinessSystemIDTracker = param != null;
 
     this.localRecipientBusinessSystemID = param;
   }
 
   /** field for SenderParty */
-  protected com.sap.xi.fndei.BusinessDocumentMessageHeaderParty localSenderParty;
+  protected BusinessDocumentMessageHeaderParty localSenderParty;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
@@ -319,7 +319,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @return com.sap.xi.fndei.BusinessDocumentMessageHeaderParty
    */
-  public com.sap.xi.fndei.BusinessDocumentMessageHeaderParty getSenderParty() {
+  public BusinessDocumentMessageHeaderParty getSenderParty() {
     return localSenderParty;
   }
 
@@ -328,14 +328,14 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @param param SenderParty
    */
-  public void setSenderParty(com.sap.xi.fndei.BusinessDocumentMessageHeaderParty param) {
+  public void setSenderParty(BusinessDocumentMessageHeaderParty param) {
     localSenderPartyTracker = param != null;
 
     this.localSenderParty = param;
   }
 
   /** field for RecipientParty This was an Array! */
-  protected com.sap.xi.fndei.BusinessDocumentMessageHeaderParty[] localRecipientParty;
+  protected BusinessDocumentMessageHeaderParty[] localRecipientParty;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
@@ -352,20 +352,20 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @return com.sap.xi.fndei.BusinessDocumentMessageHeaderParty[]
    */
-  public com.sap.xi.fndei.BusinessDocumentMessageHeaderParty[] getRecipientParty() {
+  public BusinessDocumentMessageHeaderParty[] getRecipientParty() {
     return localRecipientParty;
   }
 
   /** validate the array for RecipientParty */
   protected void validateRecipientParty(
-      com.sap.xi.fndei.BusinessDocumentMessageHeaderParty[] param) {}
+      BusinessDocumentMessageHeaderParty[] param) {}
 
   /**
    * Auto generated setter method
    *
    * @param param RecipientParty
    */
-  public void setRecipientParty(com.sap.xi.fndei.BusinessDocumentMessageHeaderParty[] param) {
+  public void setRecipientParty(BusinessDocumentMessageHeaderParty[] param) {
 
     validateRecipientParty(param);
 
@@ -379,9 +379,9 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @param param com.sap.xi.fndei.BusinessDocumentMessageHeaderParty
    */
-  public void addRecipientParty(com.sap.xi.fndei.BusinessDocumentMessageHeaderParty param) {
+  public void addRecipientParty(BusinessDocumentMessageHeaderParty param) {
     if (localRecipientParty == null) {
-      localRecipientParty = new com.sap.xi.fndei.BusinessDocumentMessageHeaderParty[] {};
+      localRecipientParty = new BusinessDocumentMessageHeaderParty[] {};
     }
 
     // update the setting tracker
@@ -391,12 +391,12 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
         org.apache.axis2.databinding.utils.ConverterUtil.toList(localRecipientParty);
     list.add(param);
     this.localRecipientParty =
-        (com.sap.xi.fndei.BusinessDocumentMessageHeaderParty[])
-            list.toArray(new com.sap.xi.fndei.BusinessDocumentMessageHeaderParty[list.size()]);
+        (BusinessDocumentMessageHeaderParty[])
+            list.toArray(new BusinessDocumentMessageHeaderParty[list.size()]);
   }
 
   /** field for BusinessScope This was an Array! */
-  protected com.sap.xi.fndei.BusinessScope[] localBusinessScope;
+  protected BusinessScope[] localBusinessScope;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
@@ -413,19 +413,19 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @return com.sap.xi.fndei.BusinessScope[]
    */
-  public com.sap.xi.fndei.BusinessScope[] getBusinessScope() {
+  public BusinessScope[] getBusinessScope() {
     return localBusinessScope;
   }
 
   /** validate the array for BusinessScope */
-  protected void validateBusinessScope(com.sap.xi.fndei.BusinessScope[] param) {}
+  protected void validateBusinessScope(BusinessScope[] param) {}
 
   /**
    * Auto generated setter method
    *
    * @param param BusinessScope
    */
-  public void setBusinessScope(com.sap.xi.fndei.BusinessScope[] param) {
+  public void setBusinessScope(BusinessScope[] param) {
 
     validateBusinessScope(param);
 
@@ -439,9 +439,9 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
    *
    * @param param com.sap.xi.fndei.BusinessScope
    */
-  public void addBusinessScope(com.sap.xi.fndei.BusinessScope param) {
+  public void addBusinessScope(BusinessScope param) {
     if (localBusinessScope == null) {
-      localBusinessScope = new com.sap.xi.fndei.BusinessScope[] {};
+      localBusinessScope = new BusinessScope[] {};
     }
 
     // update the setting tracker
@@ -451,8 +451,8 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
         org.apache.axis2.databinding.utils.ConverterUtil.toList(localBusinessScope);
     list.add(param);
     this.localBusinessScope =
-        (com.sap.xi.fndei.BusinessScope[])
-            list.toArray(new com.sap.xi.fndei.BusinessScope[list.size()]);
+        (BusinessScope[])
+            list.toArray(new BusinessScope[list.size()]);
   }
 
   /**
@@ -834,7 +834,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
               return (BusinessDocumentMessageHeader)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -854,7 +854,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
         if (reader.isStartElement()
             && new javax.xml.namespace.QName("", "ID").equals(reader.getName())) {
 
-          object.setID(com.sap.xi.fndei.BusinessDocumentMessageID.Factory.parse(reader));
+          object.setID(BusinessDocumentMessageID.Factory.parse(reader));
 
           reader.next();
 
@@ -868,7 +868,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
         if (reader.isStartElement()
             && new javax.xml.namespace.QName("", "UUID").equals(reader.getName())) {
 
-          object.setUUID(com.sap.xi.fndei.UUID.Factory.parse(reader));
+          object.setUUID(UUID.Factory.parse(reader));
 
           reader.next();
 
@@ -882,7 +882,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
         if (reader.isStartElement()
             && new javax.xml.namespace.QName("", "ReferenceID").equals(reader.getName())) {
 
-          object.setReferenceID(com.sap.xi.fndei.BusinessDocumentMessageID.Factory.parse(reader));
+          object.setReferenceID(BusinessDocumentMessageID.Factory.parse(reader));
 
           reader.next();
 
@@ -896,7 +896,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
         if (reader.isStartElement()
             && new javax.xml.namespace.QName("", "ReferenceUUID").equals(reader.getName())) {
 
-          object.setReferenceUUID(com.sap.xi.fndei.UUID.Factory.parse(reader));
+          object.setReferenceUUID(UUID.Factory.parse(reader));
 
           reader.next();
 
@@ -910,7 +910,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
         if (reader.isStartElement()
             && new javax.xml.namespace.QName("", "CreationDateTime").equals(reader.getName())) {
 
-          object.setCreationDateTime(com.sap.xi.fndei.GLOBAL_DateTime.Factory.parse(reader));
+          object.setCreationDateTime(GLOBAL_DateTime.Factory.parse(reader));
 
           reader.next();
 
@@ -926,7 +926,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
         if (reader.isStartElement()
             && new javax.xml.namespace.QName("", "TestDataIndicator").equals(reader.getName())) {
 
-          object.setTestDataIndicator(com.sap.xi.fndei.Indicator.Factory.parse(reader));
+          object.setTestDataIndicator(Indicator.Factory.parse(reader));
 
           reader.next();
 
@@ -941,7 +941,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
             && new javax.xml.namespace.QName("", "ReconciliationIndicator")
                 .equals(reader.getName())) {
 
-          object.setReconciliationIndicator(com.sap.xi.fndei.Indicator.Factory.parse(reader));
+          object.setReconciliationIndicator(Indicator.Factory.parse(reader));
 
           reader.next();
 
@@ -956,7 +956,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
             && new javax.xml.namespace.QName("", "SenderBusinessSystemID")
                 .equals(reader.getName())) {
 
-          object.setSenderBusinessSystemID(com.sap.xi.fndei.BusinessSystemID.Factory.parse(reader));
+          object.setSenderBusinessSystemID(BusinessSystemID.Factory.parse(reader));
 
           reader.next();
 
@@ -972,7 +972,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
                 .equals(reader.getName())) {
 
           object.setRecipientBusinessSystemID(
-              com.sap.xi.fndei.BusinessSystemID.Factory.parse(reader));
+              BusinessSystemID.Factory.parse(reader));
 
           reader.next();
 
@@ -987,7 +987,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
             && new javax.xml.namespace.QName("", "SenderParty").equals(reader.getName())) {
 
           object.setSenderParty(
-              com.sap.xi.fndei.BusinessDocumentMessageHeaderParty.Factory.parse(reader));
+              BusinessDocumentMessageHeaderParty.Factory.parse(reader));
 
           reader.next();
 
@@ -1003,7 +1003,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
 
           // Process the array and step past its final element's end.
 
-          list11.add(com.sap.xi.fndei.BusinessDocumentMessageHeaderParty.Factory.parse(reader));
+          list11.add(BusinessDocumentMessageHeaderParty.Factory.parse(reader));
 
           // loop until we find a start element that is not part of this array
           boolean loopDone11 = false;
@@ -1020,7 +1020,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
             } else {
               if (new javax.xml.namespace.QName("", "RecipientParty").equals(reader.getName())) {
                 list11.add(
-                    com.sap.xi.fndei.BusinessDocumentMessageHeaderParty.Factory.parse(reader));
+                    BusinessDocumentMessageHeaderParty.Factory.parse(reader));
 
               } else {
                 loopDone11 = true;
@@ -1030,9 +1030,9 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
           // call the converter utility  to convert and set the array
 
           object.setRecipientParty(
-              (com.sap.xi.fndei.BusinessDocumentMessageHeaderParty[])
+              (BusinessDocumentMessageHeaderParty[])
                   org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
-                      com.sap.xi.fndei.BusinessDocumentMessageHeaderParty.class, list11));
+                      BusinessDocumentMessageHeaderParty.class, list11));
 
         } // End of if for expected property start element
         else {
@@ -1046,7 +1046,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
 
           // Process the array and step past its final element's end.
 
-          list12.add(com.sap.xi.fndei.BusinessScope.Factory.parse(reader));
+          list12.add(BusinessScope.Factory.parse(reader));
 
           // loop until we find a start element that is not part of this array
           boolean loopDone12 = false;
@@ -1062,7 +1062,7 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
               loopDone12 = true;
             } else {
               if (new javax.xml.namespace.QName("", "BusinessScope").equals(reader.getName())) {
-                list12.add(com.sap.xi.fndei.BusinessScope.Factory.parse(reader));
+                list12.add(BusinessScope.Factory.parse(reader));
 
               } else {
                 loopDone12 = true;
@@ -1072,9 +1072,9 @@ public class BusinessDocumentMessageHeader implements org.apache.axis2.databindi
           // call the converter utility  to convert and set the array
 
           object.setBusinessScope(
-              (com.sap.xi.fndei.BusinessScope[])
+              (BusinessScope[])
                   org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
-                      com.sap.xi.fndei.BusinessScope.class, list12));
+                      BusinessScope.class, list12));
 
         } // End of if for expected property start element
         else {

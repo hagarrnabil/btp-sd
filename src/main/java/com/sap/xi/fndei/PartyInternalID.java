@@ -1,56 +1,61 @@
 /**
- * EmailURI.java
+ * PartyInternalID.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** EmailURI bean class */
+/** PartyInternalID bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class EmailURI implements org.apache.axis2.databinding.ADBBean {
+public class PartyInternalID extends PartyInternalIDContent
+    implements org.apache.axis2.databinding.ADBBean {
   /* This type was generated from the piece of schema that had
-  name = EmailURI
+  name = PartyInternalID
   Namespace URI = http://sap.com/xi/FNDEI
   Namespace Prefix = ns1
   */
 
-  /** field for AnyURI */
-  protected org.apache.axis2.databinding.types.URI localAnyURI;
+  /** field for PartyInternalIDContent */
 
   /**
    * Auto generated getter method
    *
-   * @return org.apache.axis2.databinding.types.URI
+   * @return org.apache.axis2.databinding.types.Token
    */
-  public org.apache.axis2.databinding.types.URI getAnyURI() {
-    return localAnyURI;
+  public org.apache.axis2.databinding.types.Token getPartyInternalIDContent() {
+    return localPartyInternalIDContent;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param AnyURI
+   * @param param PartyInternalIDContent
    */
-  public void setAnyURI(org.apache.axis2.databinding.types.URI param) {
+  public void setPartyInternalIDContent(org.apache.axis2.databinding.types.Token param) {
 
-    this.localAnyURI = param;
+    if ((1 <= java.lang.String.valueOf(param).length())
+        && (java.lang.String.valueOf(param).length() <= 32)) {
+      this.localPartyInternalIDContent = param;
+    } else {
+      throw new java.lang.RuntimeException("Input values do not follow defined XSD restrictions");
+    }
   }
 
   public java.lang.String toString() {
 
-    return localAnyURI.toString();
+    return localPartyInternalIDContent.toString();
   }
 
   /** field for SchemeID This was an Attribute! */
-  protected com.sap.xi.fndei.SchemeID_type4 localSchemeID;
+  protected SchemeID_type2 localSchemeID;
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.SchemeID_type4
+   * @return com.sap.xi.fndei.SchemeID_type2
    */
-  public com.sap.xi.fndei.SchemeID_type4 getSchemeID() {
+  public SchemeID_type2 getSchemeID() {
     return localSchemeID;
   }
 
@@ -59,9 +64,31 @@ public class EmailURI implements org.apache.axis2.databinding.ADBBean {
    *
    * @param param SchemeID
    */
-  public void setSchemeID(com.sap.xi.fndei.SchemeID_type4 param) {
+  public void setSchemeID(SchemeID_type2 param) {
 
     this.localSchemeID = param;
+  }
+
+  /** field for SchemeAgencyID This was an Attribute! */
+  protected SchemeAgencyID_type2 localSchemeAgencyID;
+
+  /**
+   * Auto generated getter method
+   *
+   * @return com.sap.xi.fndei.SchemeAgencyID_type2
+   */
+  public SchemeAgencyID_type2 getSchemeAgencyID() {
+    return localSchemeAgencyID;
+  }
+
+  /**
+   * Auto generated setter method
+   *
+   * @param param SchemeAgencyID
+   */
+  public void setSchemeAgencyID(SchemeAgencyID_type2 param) {
+
+    this.localSchemeAgencyID = param;
   }
 
   /**
@@ -96,35 +123,38 @@ public class EmailURI implements org.apache.axis2.databinding.ADBBean {
     namespace = parentQName.getNamespaceURI();
     writeStartElement(prefix, namespace, parentQName.getLocalPart(), xmlWriter);
 
-    if (serializeType) {
-
-      java.lang.String namespacePrefix = registerPrefix(xmlWriter, "http://sap.com/xi/FNDEI");
-      if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)) {
-        writeAttribute(
-            "xsi",
-            "http://www.w3.org/2001/XMLSchema-instance",
-            "type",
-            namespacePrefix + ":EmailURI",
-            xmlWriter);
-      } else {
-        writeAttribute(
-            "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "EmailURI", xmlWriter);
-      }
+    java.lang.String namespacePrefix = registerPrefix(xmlWriter, "http://sap.com/xi/FNDEI");
+    if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)) {
+      writeAttribute(
+          "xsi",
+          "http://www.w3.org/2001/XMLSchema-instance",
+          "type",
+          namespacePrefix + ":PartyInternalID",
+          xmlWriter);
+    } else {
+      writeAttribute(
+          "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "PartyInternalID", xmlWriter);
     }
 
     if (localSchemeID != null) {
       writeAttribute("", "schemeID", localSchemeID.toString(), xmlWriter);
     }
 
-    if (localAnyURI == null) {
+    if (localSchemeAgencyID != null) {
+      writeAttribute("", "schemeAgencyID", localSchemeAgencyID.toString(), xmlWriter);
+    }
+
+    if (localPartyInternalIDContent == null) {
       // write the nil attribute
 
-      throw new org.apache.axis2.databinding.ADBException("anyURI cannot be null!!");
+      throw new org.apache.axis2.databinding.ADBException(
+          "PartyInternalID.Content cannot be null!!");
 
     } else {
 
       xmlWriter.writeCharacters(
-          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localAnyURI));
+          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+              localPartyInternalIDContent));
     }
 
     xmlWriter.writeEndElement();
@@ -316,24 +346,25 @@ public class EmailURI implements org.apache.axis2.databinding.ADBBean {
     private static org.apache.commons.logging.Log log =
         org.apache.commons.logging.LogFactory.getLog(Factory.class);
 
-    public static EmailURI fromString(java.lang.String value, java.lang.String namespaceURI) {
-      EmailURI returnValue = new EmailURI();
+    public static PartyInternalID fromString(
+        java.lang.String value, java.lang.String namespaceURI) {
+      PartyInternalID returnValue = new PartyInternalID();
 
-      returnValue.setAnyURI(
-          org.apache.axis2.databinding.utils.ConverterUtil.convertToAnyURI(value));
+      returnValue.setPartyInternalIDContent(
+          org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(value));
 
       return returnValue;
     }
 
-    public static EmailURI fromString(
+    public static PartyInternalID fromString(
         javax.xml.stream.XMLStreamReader xmlStreamReader, java.lang.String content) {
       if (content.indexOf(":") > -1) {
         java.lang.String prefix = content.substring(0, content.indexOf(":"));
         java.lang.String namespaceUri =
             xmlStreamReader.getNamespaceContext().getNamespaceURI(prefix);
-        return EmailURI.Factory.fromString(content, namespaceUri);
+        return PartyInternalID.Factory.fromString(content, namespaceUri);
       } else {
-        return EmailURI.Factory.fromString(content, "");
+        return PartyInternalID.Factory.fromString(content, "");
       }
     }
 
@@ -345,9 +376,9 @@ public class EmailURI implements org.apache.axis2.databinding.ADBBean {
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static EmailURI parse(javax.xml.stream.XMLStreamReader reader)
+    public static PartyInternalID parse(javax.xml.stream.XMLStreamReader reader)
         throws java.lang.Exception {
-      EmailURI object = new EmailURI();
+      PartyInternalID object = new PartyInternalID();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -372,10 +403,11 @@ public class EmailURI implements org.apache.axis2.databinding.ADBBean {
 
             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
 
-            if (!"EmailURI".equals(type)) {
+            if (!"PartyInternalID".equals(type)) {
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (EmailURI) com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+              return (PartyInternalID)
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -391,12 +423,28 @@ public class EmailURI implements org.apache.axis2.databinding.ADBBean {
           java.lang.String content = tempAttribSchemeID;
 
           object.setSchemeID(
-              com.sap.xi.fndei.SchemeID_type4.Factory.fromString(reader, tempAttribSchemeID));
+              SchemeID_type2.Factory.fromString(reader, tempAttribSchemeID));
 
         } else {
 
         }
         handledAttributes.add("schemeID");
+
+        // handle attribute "schemeAgencyID"
+        java.lang.String tempAttribSchemeAgencyID =
+            reader.getAttributeValue(null, "schemeAgencyID");
+
+        if (tempAttribSchemeAgencyID != null) {
+          java.lang.String content = tempAttribSchemeAgencyID;
+
+          object.setSchemeAgencyID(
+              SchemeAgencyID_type2.Factory.fromString(
+                  reader, tempAttribSchemeAgencyID));
+
+        } else {
+
+        }
+        handledAttributes.add("schemeAgencyID");
 
         while (!reader.isEndElement()) {
           if (reader.isStartElement() || reader.hasText()) {
@@ -407,13 +455,13 @@ public class EmailURI implements org.apache.axis2.databinding.ADBBean {
                   reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "nil");
               if ("true".equals(nillableValue) || "1".equals(nillableValue)) {
                 throw new org.apache.axis2.databinding.ADBException(
-                    "The element: " + "anyURI" + "  cannot be null");
+                    "The element: " + "PartyInternalID.Content" + "  cannot be null");
               }
 
               java.lang.String content = reader.getElementText();
 
-              object.setAnyURI(
-                  org.apache.axis2.databinding.utils.ConverterUtil.convertToAnyURI(content));
+              object.setPartyInternalIDContent(
+                  org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(content));
 
             } // End of if for expected property start element
             else {

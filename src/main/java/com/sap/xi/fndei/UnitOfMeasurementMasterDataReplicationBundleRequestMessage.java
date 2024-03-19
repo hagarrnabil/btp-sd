@@ -1,72 +1,109 @@
 /**
- * PartyStandardID.java
+ * UnitOfMeasurementMasterDataReplicationBundleRequestMessage.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** PartyStandardID bean class */
+/** UnitOfMeasurementMasterDataReplicationBundleRequestMessage bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class PartyStandardID extends com.sap.xi.fndei.PartyStandardIDContent
+public class UnitOfMeasurementMasterDataReplicationBundleRequestMessage
     implements org.apache.axis2.databinding.ADBBean {
   /* This type was generated from the piece of schema that had
-  name = PartyStandardID
+  name = UnitOfMeasurementMasterDataReplicationBundleRequestMessage
   Namespace URI = http://sap.com/xi/FNDEI
   Namespace Prefix = ns1
   */
 
-  /** field for PartyStandardIDContent */
+  /** field for MessageHeader */
+  protected BusinessDocumentMessageHeader localMessageHeader;
 
   /**
    * Auto generated getter method
    *
-   * @return org.apache.axis2.databinding.types.Token
+   * @return com.sap.xi.fndei.BusinessDocumentMessageHeader
    */
-  public org.apache.axis2.databinding.types.Token getPartyStandardIDContent() {
-    return localPartyStandardIDContent;
+  public BusinessDocumentMessageHeader getMessageHeader() {
+    return localMessageHeader;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param PartyStandardIDContent
+   * @param param MessageHeader
    */
-  public void setPartyStandardIDContent(org.apache.axis2.databinding.types.Token param) {
+  public void setMessageHeader(BusinessDocumentMessageHeader param) {
 
-    if ((1 <= java.lang.String.valueOf(param).length())
-        && (java.lang.String.valueOf(param).length() <= 13)) {
-      this.localPartyStandardIDContent = param;
-    } else {
-      throw new java.lang.RuntimeException("Input values do not follow defined XSD restrictions");
+    this.localMessageHeader = param;
+  }
+
+  /** field for UnitOfMeasurementReplicationRequestMessage This was an Array! */
+  protected UnitOfMeasurementReplicationRequestMessage[]
+      localUnitOfMeasurementReplicationRequestMessage;
+
+  /*  This tracker boolean wil be used to detect whether the user called the set method
+   *   for this attribute. It will be used to determine whether to include this field
+   *   in the serialized XML
+   */
+  protected boolean localUnitOfMeasurementReplicationRequestMessageTracker = false;
+
+  public boolean isUnitOfMeasurementReplicationRequestMessageSpecified() {
+    return localUnitOfMeasurementReplicationRequestMessageTracker;
+  }
+
+  /**
+   * Auto generated getter method
+   *
+   * @return com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage[]
+   */
+  public UnitOfMeasurementReplicationRequestMessage[]
+      getUnitOfMeasurementReplicationRequestMessage() {
+    return localUnitOfMeasurementReplicationRequestMessage;
+  }
+
+  /** validate the array for UnitOfMeasurementReplicationRequestMessage */
+  protected void validateUnitOfMeasurementReplicationRequestMessage(
+      UnitOfMeasurementReplicationRequestMessage[] param) {}
+
+  /**
+   * Auto generated setter method
+   *
+   * @param param UnitOfMeasurementReplicationRequestMessage
+   */
+  public void setUnitOfMeasurementReplicationRequestMessage(
+      UnitOfMeasurementReplicationRequestMessage[] param) {
+
+    validateUnitOfMeasurementReplicationRequestMessage(param);
+
+    localUnitOfMeasurementReplicationRequestMessageTracker = param != null;
+
+    this.localUnitOfMeasurementReplicationRequestMessage = param;
+  }
+
+  /**
+   * Auto generated add method for the array for convenience
+   *
+   * @param param com.sap.xi.fndei.UnitOfMeasurementReplicationRequestMessage
+   */
+  public void addUnitOfMeasurementReplicationRequestMessage(
+      UnitOfMeasurementReplicationRequestMessage param) {
+    if (localUnitOfMeasurementReplicationRequestMessage == null) {
+      localUnitOfMeasurementReplicationRequestMessage =
+          new UnitOfMeasurementReplicationRequestMessage[] {};
     }
-  }
 
-  public java.lang.String toString() {
+    // update the setting tracker
+    localUnitOfMeasurementReplicationRequestMessageTracker = true;
 
-    return localPartyStandardIDContent.toString();
-  }
-
-  /** field for SchemeAgencyID This was an Attribute! */
-  protected com.sap.xi.fndei.SchemeAgencyID_type3 localSchemeAgencyID;
-
-  /**
-   * Auto generated getter method
-   *
-   * @return com.sap.xi.fndei.SchemeAgencyID_type3
-   */
-  public com.sap.xi.fndei.SchemeAgencyID_type3 getSchemeAgencyID() {
-    return localSchemeAgencyID;
-  }
-
-  /**
-   * Auto generated setter method
-   *
-   * @param param SchemeAgencyID
-   */
-  public void setSchemeAgencyID(com.sap.xi.fndei.SchemeAgencyID_type3 param) {
-
-    this.localSchemeAgencyID = param;
+    java.util.List list =
+        org.apache.axis2.databinding.utils.ConverterUtil.toList(
+            localUnitOfMeasurementReplicationRequestMessage);
+    list.add(param);
+    this.localUnitOfMeasurementReplicationRequestMessage =
+        (UnitOfMeasurementReplicationRequestMessage[])
+            list.toArray(
+                new UnitOfMeasurementReplicationRequestMessage[list.size()]);
   }
 
   /**
@@ -101,39 +138,49 @@ public class PartyStandardID extends com.sap.xi.fndei.PartyStandardIDContent
     namespace = parentQName.getNamespaceURI();
     writeStartElement(prefix, namespace, parentQName.getLocalPart(), xmlWriter);
 
-    java.lang.String namespacePrefix = registerPrefix(xmlWriter, "http://sap.com/xi/FNDEI");
-    if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)) {
-      writeAttribute(
-          "xsi",
-          "http://www.w3.org/2001/XMLSchema-instance",
-          "type",
-          namespacePrefix + ":PartyStandardID",
-          xmlWriter);
-    } else {
-      writeAttribute(
-          "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "PartyStandardID", xmlWriter);
+    if (serializeType) {
+
+      java.lang.String namespacePrefix = registerPrefix(xmlWriter, "http://sap.com/xi/FNDEI");
+      if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)) {
+        writeAttribute(
+            "xsi",
+            "http://www.w3.org/2001/XMLSchema-instance",
+            "type",
+            namespacePrefix + ":UnitOfMeasurementMasterDataReplicationBundleRequestMessage",
+            xmlWriter);
+      } else {
+        writeAttribute(
+            "xsi",
+            "http://www.w3.org/2001/XMLSchema-instance",
+            "type",
+            "UnitOfMeasurementMasterDataReplicationBundleRequestMessage",
+            xmlWriter);
+      }
     }
 
-    if (localSchemeAgencyID != null) {
-      writeAttribute("", "schemeAgencyID", localSchemeAgencyID.toString(), xmlWriter);
-    } else {
-      throw new org.apache.axis2.databinding.ADBException(
-          "required attribute localSchemeAgencyID is null");
+    if (localMessageHeader == null) {
+      throw new org.apache.axis2.databinding.ADBException("MessageHeader cannot be null!!");
     }
+    localMessageHeader.serialize(new javax.xml.namespace.QName("", "MessageHeader"), xmlWriter);
+    if (localUnitOfMeasurementReplicationRequestMessageTracker) {
+      if (localUnitOfMeasurementReplicationRequestMessage != null) {
+        for (int i = 0; i < localUnitOfMeasurementReplicationRequestMessage.length; i++) {
+          if (localUnitOfMeasurementReplicationRequestMessage[i] != null) {
+            localUnitOfMeasurementReplicationRequestMessage[i].serialize(
+                new javax.xml.namespace.QName("", "UnitOfMeasurementReplicationRequestMessage"),
+                xmlWriter);
+          } else {
 
-    if (localPartyStandardIDContent == null) {
-      // write the nil attribute
+            // we don't have to do any thing since minOccures is zero
 
-      throw new org.apache.axis2.databinding.ADBException(
-          "PartyStandardID.Content cannot be null!!");
+          }
+        }
+      } else {
 
-    } else {
-
-      xmlWriter.writeCharacters(
-          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-              localPartyStandardIDContent));
+        throw new org.apache.axis2.databinding.ADBException(
+            "UnitOfMeasurementReplicationRequestMessage cannot be null!!");
+      }
     }
-
     xmlWriter.writeEndElement();
   }
 
@@ -323,28 +370,6 @@ public class PartyStandardID extends com.sap.xi.fndei.PartyStandardIDContent
     private static org.apache.commons.logging.Log log =
         org.apache.commons.logging.LogFactory.getLog(Factory.class);
 
-    public static PartyStandardID fromString(
-        java.lang.String value, java.lang.String namespaceURI) {
-      PartyStandardID returnValue = new PartyStandardID();
-
-      returnValue.setPartyStandardIDContent(
-          org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(value));
-
-      return returnValue;
-    }
-
-    public static PartyStandardID fromString(
-        javax.xml.stream.XMLStreamReader xmlStreamReader, java.lang.String content) {
-      if (content.indexOf(":") > -1) {
-        java.lang.String prefix = content.substring(0, content.indexOf(":"));
-        java.lang.String namespaceUri =
-            xmlStreamReader.getNamespaceContext().getNamespaceURI(prefix);
-        return PartyStandardID.Factory.fromString(content, namespaceUri);
-      } else {
-        return PartyStandardID.Factory.fromString(content, "");
-      }
-    }
-
     /**
      * static method to create the object Precondition: If this object is an element, the current or
      * next start element starts this object and any intervening reader events are ignorable If this
@@ -353,9 +378,10 @@ public class PartyStandardID extends com.sap.xi.fndei.PartyStandardIDContent
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static PartyStandardID parse(javax.xml.stream.XMLStreamReader reader)
-        throws java.lang.Exception {
-      PartyStandardID object = new PartyStandardID();
+    public static UnitOfMeasurementMasterDataReplicationBundleRequestMessage parse(
+        javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
+      UnitOfMeasurementMasterDataReplicationBundleRequestMessage object =
+          new UnitOfMeasurementMasterDataReplicationBundleRequestMessage();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -380,11 +406,11 @@ public class PartyStandardID extends com.sap.xi.fndei.PartyStandardIDContent
 
             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
 
-            if (!"PartyStandardID".equals(type)) {
+            if (!"UnitOfMeasurementMasterDataReplicationBundleRequestMessage".equals(type)) {
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (PartyStandardID)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+              return (UnitOfMeasurementMasterDataReplicationBundleRequestMessage)
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -393,53 +419,81 @@ public class PartyStandardID extends com.sap.xi.fndei.PartyStandardIDContent
         // from anyAttributes.
         java.util.Vector handledAttributes = new java.util.Vector();
 
-        // handle attribute "schemeAgencyID"
-        java.lang.String tempAttribSchemeAgencyID =
-            reader.getAttributeValue(null, "schemeAgencyID");
+        reader.next();
 
-        if (tempAttribSchemeAgencyID != null) {
-          java.lang.String content = tempAttribSchemeAgencyID;
+        java.util.ArrayList list2 = new java.util.ArrayList();
 
-          object.setSchemeAgencyID(
-              com.sap.xi.fndei.SchemeAgencyID_type3.Factory.fromString(
-                  reader, tempAttribSchemeAgencyID));
+        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
 
-        } else {
+        if (reader.isStartElement()
+            && new javax.xml.namespace.QName("", "MessageHeader").equals(reader.getName())) {
+
+          object.setMessageHeader(
+              BusinessDocumentMessageHeader.Factory.parse(reader));
+
+          reader.next();
+
+        } // End of if for expected property start element
+        else {
+          // 1 - A start element we are not expecting indicates an invalid parameter was passed
+          throw new org.apache.axis2.databinding.ADBException(
+              "Unexpected subelement " + reader.getName());
+        }
+
+        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+
+        if (reader.isStartElement()
+            && new javax.xml.namespace.QName("", "UnitOfMeasurementReplicationRequestMessage")
+                .equals(reader.getName())) {
+
+          // Process the array and step past its final element's end.
+
+          list2.add(
+              UnitOfMeasurementReplicationRequestMessage.Factory.parse(reader));
+
+          // loop until we find a start element that is not part of this array
+          boolean loopDone2 = false;
+          while (!loopDone2) {
+            // We should be at the end element, but make sure
+            while (!reader.isEndElement()) reader.next();
+            // Step out of this element
+            reader.next();
+            // Step to next element event.
+            while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+            if (reader.isEndElement()) {
+              // two continuous end elements means we are exiting the xml structure
+              loopDone2 = true;
+            } else {
+              if (new javax.xml.namespace.QName("", "UnitOfMeasurementReplicationRequestMessage")
+                  .equals(reader.getName())) {
+                list2.add(
+                    UnitOfMeasurementReplicationRequestMessage.Factory.parse(
+                        reader));
+
+              } else {
+                loopDone2 = true;
+              }
+            }
+          }
+          // call the converter utility  to convert and set the array
+
+          object.setUnitOfMeasurementReplicationRequestMessage(
+              (UnitOfMeasurementReplicationRequestMessage[])
+                  org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
+                      UnitOfMeasurementReplicationRequestMessage.class, list2));
+
+        } // End of if for expected property start element
+        else {
+
+        }
+
+        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+
+        if (reader.isStartElement())
+          // 2 - A start element we are not expecting indicates a trailing invalid property
 
           throw new org.apache.axis2.databinding.ADBException(
-              "Required attribute schemeAgencyID is missing");
-        }
-        handledAttributes.add("schemeAgencyID");
-
-        while (!reader.isEndElement()) {
-          if (reader.isStartElement() || reader.hasText()) {
-
-            if (reader.isStartElement() || reader.hasText()) {
-
-              nillableValue =
-                  reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "nil");
-              if ("true".equals(nillableValue) || "1".equals(nillableValue)) {
-                throw new org.apache.axis2.databinding.ADBException(
-                    "The element: " + "PartyStandardID.Content" + "  cannot be null");
-              }
-
-              java.lang.String content = reader.getElementText();
-
-              object.setPartyStandardIDContent(
-                  org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(content));
-
-            } // End of if for expected property start element
-            else {
-              // 3 - A start element we are not expecting indicates an invalid parameter was passed
-
-              throw new org.apache.axis2.databinding.ADBException(
-                  "Unexpected subelement " + reader.getName());
-            }
-
-          } else {
-            reader.next();
-          }
-        } // end of while loop
+              "Unexpected subelement " + reader.getName());
 
       } catch (javax.xml.stream.XMLStreamException e) {
         throw new java.lang.Exception(e);

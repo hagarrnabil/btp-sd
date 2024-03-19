@@ -1,62 +1,67 @@
 /**
- * UnitOfMeasurementCode.java
+ * EmailURI.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** UnitOfMeasurementCode bean class */
+/** EmailURI bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class UnitOfMeasurementCode implements org.apache.axis2.databinding.ADBBean {
+public class EmailURI implements org.apache.axis2.databinding.ADBBean {
   /* This type was generated from the piece of schema that had
-  name = UnitOfMeasurementCode
+  name = EmailURI
   Namespace URI = http://sap.com/xi/FNDEI
   Namespace Prefix = ns1
   */
 
-  /** field for Content */
-  protected com.sap.xi.fndei.Content_type1 localContent;
+  /** field for AnyURI */
+  protected org.apache.axis2.databinding.types.URI localAnyURI;
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.Content_type1
+   * @return org.apache.axis2.databinding.types.URI
    */
-  public com.sap.xi.fndei.Content_type1 getContent() {
-    return localContent;
+  public org.apache.axis2.databinding.types.URI getAnyURI() {
+    return localAnyURI;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param Content
+   * @param param AnyURI
    */
-  public void setContent(com.sap.xi.fndei.Content_type1 param) {
+  public void setAnyURI(org.apache.axis2.databinding.types.URI param) {
 
-    this.localContent = param;
+    this.localAnyURI = param;
   }
 
-  /** field for CodeListName This was an Attribute! */
-  protected com.sap.xi.fndei.CodeListName_type0 localCodeListName;
+  public java.lang.String toString() {
+
+    return localAnyURI.toString();
+  }
+
+  /** field for SchemeID This was an Attribute! */
+  protected SchemeID_type4 localSchemeID;
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.CodeListName_type0
+   * @return com.sap.xi.fndei.SchemeID_type4
    */
-  public com.sap.xi.fndei.CodeListName_type0 getCodeListName() {
-    return localCodeListName;
+  public SchemeID_type4 getSchemeID() {
+    return localSchemeID;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param CodeListName
+   * @param param SchemeID
    */
-  public void setCodeListName(com.sap.xi.fndei.CodeListName_type0 param) {
+  public void setSchemeID(SchemeID_type4 param) {
 
-    this.localCodeListName = param;
+    this.localSchemeID = param;
   }
 
   /**
@@ -99,26 +104,28 @@ public class UnitOfMeasurementCode implements org.apache.axis2.databinding.ADBBe
             "xsi",
             "http://www.w3.org/2001/XMLSchema-instance",
             "type",
-            namespacePrefix + ":UnitOfMeasurementCode",
+            namespacePrefix + ":EmailURI",
             xmlWriter);
       } else {
         writeAttribute(
-            "xsi",
-            "http://www.w3.org/2001/XMLSchema-instance",
-            "type",
-            "UnitOfMeasurementCode",
-            xmlWriter);
+            "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "EmailURI", xmlWriter);
       }
     }
 
-    if (localCodeListName != null) {
-      writeAttribute("", "codeListName", localCodeListName.toString(), xmlWriter);
+    if (localSchemeID != null) {
+      writeAttribute("", "schemeID", localSchemeID.toString(), xmlWriter);
     }
 
-    if (localContent == null) {
-      throw new org.apache.axis2.databinding.ADBException("content cannot be null!!");
+    if (localAnyURI == null) {
+      // write the nil attribute
+
+      throw new org.apache.axis2.databinding.ADBException("anyURI cannot be null!!");
+
+    } else {
+
+      xmlWriter.writeCharacters(
+          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localAnyURI));
     }
-    localContent.serialize(new javax.xml.namespace.QName("", "content"), xmlWriter);
 
     xmlWriter.writeEndElement();
   }
@@ -309,6 +316,27 @@ public class UnitOfMeasurementCode implements org.apache.axis2.databinding.ADBBe
     private static org.apache.commons.logging.Log log =
         org.apache.commons.logging.LogFactory.getLog(Factory.class);
 
+    public static EmailURI fromString(java.lang.String value, java.lang.String namespaceURI) {
+      EmailURI returnValue = new EmailURI();
+
+      returnValue.setAnyURI(
+          org.apache.axis2.databinding.utils.ConverterUtil.convertToAnyURI(value));
+
+      return returnValue;
+    }
+
+    public static EmailURI fromString(
+        javax.xml.stream.XMLStreamReader xmlStreamReader, java.lang.String content) {
+      if (content.indexOf(":") > -1) {
+        java.lang.String prefix = content.substring(0, content.indexOf(":"));
+        java.lang.String namespaceUri =
+            xmlStreamReader.getNamespaceContext().getNamespaceURI(prefix);
+        return EmailURI.Factory.fromString(content, namespaceUri);
+      } else {
+        return EmailURI.Factory.fromString(content, "");
+      }
+    }
+
     /**
      * static method to create the object Precondition: If this object is an element, the current or
      * next start element starts this object and any intervening reader events are ignorable If this
@@ -317,9 +345,9 @@ public class UnitOfMeasurementCode implements org.apache.axis2.databinding.ADBBe
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static UnitOfMeasurementCode parse(javax.xml.stream.XMLStreamReader reader)
+    public static EmailURI parse(javax.xml.stream.XMLStreamReader reader)
         throws java.lang.Exception {
-      UnitOfMeasurementCode object = new UnitOfMeasurementCode();
+      EmailURI object = new EmailURI();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -344,11 +372,10 @@ public class UnitOfMeasurementCode implements org.apache.axis2.databinding.ADBBe
 
             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
 
-            if (!"UnitOfMeasurementCode".equals(type)) {
+            if (!"EmailURI".equals(type)) {
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (UnitOfMeasurementCode)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+              return (EmailURI) ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -357,46 +384,49 @@ public class UnitOfMeasurementCode implements org.apache.axis2.databinding.ADBBe
         // from anyAttributes.
         java.util.Vector handledAttributes = new java.util.Vector();
 
-        // handle attribute "codeListName"
-        java.lang.String tempAttribCodeListName = reader.getAttributeValue(null, "codeListName");
+        // handle attribute "schemeID"
+        java.lang.String tempAttribSchemeID = reader.getAttributeValue(null, "schemeID");
 
-        if (tempAttribCodeListName != null) {
-          java.lang.String content = tempAttribCodeListName;
+        if (tempAttribSchemeID != null) {
+          java.lang.String content = tempAttribSchemeID;
 
-          object.setCodeListName(
-              com.sap.xi.fndei.CodeListName_type0.Factory.fromString(
-                  reader, tempAttribCodeListName));
+          object.setSchemeID(
+              SchemeID_type4.Factory.fromString(reader, tempAttribSchemeID));
 
         } else {
 
         }
-        handledAttributes.add("codeListName");
+        handledAttributes.add("schemeID");
 
-        reader.next();
+        while (!reader.isEndElement()) {
+          if (reader.isStartElement() || reader.hasText()) {
 
-        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+            if (reader.isStartElement() || reader.hasText()) {
 
-        if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "content").equals(reader.getName())) {
+              nillableValue =
+                  reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "nil");
+              if ("true".equals(nillableValue) || "1".equals(nillableValue)) {
+                throw new org.apache.axis2.databinding.ADBException(
+                    "The element: " + "anyURI" + "  cannot be null");
+              }
 
-          object.setContent(com.sap.xi.fndei.Content_type1.Factory.parse(reader));
+              java.lang.String content = reader.getElementText();
 
-          reader.next();
+              object.setAnyURI(
+                  org.apache.axis2.databinding.utils.ConverterUtil.convertToAnyURI(content));
 
-        } // End of if for expected property start element
-        else {
-          // 1 - A start element we are not expecting indicates an invalid parameter was passed
-          throw new org.apache.axis2.databinding.ADBException(
-              "Unexpected subelement " + reader.getName());
-        }
+            } // End of if for expected property start element
+            else {
+              // 3 - A start element we are not expecting indicates an invalid parameter was passed
 
-        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+              throw new org.apache.axis2.databinding.ADBException(
+                  "Unexpected subelement " + reader.getName());
+            }
 
-        if (reader.isStartElement())
-          // 2 - A start element we are not expecting indicates a trailing invalid property
-
-          throw new org.apache.axis2.databinding.ADBException(
-              "Unexpected subelement " + reader.getName());
+          } else {
+            reader.next();
+          }
+        } // end of while loop
 
       } catch (javax.xml.stream.XMLStreamException e) {
         throw new java.lang.Exception(e);

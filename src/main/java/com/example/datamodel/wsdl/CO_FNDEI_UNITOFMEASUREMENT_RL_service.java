@@ -10,11 +10,13 @@ package com.example.datamodel.wsdl;
  *  CO_FNDEI_UNITOFMEASUREMENT_RL_service java interface
  */
 
+import com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequest;
+
 public interface CO_FNDEI_UNITOFMEASUREMENT_RL_service {
 
   /** Auto generated method signature for Asynchronous Invocations */
   public void unitOfMeasurementMasterDataReplicationBundleRequest_Out(
-      com.sap.xi.fndei.UnitOfMeasurementMasterDataReplicationBundleRequest
+      UnitOfMeasurementMasterDataReplicationBundleRequest
           unitOfMeasurementMasterDataReplicationBundleRequest)
       throws java.rmi.RemoteException;
 

@@ -1,144 +1,94 @@
 /**
- * BusinessDocumentMessageHeaderParty.java
+ * UUID.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** BusinessDocumentMessageHeaderParty bean class */
+/** UUID bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class BusinessDocumentMessageHeaderParty implements org.apache.axis2.databinding.ADBBean {
+public class UUID extends UUIDContent
+    implements org.apache.axis2.databinding.ADBBean {
   /* This type was generated from the piece of schema that had
-  name = BusinessDocumentMessageHeaderParty
+  name = UUID
   Namespace URI = http://sap.com/xi/FNDEI
   Namespace Prefix = ns1
   */
 
-  /** field for InternalID */
-  protected com.sap.xi.fndei.PartyInternalID localInternalID;
-
-  /*  This tracker boolean wil be used to detect whether the user called the set method
-   *   for this attribute. It will be used to determine whether to include this field
-   *   in the serialized XML
-   */
-  protected boolean localInternalIDTracker = false;
-
-  public boolean isInternalIDSpecified() {
-    return localInternalIDTracker;
-  }
+  /** field for UUIDContent */
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.PartyInternalID
+   * @return org.apache.axis2.databinding.types.Token
    */
-  public com.sap.xi.fndei.PartyInternalID getInternalID() {
-    return localInternalID;
+  public org.apache.axis2.databinding.types.Token getUUIDContent() {
+    return localUUIDContent;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param InternalID
+   * @param param UUIDContent
    */
-  public void setInternalID(com.sap.xi.fndei.PartyInternalID param) {
-    localInternalIDTracker = param != null;
+  public void setUUIDContent(org.apache.axis2.databinding.types.Token param) {
 
-    this.localInternalID = param;
-  }
-
-  /** field for StandardID This was an Array! */
-  protected com.sap.xi.fndei.PartyStandardID[] localStandardID;
-
-  /*  This tracker boolean wil be used to detect whether the user called the set method
-   *   for this attribute. It will be used to determine whether to include this field
-   *   in the serialized XML
-   */
-  protected boolean localStandardIDTracker = false;
-
-  public boolean isStandardIDSpecified() {
-    return localStandardIDTracker;
-  }
-
-  /**
-   * Auto generated getter method
-   *
-   * @return com.sap.xi.fndei.PartyStandardID[]
-   */
-  public com.sap.xi.fndei.PartyStandardID[] getStandardID() {
-    return localStandardID;
-  }
-
-  /** validate the array for StandardID */
-  protected void validateStandardID(com.sap.xi.fndei.PartyStandardID[] param) {}
-
-  /**
-   * Auto generated setter method
-   *
-   * @param param StandardID
-   */
-  public void setStandardID(com.sap.xi.fndei.PartyStandardID[] param) {
-
-    validateStandardID(param);
-
-    localStandardIDTracker = param != null;
-
-    this.localStandardID = param;
-  }
-
-  /**
-   * Auto generated add method for the array for convenience
-   *
-   * @param param com.sap.xi.fndei.PartyStandardID
-   */
-  public void addStandardID(com.sap.xi.fndei.PartyStandardID param) {
-    if (localStandardID == null) {
-      localStandardID = new com.sap.xi.fndei.PartyStandardID[] {};
+    if (org.apache.axis2.databinding.utils.ConverterUtil.convertToString(param)
+        .matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")) {
+      this.localUUIDContent = param;
+    } else {
+      throw new java.lang.RuntimeException("Input values do not follow defined XSD restrictions");
     }
-
-    // update the setting tracker
-    localStandardIDTracker = true;
-
-    java.util.List list = org.apache.axis2.databinding.utils.ConverterUtil.toList(localStandardID);
-    list.add(param);
-    this.localStandardID =
-        (com.sap.xi.fndei.PartyStandardID[])
-            list.toArray(new com.sap.xi.fndei.PartyStandardID[list.size()]);
   }
 
-  /** field for ContactPerson */
-  protected com.sap.xi.fndei.BusinessDocumentMessageHeaderPartyContactPerson localContactPerson;
+  public java.lang.String toString() {
 
-  /*  This tracker boolean wil be used to detect whether the user called the set method
-   *   for this attribute. It will be used to determine whether to include this field
-   *   in the serialized XML
-   */
-  protected boolean localContactPersonTracker = false;
-
-  public boolean isContactPersonSpecified() {
-    return localContactPersonTracker;
+    return localUUIDContent.toString();
   }
+
+  /** field for SchemeID This was an Attribute! */
+  protected SchemeID_type1 localSchemeID;
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.BusinessDocumentMessageHeaderPartyContactPerson
+   * @return com.sap.xi.fndei.SchemeID_type1
    */
-  public com.sap.xi.fndei.BusinessDocumentMessageHeaderPartyContactPerson getContactPerson() {
-    return localContactPerson;
+  public SchemeID_type1 getSchemeID() {
+    return localSchemeID;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param ContactPerson
+   * @param param SchemeID
    */
-  public void setContactPerson(
-      com.sap.xi.fndei.BusinessDocumentMessageHeaderPartyContactPerson param) {
-    localContactPersonTracker = param != null;
+  public void setSchemeID(SchemeID_type1 param) {
 
-    this.localContactPerson = param;
+    this.localSchemeID = param;
+  }
+
+  /** field for SchemeAgencyID This was an Attribute! */
+  protected SchemeAgencyID_type1 localSchemeAgencyID;
+
+  /**
+   * Auto generated getter method
+   *
+   * @return com.sap.xi.fndei.SchemeAgencyID_type1
+   */
+  public SchemeAgencyID_type1 getSchemeAgencyID() {
+    return localSchemeAgencyID;
+  }
+
+  /**
+   * Auto generated setter method
+   *
+   * @param param SchemeAgencyID
+   */
+  public void setSchemeAgencyID(SchemeAgencyID_type1 param) {
+
+    this.localSchemeAgencyID = param;
   }
 
   /**
@@ -173,54 +123,37 @@ public class BusinessDocumentMessageHeaderParty implements org.apache.axis2.data
     namespace = parentQName.getNamespaceURI();
     writeStartElement(prefix, namespace, parentQName.getLocalPart(), xmlWriter);
 
-    if (serializeType) {
-
-      java.lang.String namespacePrefix = registerPrefix(xmlWriter, "http://sap.com/xi/FNDEI");
-      if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)) {
-        writeAttribute(
-            "xsi",
-            "http://www.w3.org/2001/XMLSchema-instance",
-            "type",
-            namespacePrefix + ":BusinessDocumentMessageHeaderParty",
-            xmlWriter);
-      } else {
-        writeAttribute(
-            "xsi",
-            "http://www.w3.org/2001/XMLSchema-instance",
-            "type",
-            "BusinessDocumentMessageHeaderParty",
-            xmlWriter);
-      }
+    java.lang.String namespacePrefix = registerPrefix(xmlWriter, "http://sap.com/xi/FNDEI");
+    if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)) {
+      writeAttribute(
+          "xsi",
+          "http://www.w3.org/2001/XMLSchema-instance",
+          "type",
+          namespacePrefix + ":UUID",
+          xmlWriter);
+    } else {
+      writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "UUID", xmlWriter);
     }
-    if (localInternalIDTracker) {
-      if (localInternalID == null) {
-        throw new org.apache.axis2.databinding.ADBException("InternalID cannot be null!!");
-      }
-      localInternalID.serialize(new javax.xml.namespace.QName("", "InternalID"), xmlWriter);
-    }
-    if (localStandardIDTracker) {
-      if (localStandardID != null) {
-        for (int i = 0; i < localStandardID.length; i++) {
-          if (localStandardID[i] != null) {
-            localStandardID[i].serialize(
-                new javax.xml.namespace.QName("", "StandardID"), xmlWriter);
-          } else {
 
-            // we don't have to do any thing since minOccures is zero
-
-          }
-        }
-      } else {
-
-        throw new org.apache.axis2.databinding.ADBException("StandardID cannot be null!!");
-      }
+    if (localSchemeID != null) {
+      writeAttribute("", "schemeID", localSchemeID.toString(), xmlWriter);
     }
-    if (localContactPersonTracker) {
-      if (localContactPerson == null) {
-        throw new org.apache.axis2.databinding.ADBException("ContactPerson cannot be null!!");
-      }
-      localContactPerson.serialize(new javax.xml.namespace.QName("", "ContactPerson"), xmlWriter);
+
+    if (localSchemeAgencyID != null) {
+      writeAttribute("", "schemeAgencyID", localSchemeAgencyID.toString(), xmlWriter);
     }
+
+    if (localUUIDContent == null) {
+      // write the nil attribute
+
+      throw new org.apache.axis2.databinding.ADBException("UUID.Content cannot be null!!");
+
+    } else {
+
+      xmlWriter.writeCharacters(
+          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localUUIDContent));
+    }
+
     xmlWriter.writeEndElement();
   }
 
@@ -410,6 +343,27 @@ public class BusinessDocumentMessageHeaderParty implements org.apache.axis2.data
     private static org.apache.commons.logging.Log log =
         org.apache.commons.logging.LogFactory.getLog(Factory.class);
 
+    public static UUID fromString(java.lang.String value, java.lang.String namespaceURI) {
+      UUID returnValue = new UUID();
+
+      returnValue.setUUIDContent(
+          org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(value));
+
+      return returnValue;
+    }
+
+    public static UUID fromString(
+        javax.xml.stream.XMLStreamReader xmlStreamReader, java.lang.String content) {
+      if (content.indexOf(":") > -1) {
+        java.lang.String prefix = content.substring(0, content.indexOf(":"));
+        java.lang.String namespaceUri =
+            xmlStreamReader.getNamespaceContext().getNamespaceURI(prefix);
+        return UUID.Factory.fromString(content, namespaceUri);
+      } else {
+        return UUID.Factory.fromString(content, "");
+      }
+    }
+
     /**
      * static method to create the object Precondition: If this object is an element, the current or
      * next start element starts this object and any intervening reader events are ignorable If this
@@ -418,9 +372,8 @@ public class BusinessDocumentMessageHeaderParty implements org.apache.axis2.data
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static BusinessDocumentMessageHeaderParty parse(javax.xml.stream.XMLStreamReader reader)
-        throws java.lang.Exception {
-      BusinessDocumentMessageHeaderParty object = new BusinessDocumentMessageHeaderParty();
+    public static UUID parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
+      UUID object = new UUID();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -445,11 +398,10 @@ public class BusinessDocumentMessageHeaderParty implements org.apache.axis2.data
 
             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
 
-            if (!"BusinessDocumentMessageHeaderParty".equals(type)) {
+            if (!"UUID".equals(type)) {
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (BusinessDocumentMessageHeaderParty)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+              return (UUID) ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -458,89 +410,65 @@ public class BusinessDocumentMessageHeaderParty implements org.apache.axis2.data
         // from anyAttributes.
         java.util.Vector handledAttributes = new java.util.Vector();
 
-        reader.next();
+        // handle attribute "schemeID"
+        java.lang.String tempAttribSchemeID = reader.getAttributeValue(null, "schemeID");
 
-        java.util.ArrayList list2 = new java.util.ArrayList();
+        if (tempAttribSchemeID != null) {
+          java.lang.String content = tempAttribSchemeID;
 
-        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+          object.setSchemeID(
+              SchemeID_type1.Factory.fromString(reader, tempAttribSchemeID));
 
-        if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "InternalID").equals(reader.getName())) {
-
-          object.setInternalID(com.sap.xi.fndei.PartyInternalID.Factory.parse(reader));
-
-          reader.next();
-
-        } // End of if for expected property start element
-        else {
+        } else {
 
         }
+        handledAttributes.add("schemeID");
 
-        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+        // handle attribute "schemeAgencyID"
+        java.lang.String tempAttribSchemeAgencyID =
+            reader.getAttributeValue(null, "schemeAgencyID");
 
-        if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "StandardID").equals(reader.getName())) {
+        if (tempAttribSchemeAgencyID != null) {
+          java.lang.String content = tempAttribSchemeAgencyID;
 
-          // Process the array and step past its final element's end.
+          object.setSchemeAgencyID(
+              SchemeAgencyID_type1.Factory.fromString(
+                  reader, tempAttribSchemeAgencyID));
 
-          list2.add(com.sap.xi.fndei.PartyStandardID.Factory.parse(reader));
+        } else {
 
-          // loop until we find a start element that is not part of this array
-          boolean loopDone2 = false;
-          while (!loopDone2) {
-            // We should be at the end element, but make sure
-            while (!reader.isEndElement()) reader.next();
-            // Step out of this element
-            reader.next();
-            // Step to next element event.
-            while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-            if (reader.isEndElement()) {
-              // two continuous end elements means we are exiting the xml structure
-              loopDone2 = true;
-            } else {
-              if (new javax.xml.namespace.QName("", "StandardID").equals(reader.getName())) {
-                list2.add(com.sap.xi.fndei.PartyStandardID.Factory.parse(reader));
+        }
+        handledAttributes.add("schemeAgencyID");
 
-              } else {
-                loopDone2 = true;
+        while (!reader.isEndElement()) {
+          if (reader.isStartElement() || reader.hasText()) {
+
+            if (reader.isStartElement() || reader.hasText()) {
+
+              nillableValue =
+                  reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "nil");
+              if ("true".equals(nillableValue) || "1".equals(nillableValue)) {
+                throw new org.apache.axis2.databinding.ADBException(
+                    "The element: " + "UUID.Content" + "  cannot be null");
               }
+
+              java.lang.String content = reader.getElementText();
+
+              object.setUUIDContent(
+                  org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(content));
+
+            } // End of if for expected property start element
+            else {
+              // 3 - A start element we are not expecting indicates an invalid parameter was passed
+
+              throw new org.apache.axis2.databinding.ADBException(
+                  "Unexpected subelement " + reader.getName());
             }
+
+          } else {
+            reader.next();
           }
-          // call the converter utility  to convert and set the array
-
-          object.setStandardID(
-              (com.sap.xi.fndei.PartyStandardID[])
-                  org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
-                      com.sap.xi.fndei.PartyStandardID.class, list2));
-
-        } // End of if for expected property start element
-        else {
-
-        }
-
-        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-
-        if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "ContactPerson").equals(reader.getName())) {
-
-          object.setContactPerson(
-              com.sap.xi.fndei.BusinessDocumentMessageHeaderPartyContactPerson.Factory.parse(
-                  reader));
-
-          reader.next();
-
-        } // End of if for expected property start element
-        else {
-
-        }
-
-        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-
-        if (reader.isStartElement())
-          // 2 - A start element we are not expecting indicates a trailing invalid property
-
-          throw new org.apache.axis2.databinding.ADBException(
-              "Unexpected subelement " + reader.getName());
+        } // end of while loop
 
       } catch (javax.xml.stream.XMLStreamException e) {
         throw new java.lang.Exception(e);

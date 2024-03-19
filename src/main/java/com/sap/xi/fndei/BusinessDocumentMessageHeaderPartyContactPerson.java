@@ -1,341 +1,361 @@
 /**
- * UnitOfMeasurement.java
+ * BusinessDocumentMessageHeaderPartyContactPerson.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** UnitOfMeasurement bean class */
+/** BusinessDocumentMessageHeaderPartyContactPerson bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
+public class BusinessDocumentMessageHeaderPartyContactPerson
+    implements org.apache.axis2.databinding.ADBBean {
   /* This type was generated from the piece of schema that had
-  name = UnitOfMeasurement
+  name = BusinessDocumentMessageHeaderPartyContactPerson
   Namespace URI = http://sap.com/xi/FNDEI
   Namespace Prefix = ns1
   */
 
-  /** field for Code */
-  protected com.sap.xi.fndei.UnitOfMeasurementCode localCode;
-
-  /**
-   * Auto generated getter method
-   *
-   * @return com.sap.xi.fndei.UnitOfMeasurementCode
-   */
-  public com.sap.xi.fndei.UnitOfMeasurementCode getCode() {
-    return localCode;
-  }
-
-  /**
-   * Auto generated setter method
-   *
-   * @param param Code
-   */
-  public void setCode(com.sap.xi.fndei.UnitOfMeasurementCode param) {
-
-    this.localCode = param;
-  }
-
-  /** field for ISOCode */
-  protected com.sap.xi.fndei.UnitOfMeasurementCode localISOCode;
+  /** field for InternalID */
+  protected ContactPersonInternalID localInternalID;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
    *   in the serialized XML
    */
-  protected boolean localISOCodeTracker = false;
+  protected boolean localInternalIDTracker = false;
 
-  public boolean isISOCodeSpecified() {
-    return localISOCodeTracker;
+  public boolean isInternalIDSpecified() {
+    return localInternalIDTracker;
   }
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.UnitOfMeasurementCode
+   * @return com.sap.xi.fndei.ContactPersonInternalID
    */
-  public com.sap.xi.fndei.UnitOfMeasurementCode getISOCode() {
-    return localISOCode;
+  public ContactPersonInternalID getInternalID() {
+    return localInternalID;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param ISOCode
+   * @param param InternalID
    */
-  public void setISOCode(com.sap.xi.fndei.UnitOfMeasurementCode param) {
-    localISOCodeTracker = param != null;
+  public void setInternalID(ContactPersonInternalID param) {
+    localInternalIDTracker = param != null;
 
-    this.localISOCode = param;
+    this.localInternalID = param;
   }
 
-  /** field for CommercialDescription This was an Array! */
-  protected com.sap.xi.fndei.Description[] localCommercialDescription;
+  /** field for OrganisationFormattedName This was an Array! */
+  protected LANGUAGEINDEPENDENT_MEDIUM_Name[] localOrganisationFormattedName;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
    *   in the serialized XML
    */
-  protected boolean localCommercialDescriptionTracker = false;
+  protected boolean localOrganisationFormattedNameTracker = false;
 
-  public boolean isCommercialDescriptionSpecified() {
-    return localCommercialDescriptionTracker;
+  public boolean isOrganisationFormattedNameSpecified() {
+    return localOrganisationFormattedNameTracker;
   }
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.Description[]
+   * @return com.sap.xi.fndei.LANGUAGEINDEPENDENT_MEDIUM_Name[]
    */
-  public com.sap.xi.fndei.Description[] getCommercialDescription() {
-    return localCommercialDescription;
+  public LANGUAGEINDEPENDENT_MEDIUM_Name[] getOrganisationFormattedName() {
+    return localOrganisationFormattedName;
   }
 
-  /** validate the array for CommercialDescription */
-  protected void validateCommercialDescription(com.sap.xi.fndei.Description[] param) {}
+  /** validate the array for OrganisationFormattedName */
+  protected void validateOrganisationFormattedName(
+      LANGUAGEINDEPENDENT_MEDIUM_Name[] param) {
+
+    if ((param != null) && (param.length > 4)) {
+      throw new java.lang.RuntimeException("Input values do not follow defined XSD restrictions");
+    }
+  }
 
   /**
    * Auto generated setter method
    *
-   * @param param CommercialDescription
+   * @param param OrganisationFormattedName
    */
-  public void setCommercialDescription(com.sap.xi.fndei.Description[] param) {
+  public void setOrganisationFormattedName(
+      LANGUAGEINDEPENDENT_MEDIUM_Name[] param) {
 
-    validateCommercialDescription(param);
+    validateOrganisationFormattedName(param);
 
-    localCommercialDescriptionTracker = param != null;
+    localOrganisationFormattedNameTracker = param != null;
 
-    this.localCommercialDescription = param;
+    this.localOrganisationFormattedName = param;
   }
 
   /**
    * Auto generated add method for the array for convenience
    *
-   * @param param com.sap.xi.fndei.Description
+   * @param param com.sap.xi.fndei.LANGUAGEINDEPENDENT_MEDIUM_Name
    */
-  public void addCommercialDescription(com.sap.xi.fndei.Description param) {
-    if (localCommercialDescription == null) {
-      localCommercialDescription = new com.sap.xi.fndei.Description[] {};
+  public void addOrganisationFormattedName(LANGUAGEINDEPENDENT_MEDIUM_Name param) {
+    if (localOrganisationFormattedName == null) {
+      localOrganisationFormattedName = new LANGUAGEINDEPENDENT_MEDIUM_Name[] {};
     }
 
     // update the setting tracker
-    localCommercialDescriptionTracker = true;
+    localOrganisationFormattedNameTracker = true;
 
     java.util.List list =
-        org.apache.axis2.databinding.utils.ConverterUtil.toList(localCommercialDescription);
+        org.apache.axis2.databinding.utils.ConverterUtil.toList(localOrganisationFormattedName);
     list.add(param);
-    this.localCommercialDescription =
-        (com.sap.xi.fndei.Description[])
-            list.toArray(new com.sap.xi.fndei.Description[list.size()]);
+    this.localOrganisationFormattedName =
+        (LANGUAGEINDEPENDENT_MEDIUM_Name[])
+            list.toArray(new LANGUAGEINDEPENDENT_MEDIUM_Name[list.size()]);
   }
 
-  /** field for TechnicalDescription This was an Array! */
-  protected com.sap.xi.fndei.Description[] localTechnicalDescription;
+  /** field for PersonFormattedName This was an Array! */
+  protected LANGUAGEINDEPENDENT_LONG_Name[] localPersonFormattedName;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
    *   in the serialized XML
    */
-  protected boolean localTechnicalDescriptionTracker = false;
+  protected boolean localPersonFormattedNameTracker = false;
 
-  public boolean isTechnicalDescriptionSpecified() {
-    return localTechnicalDescriptionTracker;
+  public boolean isPersonFormattedNameSpecified() {
+    return localPersonFormattedNameTracker;
   }
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.Description[]
+   * @return com.sap.xi.fndei.LANGUAGEINDEPENDENT_LONG_Name[]
    */
-  public com.sap.xi.fndei.Description[] getTechnicalDescription() {
-    return localTechnicalDescription;
+  public LANGUAGEINDEPENDENT_LONG_Name[] getPersonFormattedName() {
+    return localPersonFormattedName;
   }
 
-  /** validate the array for TechnicalDescription */
-  protected void validateTechnicalDescription(com.sap.xi.fndei.Description[] param) {}
+  /** validate the array for PersonFormattedName */
+  protected void validatePersonFormattedName(
+      LANGUAGEINDEPENDENT_LONG_Name[] param) {
+
+    if ((param != null) && (param.length > 4)) {
+      throw new java.lang.RuntimeException("Input values do not follow defined XSD restrictions");
+    }
+  }
 
   /**
    * Auto generated setter method
    *
-   * @param param TechnicalDescription
+   * @param param PersonFormattedName
    */
-  public void setTechnicalDescription(com.sap.xi.fndei.Description[] param) {
+  public void setPersonFormattedName(LANGUAGEINDEPENDENT_LONG_Name[] param) {
 
-    validateTechnicalDescription(param);
+    validatePersonFormattedName(param);
 
-    localTechnicalDescriptionTracker = param != null;
+    localPersonFormattedNameTracker = param != null;
 
-    this.localTechnicalDescription = param;
+    this.localPersonFormattedName = param;
   }
 
   /**
    * Auto generated add method for the array for convenience
    *
-   * @param param com.sap.xi.fndei.Description
+   * @param param com.sap.xi.fndei.LANGUAGEINDEPENDENT_LONG_Name
    */
-  public void addTechnicalDescription(com.sap.xi.fndei.Description param) {
-    if (localTechnicalDescription == null) {
-      localTechnicalDescription = new com.sap.xi.fndei.Description[] {};
+  public void addPersonFormattedName(LANGUAGEINDEPENDENT_LONG_Name param) {
+    if (localPersonFormattedName == null) {
+      localPersonFormattedName = new LANGUAGEINDEPENDENT_LONG_Name[] {};
     }
 
     // update the setting tracker
-    localTechnicalDescriptionTracker = true;
+    localPersonFormattedNameTracker = true;
 
     java.util.List list =
-        org.apache.axis2.databinding.utils.ConverterUtil.toList(localTechnicalDescription);
+        org.apache.axis2.databinding.utils.ConverterUtil.toList(localPersonFormattedName);
     list.add(param);
-    this.localTechnicalDescription =
-        (com.sap.xi.fndei.Description[])
-            list.toArray(new com.sap.xi.fndei.Description[list.size()]);
+    this.localPersonFormattedName =
+        (LANGUAGEINDEPENDENT_LONG_Name[])
+            list.toArray(new LANGUAGEINDEPENDENT_LONG_Name[list.size()]);
   }
 
-  /** field for LongDescription This was an Array! */
-  protected com.sap.xi.fndei.Description[] localLongDescription;
+  /** field for PhoneNumber This was an Array! */
+  protected PhoneNumber[] localPhoneNumber;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
    *   in the serialized XML
    */
-  protected boolean localLongDescriptionTracker = false;
+  protected boolean localPhoneNumberTracker = false;
 
-  public boolean isLongDescriptionSpecified() {
-    return localLongDescriptionTracker;
+  public boolean isPhoneNumberSpecified() {
+    return localPhoneNumberTracker;
   }
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.Description[]
+   * @return com.sap.xi.fndei.PhoneNumber[]
    */
-  public com.sap.xi.fndei.Description[] getLongDescription() {
-    return localLongDescription;
+  public PhoneNumber[] getPhoneNumber() {
+    return localPhoneNumber;
   }
 
-  /** validate the array for LongDescription */
-  protected void validateLongDescription(com.sap.xi.fndei.Description[] param) {}
+  /** validate the array for PhoneNumber */
+  protected void validatePhoneNumber(PhoneNumber[] param) {}
 
   /**
    * Auto generated setter method
    *
-   * @param param LongDescription
+   * @param param PhoneNumber
    */
-  public void setLongDescription(com.sap.xi.fndei.Description[] param) {
+  public void setPhoneNumber(PhoneNumber[] param) {
 
-    validateLongDescription(param);
+    validatePhoneNumber(param);
 
-    localLongDescriptionTracker = param != null;
+    localPhoneNumberTracker = param != null;
 
-    this.localLongDescription = param;
+    this.localPhoneNumber = param;
   }
 
   /**
    * Auto generated add method for the array for convenience
    *
-   * @param param com.sap.xi.fndei.Description
+   * @param param com.sap.xi.fndei.PhoneNumber
    */
-  public void addLongDescription(com.sap.xi.fndei.Description param) {
-    if (localLongDescription == null) {
-      localLongDescription = new com.sap.xi.fndei.Description[] {};
+  public void addPhoneNumber(PhoneNumber param) {
+    if (localPhoneNumber == null) {
+      localPhoneNumber = new PhoneNumber[] {};
     }
 
     // update the setting tracker
-    localLongDescriptionTracker = true;
+    localPhoneNumberTracker = true;
 
-    java.util.List list =
-        org.apache.axis2.databinding.utils.ConverterUtil.toList(localLongDescription);
+    java.util.List list = org.apache.axis2.databinding.utils.ConverterUtil.toList(localPhoneNumber);
     list.add(param);
-    this.localLongDescription =
-        (com.sap.xi.fndei.Description[])
-            list.toArray(new com.sap.xi.fndei.Description[list.size()]);
+    this.localPhoneNumber =
+        (PhoneNumber[])
+            list.toArray(new PhoneNumber[list.size()]);
   }
 
-  /** field for AllownonwholeIndicator */
-  protected com.sap.xi.fndei.Indicator localAllownonwholeIndicator;
+  /** field for FaxNumber This was an Array! */
+  protected PhoneNumber[] localFaxNumber;
+
+  /*  This tracker boolean wil be used to detect whether the user called the set method
+   *   for this attribute. It will be used to determine whether to include this field
+   *   in the serialized XML
+   */
+  protected boolean localFaxNumberTracker = false;
+
+  public boolean isFaxNumberSpecified() {
+    return localFaxNumberTracker;
+  }
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.Indicator
+   * @return com.sap.xi.fndei.PhoneNumber[]
    */
-  public com.sap.xi.fndei.Indicator getAllownonwholeIndicator() {
-    return localAllownonwholeIndicator;
+  public PhoneNumber[] getFaxNumber() {
+    return localFaxNumber;
   }
+
+  /** validate the array for FaxNumber */
+  protected void validateFaxNumber(PhoneNumber[] param) {}
 
   /**
    * Auto generated setter method
    *
-   * @param param AllownonwholeIndicator
+   * @param param FaxNumber
    */
-  public void setAllownonwholeIndicator(com.sap.xi.fndei.Indicator param) {
+  public void setFaxNumber(PhoneNumber[] param) {
 
-    this.localAllownonwholeIndicator = param;
+    validateFaxNumber(param);
+
+    localFaxNumberTracker = param != null;
+
+    this.localFaxNumber = param;
   }
 
-  /** field for PreferredMappingIndicator */
-  protected com.sap.xi.fndei.Indicator localPreferredMappingIndicator;
+  /**
+   * Auto generated add method for the array for convenience
+   *
+   * @param param com.sap.xi.fndei.PhoneNumber
+   */
+  public void addFaxNumber(PhoneNumber param) {
+    if (localFaxNumber == null) {
+      localFaxNumber = new PhoneNumber[] {};
+    }
+
+    // update the setting tracker
+    localFaxNumberTracker = true;
+
+    java.util.List list = org.apache.axis2.databinding.utils.ConverterUtil.toList(localFaxNumber);
+    list.add(param);
+    this.localFaxNumber =
+        (PhoneNumber[])
+            list.toArray(new PhoneNumber[list.size()]);
+  }
+
+  /** field for EmailURI This was an Array! */
+  protected EmailURI[] localEmailURI;
+
+  /*  This tracker boolean wil be used to detect whether the user called the set method
+   *   for this attribute. It will be used to determine whether to include this field
+   *   in the serialized XML
+   */
+  protected boolean localEmailURITracker = false;
+
+  public boolean isEmailURISpecified() {
+    return localEmailURITracker;
+  }
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.Indicator
+   * @return com.sap.xi.fndei.EmailURI[]
    */
-  public com.sap.xi.fndei.Indicator getPreferredMappingIndicator() {
-    return localPreferredMappingIndicator;
+  public EmailURI[] getEmailURI() {
+    return localEmailURI;
   }
+
+  /** validate the array for EmailURI */
+  protected void validateEmailURI(EmailURI[] param) {}
 
   /**
    * Auto generated setter method
    *
-   * @param param PreferredMappingIndicator
+   * @param param EmailURI
    */
-  public void setPreferredMappingIndicator(com.sap.xi.fndei.Indicator param) {
+  public void setEmailURI(EmailURI[] param) {
 
-    this.localPreferredMappingIndicator = param;
-  }
+    validateEmailURI(param);
 
-  /** field for Category */
-  protected com.sap.xi.fndei.NumberValue localCategory;
+    localEmailURITracker = param != null;
 
-  /**
-   * Auto generated getter method
-   *
-   * @return com.sap.xi.fndei.NumberValue
-   */
-  public com.sap.xi.fndei.NumberValue getCategory() {
-    return localCategory;
+    this.localEmailURI = param;
   }
 
   /**
-   * Auto generated setter method
+   * Auto generated add method for the array for convenience
    *
-   * @param param Category
+   * @param param com.sap.xi.fndei.EmailURI
    */
-  public void setCategory(com.sap.xi.fndei.NumberValue param) {
+  public void addEmailURI(EmailURI param) {
+    if (localEmailURI == null) {
+      localEmailURI = new EmailURI[] {};
+    }
 
-    this.localCategory = param;
-  }
+    // update the setting tracker
+    localEmailURITracker = true;
 
-  /** field for NumberOfDecimalPlaces */
-  protected com.sap.xi.fndei.NumberValue localNumberOfDecimalPlaces;
-
-  /**
-   * Auto generated getter method
-   *
-   * @return com.sap.xi.fndei.NumberValue
-   */
-  public com.sap.xi.fndei.NumberValue getNumberOfDecimalPlaces() {
-    return localNumberOfDecimalPlaces;
-  }
-
-  /**
-   * Auto generated setter method
-   *
-   * @param param NumberOfDecimalPlaces
-   */
-  public void setNumberOfDecimalPlaces(com.sap.xi.fndei.NumberValue param) {
-
-    this.localNumberOfDecimalPlaces = param;
+    java.util.List list = org.apache.axis2.databinding.utils.ConverterUtil.toList(localEmailURI);
+    list.add(param);
+    this.localEmailURI =
+        (EmailURI[]) list.toArray(new EmailURI[list.size()]);
   }
 
   /**
@@ -378,34 +398,29 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
             "xsi",
             "http://www.w3.org/2001/XMLSchema-instance",
             "type",
-            namespacePrefix + ":UnitOfMeasurement",
+            namespacePrefix + ":BusinessDocumentMessageHeaderPartyContactPerson",
             xmlWriter);
       } else {
         writeAttribute(
             "xsi",
             "http://www.w3.org/2001/XMLSchema-instance",
             "type",
-            "UnitOfMeasurement",
+            "BusinessDocumentMessageHeaderPartyContactPerson",
             xmlWriter);
       }
     }
-
-    if (localCode == null) {
-      throw new org.apache.axis2.databinding.ADBException("Code cannot be null!!");
-    }
-    localCode.serialize(new javax.xml.namespace.QName("", "Code"), xmlWriter);
-    if (localISOCodeTracker) {
-      if (localISOCode == null) {
-        throw new org.apache.axis2.databinding.ADBException("ISOCode cannot be null!!");
+    if (localInternalIDTracker) {
+      if (localInternalID == null) {
+        throw new org.apache.axis2.databinding.ADBException("InternalID cannot be null!!");
       }
-      localISOCode.serialize(new javax.xml.namespace.QName("", "ISOCode"), xmlWriter);
+      localInternalID.serialize(new javax.xml.namespace.QName("", "InternalID"), xmlWriter);
     }
-    if (localCommercialDescriptionTracker) {
-      if (localCommercialDescription != null) {
-        for (int i = 0; i < localCommercialDescription.length; i++) {
-          if (localCommercialDescription[i] != null) {
-            localCommercialDescription[i].serialize(
-                new javax.xml.namespace.QName("", "CommercialDescription"), xmlWriter);
+    if (localOrganisationFormattedNameTracker) {
+      if (localOrganisationFormattedName != null) {
+        for (int i = 0; i < localOrganisationFormattedName.length; i++) {
+          if (localOrganisationFormattedName[i] != null) {
+            localOrganisationFormattedName[i].serialize(
+                new javax.xml.namespace.QName("", "OrganisationFormattedName"), xmlWriter);
           } else {
 
             // we don't have to do any thing since minOccures is zero
@@ -415,15 +430,15 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
       } else {
 
         throw new org.apache.axis2.databinding.ADBException(
-            "CommercialDescription cannot be null!!");
+            "OrganisationFormattedName cannot be null!!");
       }
     }
-    if (localTechnicalDescriptionTracker) {
-      if (localTechnicalDescription != null) {
-        for (int i = 0; i < localTechnicalDescription.length; i++) {
-          if (localTechnicalDescription[i] != null) {
-            localTechnicalDescription[i].serialize(
-                new javax.xml.namespace.QName("", "TechnicalDescription"), xmlWriter);
+    if (localPersonFormattedNameTracker) {
+      if (localPersonFormattedName != null) {
+        for (int i = 0; i < localPersonFormattedName.length; i++) {
+          if (localPersonFormattedName[i] != null) {
+            localPersonFormattedName[i].serialize(
+                new javax.xml.namespace.QName("", "PersonFormattedName"), xmlWriter);
           } else {
 
             // we don't have to do any thing since minOccures is zero
@@ -432,16 +447,15 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
         }
       } else {
 
-        throw new org.apache.axis2.databinding.ADBException(
-            "TechnicalDescription cannot be null!!");
+        throw new org.apache.axis2.databinding.ADBException("PersonFormattedName cannot be null!!");
       }
     }
-    if (localLongDescriptionTracker) {
-      if (localLongDescription != null) {
-        for (int i = 0; i < localLongDescription.length; i++) {
-          if (localLongDescription[i] != null) {
-            localLongDescription[i].serialize(
-                new javax.xml.namespace.QName("", "LongDescription"), xmlWriter);
+    if (localPhoneNumberTracker) {
+      if (localPhoneNumber != null) {
+        for (int i = 0; i < localPhoneNumber.length; i++) {
+          if (localPhoneNumber[i] != null) {
+            localPhoneNumber[i].serialize(
+                new javax.xml.namespace.QName("", "PhoneNumber"), xmlWriter);
           } else {
 
             // we don't have to do any thing since minOccures is zero
@@ -450,34 +464,41 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
         }
       } else {
 
-        throw new org.apache.axis2.databinding.ADBException("LongDescription cannot be null!!");
+        throw new org.apache.axis2.databinding.ADBException("PhoneNumber cannot be null!!");
       }
     }
-    if (localAllownonwholeIndicator == null) {
-      throw new org.apache.axis2.databinding.ADBException(
-          "AllownonwholeIndicator cannot be null!!");
-    }
-    localAllownonwholeIndicator.serialize(
-        new javax.xml.namespace.QName("", "AllownonwholeIndicator"), xmlWriter);
+    if (localFaxNumberTracker) {
+      if (localFaxNumber != null) {
+        for (int i = 0; i < localFaxNumber.length; i++) {
+          if (localFaxNumber[i] != null) {
+            localFaxNumber[i].serialize(new javax.xml.namespace.QName("", "FaxNumber"), xmlWriter);
+          } else {
 
-    if (localPreferredMappingIndicator == null) {
-      throw new org.apache.axis2.databinding.ADBException(
-          "PreferredMappingIndicator cannot be null!!");
-    }
-    localPreferredMappingIndicator.serialize(
-        new javax.xml.namespace.QName("", "PreferredMappingIndicator"), xmlWriter);
+            // we don't have to do any thing since minOccures is zero
 
-    if (localCategory == null) {
-      throw new org.apache.axis2.databinding.ADBException("Category cannot be null!!");
-    }
-    localCategory.serialize(new javax.xml.namespace.QName("", "Category"), xmlWriter);
+          }
+        }
+      } else {
 
-    if (localNumberOfDecimalPlaces == null) {
-      throw new org.apache.axis2.databinding.ADBException("NumberOfDecimalPlaces cannot be null!!");
+        throw new org.apache.axis2.databinding.ADBException("FaxNumber cannot be null!!");
+      }
     }
-    localNumberOfDecimalPlaces.serialize(
-        new javax.xml.namespace.QName("", "NumberOfDecimalPlaces"), xmlWriter);
+    if (localEmailURITracker) {
+      if (localEmailURI != null) {
+        for (int i = 0; i < localEmailURI.length; i++) {
+          if (localEmailURI[i] != null) {
+            localEmailURI[i].serialize(new javax.xml.namespace.QName("", "EmailURI"), xmlWriter);
+          } else {
 
+            // we don't have to do any thing since minOccures is zero
+
+          }
+        }
+      } else {
+
+        throw new org.apache.axis2.databinding.ADBException("EmailURI cannot be null!!");
+      }
+    }
     xmlWriter.writeEndElement();
   }
 
@@ -675,9 +696,10 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static UnitOfMeasurement parse(javax.xml.stream.XMLStreamReader reader)
-        throws java.lang.Exception {
-      UnitOfMeasurement object = new UnitOfMeasurement();
+    public static BusinessDocumentMessageHeaderPartyContactPerson parse(
+        javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
+      BusinessDocumentMessageHeaderPartyContactPerson object =
+          new BusinessDocumentMessageHeaderPartyContactPerson();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -702,11 +724,11 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
 
             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
 
-            if (!"UnitOfMeasurement".equals(type)) {
+            if (!"BusinessDocumentMessageHeaderPartyContactPerson".equals(type)) {
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (UnitOfMeasurement)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+              return (BusinessDocumentMessageHeaderPartyContactPerson)
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -717,34 +739,22 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
 
         reader.next();
 
+        java.util.ArrayList list2 = new java.util.ArrayList();
+
         java.util.ArrayList list3 = new java.util.ArrayList();
 
         java.util.ArrayList list4 = new java.util.ArrayList();
 
         java.util.ArrayList list5 = new java.util.ArrayList();
 
-        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-
-        if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "Code").equals(reader.getName())) {
-
-          object.setCode(com.sap.xi.fndei.UnitOfMeasurementCode.Factory.parse(reader));
-
-          reader.next();
-
-        } // End of if for expected property start element
-        else {
-          // 1 - A start element we are not expecting indicates an invalid parameter was passed
-          throw new org.apache.axis2.databinding.ADBException(
-              "Unexpected subelement " + reader.getName());
-        }
+        java.util.ArrayList list6 = new java.util.ArrayList();
 
         while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
 
         if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "ISOCode").equals(reader.getName())) {
+            && new javax.xml.namespace.QName("", "InternalID").equals(reader.getName())) {
 
-          object.setISOCode(com.sap.xi.fndei.UnitOfMeasurementCode.Factory.parse(reader));
+          object.setInternalID(ContactPersonInternalID.Factory.parse(reader));
 
           reader.next();
 
@@ -756,12 +766,55 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
         while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
 
         if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "CommercialDescription")
+            && new javax.xml.namespace.QName("", "OrganisationFormattedName")
                 .equals(reader.getName())) {
 
           // Process the array and step past its final element's end.
 
-          list3.add(com.sap.xi.fndei.Description.Factory.parse(reader));
+          list2.add(LANGUAGEINDEPENDENT_MEDIUM_Name.Factory.parse(reader));
+
+          // loop until we find a start element that is not part of this array
+          boolean loopDone2 = false;
+          while (!loopDone2) {
+            // We should be at the end element, but make sure
+            while (!reader.isEndElement()) reader.next();
+            // Step out of this element
+            reader.next();
+            // Step to next element event.
+            while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+            if (reader.isEndElement()) {
+              // two continuous end elements means we are exiting the xml structure
+              loopDone2 = true;
+            } else {
+              if (new javax.xml.namespace.QName("", "OrganisationFormattedName")
+                  .equals(reader.getName())) {
+                list2.add(LANGUAGEINDEPENDENT_MEDIUM_Name.Factory.parse(reader));
+
+              } else {
+                loopDone2 = true;
+              }
+            }
+          }
+          // call the converter utility  to convert and set the array
+
+          object.setOrganisationFormattedName(
+              (LANGUAGEINDEPENDENT_MEDIUM_Name[])
+                  org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
+                      LANGUAGEINDEPENDENT_MEDIUM_Name.class, list2));
+
+        } // End of if for expected property start element
+        else {
+
+        }
+
+        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+
+        if (reader.isStartElement()
+            && new javax.xml.namespace.QName("", "PersonFormattedName").equals(reader.getName())) {
+
+          // Process the array and step past its final element's end.
+
+          list3.add(LANGUAGEINDEPENDENT_LONG_Name.Factory.parse(reader));
 
           // loop until we find a start element that is not part of this array
           boolean loopDone3 = false;
@@ -776,9 +829,9 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
               // two continuous end elements means we are exiting the xml structure
               loopDone3 = true;
             } else {
-              if (new javax.xml.namespace.QName("", "CommercialDescription")
+              if (new javax.xml.namespace.QName("", "PersonFormattedName")
                   .equals(reader.getName())) {
-                list3.add(com.sap.xi.fndei.Description.Factory.parse(reader));
+                list3.add(LANGUAGEINDEPENDENT_LONG_Name.Factory.parse(reader));
 
               } else {
                 loopDone3 = true;
@@ -787,10 +840,10 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
           }
           // call the converter utility  to convert and set the array
 
-          object.setCommercialDescription(
-              (com.sap.xi.fndei.Description[])
+          object.setPersonFormattedName(
+              (LANGUAGEINDEPENDENT_LONG_Name[])
                   org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
-                      com.sap.xi.fndei.Description.class, list3));
+                      LANGUAGEINDEPENDENT_LONG_Name.class, list3));
 
         } // End of if for expected property start element
         else {
@@ -800,11 +853,11 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
         while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
 
         if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "TechnicalDescription").equals(reader.getName())) {
+            && new javax.xml.namespace.QName("", "PhoneNumber").equals(reader.getName())) {
 
           // Process the array and step past its final element's end.
 
-          list4.add(com.sap.xi.fndei.Description.Factory.parse(reader));
+          list4.add(PhoneNumber.Factory.parse(reader));
 
           // loop until we find a start element that is not part of this array
           boolean loopDone4 = false;
@@ -819,9 +872,8 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
               // two continuous end elements means we are exiting the xml structure
               loopDone4 = true;
             } else {
-              if (new javax.xml.namespace.QName("", "TechnicalDescription")
-                  .equals(reader.getName())) {
-                list4.add(com.sap.xi.fndei.Description.Factory.parse(reader));
+              if (new javax.xml.namespace.QName("", "PhoneNumber").equals(reader.getName())) {
+                list4.add(PhoneNumber.Factory.parse(reader));
 
               } else {
                 loopDone4 = true;
@@ -830,10 +882,10 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
           }
           // call the converter utility  to convert and set the array
 
-          object.setTechnicalDescription(
-              (com.sap.xi.fndei.Description[])
+          object.setPhoneNumber(
+              (PhoneNumber[])
                   org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
-                      com.sap.xi.fndei.Description.class, list4));
+                      PhoneNumber.class, list4));
 
         } // End of if for expected property start element
         else {
@@ -843,11 +895,11 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
         while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
 
         if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "LongDescription").equals(reader.getName())) {
+            && new javax.xml.namespace.QName("", "FaxNumber").equals(reader.getName())) {
 
           // Process the array and step past its final element's end.
 
-          list5.add(com.sap.xi.fndei.Description.Factory.parse(reader));
+          list5.add(PhoneNumber.Factory.parse(reader));
 
           // loop until we find a start element that is not part of this array
           boolean loopDone5 = false;
@@ -862,8 +914,8 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
               // two continuous end elements means we are exiting the xml structure
               loopDone5 = true;
             } else {
-              if (new javax.xml.namespace.QName("", "LongDescription").equals(reader.getName())) {
-                list5.add(com.sap.xi.fndei.Description.Factory.parse(reader));
+              if (new javax.xml.namespace.QName("", "FaxNumber").equals(reader.getName())) {
+                list5.add(PhoneNumber.Factory.parse(reader));
 
               } else {
                 loopDone5 = true;
@@ -872,10 +924,10 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
           }
           // call the converter utility  to convert and set the array
 
-          object.setLongDescription(
-              (com.sap.xi.fndei.Description[])
+          object.setFaxNumber(
+              (PhoneNumber[])
                   org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
-                      com.sap.xi.fndei.Description.class, list5));
+                      PhoneNumber.class, list5));
 
         } // End of if for expected property start element
         else {
@@ -885,68 +937,43 @@ public class UnitOfMeasurement implements org.apache.axis2.databinding.ADBBean {
         while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
 
         if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "AllownonwholeIndicator")
-                .equals(reader.getName())) {
+            && new javax.xml.namespace.QName("", "EmailURI").equals(reader.getName())) {
 
-          object.setAllownonwholeIndicator(com.sap.xi.fndei.Indicator.Factory.parse(reader));
+          // Process the array and step past its final element's end.
 
-          reader.next();
+          list6.add(EmailURI.Factory.parse(reader));
 
-        } // End of if for expected property start element
-        else {
-          // 1 - A start element we are not expecting indicates an invalid parameter was passed
-          throw new org.apache.axis2.databinding.ADBException(
-              "Unexpected subelement " + reader.getName());
-        }
+          // loop until we find a start element that is not part of this array
+          boolean loopDone6 = false;
+          while (!loopDone6) {
+            // We should be at the end element, but make sure
+            while (!reader.isEndElement()) reader.next();
+            // Step out of this element
+            reader.next();
+            // Step to next element event.
+            while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+            if (reader.isEndElement()) {
+              // two continuous end elements means we are exiting the xml structure
+              loopDone6 = true;
+            } else {
+              if (new javax.xml.namespace.QName("", "EmailURI").equals(reader.getName())) {
+                list6.add(EmailURI.Factory.parse(reader));
 
-        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+              } else {
+                loopDone6 = true;
+              }
+            }
+          }
+          // call the converter utility  to convert and set the array
 
-        if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "PreferredMappingIndicator")
-                .equals(reader.getName())) {
-
-          object.setPreferredMappingIndicator(com.sap.xi.fndei.Indicator.Factory.parse(reader));
-
-          reader.next();
-
-        } // End of if for expected property start element
-        else {
-          // 1 - A start element we are not expecting indicates an invalid parameter was passed
-          throw new org.apache.axis2.databinding.ADBException(
-              "Unexpected subelement " + reader.getName());
-        }
-
-        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-
-        if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "Category").equals(reader.getName())) {
-
-          object.setCategory(com.sap.xi.fndei.NumberValue.Factory.parse(reader));
-
-          reader.next();
+          object.setEmailURI(
+              (EmailURI[])
+                  org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
+                      EmailURI.class, list6));
 
         } // End of if for expected property start element
         else {
-          // 1 - A start element we are not expecting indicates an invalid parameter was passed
-          throw new org.apache.axis2.databinding.ADBException(
-              "Unexpected subelement " + reader.getName());
-        }
 
-        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-
-        if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "NumberOfDecimalPlaces")
-                .equals(reader.getName())) {
-
-          object.setNumberOfDecimalPlaces(com.sap.xi.fndei.NumberValue.Factory.parse(reader));
-
-          reader.next();
-
-        } // End of if for expected property start element
-        else {
-          // 1 - A start element we are not expecting indicates an invalid parameter was passed
-          throw new org.apache.axis2.databinding.ADBException(
-              "Unexpected subelement " + reader.getName());
         }
 
         while (!reader.isStartElement() && !reader.isEndElement()) reader.next();

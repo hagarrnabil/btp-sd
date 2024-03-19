@@ -1,106 +1,216 @@
 /**
- * BusinessScope.java
+ * PhoneNumber.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** BusinessScope bean class */
+/** PhoneNumber bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class BusinessScope implements org.apache.axis2.databinding.ADBBean {
+public class PhoneNumber implements org.apache.axis2.databinding.ADBBean {
   /* This type was generated from the piece of schema that had
-  name = BusinessScope
+  name = PhoneNumber
   Namespace URI = http://sap.com/xi/FNDEI
   Namespace Prefix = ns1
   */
 
-  /** field for TypeCode */
-  protected com.sap.xi.fndei.BusinessScopeTypeCode localTypeCode;
-
-  /**
-   * Auto generated getter method
-   *
-   * @return com.sap.xi.fndei.BusinessScopeTypeCode
-   */
-  public com.sap.xi.fndei.BusinessScopeTypeCode getTypeCode() {
-    return localTypeCode;
-  }
-
-  /**
-   * Auto generated setter method
-   *
-   * @param param TypeCode
-   */
-  public void setTypeCode(com.sap.xi.fndei.BusinessScopeTypeCode param) {
-
-    this.localTypeCode = param;
-  }
-
-  /** field for InstanceID */
-  protected com.sap.xi.fndei.BusinessScopeInstanceID localInstanceID;
+  /** field for AreaID */
+  protected PhoneNumberAreaID localAreaID;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
    *   in the serialized XML
    */
-  protected boolean localInstanceIDTracker = false;
+  protected boolean localAreaIDTracker = false;
 
-  public boolean isInstanceIDSpecified() {
-    return localInstanceIDTracker;
+  public boolean isAreaIDSpecified() {
+    return localAreaIDTracker;
   }
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.BusinessScopeInstanceID
+   * @return com.sap.xi.fndei.PhoneNumberAreaID
    */
-  public com.sap.xi.fndei.BusinessScopeInstanceID getInstanceID() {
-    return localInstanceID;
+  public PhoneNumberAreaID getAreaID() {
+    return localAreaID;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param InstanceID
+   * @param param AreaID
    */
-  public void setInstanceID(com.sap.xi.fndei.BusinessScopeInstanceID param) {
-    localInstanceIDTracker = param != null;
+  public void setAreaID(PhoneNumberAreaID param) {
+    localAreaIDTracker = param != null;
 
-    this.localInstanceID = param;
+    this.localAreaID = param;
   }
 
-  /** field for ID */
-  protected com.sap.xi.fndei.BusinessScopeID localID;
+  /** field for SubscriberID */
+  protected PhoneNumberSubscriberID localSubscriberID;
 
   /*  This tracker boolean wil be used to detect whether the user called the set method
    *   for this attribute. It will be used to determine whether to include this field
    *   in the serialized XML
    */
-  protected boolean localIDTracker = false;
+  protected boolean localSubscriberIDTracker = false;
 
-  public boolean isIDSpecified() {
-    return localIDTracker;
+  public boolean isSubscriberIDSpecified() {
+    return localSubscriberIDTracker;
   }
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.BusinessScopeID
+   * @return com.sap.xi.fndei.PhoneNumberSubscriberID
    */
-  public com.sap.xi.fndei.BusinessScopeID getID() {
-    return localID;
+  public PhoneNumberSubscriberID getSubscriberID() {
+    return localSubscriberID;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param ID
+   * @param param SubscriberID
    */
-  public void setID(com.sap.xi.fndei.BusinessScopeID param) {
-    localIDTracker = param != null;
+  public void setSubscriberID(PhoneNumberSubscriberID param) {
+    localSubscriberIDTracker = param != null;
 
-    this.localID = param;
+    this.localSubscriberID = param;
+  }
+
+  /** field for ExtensionID */
+  protected PhoneNumberExtensionID localExtensionID;
+
+  /*  This tracker boolean wil be used to detect whether the user called the set method
+   *   for this attribute. It will be used to determine whether to include this field
+   *   in the serialized XML
+   */
+  protected boolean localExtensionIDTracker = false;
+
+  public boolean isExtensionIDSpecified() {
+    return localExtensionIDTracker;
+  }
+
+  /**
+   * Auto generated getter method
+   *
+   * @return com.sap.xi.fndei.PhoneNumberExtensionID
+   */
+  public PhoneNumberExtensionID getExtensionID() {
+    return localExtensionID;
+  }
+
+  /**
+   * Auto generated setter method
+   *
+   * @param param ExtensionID
+   */
+  public void setExtensionID(PhoneNumberExtensionID param) {
+    localExtensionIDTracker = param != null;
+
+    this.localExtensionID = param;
+  }
+
+  /** field for CountryCode */
+  protected CountryCode localCountryCode;
+
+  /*  This tracker boolean wil be used to detect whether the user called the set method
+   *   for this attribute. It will be used to determine whether to include this field
+   *   in the serialized XML
+   */
+  protected boolean localCountryCodeTracker = false;
+
+  public boolean isCountryCodeSpecified() {
+    return localCountryCodeTracker;
+  }
+
+  /**
+   * Auto generated getter method
+   *
+   * @return com.sap.xi.fndei.CountryCode
+   */
+  public CountryCode getCountryCode() {
+    return localCountryCode;
+  }
+
+  /**
+   * Auto generated setter method
+   *
+   * @param param CountryCode
+   */
+  public void setCountryCode(CountryCode param) {
+    localCountryCodeTracker = param != null;
+
+    this.localCountryCode = param;
+  }
+
+  /** field for CountryDiallingCode */
+  protected CountryDiallingCode localCountryDiallingCode;
+
+  /*  This tracker boolean wil be used to detect whether the user called the set method
+   *   for this attribute. It will be used to determine whether to include this field
+   *   in the serialized XML
+   */
+  protected boolean localCountryDiallingCodeTracker = false;
+
+  public boolean isCountryDiallingCodeSpecified() {
+    return localCountryDiallingCodeTracker;
+  }
+
+  /**
+   * Auto generated getter method
+   *
+   * @return com.sap.xi.fndei.CountryDiallingCode
+   */
+  public CountryDiallingCode getCountryDiallingCode() {
+    return localCountryDiallingCode;
+  }
+
+  /**
+   * Auto generated setter method
+   *
+   * @param param CountryDiallingCode
+   */
+  public void setCountryDiallingCode(CountryDiallingCode param) {
+    localCountryDiallingCodeTracker = param != null;
+
+    this.localCountryDiallingCode = param;
+  }
+
+  /** field for CountryName */
+  protected MEDIUM_Name localCountryName;
+
+  /*  This tracker boolean wil be used to detect whether the user called the set method
+   *   for this attribute. It will be used to determine whether to include this field
+   *   in the serialized XML
+   */
+  protected boolean localCountryNameTracker = false;
+
+  public boolean isCountryNameSpecified() {
+    return localCountryNameTracker;
+  }
+
+  /**
+   * Auto generated getter method
+   *
+   * @return com.sap.xi.fndei.MEDIUM_Name
+   */
+  public MEDIUM_Name getCountryName() {
+    return localCountryName;
+  }
+
+  /**
+   * Auto generated setter method
+   *
+   * @param param CountryName
+   */
+  public void setCountryName(MEDIUM_Name param) {
+    localCountryNameTracker = param != null;
+
+    this.localCountryName = param;
   }
 
   /**
@@ -143,29 +253,49 @@ public class BusinessScope implements org.apache.axis2.databinding.ADBBean {
             "xsi",
             "http://www.w3.org/2001/XMLSchema-instance",
             "type",
-            namespacePrefix + ":BusinessScope",
+            namespacePrefix + ":PhoneNumber",
             xmlWriter);
       } else {
         writeAttribute(
-            "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "BusinessScope", xmlWriter);
+            "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "PhoneNumber", xmlWriter);
       }
     }
-
-    if (localTypeCode == null) {
-      throw new org.apache.axis2.databinding.ADBException("TypeCode cannot be null!!");
-    }
-    localTypeCode.serialize(new javax.xml.namespace.QName("", "TypeCode"), xmlWriter);
-    if (localInstanceIDTracker) {
-      if (localInstanceID == null) {
-        throw new org.apache.axis2.databinding.ADBException("InstanceID cannot be null!!");
+    if (localAreaIDTracker) {
+      if (localAreaID == null) {
+        throw new org.apache.axis2.databinding.ADBException("AreaID cannot be null!!");
       }
-      localInstanceID.serialize(new javax.xml.namespace.QName("", "InstanceID"), xmlWriter);
+      localAreaID.serialize(new javax.xml.namespace.QName("", "AreaID"), xmlWriter);
     }
-    if (localIDTracker) {
-      if (localID == null) {
-        throw new org.apache.axis2.databinding.ADBException("ID cannot be null!!");
+    if (localSubscriberIDTracker) {
+      if (localSubscriberID == null) {
+        throw new org.apache.axis2.databinding.ADBException("SubscriberID cannot be null!!");
       }
-      localID.serialize(new javax.xml.namespace.QName("", "ID"), xmlWriter);
+      localSubscriberID.serialize(new javax.xml.namespace.QName("", "SubscriberID"), xmlWriter);
+    }
+    if (localExtensionIDTracker) {
+      if (localExtensionID == null) {
+        throw new org.apache.axis2.databinding.ADBException("ExtensionID cannot be null!!");
+      }
+      localExtensionID.serialize(new javax.xml.namespace.QName("", "ExtensionID"), xmlWriter);
+    }
+    if (localCountryCodeTracker) {
+      if (localCountryCode == null) {
+        throw new org.apache.axis2.databinding.ADBException("CountryCode cannot be null!!");
+      }
+      localCountryCode.serialize(new javax.xml.namespace.QName("", "CountryCode"), xmlWriter);
+    }
+    if (localCountryDiallingCodeTracker) {
+      if (localCountryDiallingCode == null) {
+        throw new org.apache.axis2.databinding.ADBException("CountryDiallingCode cannot be null!!");
+      }
+      localCountryDiallingCode.serialize(
+          new javax.xml.namespace.QName("", "CountryDiallingCode"), xmlWriter);
+    }
+    if (localCountryNameTracker) {
+      if (localCountryName == null) {
+        throw new org.apache.axis2.databinding.ADBException("CountryName cannot be null!!");
+      }
+      localCountryName.serialize(new javax.xml.namespace.QName("", "CountryName"), xmlWriter);
     }
     xmlWriter.writeEndElement();
   }
@@ -364,9 +494,9 @@ public class BusinessScope implements org.apache.axis2.databinding.ADBBean {
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static BusinessScope parse(javax.xml.stream.XMLStreamReader reader)
+    public static PhoneNumber parse(javax.xml.stream.XMLStreamReader reader)
         throws java.lang.Exception {
-      BusinessScope object = new BusinessScope();
+      PhoneNumber object = new PhoneNumber();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -391,11 +521,11 @@ public class BusinessScope implements org.apache.axis2.databinding.ADBBean {
 
             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
 
-            if (!"BusinessScope".equals(type)) {
+            if (!"PhoneNumber".equals(type)) {
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (BusinessScope)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+              return (PhoneNumber)
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -409,25 +539,9 @@ public class BusinessScope implements org.apache.axis2.databinding.ADBBean {
         while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
 
         if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "TypeCode").equals(reader.getName())) {
+            && new javax.xml.namespace.QName("", "AreaID").equals(reader.getName())) {
 
-          object.setTypeCode(com.sap.xi.fndei.BusinessScopeTypeCode.Factory.parse(reader));
-
-          reader.next();
-
-        } // End of if for expected property start element
-        else {
-          // 1 - A start element we are not expecting indicates an invalid parameter was passed
-          throw new org.apache.axis2.databinding.ADBException(
-              "Unexpected subelement " + reader.getName());
-        }
-
-        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-
-        if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "InstanceID").equals(reader.getName())) {
-
-          object.setInstanceID(com.sap.xi.fndei.BusinessScopeInstanceID.Factory.parse(reader));
+          object.setAreaID(PhoneNumberAreaID.Factory.parse(reader));
 
           reader.next();
 
@@ -439,9 +553,65 @@ public class BusinessScope implements org.apache.axis2.databinding.ADBBean {
         while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
 
         if (reader.isStartElement()
-            && new javax.xml.namespace.QName("", "ID").equals(reader.getName())) {
+            && new javax.xml.namespace.QName("", "SubscriberID").equals(reader.getName())) {
 
-          object.setID(com.sap.xi.fndei.BusinessScopeID.Factory.parse(reader));
+          object.setSubscriberID(PhoneNumberSubscriberID.Factory.parse(reader));
+
+          reader.next();
+
+        } // End of if for expected property start element
+        else {
+
+        }
+
+        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+
+        if (reader.isStartElement()
+            && new javax.xml.namespace.QName("", "ExtensionID").equals(reader.getName())) {
+
+          object.setExtensionID(PhoneNumberExtensionID.Factory.parse(reader));
+
+          reader.next();
+
+        } // End of if for expected property start element
+        else {
+
+        }
+
+        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+
+        if (reader.isStartElement()
+            && new javax.xml.namespace.QName("", "CountryCode").equals(reader.getName())) {
+
+          object.setCountryCode(CountryCode.Factory.parse(reader));
+
+          reader.next();
+
+        } // End of if for expected property start element
+        else {
+
+        }
+
+        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+
+        if (reader.isStartElement()
+            && new javax.xml.namespace.QName("", "CountryDiallingCode").equals(reader.getName())) {
+
+          object.setCountryDiallingCode(CountryDiallingCode.Factory.parse(reader));
+
+          reader.next();
+
+        } // End of if for expected property start element
+        else {
+
+        }
+
+        while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+
+        if (reader.isStartElement()
+            && new javax.xml.namespace.QName("", "CountryName").equals(reader.getName())) {
+
+          object.setCountryName(MEDIUM_Name.Factory.parse(reader));
 
           reader.next();
 

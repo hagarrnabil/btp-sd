@@ -1,42 +1,42 @@
 /**
- * MEDIUM_Name.java
+ * BusinessDocumentMessageID.java
  *
  * <p>This file was auto-generated from WSDL by the Apache Axis2 version: 1.8.2 Built on : Jul 13,
  * 2022 (06:38:18 EDT)
  */
 package com.sap.xi.fndei;
 
-/** MEDIUM_Name bean class */
+/** BusinessDocumentMessageID bean class */
 @SuppressWarnings({"unchecked", "unused"})
-public class MEDIUM_Name extends com.sap.xi.fndei.MEDIUM_NameContent
+public class BusinessDocumentMessageID extends BusinessDocumentMessageIDContent
     implements org.apache.axis2.databinding.ADBBean {
   /* This type was generated from the piece of schema that had
-  name = MEDIUM_Name
+  name = BusinessDocumentMessageID
   Namespace URI = http://sap.com/xi/FNDEI
   Namespace Prefix = ns1
   */
 
-  /** field for MEDIUM_NameContent */
+  /** field for BusinessDocumentMessageIDContent */
 
   /**
    * Auto generated getter method
    *
-   * @return java.lang.String
+   * @return org.apache.axis2.databinding.types.Token
    */
-  public java.lang.String getMEDIUM_NameContent() {
-    return localMEDIUM_NameContent;
+  public org.apache.axis2.databinding.types.Token getBusinessDocumentMessageIDContent() {
+    return localBusinessDocumentMessageIDContent;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param MEDIUM_NameContent
+   * @param param BusinessDocumentMessageIDContent
    */
-  public void setMEDIUM_NameContent(java.lang.String param) {
+  public void setBusinessDocumentMessageIDContent(org.apache.axis2.databinding.types.Token param) {
 
     if ((1 <= java.lang.String.valueOf(param).length())
-        && (java.lang.String.valueOf(param).length() <= 40)) {
-      this.localMEDIUM_NameContent = param;
+        && (java.lang.String.valueOf(param).length() <= 35)) {
+      this.localBusinessDocumentMessageIDContent = param;
     } else {
       throw new java.lang.RuntimeException("Input values do not follow defined XSD restrictions");
     }
@@ -44,29 +44,73 @@ public class MEDIUM_Name extends com.sap.xi.fndei.MEDIUM_NameContent
 
   public java.lang.String toString() {
 
-    return localMEDIUM_NameContent.toString();
+    return localBusinessDocumentMessageIDContent.toString();
   }
 
-  /** field for LanguageCode This was an Attribute! */
-  protected com.sap.xi.fndei.LanguageCode localLanguageCode;
+  /** field for SchemeID This was an Attribute! */
+  protected SchemeID_type0 localSchemeID;
 
   /**
    * Auto generated getter method
    *
-   * @return com.sap.xi.fndei.LanguageCode
+   * @return com.sap.xi.fndei.SchemeID_type0
    */
-  public com.sap.xi.fndei.LanguageCode getLanguageCode() {
-    return localLanguageCode;
+  public SchemeID_type0 getSchemeID() {
+    return localSchemeID;
   }
 
   /**
    * Auto generated setter method
    *
-   * @param param LanguageCode
+   * @param param SchemeID
    */
-  public void setLanguageCode(com.sap.xi.fndei.LanguageCode param) {
+  public void setSchemeID(SchemeID_type0 param) {
 
-    this.localLanguageCode = param;
+    this.localSchemeID = param;
+  }
+
+  /** field for SchemeAgencyID This was an Attribute! */
+  protected SchemeAgencyID_type0 localSchemeAgencyID;
+
+  /**
+   * Auto generated getter method
+   *
+   * @return com.sap.xi.fndei.SchemeAgencyID_type0
+   */
+  public SchemeAgencyID_type0 getSchemeAgencyID() {
+    return localSchemeAgencyID;
+  }
+
+  /**
+   * Auto generated setter method
+   *
+   * @param param SchemeAgencyID
+   */
+  public void setSchemeAgencyID(SchemeAgencyID_type0 param) {
+
+    this.localSchemeAgencyID = param;
+  }
+
+  /** field for SchemeAgencySchemeAgencyID This was an Attribute! */
+  protected AgencyIdentificationCode localSchemeAgencySchemeAgencyID;
+
+  /**
+   * Auto generated getter method
+   *
+   * @return com.sap.xi.fndei.AgencyIdentificationCode
+   */
+  public AgencyIdentificationCode getSchemeAgencySchemeAgencyID() {
+    return localSchemeAgencySchemeAgencyID;
+  }
+
+  /**
+   * Auto generated setter method
+   *
+   * @param param SchemeAgencySchemeAgencyID
+   */
+  public void setSchemeAgencySchemeAgencyID(AgencyIdentificationCode param) {
+
+    this.localSchemeAgencySchemeAgencyID = param;
   }
 
   /**
@@ -107,25 +151,41 @@ public class MEDIUM_Name extends com.sap.xi.fndei.MEDIUM_NameContent
           "xsi",
           "http://www.w3.org/2001/XMLSchema-instance",
           "type",
-          namespacePrefix + ":MEDIUM_Name",
+          namespacePrefix + ":BusinessDocumentMessageID",
           xmlWriter);
     } else {
       writeAttribute(
-          "xsi", "http://www.w3.org/2001/XMLSchema-instance", "type", "MEDIUM_Name", xmlWriter);
+          "xsi",
+          "http://www.w3.org/2001/XMLSchema-instance",
+          "type",
+          "BusinessDocumentMessageID",
+          xmlWriter);
     }
 
-    if (localLanguageCode != null) {
-      writeAttribute("", "languageCode", localLanguageCode.toString(), xmlWriter);
+    if (localSchemeID != null) {
+      writeAttribute("", "schemeID", localSchemeID.toString(), xmlWriter);
     }
 
-    if (localMEDIUM_NameContent == null) {
+    if (localSchemeAgencyID != null) {
+      writeAttribute("", "schemeAgencyID", localSchemeAgencyID.toString(), xmlWriter);
+    }
+
+    if (localSchemeAgencySchemeAgencyID != null) {
+      writeAttribute(
+          "", "schemeAgencySchemeAgencyID", localSchemeAgencySchemeAgencyID.toString(), xmlWriter);
+    }
+
+    if (localBusinessDocumentMessageIDContent == null) {
       // write the nil attribute
 
-      throw new org.apache.axis2.databinding.ADBException("MEDIUM_Name.Content cannot be null!!");
+      throw new org.apache.axis2.databinding.ADBException(
+          "BusinessDocumentMessageID.Content cannot be null!!");
 
     } else {
 
-      xmlWriter.writeCharacters(localMEDIUM_NameContent);
+      xmlWriter.writeCharacters(
+          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+              localBusinessDocumentMessageIDContent));
     }
 
     xmlWriter.writeEndElement();
@@ -317,24 +377,25 @@ public class MEDIUM_Name extends com.sap.xi.fndei.MEDIUM_NameContent
     private static org.apache.commons.logging.Log log =
         org.apache.commons.logging.LogFactory.getLog(Factory.class);
 
-    public static MEDIUM_Name fromString(java.lang.String value, java.lang.String namespaceURI) {
-      MEDIUM_Name returnValue = new MEDIUM_Name();
+    public static BusinessDocumentMessageID fromString(
+        java.lang.String value, java.lang.String namespaceURI) {
+      BusinessDocumentMessageID returnValue = new BusinessDocumentMessageID();
 
-      returnValue.setMEDIUM_NameContent(
-          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(value));
+      returnValue.setBusinessDocumentMessageIDContent(
+          org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(value));
 
       return returnValue;
     }
 
-    public static MEDIUM_Name fromString(
+    public static BusinessDocumentMessageID fromString(
         javax.xml.stream.XMLStreamReader xmlStreamReader, java.lang.String content) {
       if (content.indexOf(":") > -1) {
         java.lang.String prefix = content.substring(0, content.indexOf(":"));
         java.lang.String namespaceUri =
             xmlStreamReader.getNamespaceContext().getNamespaceURI(prefix);
-        return MEDIUM_Name.Factory.fromString(content, namespaceUri);
+        return BusinessDocumentMessageID.Factory.fromString(content, namespaceUri);
       } else {
-        return MEDIUM_Name.Factory.fromString(content, "");
+        return BusinessDocumentMessageID.Factory.fromString(content, "");
       }
     }
 
@@ -346,9 +407,9 @@ public class MEDIUM_Name extends com.sap.xi.fndei.MEDIUM_NameContent
      * its end element If this object is a complex type, the reader is positioned at the end element
      * of its outer element
      */
-    public static MEDIUM_Name parse(javax.xml.stream.XMLStreamReader reader)
+    public static BusinessDocumentMessageID parse(javax.xml.stream.XMLStreamReader reader)
         throws java.lang.Exception {
-      MEDIUM_Name object = new MEDIUM_Name();
+      BusinessDocumentMessageID object = new BusinessDocumentMessageID();
 
       int event;
       javax.xml.namespace.QName currentQName = null;
@@ -373,11 +434,11 @@ public class MEDIUM_Name extends com.sap.xi.fndei.MEDIUM_NameContent
 
             java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":") + 1);
 
-            if (!"MEDIUM_Name".equals(type)) {
+            if (!"BusinessDocumentMessageID".equals(type)) {
               // find namespace for the prefix
               java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-              return (MEDIUM_Name)
-                  com.sap.xi.fndei.ExtensionMapper.getTypeObject(nsUri, type, reader);
+              return (BusinessDocumentMessageID)
+                  ExtensionMapper.getTypeObject(nsUri, type, reader);
             }
           }
         }
@@ -386,19 +447,51 @@ public class MEDIUM_Name extends com.sap.xi.fndei.MEDIUM_NameContent
         // from anyAttributes.
         java.util.Vector handledAttributes = new java.util.Vector();
 
-        // handle attribute "languageCode"
-        java.lang.String tempAttribLanguageCode = reader.getAttributeValue(null, "languageCode");
+        // handle attribute "schemeID"
+        java.lang.String tempAttribSchemeID = reader.getAttributeValue(null, "schemeID");
 
-        if (tempAttribLanguageCode != null) {
-          java.lang.String content = tempAttribLanguageCode;
+        if (tempAttribSchemeID != null) {
+          java.lang.String content = tempAttribSchemeID;
 
-          object.setLanguageCode(
-              com.sap.xi.fndei.LanguageCode.Factory.fromString(reader, tempAttribLanguageCode));
+          object.setSchemeID(
+              SchemeID_type0.Factory.fromString(reader, tempAttribSchemeID));
 
         } else {
 
         }
-        handledAttributes.add("languageCode");
+        handledAttributes.add("schemeID");
+
+        // handle attribute "schemeAgencyID"
+        java.lang.String tempAttribSchemeAgencyID =
+            reader.getAttributeValue(null, "schemeAgencyID");
+
+        if (tempAttribSchemeAgencyID != null) {
+          java.lang.String content = tempAttribSchemeAgencyID;
+
+          object.setSchemeAgencyID(
+              SchemeAgencyID_type0.Factory.fromString(
+                  reader, tempAttribSchemeAgencyID));
+
+        } else {
+
+        }
+        handledAttributes.add("schemeAgencyID");
+
+        // handle attribute "schemeAgencySchemeAgencyID"
+        java.lang.String tempAttribSchemeAgencySchemeAgencyID =
+            reader.getAttributeValue(null, "schemeAgencySchemeAgencyID");
+
+        if (tempAttribSchemeAgencySchemeAgencyID != null) {
+          java.lang.String content = tempAttribSchemeAgencySchemeAgencyID;
+
+          object.setSchemeAgencySchemeAgencyID(
+              AgencyIdentificationCode.Factory.fromString(
+                  reader, tempAttribSchemeAgencySchemeAgencyID));
+
+        } else {
+
+        }
+        handledAttributes.add("schemeAgencySchemeAgencyID");
 
         while (!reader.isEndElement()) {
           if (reader.isStartElement() || reader.hasText()) {
@@ -409,13 +502,13 @@ public class MEDIUM_Name extends com.sap.xi.fndei.MEDIUM_NameContent
                   reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance", "nil");
               if ("true".equals(nillableValue) || "1".equals(nillableValue)) {
                 throw new org.apache.axis2.databinding.ADBException(
-                    "The element: " + "MEDIUM_Name.Content" + "  cannot be null");
+                    "The element: " + "BusinessDocumentMessageID.Content" + "  cannot be null");
               }
 
               java.lang.String content = reader.getElementText();
 
-              object.setMEDIUM_NameContent(
-                  org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+              object.setBusinessDocumentMessageIDContent(
+                  org.apache.axis2.databinding.utils.ConverterUtil.convertToToken(content));
 
             } // End of if for expected property start element
             else {
