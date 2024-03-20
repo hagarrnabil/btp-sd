@@ -19,14 +19,20 @@ import java.util.Set;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
+@IdClass(ServiceNumberId.class)
 @Table(name = "serviceNumber")
 public class ServiceNumber implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
     private Long serviceNumberCode;
+
+    @Id
+    @Column(nullable = false)
+    private Long noServiceNumber;
 
     @Column(unique = true, columnDefinition = "char(225)", nullable = false)
     @Length(max = 225)
@@ -58,6 +64,14 @@ public class ServiceNumber implements Serializable {
 
     private String serviceText;
 
+    private String baseUnitOfMeasurement;
+
+    private String toBeConvertedUnitOfMeasurement;
+
+    private String defaultUnitOfMeasurement;
+
+    private Double conversionRule;
+
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
@@ -65,60 +79,12 @@ public class ServiceNumber implements Serializable {
     @ManyToOne
     private Formula formula;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "baseUnitOfMeasurement")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonProperty("baseUnitOfMeasurement")
-    private UnitOfMeasurement baseUnitOfMeasurement;
-
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "toBeConvertedUnitOfMeasurement")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonProperty("toBeConvertedUnitOfMeasurement")
-    private UnitOfMeasurement toBeConvertedUnitOfMeasurement;
-
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "convertedUnitOfMeasurement")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonProperty("convertedUnitOfMeasurement")
-    private UnitOfMeasurement convertedUnitOfMeasurement;
-
     @ManyToOne
     private ServiceType serviceType;
 
     @ManyToOne
     private MaterialGroup materialGroup;
 
-
-    public ServiceNumber() {
-    }
-
-    public ServiceNumber(String code, Long formulaCode, Long unitOfMeasurementCode, Long serviceTypeCode, Long materialGroupCode, String description, Boolean shortTextChangeAllowed,
-                         Boolean deletionIndicator, Boolean mainItem, Integer numberToBeConverted, Integer convertedNumber, Instant lastChangeDate, String serviceText,
-                         Set<ModelSpecificationsDetails> modelSpecificationsDetails, Formula formula, UnitOfMeasurement baseUnitOfMeasurement, UnitOfMeasurement toBeConvertedUnitOfMeasurement,
-                         UnitOfMeasurement convertedUnitOfMeasurement, ServiceType serviceType, MaterialGroup materialGroup)
-    {
-        this.code = code;
-        this.formulaCode = formulaCode;
-        this.unitOfMeasurementCode = unitOfMeasurementCode;
-        this.serviceTypeCode = serviceTypeCode;
-        this.materialGroupCode = materialGroupCode;
-        this.description = description;
-        this.shortTextChangeAllowed = shortTextChangeAllowed;
-        this.deletionIndicator = deletionIndicator;
-        this.mainItem = mainItem;
-        this.numberToBeConverted = numberToBeConverted;
-        this.convertedNumber = convertedNumber;
-        this.lastChangeDate = lastChangeDate;
-        this.serviceText = serviceText;
-        this.modelSpecificationsDetails = modelSpecificationsDetails;
-        this.formula = formula;
-        this.baseUnitOfMeasurement = baseUnitOfMeasurement;
-        this.toBeConvertedUnitOfMeasurement = toBeConvertedUnitOfMeasurement;
-        this.convertedUnitOfMeasurement = convertedUnitOfMeasurement;
-        this.serviceType = serviceType;
-        this.materialGroup = materialGroup;
-    }
 
     public ServiceNumber addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setServiceNumber(this);

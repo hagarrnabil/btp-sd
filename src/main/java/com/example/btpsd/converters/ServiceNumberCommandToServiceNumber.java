@@ -14,7 +14,6 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
 
     private final ModelSpecDetailsCommandToModelSpecDetails modelSpecDetailsConverter;
 
-//    private final UnitOfMeasurementCommandToUnitOfMeasurement unitOfMeasurementConverter;
 
     @Synchronized
     @Nullable
@@ -36,6 +35,10 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
         serviceNumber.setMainItem(source.getMainItem());
         serviceNumber.setLastChangeDate(source.getLastChangeDate());
         serviceNumber.setServiceText(source.getServiceText());
+        serviceNumber.setBaseUnitOfMeasurement(source.getBaseUnitOfMeasurement());
+        serviceNumber.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
+        serviceNumber.setDefaultUnitOfMeasurement(source.getDefaultUnitOfMeasurement());
+        serviceNumber.setConversionRule(source.getConversionRule());
         if (source.getFormulaCode() != null) {
             Formula formula = new Formula();
             formula.setFormulaCode(source.getFormulaCode());
@@ -47,24 +50,6 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
             serviceType.setServiceTypeCode(source.getServiceTypeCode());
             serviceNumber.setServiceType(serviceType);
             serviceType.addServiceNumbers(serviceNumber);
-        }
-        if (source.getBaseUnitOfMeasurement() != null) {
-            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-            serviceNumber.setBaseUnitOfMeasurement(source.getBaseUnitOfMeasurement());
-            serviceNumber.setBaseUnitOfMeasurement(unitOfMeasurement);
-            unitOfMeasurement.addBaseServiceNumbers(serviceNumber);
-        }
-        if (source.getToBeConvertedUnitOfMeasurement() != null) {
-            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-            serviceNumber.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
-            serviceNumber.setToBeConvertedUnitOfMeasurement(unitOfMeasurement);
-            unitOfMeasurement.addToBeConvertedServiceNumbers(serviceNumber);
-        }
-        if (source.getConvertedUnitOfMeasurement() != null) {
-            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-            serviceNumber.setConvertedUnitOfMeasurement(source.getConvertedUnitOfMeasurement());
-            serviceNumber.setConvertedUnitOfMeasurement(unitOfMeasurement);
-            unitOfMeasurement.addConvertedServiceNumbers(serviceNumber);
         }
         if (source.getMaterialGroupCode() != null) {
             MaterialGroup materialGroup= new MaterialGroup();

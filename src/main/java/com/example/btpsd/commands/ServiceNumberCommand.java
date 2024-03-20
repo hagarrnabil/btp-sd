@@ -16,9 +16,12 @@ import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class ServiceNumberCommand implements Serializable {
 
     private Long serviceNumberCode;
+
+    private Long noServiceNumber;
 
     private String code;
 
@@ -46,15 +49,14 @@ public class ServiceNumberCommand implements Serializable {
 
     private String serviceText;
 
+    private String baseUnitOfMeasurement;
+
+    private String toBeConvertedUnitOfMeasurement;
+
+    private String defaultUnitOfMeasurement;
+
+    private Double conversionRule;
+
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
-
-    private UnitOfMeasurement baseUnitOfMeasurement;
-
-    private UnitOfMeasurement toBeConvertedUnitOfMeasurement;
-
-    private UnitOfMeasurement convertedUnitOfMeasurement;
-
-    public ServiceNumberCommand() {
-    }
 }

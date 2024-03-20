@@ -16,7 +16,6 @@ public class UnitOfMeasurementToUnitOfMeasurementCommand implements Converter<Un
 
     private final FormulaToFormulaCommand formulaConverter;
 
-//    private final ServiceNumberToServiceNumberCommand serviceNumberConverter;
 
     @Synchronized
     @Nullable
@@ -38,18 +37,6 @@ public class UnitOfMeasurementToUnitOfMeasurementCommand implements Converter<Un
         if (source.getFormulas() != null && source.getFormulas().size() > 0) {
             source.getFormulas()
                     .forEach(formula -> unitOfMeasurementCommand.getFormulaCommands().add(formulaConverter.convert(formula)));
-        }
-        if (source.getBaseServiceNumbers() != null && source.getBaseServiceNumbers().size() > 0) {
-            source.getBaseServiceNumbers()
-                    .forEach(baseServiceNumber -> unitOfMeasurementCommand.getBaseServiceNumbers().add((baseServiceNumber)));
-        }
-        if (source.getToBeConvertedServiceNumbers() != null && source.getToBeConvertedServiceNumbers().size() > 0) {
-            source.getToBeConvertedServiceNumbers()
-                    .forEach(toBeConvertedServiceNumber -> unitOfMeasurementCommand.getToBeConvertedServiceNumbers().add((toBeConvertedServiceNumber)));
-        }
-        if (source.getConvertedServiceNumbers() != null && source.getConvertedServiceNumbers().size() > 0) {
-            source.getConvertedServiceNumbers()
-                    .forEach(convertedServiceNumber -> unitOfMeasurementCommand.getConvertedServiceNumbers().add((convertedServiceNumber)));
         }
         return unitOfMeasurementCommand;
     }

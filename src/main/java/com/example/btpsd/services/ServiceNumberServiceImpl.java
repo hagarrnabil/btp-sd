@@ -103,24 +103,6 @@ public class ServiceNumberServiceImpl implements ServiceNumberService{
                 oldServiceNumber.setMaterialGroup(materialGroup);
                 materialGroup.addServiceNumbers(oldServiceNumber);
             }
-            if (newServiceNumberCommand.getUnitOfMeasurementCode() != null) {
-                UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-                unitOfMeasurement.setUnitOfMeasurementCode(newServiceNumberCommand.getUnitOfMeasurementCode());
-                oldServiceNumber.setBaseUnitOfMeasurement(unitOfMeasurement);
-                unitOfMeasurement.addBaseServiceNumbers(oldServiceNumber);
-            }
-            if (newServiceNumberCommand.getUnitOfMeasurementCode() != null) {
-                UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-                unitOfMeasurement.setUnitOfMeasurementCode(newServiceNumberCommand.getUnitOfMeasurementCode());
-                oldServiceNumber.setToBeConvertedUnitOfMeasurement(unitOfMeasurement);
-                unitOfMeasurement.addToBeConvertedServiceNumbers(oldServiceNumber);
-            }
-            if (newServiceNumberCommand.getUnitOfMeasurementCode() != null) {
-                UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-                unitOfMeasurement.setUnitOfMeasurementCode(newServiceNumberCommand.getUnitOfMeasurementCode());
-                oldServiceNumber.setConvertedUnitOfMeasurement(unitOfMeasurement);
-                unitOfMeasurement.addConvertedServiceNumbers(oldServiceNumber);
-            }
             if (newServiceNumberCommand.getFormulaCode() != null) {
                 Formula formula = new Formula();
                 formula.setFormulaCode(newServiceNumberCommand.getFormulaCode());

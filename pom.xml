@@ -168,26 +168,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.axis2</groupId>
-                <artifactId>axis2-wsdl2code-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>wsdl2code</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <wsdlFile>src/main/resources/wsdl/CO_FNDEI_UNITOFMEASUREMENT_RL.wsdl</wsdlFile>
-                            <outputDirectory>src/main/main/java</outputDirectory>
-                            <packageName>com.example.datamodel.wsdl</packageName>
-                            <databindingName>adb</databindingName>
-                            <syncMode>sync</syncMode>
-                            <unpackClasses>true</unpackClasses>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
     <repositories>

@@ -14,7 +14,6 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
 
     private final ModelSpecDetailsToModelSpecDetailsCommand modelSpecDetailsConverter;
 
-//    private final UnitOfMeasurementToUnitOfMeasurementCommand unitOfMeasurementConverter;
 
     @Synchronized
     @Nullable
@@ -36,6 +35,10 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         serviceNumberCommand.setMainItem(source.getMainItem());
         serviceNumberCommand.setLastChangeDate(source.getLastChangeDate());
         serviceNumberCommand.setServiceText(source.getServiceText());
+        serviceNumberCommand.setBaseUnitOfMeasurement(source.getBaseUnitOfMeasurement());
+        serviceNumberCommand.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
+        serviceNumberCommand.setDefaultUnitOfMeasurement(source.getDefaultUnitOfMeasurement());
+        serviceNumberCommand.setConversionRule(source.getConversionRule());
         if (source.getFormula() != null) {
             serviceNumberCommand.setFormulaCode(source.getFormula().getFormulaCode());
         }
@@ -44,15 +47,6 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         }
         if (source.getServiceType() != null) {
             serviceNumberCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
-        }
-        if (source.getBaseUnitOfMeasurement() != null) {
-            serviceNumberCommand.setBaseUnitOfMeasurement(source.getBaseUnitOfMeasurement());
-        }
-        if (source.getToBeConvertedUnitOfMeasurement() != null) {
-            serviceNumberCommand.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
-        }
-        if (source.getConvertedUnitOfMeasurement() != null) {
-            serviceNumberCommand.setConvertedUnitOfMeasurement(source.getConvertedUnitOfMeasurement());
         }
         if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
             source.getModelSpecificationsDetails()

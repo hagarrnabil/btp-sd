@@ -13,6 +13,7 @@ import java.util.Set;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "unitOfMeasurement")
@@ -23,11 +24,11 @@ public class UnitOfMeasurement implements Serializable {
     private Long unitOfMeasurementCode;
 
 
-    @Column(unique = true, columnDefinition = "char(225)")
+    @Column(unique = true, columnDefinition = "char(225)", nullable = false)
     @Length(max = 225)
     private String code;
 
-    //    @NotNull
+    @NotNull
     private String description;
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "unitOfMeasurement")
@@ -38,31 +39,11 @@ public class UnitOfMeasurement implements Serializable {
     @JsonIgnore
     private Set<Formula> formulas = new HashSet<>();
 
-    @OneToMany(mappedBy = "baseUnitOfMeasurement", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private Set<ServiceNumber> baseServiceNumbers = new HashSet<>();
-
-    @OneToMany(mappedBy = "toBeConvertedUnitOfMeasurement", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private Set<ServiceNumber> toBeConvertedServiceNumbers = new HashSet<>();
-
-    @OneToMany(mappedBy = "convertedUnitOfMeasurement", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private Set<ServiceNumber> convertedServiceNumbers = new HashSet<>();
-
-    public UnitOfMeasurement() {
-    }
-
-    public UnitOfMeasurement(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails, Set<Formula> formulas, Set<ServiceNumber> baseServiceNumbers,
-                             Set<ServiceNumber> toBeConvertedServiceNumbers, Set<ServiceNumber> convertedServiceNumbers)
-    {
+    public UnitOfMeasurement(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails, Set<Formula> formulas) {
         this.code = code;
         this.description = description;
         this.modelSpecificationsDetails = modelSpecificationsDetails;
         this.formulas = formulas;
-        this.baseServiceNumbers = baseServiceNumbers;
-        this.toBeConvertedServiceNumbers = toBeConvertedServiceNumbers;
-        this.convertedServiceNumbers = convertedServiceNumbers;
     }
 
     public UnitOfMeasurement addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
@@ -74,24 +55,6 @@ public class UnitOfMeasurement implements Serializable {
     public UnitOfMeasurement addFormulas(Formula formula){
         formula.setUnitOfMeasurement(this);
         this.formulas.add(formula);
-        return this;
-    }
-
-    public UnitOfMeasurement addBaseServiceNumbers(ServiceNumber serviceNumber){
-        serviceNumber.setBaseUnitOfMeasurement(this);
-        this.baseServiceNumbers.add(serviceNumber);
-        return this;
-    }
-
-    public UnitOfMeasurement addToBeConvertedServiceNumbers(ServiceNumber serviceNumber){
-        serviceNumber.setToBeConvertedUnitOfMeasurement(this);
-        this.toBeConvertedServiceNumbers.add(serviceNumber);
-        return this;
-    }
-
-    public UnitOfMeasurement addConvertedServiceNumbers(ServiceNumber serviceNumber){
-        serviceNumber.setConvertedUnitOfMeasurement(this);
-        this.convertedServiceNumbers.add(serviceNumber);
         return this;
     }
 }
