@@ -22,17 +22,18 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@IdClass(ServiceNumberId.class)
+//@IdClass(ServiceNumberId.class)
 @Table(name = "serviceNumber")
 public class ServiceNumber implements Serializable {
 
+//    @EqualsAndHashCode.Include
     @Id
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long serviceNumberCode;
 
-    @Id
-    @Column(nullable = false)
-    private Long noServiceNumber;
+//    @EqualsAndHashCode.Include
+//    @Id
+//    private Long noServiceNumber;
 
     @Column(unique = true, columnDefinition = "char(225)", nullable = false)
     @Length(max = 225)

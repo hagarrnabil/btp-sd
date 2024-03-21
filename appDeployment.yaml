@@ -3,30 +3,30 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: dev
+    app: sd-dev
     kyma-grafana: enabled
-  name: dev
+  name: sd-dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dev
+      app: sd-dev
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: dev
+        app: sd-dev
         kyma-grafana: enabled
     spec:
       containers:
-        - image: hagarrnabil/dev
-          name: dev
+        - image: hagarrnabil/sd-dev
+          name: sd-dev
           ports:
             - containerPort: 8080
           envFrom:
             - secretRef:
-                name: dev
+                name: sd-dev
                 optional: true
 status: {}
 ---
@@ -35,15 +35,15 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: dev
-  name: dev
+    app: sd-dev
+  name: sd-dev
 spec:
   ports:
     - port: 8080
       protocol: TCP
       targetPort: 8080
   selector:
-    app: dev
+    app: sd-dev
   type: ClusterIP
 status:
   loadBalancer: {}

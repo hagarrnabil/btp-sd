@@ -5,6 +5,7 @@ import com.example.btpsd.model.ServiceNumber;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import org.apache.commons.math3.random.RandomDataGenerator;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,18 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
 
         final ServiceNumberCommand serviceNumberCommand = new ServiceNumberCommand();
         serviceNumberCommand.setServiceNumberCode(source.getServiceNumberCode());
+//        if (source.getServiceNumberCode() == null) {
+//            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+//            Long min = 1L;
+//            Long max = 1000L;
+//            Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
+//            serviceNumberCommand.setNoServiceNumber(randomWithRandomDataGenerator);
+//        }
+//        else {
+//            serviceNumberCommand.setServiceNumberCode(source.getServiceNumberCode());
+//        }
+//        serviceNumberCommand.setNoServiceNumber(source.getNoServiceNumber());
+//        serviceNumberCommand.setServiceNumberCode(serviceNumberCommand.getServiceNumberCode());
         serviceNumberCommand.setCode(source.getCode());
         serviceNumberCommand.setDescription(source.getDescription());
         serviceNumberCommand.setConvertedNumber(source.getConvertedNumber());

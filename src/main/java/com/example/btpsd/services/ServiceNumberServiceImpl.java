@@ -91,6 +91,16 @@ public class ServiceNumberServiceImpl implements ServiceNumberService{
                 oldServiceNumber.setNumberToBeConverted(newServiceNumberCommand.getNumberToBeConverted());
             if (newServiceNumberCommand.getConvertedNumber() != oldServiceNumber.getConvertedNumber())
                 oldServiceNumber.setConvertedNumber(newServiceNumberCommand.getConvertedNumber());
+            if (newServiceNumberCommand.getServiceText() != oldServiceNumber.getServiceText())
+                oldServiceNumber.setServiceText(newServiceNumberCommand.getServiceText());
+            if (newServiceNumberCommand.getBaseUnitOfMeasurement() != oldServiceNumber.getBaseUnitOfMeasurement())
+                oldServiceNumber.setBaseUnitOfMeasurement(newServiceNumberCommand.getBaseUnitOfMeasurement());
+            if (newServiceNumberCommand.getToBeConvertedUnitOfMeasurement() != oldServiceNumber.getToBeConvertedUnitOfMeasurement())
+                oldServiceNumber.setToBeConvertedUnitOfMeasurement(newServiceNumberCommand.getToBeConvertedUnitOfMeasurement());
+            if (newServiceNumberCommand.getDefaultUnitOfMeasurement() != oldServiceNumber.getDefaultUnitOfMeasurement())
+                oldServiceNumber.setDefaultUnitOfMeasurement(newServiceNumberCommand.getDefaultUnitOfMeasurement());
+            if (newServiceNumberCommand.getConversionRule() != oldServiceNumber.getConversionRule())
+                oldServiceNumber.setConversionRule(newServiceNumberCommand.getConversionRule());
             if (newServiceNumberCommand.getServiceTypeCode() != null) {
                 ServiceType serviceType = new ServiceType();
                 serviceType.setServiceTypeCode(newServiceNumberCommand.getServiceTypeCode());

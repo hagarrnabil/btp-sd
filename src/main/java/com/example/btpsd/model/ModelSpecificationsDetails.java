@@ -24,6 +24,8 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Long serviceNumberCode;
 
+//    private Long noServiceNumber;
+
     private Long serviceTypeCode;
 
     private Long materialGroupCode;

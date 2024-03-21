@@ -21,7 +21,7 @@ public class ServiceNumberCommand implements Serializable {
 
     private Long serviceNumberCode;
 
-    private Long noServiceNumber;
+//    private Long noServiceNumber;
 
     private String code;
 

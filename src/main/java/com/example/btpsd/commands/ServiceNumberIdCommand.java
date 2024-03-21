@@ -1,13 +1,14 @@
 package com.example.btpsd.commands;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 @Setter
 @Getter
 @NoArgsConstructor
+@Data
+@EqualsAndHashCode
+@AllArgsConstructor
 public class ServiceNumberIdCommand implements Serializable {
 
     private Long serviceNumberCode;

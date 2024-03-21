@@ -52,6 +52,13 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         }
 //        else {
 //            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+//            Long min = 1L;
+//            Long max = 1000L;
+//            Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
+//            modelSpecificationsDetailsCommand.setNoServiceNumber(randomWithRandomDataGenerator);
+//        }
+//        else {
+//            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
 //            Long min = 100L;
 //            Long max = 10000L;
 //            Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
