@@ -26,7 +26,7 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         }
 
         final ServiceNumberCommand serviceNumberCommand = new ServiceNumberCommand();
-        serviceNumberCommand.setServiceNumberCode(source.getServiceNumberCode());
+//        serviceNumberCommand.setServiceNumberCode(source.getServiceNumberCode());
 //        if (source.getServiceNumberCode() == null) {
 //            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
 //            Long min = 1L;
@@ -38,8 +38,8 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
 //            serviceNumberCommand.setServiceNumberCode(source.getServiceNumberCode());
 //        }
 //        serviceNumberCommand.setNoServiceNumber(source.getNoServiceNumber());
-//        serviceNumberCommand.setServiceNumberCode(serviceNumberCommand.getServiceNumberCode());
-        serviceNumberCommand.setCode(source.getCode());
+        serviceNumberCommand.setServiceNumberCode(source.getServiceNumberCode());
+        serviceNumberCommand.setSearchTerm(source.getSearchTerm());
         serviceNumberCommand.setDescription(source.getDescription());
         serviceNumberCommand.setConvertedNumber(source.getConvertedNumber());
         serviceNumberCommand.setNumberToBeConverted(source.getNumberToBeConverted());
@@ -51,7 +51,6 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         serviceNumberCommand.setBaseUnitOfMeasurement(source.getBaseUnitOfMeasurement());
         serviceNumberCommand.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
         serviceNumberCommand.setDefaultUnitOfMeasurement(source.getDefaultUnitOfMeasurement());
-        serviceNumberCommand.setConversionRule(source.getConversionRule());
         if (source.getFormula() != null) {
             serviceNumberCommand.setFormulaCode(source.getFormula().getFormulaCode());
         }

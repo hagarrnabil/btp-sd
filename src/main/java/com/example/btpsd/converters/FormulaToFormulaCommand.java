@@ -61,9 +61,6 @@ public class FormulaToFormulaCommand implements Converter<Formula, FormulaComman
         } catch (ScriptException e) {
             throw new RuntimeException(e);
         }
-        if (source.getUnitOfMeasurement() != null) {
-            formulaCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurement().getUnitOfMeasurementCode());
-        }
         if (source.getServiceNumbers() != null && source.getServiceNumbers().size() > 0) {
             source.getServiceNumbers()
                     .forEach(serviceNumber -> formulaCommand.getServiceNumberCommands().add(serviceNumberConverter.convert(serviceNumber)));

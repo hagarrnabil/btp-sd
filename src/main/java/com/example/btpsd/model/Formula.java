@@ -29,8 +29,6 @@ public class Formula implements Serializable {
     @Length(max = 4)
     private String formula;
 
-    private Long unitOfMeasurementCode;
-
     @NotNull
     private String description;
 
@@ -63,27 +61,7 @@ public class Formula implements Serializable {
     @JsonIgnore
     private Set<ServiceNumber> serviceNumbers = new HashSet<>();
 
-    @ManyToOne
-    private UnitOfMeasurement unitOfMeasurement;
 
-    public Formula(String formula, Long unitOfMeasurementCode, String description, Integer numberOfParameters, List<Character> parameterIds, List<String> parameterDescriptions, String formulaLogic,
-                   List<Double> testParameters, String expression, double result, Set<ModelSpecificationsDetails> modelSpecificationsDetails, Set<ServiceNumber> serviceNumbers,
-                   UnitOfMeasurement unitOfMeasurement)
-    {
-        this.formula = formula;
-        this.unitOfMeasurementCode = unitOfMeasurementCode;
-        this.description = description;
-        this.numberOfParameters = numberOfParameters;
-        this.parameterIds = parameterIds;
-        this.parameterDescriptions = parameterDescriptions;
-        this.formulaLogic = formulaLogic;
-        this.testParameters = testParameters;
-        this.expression = expression;
-        this.result = result;
-        this.modelSpecificationsDetails = modelSpecificationsDetails;
-        this.serviceNumbers = serviceNumbers;
-        this.unitOfMeasurement = unitOfMeasurement;
-    }
 
     public Formula addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails) {
         modelSpecificationsDetails.setFormula(this);

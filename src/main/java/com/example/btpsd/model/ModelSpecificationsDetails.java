@@ -2,6 +2,7 @@ package com.example.btpsd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -32,8 +33,9 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Long personnelNumberCode;
 
-    private Long unitOfMeasurementCode;
+    private String unitOfMeasurementCode;
 
+    @NotNull
     private Long currencyCode;
 
     private Long formulaCode;
@@ -50,8 +52,10 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private String shortText;
 
+    @NotNull
     private Integer quantity;
 
+    @NotNull
     private Integer grossPrice;
 
     private Integer overFulfilmentPercentage;
@@ -115,59 +119,6 @@ public class ModelSpecificationsDetails implements Serializable {
     @ManyToOne
     private LineType lineType;
 
-    public ModelSpecificationsDetails(Long serviceNumberCode, Long serviceTypeCode,
-                                      Long materialGroupCode, Long personnelNumberCode,
-                                      Long unitOfMeasurementCode, Long currencyCode,
-                                      Boolean selectionCheckBox, String lineIndex,
-                                      Boolean deletionIndicator, String shortText,
-                                      Integer quantity, Integer grossPrice,
-                                      Integer overFulfilmentPercentage,
-                                      Boolean priceChangedAllowed,
-                                      Boolean unlimitedOverFulfillment,
-                                      Integer pricePerUnitOfMeasurement,
-                                      String externalServiceNumber, Integer netValue,
-                                      String serviceText, String lineText, String lineNumber,
-                                      String alternatives, Boolean biddersLine,
-                                      Boolean supplementaryLine, Boolean lotSizeForCostingIsOne,
-                                      Set<ModelSpecifications> modelSpecifications,
-                                      ServiceNumber serviceNumber,
-                                      UnitOfMeasurement unitOfMeasurement, MaterialGroup materialGroup,
-                                      ServiceType serviceType, PersonnelNumber personnelNumber,
-                                      Currency currency, Formula formula) {
-        this.serviceNumberCode = serviceNumberCode;
-        this.serviceTypeCode = serviceTypeCode;
-        this.materialGroupCode = materialGroupCode;
-        this.personnelNumberCode = personnelNumberCode;
-        this.unitOfMeasurementCode = unitOfMeasurementCode;
-        this.currencyCode = currencyCode;
-        this.selectionCheckBox = selectionCheckBox;
-        this.lineIndex = lineIndex;
-        this.deletionIndicator = deletionIndicator;
-        this.shortText = shortText;
-        this.quantity = quantity;
-        this.grossPrice = grossPrice;
-        this.overFulfilmentPercentage = overFulfilmentPercentage;
-        this.priceChangedAllowed = priceChangedAllowed;
-        this.unlimitedOverFulfillment = unlimitedOverFulfillment;
-        this.pricePerUnitOfMeasurement = pricePerUnitOfMeasurement;
-        this.externalServiceNumber = externalServiceNumber;
-        this.netValue = netValue;
-        this.serviceText = serviceText;
-        this.lineText = lineText;
-        this.lineNumber = lineNumber;
-        this.alternatives = alternatives;
-        this.biddersLine = biddersLine;
-        this.supplementaryLine = supplementaryLine;
-        this.lotSizeForCostingIsOne = lotSizeForCostingIsOne;
-        this.modelSpecifications = modelSpecifications;
-        this.serviceNumber = serviceNumber;
-        this.unitOfMeasurement = unitOfMeasurement;
-        this.materialGroup = materialGroup;
-        this.serviceType = serviceType;
-        this.personnelNumber = personnelNumber;
-        this.currency = currency;
-        this.formula = formula;
-    }
 
     public ModelSpecificationsDetails addModelSpecifications(ModelSpecifications modelSpecifications){
         modelSpecifications.setModelSpecificationsDetails(this);

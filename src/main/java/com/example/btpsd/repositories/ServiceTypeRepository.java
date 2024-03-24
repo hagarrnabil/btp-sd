@@ -7,7 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface ServiceTypeRepository extends CrudRepository<ServiceType, Long> {
-
-    @Query("SELECT s FROM ServiceType s WHERE CONCAT(s.description, ' ', s.serviceId, ' ', s.serviceTypeCode) LIKE %?1%")
+    @Query("select s from ServiceType s where lower(concat(s.description,' ', s.serviceTypeCode,' ', s.serviceId)) like lower(concat('%', ?1,'%'))")
     public List<ServiceType> search(String keyword);
 }

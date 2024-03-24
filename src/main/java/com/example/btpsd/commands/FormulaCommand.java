@@ -20,8 +20,6 @@ public class FormulaCommand implements Serializable {
 
     private String formula;
 
-    private Long unitOfMeasurementCode;
-
     private String description;
 
     private Integer numberOfParameters;

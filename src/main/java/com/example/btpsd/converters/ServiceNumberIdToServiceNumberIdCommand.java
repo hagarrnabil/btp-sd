@@ -25,18 +25,18 @@ public class ServiceNumberIdToServiceNumberIdCommand implements Converter<Servic
         }
 
         final ServiceNumberIdCommand serviceNumberIdCommand = new ServiceNumberIdCommand();
-//        serviceNumberIdCommand.setServiceNumberCode(source.getServiceNumberCode());
-//        serviceNumberIdCommand.setNoServiceNumber(source.getNoServiceNumber());
-        if (source.getServiceNumberCode() == null) {
-            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
-            Long min = 1L;
-            Long max = 1000L;
-            Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
-            serviceNumberIdCommand.setNoServiceNumber(randomWithRandomDataGenerator);
-        }
-        else {
-            serviceNumberIdCommand.setServiceNumberCode(source.getServiceNumberCode());
-        }
+        serviceNumberIdCommand.setServiceNumberCode(source.getServiceNumberCode());
+        serviceNumberIdCommand.setNoServiceNumber(source.getNoServiceNumber());
+//        if (source.getServiceNumberCode() == null) {
+//            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+//            Long min = 1L;
+//            Long max = 1000L;
+//            Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
+//            serviceNumberIdCommand.setNoServiceNumber(randomWithRandomDataGenerator);
+//        }
+//        else {
+//            serviceNumberIdCommand.setServiceNumberCode(source.getServiceNumberCode());
+//        }
         return serviceNumberIdCommand;
     }
 

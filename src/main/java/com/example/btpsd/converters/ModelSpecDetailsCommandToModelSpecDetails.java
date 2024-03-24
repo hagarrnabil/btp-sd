@@ -116,7 +116,6 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         if (source.getDontUseFormula() == true ){
             modelSpecificationsDetails.setQuantity(source.getQuantity());
         }
-
         if (source.getModelSpecificationsCommands() != null && source.getModelSpecificationsCommands().size() > 0) {
         source.getModelSpecificationsCommands()
                 .forEach(modelSpecificationsCommand -> modelSpecificationsDetails.getModelSpecifications().add(modelSpecConverter.convert(modelSpecificationsCommand)));

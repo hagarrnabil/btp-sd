@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface MaterialGroupRepository extends CrudRepository<MaterialGroup, Long> {
 
-    @Query("SELECT m FROM MaterialGroup m WHERE CONCAT(m.code, ' ', m.description, ' ', m.materialGroupCode) LIKE %?1%")
+    @Query("select m from MaterialGroup m where lower(concat(m.code,' ', m.description,' ', m.materialGroupCode)) like lower(concat('%', ?1,'%'))")
     public List<MaterialGroup> search(String keyword);
 }

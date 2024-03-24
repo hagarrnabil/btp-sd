@@ -34,10 +34,6 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
             source.getModelSpecificationsDetailsCommands()
                     .forEach(modelSpecificationsDetailsCommand -> unitOfMeasurement.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));
         }
-        if (source.getFormulaCommands() != null && source.getFormulaCommands().size() > 0) {
-            source.getFormulaCommands()
-                    .forEach(formulaCommand -> unitOfMeasurement.getFormulas().add(formulaConverter.convert(formulaCommand)));
-        }
         return unitOfMeasurement;
     }
 

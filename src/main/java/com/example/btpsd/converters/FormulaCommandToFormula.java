@@ -62,12 +62,6 @@ public class FormulaCommandToFormula implements Converter<FormulaCommand, Formul
         } catch (ScriptException e) {
             throw new RuntimeException(e);
         }
-        if (source.getUnitOfMeasurementCode() != null) {
-            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-            unitOfMeasurement.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
-            formula.setUnitOfMeasurement(unitOfMeasurement);
-            unitOfMeasurement.addFormulas(formula);
-        }
         if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {
             source.getModelSpecificationsDetailsCommands()
                     .forEach(modelSpecificationsDetailsCommand -> formula.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));

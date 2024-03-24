@@ -73,8 +73,8 @@ public class ServiceNumberServiceImpl implements ServiceNumberService{
     public ServiceNumber updateServiceNumber(ServiceNumberCommand newServiceNumberCommand, Long l) {
 
         return serviceNumberRepository.findById(l).map(oldServiceNumber -> {
-            if (newServiceNumberCommand.getCode() != oldServiceNumber.getCode())
-                oldServiceNumber.setCode(newServiceNumberCommand.getCode());
+            if (newServiceNumberCommand.getSearchTerm() != oldServiceNumber.getSearchTerm())
+                oldServiceNumber.setSearchTerm(newServiceNumberCommand.getSearchTerm());
             if (newServiceNumberCommand.getDescription() != oldServiceNumber.getDescription())
                 oldServiceNumber.setDescription(newServiceNumberCommand.getDescription());
             if (newServiceNumberCommand.getFormulaCode() != oldServiceNumber.getFormulaCode())
@@ -99,8 +99,6 @@ public class ServiceNumberServiceImpl implements ServiceNumberService{
                 oldServiceNumber.setToBeConvertedUnitOfMeasurement(newServiceNumberCommand.getToBeConvertedUnitOfMeasurement());
             if (newServiceNumberCommand.getDefaultUnitOfMeasurement() != oldServiceNumber.getDefaultUnitOfMeasurement())
                 oldServiceNumber.setDefaultUnitOfMeasurement(newServiceNumberCommand.getDefaultUnitOfMeasurement());
-            if (newServiceNumberCommand.getConversionRule() != oldServiceNumber.getConversionRule())
-                oldServiceNumber.setConversionRule(newServiceNumberCommand.getConversionRule());
             if (newServiceNumberCommand.getServiceTypeCode() != null) {
                 ServiceType serviceType = new ServiceType();
                 serviceType.setServiceTypeCode(newServiceNumberCommand.getServiceTypeCode());

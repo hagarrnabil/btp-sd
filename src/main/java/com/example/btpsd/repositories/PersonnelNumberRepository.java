@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface PersonnelNumberRepository extends CrudRepository<PersonnelNumber, Long> {
 
-    @Query("SELECT p FROM PersonnelNumber p WHERE CONCAT(p.description, ' ', p.code, ' ', p.personnelNumberCode) LIKE %?1%")
+    @Query("select p from PersonnelNumber p where lower(concat(p.description,' ', p.code,' ', p.personnelNumberCode)) like lower(concat('%', ?1,'%'))")
     public List<PersonnelNumber> search(String keyword);
 }

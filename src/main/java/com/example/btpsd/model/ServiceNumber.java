@@ -33,15 +33,11 @@ public class ServiceNumber implements Serializable {
 
 //    @EqualsAndHashCode.Include
 //    @Id
-//    private Long noServiceNumber;
+    private Long noServiceNumber;
 
-    @Column(unique = true, columnDefinition = "char(225)", nullable = false)
-    @Length(max = 225)
-    private String code;
+    private String searchTerm;
 
     private Long formulaCode;
-
-    private Long unitOfMeasurementCode;
 
     private Long serviceTypeCode;
 
@@ -70,8 +66,6 @@ public class ServiceNumber implements Serializable {
     private String toBeConvertedUnitOfMeasurement;
 
     private String defaultUnitOfMeasurement;
-
-    private Double conversionRule;
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
     @JsonIgnore

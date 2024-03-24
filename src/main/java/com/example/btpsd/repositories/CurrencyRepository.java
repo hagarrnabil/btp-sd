@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CurrencyRepository extends CrudRepository<Currency, Long> {
 
-    @Query("SELECT c FROM Currency c WHERE CONCAT(c.code, ' ', c.currencyCode, ' ', c.description) LIKE %?1%")
+    @Query("select c from Currency c where lower(concat(c.code,' ', c.currencyCode,' ', c.description)) like lower(concat('%', ?1,'%'))")
     public List<Currency> search(String keyword);
 
 }

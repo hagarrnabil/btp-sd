@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class UnitOfMeasurementCommand implements Serializable {
 
-    private Long unitOfMeasurementCode;
+    private String unitOfMeasurementCode;
 
     private String code;
 
@@ -25,7 +25,4 @@ public class UnitOfMeasurementCommand implements Serializable {
 
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
-
-    @JsonIgnore
-    private Set<FormulaCommand> formulaCommands = new HashSet<>();
 }

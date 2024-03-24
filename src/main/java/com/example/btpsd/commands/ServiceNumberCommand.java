@@ -21,9 +21,9 @@ public class ServiceNumberCommand implements Serializable {
 
     private Long serviceNumberCode;
 
-//    private Long noServiceNumber;
+    private Long noServiceNumber;
 
-    private String code;
+    private String searchTerm;
 
     private Long formulaCode;
 
@@ -54,8 +54,6 @@ public class ServiceNumberCommand implements Serializable {
     private String toBeConvertedUnitOfMeasurement;
 
     private String defaultUnitOfMeasurement;
-
-    private Double conversionRule;
 
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();

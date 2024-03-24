@@ -20,7 +20,7 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private Long personnelNumberCode;
     private Long serviceTypeCode;
     private Long materialGroupCode;
-    private Long unitOfMeasurementCode;
+    private String unitOfMeasurementCode;
     private Long serviceNumberCode;
 //    private Long noServiceNumber;
     private Long lineTypeCode;

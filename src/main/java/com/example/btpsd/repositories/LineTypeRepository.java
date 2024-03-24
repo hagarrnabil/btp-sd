@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface LineTypeRepository extends CrudRepository<LineType, Long> {
 
-    @Query("SELECT l FROM LineType l WHERE CONCAT(l.code, ' ', l.lineTypeCode, ' ', l.description) LIKE %?1%")
+    @Query("select l from LineType l where lower(concat(l.code,' ', l.lineTypeCode,' ', l.description)) like lower(concat('%', ?1,'%'))")
     public List<LineType> search(String keyword);
 
 }
