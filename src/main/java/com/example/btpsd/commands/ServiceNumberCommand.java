@@ -27,8 +27,6 @@ public class ServiceNumberCommand implements Serializable {
 
     private Long formulaCode;
 
-    private Long unitOfMeasurementCode;
-
     private Long serviceTypeCode;
 
     private Long materialGroupCode;

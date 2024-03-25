@@ -39,6 +39,7 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
 //        }
 //        serviceNumber.setNoServiceNumber(source.getNoServiceNumber());
         serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
+        serviceNumber.setNoServiceNumber(source.getNoServiceNumber());
         serviceNumber.setSearchTerm(source.getSearchTerm());
         serviceNumber.setDescription(source.getDescription());
         serviceNumber.setConvertedNumber(source.getConvertedNumber());

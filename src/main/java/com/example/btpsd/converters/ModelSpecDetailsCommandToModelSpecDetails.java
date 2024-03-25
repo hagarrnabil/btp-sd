@@ -55,7 +55,7 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         }
         if (source.getUnitOfMeasurementCode() != null) {
             UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-            unitOfMeasurement.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
+            unitOfMeasurement.setUnitOfMeasurementCode(Long.valueOf(source.getUnitOfMeasurementCode()));
             modelSpecificationsDetails.setUnitOfMeasurement(unitOfMeasurement);
             unitOfMeasurement.addModelSpecDetails(modelSpecificationsDetails);
         }
@@ -65,13 +65,13 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
             modelSpecificationsDetails.setServiceNumber(serviceNumber);
             serviceNumber.addModelSpecDetails(modelSpecificationsDetails);
         }
-//        else {
-//            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
-//            Long min = 1L;
-//            Long max = 1000L;
-//            Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
-//            modelSpecificationsDetails.setNoServiceNumber(randomWithRandomDataGenerator);
-//        }
+        else {
+            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+            Long min = 1L;
+            Long max = 1000L;
+            Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
+            modelSpecificationsDetails.setNoServiceNumber(randomWithRandomDataGenerator);
+        }
 //        else {
 //            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
 //            Long min = 100L;

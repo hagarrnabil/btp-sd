@@ -22,7 +22,7 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private Long materialGroupCode;
     private String unitOfMeasurementCode;
     private Long serviceNumberCode;
-//    private Long noServiceNumber;
+    private Long noServiceNumber;
     private Long lineTypeCode;
     private Boolean selectionCheckBox;
     private String lineIndex;
@@ -43,7 +43,7 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private Boolean biddersLine;
     private Boolean supplementaryLine;
     private Boolean lotSizeForCostingIsOne;
-    private Boolean dontUseFormula;
+    private Boolean dontUseFormula = false;
     @JsonIgnore
     private Set<ModelSpecificationsCommand> modelSpecificationsCommands = new HashSet<>();
 }

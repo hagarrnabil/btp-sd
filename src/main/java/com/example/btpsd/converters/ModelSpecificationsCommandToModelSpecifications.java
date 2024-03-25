@@ -23,11 +23,13 @@ public class ModelSpecificationsCommandToModelSpecifications implements Converte
 
         final ModelSpecifications modelSpecifications = new ModelSpecifications();
         modelSpecifications.setModelSpecCode(source.getModelSpecCode());
-        if (source.getModelSpecDetailsCode() != null) {
-            ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
-            modelSpecificationsDetails.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
-            modelSpecifications.setModelSpecificationsDetails(modelSpecificationsDetails);
-            modelSpecificationsDetails.addModelSpecifications(modelSpecifications);
+        for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
+            if (source.getModelSpecDetailsCode() != null) {
+                ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
+                modelSpecificationsDetails.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
+                modelSpecifications.setModelSpecificationsDetails(modelSpecificationsDetails);
+                modelSpecificationsDetails.addModelSpecifications(modelSpecifications);
+            }
         }
         if (source.getCurrencyCode() != null) {
             Currency currency = new Currency();

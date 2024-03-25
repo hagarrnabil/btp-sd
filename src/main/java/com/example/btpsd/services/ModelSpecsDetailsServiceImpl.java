@@ -149,7 +149,7 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
             }
             if (newModelSpecDetails.getUnitOfMeasurementCode() != null) {
                 UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-                unitOfMeasurement.setUnitOfMeasurementCode(newModelSpecDetails.getUnitOfMeasurementCode());
+                unitOfMeasurement.setUnitOfMeasurementCode(Long.valueOf(newModelSpecDetails.getUnitOfMeasurementCode()));
                 oldModelSpecDetails.setUnitOfMeasurement(unitOfMeasurement);
                 unitOfMeasurement.addModelSpecDetails(oldModelSpecDetails);
             }

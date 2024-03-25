@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,7 +14,7 @@ import java.io.Serializable;
 public class ModelSpecificationsCommand implements Serializable {
 
     private Long modelSpecCode;
-    private Long modelSpecDetailsCode;
+    private List<Long> modelSpecDetailsCode = new ArrayList<Long>();
     private Long currencyCode;
     private String modelServSpec;
     private Boolean blockingIndicator;

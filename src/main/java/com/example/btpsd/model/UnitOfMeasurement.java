@@ -21,7 +21,7 @@ public class UnitOfMeasurement implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String unitOfMeasurementCode;
+    private Long unitOfMeasurementCode;
 
 
     @Column(unique = true, columnDefinition = "char(225)", nullable = false)

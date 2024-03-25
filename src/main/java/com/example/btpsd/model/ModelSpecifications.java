@@ -6,6 +6,8 @@ import org.hibernate.validator.constraints.Length;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -20,10 +22,11 @@ public class ModelSpecifications implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long modelSpecCode;
 
-    private Long modelSpecDetailsCode;
+
+    @ElementCollection
+    private List<Long> modelSpecDetailsCode = new ArrayList<Long>();
 
     private Long currencyCode;
-
 
     @Column(unique = true, columnDefinition = "char(225)", nullable = false)
     @Length(max = 225)
@@ -43,18 +46,4 @@ public class ModelSpecifications implements Serializable {
 
     @ManyToOne
     private Currency currency;
-
-    public ModelSpecifications(Long modelSpecDetailsCode, Long currencyCode, String modelServSpec, Boolean blockingIndicator,
-                               Boolean serviceSelection, String description, String searchTerm,
-                               ModelSpecificationsDetails modelSpecificationsDetails, Currency currency) {
-        this.modelSpecDetailsCode = modelSpecDetailsCode;
-        this.currencyCode = currencyCode;
-        this.modelServSpec = modelServSpec;
-        this.blockingIndicator = blockingIndicator;
-        this.serviceSelection = serviceSelection;
-        this.description = description;
-        this.searchTerm = searchTerm;
-        this.modelSpecificationsDetails = modelSpecificationsDetails;
-        this.currency = currency;
-    }
 }

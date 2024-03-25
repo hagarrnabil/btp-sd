@@ -25,7 +25,8 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Long serviceNumberCode;
 
-//    private Long noServiceNumber;
+    @Column(unique = true)
+    private Long noServiceNumber;
 
     private Long serviceTypeCode;
 
@@ -35,7 +36,7 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private String unitOfMeasurementCode;
 
-    @NotNull
+//    @NotNull
     private Long currencyCode;
 
     private Long formulaCode;
@@ -88,7 +89,8 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Boolean lotSizeForCostingIsOne;
 
-    private Boolean dontUseFormula;
+    @Builder.Default
+    private Boolean dontUseFormula = false;
 
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "modelSpecificationsDetails")
