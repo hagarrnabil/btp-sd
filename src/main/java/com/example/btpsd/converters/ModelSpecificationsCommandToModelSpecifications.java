@@ -24,9 +24,9 @@ public class ModelSpecificationsCommandToModelSpecifications implements Converte
         final ModelSpecifications modelSpecifications = new ModelSpecifications();
         modelSpecifications.setModelSpecCode(source.getModelSpecCode());
         for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
-            if (source.getModelSpecDetailsCode() != null) {
+            if (source.getModelSpecDetailsCode().get(i) != null) {
                 ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
-                modelSpecificationsDetails.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
+                modelSpecificationsDetails.setModelSpecDetailsCode(Long.parseLong(source.getModelSpecDetailsCode().toString()));
                 modelSpecifications.setModelSpecificationsDetails(modelSpecificationsDetails);
                 modelSpecificationsDetails.addModelSpecifications(modelSpecifications);
             }

@@ -89,8 +89,8 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Boolean lotSizeForCostingIsOne;
 
-    @Builder.Default
-    private Boolean dontUseFormula = false;
+//    @Builder.Default
+    private Boolean dontUseFormula;
 
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "modelSpecificationsDetails")

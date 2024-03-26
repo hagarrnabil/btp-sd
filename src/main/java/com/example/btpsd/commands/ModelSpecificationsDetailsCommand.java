@@ -43,7 +43,7 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private Boolean biddersLine;
     private Boolean supplementaryLine;
     private Boolean lotSizeForCostingIsOne;
-    private Boolean dontUseFormula = false;
+    private Boolean dontUseFormula;
     @JsonIgnore
     private Set<ModelSpecificationsCommand> modelSpecificationsCommands = new HashSet<>();
 }

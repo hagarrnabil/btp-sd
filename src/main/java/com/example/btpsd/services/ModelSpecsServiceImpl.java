@@ -86,7 +86,7 @@ public class ModelSpecsServiceImpl implements ModelSpecsService {
                 oldModelSpecs.setSearchTerm(newModelSpecs.getSearchTerm());
             if (newModelSpecs.getModelSpecDetailsCode() != null) {
                 ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
-                modelSpecificationsDetails.setModelSpecDetailsCode(newModelSpecs.getModelSpecDetailsCode());
+                modelSpecificationsDetails.setModelSpecDetailsCode(Long.parseLong(newModelSpecs.getModelSpecDetailsCode().toString()));
                 oldModelSpecs.setModelSpecificationsDetails(modelSpecificationsDetails);
                 modelSpecificationsDetails.addModelSpecifications(oldModelSpecs);
             }

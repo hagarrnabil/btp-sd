@@ -2,10 +2,13 @@ package com.example.btpsd.converters;
 
 import com.example.btpsd.commands.ModelSpecificationsCommand;
 import com.example.btpsd.model.ModelSpecifications;
+import com.example.btpsd.model.ModelSpecificationsDetails;
 import io.micrometer.common.lang.Nullable;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
 
 @Component
 public class ModelSpecificationsToModelSpecificationsCommand implements Converter<ModelSpecifications, ModelSpecificationsCommand> {
@@ -21,8 +24,10 @@ public class ModelSpecificationsToModelSpecificationsCommand implements Converte
 
         final ModelSpecificationsCommand modelSpecificationsCommand = new ModelSpecificationsCommand();
         modelSpecificationsCommand.setModelSpecCode(source.getModelSpecCode());
-        if (source.getModelSpecificationsDetails() != null) {
-            modelSpecificationsCommand.setModelSpecDetailsCode(source.getModelSpecificationsDetails().getModelSpecDetailsCode());
+        for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
+            if (source.getModelSpecDetailsCode().get(i) != null) {
+                modelSpecificationsCommand.setModelSpecDetailsCode(Collections.singletonList(source.getModelSpecificationsDetails().getModelSpecDetailsCode()));
+            }
         }
         if (source.getCurrency() != null) {
             modelSpecificationsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());
