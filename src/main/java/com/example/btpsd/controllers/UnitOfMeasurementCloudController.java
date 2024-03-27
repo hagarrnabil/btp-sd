@@ -15,7 +15,7 @@ public class UnitOfMeasurementCloudController {
 
     private final String USER_AGENT = "PostmanRuntime/7.37.0";
     @GetMapping("/measurementsCloud")
-    private void sendingGetRequest() throws Exception {
+    private StringBuilder sendingGetRequest() throws Exception {
 
         String urlString = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/YY1_UOM_CDS/YY1_UOM?$format=json";
 
@@ -37,19 +37,16 @@ public class UnitOfMeasurementCloudController {
         System.out.println("Sending get request : " + url);
         System.out.println("Response code : " + responseCode);
 
-        // Reading response from input Stream
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String output;
-        StringBuffer response = new StringBuffer();
 
-        while ((output = in.readLine()) != null) {
-            response.append(output);
+        StringBuilder response = new StringBuilder();
+        try(BufferedReader br = new BufferedReader(
+                new InputStreamReader(con.getInputStream(), "utf-8"))) {
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            System.out.println(response.toString());
         }
-        in.close();
-
-        //printing result from response
-        System.out.println(response.toString());
-
+        return response;
     }
 }
