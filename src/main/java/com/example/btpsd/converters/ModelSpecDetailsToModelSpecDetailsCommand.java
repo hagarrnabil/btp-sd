@@ -44,16 +44,16 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         if (source.getMaterialGroup() != null) {
             modelSpecificationsDetailsCommand.setMaterialGroupCode(source.getMaterialGroup().getMaterialGroupCode());
         }
-        if (source.getUnitOfMeasurement() != null) {
-            modelSpecificationsDetailsCommand.setUnitOfMeasurementCode(String.valueOf(source.getUnitOfMeasurement().getUnitOfMeasurementCode()));
-        }
+//        if (source.getUnitOfMeasurement() != null) {
+//            modelSpecificationsDetailsCommand.setUnitOfMeasurementCode(String.valueOf(source.getUnitOfMeasurement().getUnitOfMeasurementCode()));
+//        }
         if (source.getServiceNumber() != null) {
             modelSpecificationsDetailsCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
         else {
             RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
             Long min = 1L;
-            Long max = 1000L;
+            Long max = 100L;
             Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
             modelSpecificationsDetailsCommand.setNoServiceNumber(randomWithRandomDataGenerator);
         }
@@ -71,13 +71,14 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         modelSpecificationsDetailsCommand.setPricePerUnitOfMeasurement(source.getPricePerUnitOfMeasurement());
         modelSpecificationsDetailsCommand.setExternalServiceNumber(source.getExternalServiceNumber());
+        modelSpecificationsDetailsCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         if (source.getDontUseFormula() == true){
             modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
         }
         else if (source.getDontUseFormula() == false) {
             RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
             Integer min = 1;
-            Integer max = 1000;
+            Integer max = 100;
             Integer randomWithRandomDataGenerator = randomDataGenerator.nextInt(min, max);
             modelSpecificationsDetailsCommand.setQuantity(randomWithRandomDataGenerator);
         }

@@ -1,13 +1,22 @@
 package com.example.btpsd.model;
 
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UnitOfMeasurementCloud {
+@Entity
+@Table(name = "unitOfMeasurementCloud")
+public class UnitOfMeasurementCloud implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long uomCloud;
 
     private String unitOfMeasure;
 
@@ -18,4 +27,5 @@ public class UnitOfMeasurementCloud {
     private String unitOfMeasureLongName;
 
     private String unitOfMeasureName;
+
 }

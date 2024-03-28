@@ -23,13 +23,19 @@ public class ModelSpecificationsCommandToModelSpecifications implements Converte
 
         final ModelSpecifications modelSpecifications = new ModelSpecifications();
         modelSpecifications.setModelSpecCode(source.getModelSpecCode());
-        for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
-            if (source.getModelSpecDetailsCode().get(i) != null) {
-                ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
-                modelSpecificationsDetails.setModelSpecDetailsCode(Long.parseLong(source.getModelSpecDetailsCode().toString()));
-                modelSpecifications.setModelSpecificationsDetails(modelSpecificationsDetails);
-                modelSpecificationsDetails.addModelSpecifications(modelSpecifications);
-            }
+//        for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
+//            ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
+//            if (!source.getModelSpecDetailsCode().isEmpty()) {
+//                modelSpecificationsDetails.setModelSpecDetailsCode(Long.parseLong(source.getModelSpecDetailsCode().toString().trim()));
+//                modelSpecifications.setModelSpecificationsDetails(modelSpecificationsDetails);
+//                modelSpecificationsDetails.addModelSpecifications(modelSpecifications);
+//            }
+//        }
+        if (source.getModelSpecDetailsCode() != null) {
+            ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
+            modelSpecificationsDetails.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
+            modelSpecifications.setModelSpecificationsDetails(modelSpecificationsDetails);
+            modelSpecificationsDetails.addModelSpecifications(modelSpecifications);
         }
         if (source.getCurrencyCode() != null) {
             Currency currency = new Currency();

@@ -30,10 +30,10 @@ public class UnitOfMeasurementToUnitOfMeasurementCommand implements Converter<Un
         unitOfMeasurementCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         unitOfMeasurementCommand.setCode(source.getCode());
         unitOfMeasurementCommand.setDescription(source.getDescription());
-        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
-            source.getModelSpecificationsDetails()
-                    .forEach(modelSpecificationsDetails -> unitOfMeasurementCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
-        }
+//        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
+//            source.getModelSpecificationsDetails()
+//                    .forEach(modelSpecificationsDetails -> unitOfMeasurementCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
+//        }
         return unitOfMeasurementCommand;
     }
 

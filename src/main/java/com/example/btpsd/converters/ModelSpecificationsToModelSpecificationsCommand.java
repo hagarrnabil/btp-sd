@@ -24,10 +24,13 @@ public class ModelSpecificationsToModelSpecificationsCommand implements Converte
 
         final ModelSpecificationsCommand modelSpecificationsCommand = new ModelSpecificationsCommand();
         modelSpecificationsCommand.setModelSpecCode(source.getModelSpecCode());
-        for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
-            if (source.getModelSpecDetailsCode().get(i) != null) {
-                modelSpecificationsCommand.setModelSpecDetailsCode(Collections.singletonList(source.getModelSpecificationsDetails().getModelSpecDetailsCode()));
-            }
+//        for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
+//            if (!source.getModelSpecDetailsCode().isEmpty()) {
+//                modelSpecificationsCommand.setModelSpecDetailsCode(Collections.singletonList(source.getModelSpecificationsDetails().getModelSpecDetailsCode()));
+//            }
+//        }
+        if (source.getModelSpecificationsDetails() != null) {
+            modelSpecificationsCommand.setModelSpecDetailsCode(source.getModelSpecificationsDetails().getModelSpecDetailsCode());
         }
         if (source.getCurrency() != null) {
             modelSpecificationsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());

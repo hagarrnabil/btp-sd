@@ -53,12 +53,12 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
             modelSpecificationsDetails.setMaterialGroup(materialGroup);
             materialGroup.addModelSpecDetails(modelSpecificationsDetails);
         }
-        if (source.getUnitOfMeasurementCode() != null) {
-            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-            unitOfMeasurement.setUnitOfMeasurementCode(Long.valueOf(source.getUnitOfMeasurementCode()));
-            modelSpecificationsDetails.setUnitOfMeasurement(unitOfMeasurement);
-            unitOfMeasurement.addModelSpecDetails(modelSpecificationsDetails);
-        }
+//        if (source.getUnitOfMeasurementCode() != null) {
+//            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+//            unitOfMeasurement.setUnitOfMeasurementCode(Long.valueOf(source.getUnitOfMeasurementCode()));
+//            modelSpecificationsDetails.setUnitOfMeasurement(unitOfMeasurement);
+//            unitOfMeasurement.addModelSpecDetails(modelSpecificationsDetails);
+//        }
         if (source.getServiceNumberCode() != null) {
             ServiceNumber serviceNumber = new ServiceNumber();
             serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
@@ -68,7 +68,7 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         else {
             RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
             Long min = 1L;
-            Long max = 1000L;
+            Long max = 100L;
             Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
             modelSpecificationsDetails.setNoServiceNumber(randomWithRandomDataGenerator);
         }
@@ -95,12 +95,13 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         modelSpecificationsDetails.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         modelSpecificationsDetails.setPricePerUnitOfMeasurement(source.getPricePerUnitOfMeasurement());
         modelSpecificationsDetails.setExternalServiceNumber(source.getExternalServiceNumber());
+        modelSpecificationsDetails.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         if (source.getDontUseFormula() == true ){
             modelSpecificationsDetails.setQuantity(source.getQuantity());
         } else if (source.getDontUseFormula() == false) {
             RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
             Integer min = 1;
-            Integer max = 1000;
+            Integer max = 100;
             Integer randomWithRandomDataGenerator = randomDataGenerator.nextInt(min, max);
             modelSpecificationsDetails.setQuantity(randomWithRandomDataGenerator);
         }

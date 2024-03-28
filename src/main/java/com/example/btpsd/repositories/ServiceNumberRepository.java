@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface ServiceNumberRepository extends CrudRepository<ServiceNumber, Long> {
 
-    @Query("select s from ServiceNumber s where lower(concat(s.searchTerm,' ', s.description,' ', s.serviceNumberCode,' ',s.convertedNumber,' ',s.deletionIndicator,' ',s.lastChangeDate,' '," +
-            "s.mainItem,' ',s.numberToBeConverted,' ',s.shortTextChangeAllowed,' ',s.serviceText)) like lower(concat('%', ?1,'%'))")
+    @Query("select s from ServiceNumber s where lower(concat(s.description,' ',s.numberToBeConverted,' ',s.serviceNumberCode,' ',s.searchTerm,' ',s.baseUnitOfMeasurement,' ',s.convertedNumber" +
+            ",' ',s.defaultUnitOfMeasurement,' ',s.toBeConvertedUnitOfMeasurement)) like lower(concat('%', ?1,'%'))")
     public List<ServiceNumber> search(String keyword);
 
 }

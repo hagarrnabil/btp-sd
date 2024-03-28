@@ -22,8 +22,8 @@ import java.util.Set;
 @RestController
 public class UnitOfMeasurementController {
 
-    @Autowired
-    RestTemplateConfig restTemplateConfig;
+//    @Autowired
+//    RestTemplateConfig restTemplateConfig;
 
     private final UnitOfMeasurementRepository unitOfMeasurementRepository;
 
@@ -31,21 +31,22 @@ public class UnitOfMeasurementController {
 
     private final UnitOfMeasurementToUnitOfMeasurementCommand unitOfMeasurementToUnitOfMeasurementCommand;
 
-    @GetMapping("/measurements")
-    @ResponseBody
-    public Iterable<UnitOfMeasurementCommand> all(){
-        String url = "http://localhost:8080/measurementsCloud";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-
-        HttpEntity<Iterable<UnitOfMeasurementCommand>> entity = new HttpEntity<Iterable<UnitOfMeasurementCommand>>(headers);
-        return restTemplateConfig.restTemplate().exchange(url, HttpMethod.GET, entity, Iterable.class).getBody();
-
-    }
-//    Set<UnitOfMeasurementCommand> all() {
-//        return unitOfMeasurementService.getUnitOfMeasurementCommands();
+//    @GetMapping("/measurements")
+//    @ResponseBody
+//    public Iterable<UnitOfMeasurementCommand> all(){
+//        String url = "http://localhost:8080/measurementsCloud";
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+//
+//        HttpEntity<Iterable<UnitOfMeasurementCommand>> entity = new HttpEntity<Iterable<UnitOfMeasurementCommand>>(headers);
+//        return restTemplateConfig.restTemplate().exchange(url, HttpMethod.GET, entity, Iterable.class).getBody();
+//
 //    }
+    @GetMapping("/measurements")
+    Set<UnitOfMeasurementCommand> all() {
+        return unitOfMeasurementService.getUnitOfMeasurementCommands();
+    }
 
     @GetMapping("/measurements/{unitOfMeasurementCode}")
     public Optional<UnitOfMeasurementCommand> findByIds(@PathVariable @NotNull Long unitOfMeasurementCode) {

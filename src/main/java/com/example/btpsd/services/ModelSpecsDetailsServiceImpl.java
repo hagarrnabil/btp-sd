@@ -111,6 +111,8 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setSupplementaryLine(newModelSpecDetails.getSupplementaryLine());
             if (newModelSpecDetails.getLotSizeForCostingIsOne() != oldModelSpecDetails.getLotSizeForCostingIsOne())
                 oldModelSpecDetails.setLotSizeForCostingIsOne(newModelSpecDetails.getLotSizeForCostingIsOne());
+            if (newModelSpecDetails.getUnitOfMeasurementCode() != oldModelSpecDetails.getUnitOfMeasurementCode())
+                oldModelSpecDetails.setUnitOfMeasurementCode(newModelSpecDetails.getUnitOfMeasurementCode());
             if (newModelSpecDetails.getServiceNumberCode() != null) {
                 ServiceNumber serviceNumber = new ServiceNumber();
                 serviceNumber.setServiceNumberCode(newModelSpecDetails.getServiceNumberCode());
@@ -147,12 +149,12 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setMaterialGroup(materialGroup);
                 materialGroup.addModelSpecDetails(oldModelSpecDetails);
             }
-            if (newModelSpecDetails.getUnitOfMeasurementCode() != null) {
-                UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-                unitOfMeasurement.setUnitOfMeasurementCode(Long.valueOf(newModelSpecDetails.getUnitOfMeasurementCode()));
-                oldModelSpecDetails.setUnitOfMeasurement(unitOfMeasurement);
-                unitOfMeasurement.addModelSpecDetails(oldModelSpecDetails);
-            }
+//            if (newModelSpecDetails.getUnitOfMeasurementCode() != null) {
+//                UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+//                unitOfMeasurement.setUnitOfMeasurementCode(Long.valueOf(newModelSpecDetails.getUnitOfMeasurementCode()));
+//                oldModelSpecDetails.setUnitOfMeasurement(unitOfMeasurement);
+//                unitOfMeasurement.addModelSpecDetails(oldModelSpecDetails);
+//            }
             if (newModelSpecDetails.getLineTypeCode() != null) {
                 LineType lineType = new LineType();
                 lineType.setLineTypeCode(newModelSpecDetails.getLineTypeCode());

@@ -36,7 +36,6 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private String unitOfMeasurementCode;
 
-//    @NotNull
     private Long currencyCode;
 
     private Long formulaCode;
@@ -67,7 +66,7 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Integer pricePerUnitOfMeasurement;
 
-    @Column(unique = true, columnDefinition = "char(225)")
+    @Column(columnDefinition = "char(225)")
     @Length(max = 225)
     private String externalServiceNumber;
 
@@ -77,7 +76,7 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private String lineText;
 
-    @Column(unique = true, columnDefinition = "char(225)")
+    @Column(columnDefinition = "char(225)")
     @Length(max = 225)
     private String lineNumber;
 
@@ -89,7 +88,6 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Boolean lotSizeForCostingIsOne;
 
-//    @Builder.Default
     private Boolean dontUseFormula;
 
 
@@ -100,8 +98,8 @@ public class ModelSpecificationsDetails implements Serializable {
     @ManyToOne
     private ServiceNumber serviceNumber;
 
-    @ManyToOne
-    private UnitOfMeasurement unitOfMeasurement;
+//    @ManyToOne
+//    private UnitOfMeasurement unitOfMeasurement;
 
     @ManyToOne
     private MaterialGroup materialGroup;
@@ -112,6 +110,7 @@ public class ModelSpecificationsDetails implements Serializable {
     @ManyToOne
     private PersonnelNumber personnelNumber;
 
+    @NotNull
     @ManyToOne
     private Currency currency;
 
