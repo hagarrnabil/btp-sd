@@ -23,10 +23,10 @@ public class ModelSpecifications implements Serializable {
     private Long modelSpecCode;
 
 
-    private Long modelSpecDetailsCode;
+//    private Long modelSpecDetailsCode;
 
-//    @ElementCollection
-//    private List<Long> modelSpecDetailsCode = new ArrayList<Long>();
+    @ElementCollection
+    private List<Long> modelSpecDetailsCode = new ArrayList<Long>();
 
     private Long currencyCode;
 

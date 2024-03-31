@@ -76,11 +76,12 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
             modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
         }
         else if (source.getDontUseFormula() == false) {
-            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
-            Integer min = 1;
-            Integer max = 100;
-            Integer randomWithRandomDataGenerator = randomDataGenerator.nextInt(min, max);
-            modelSpecificationsDetailsCommand.setQuantity(randomWithRandomDataGenerator);
+//            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+//            Integer min = 1;
+//            Integer max = 100;
+//            Integer randomWithRandomDataGenerator = randomDataGenerator.nextInt(min, max);
+//            modelSpecificationsDetailsCommand.setQuantity(randomWithRandomDataGenerator);
+            modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
         }
         modelSpecificationsDetailsCommand.setNetValue(source.getGrossPrice() * modelSpecificationsDetailsCommand.getQuantity());
         modelSpecificationsDetailsCommand.setServiceText(source.getServiceText());

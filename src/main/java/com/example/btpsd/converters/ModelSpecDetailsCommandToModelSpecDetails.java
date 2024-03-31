@@ -95,15 +95,17 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         modelSpecificationsDetails.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         modelSpecificationsDetails.setPricePerUnitOfMeasurement(source.getPricePerUnitOfMeasurement());
         modelSpecificationsDetails.setExternalServiceNumber(source.getExternalServiceNumber());
-        modelSpecificationsDetails.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
+        modelSpecificationsDetails.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode()
+        );
         if (source.getDontUseFormula() == true ){
             modelSpecificationsDetails.setQuantity(source.getQuantity());
         } else if (source.getDontUseFormula() == false) {
-            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
-            Integer min = 1;
-            Integer max = 100;
-            Integer randomWithRandomDataGenerator = randomDataGenerator.nextInt(min, max);
-            modelSpecificationsDetails.setQuantity(randomWithRandomDataGenerator);
+//            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+//            Integer min = 1;
+//            Integer max = 100;
+//            Integer randomWithRandomDataGenerator = randomDataGenerator.nextInt(min, max);
+//            modelSpecificationsDetails.setQuantity(randomWithRandomDataGenerator);
+            modelSpecificationsDetails.setQuantity(source.getQuantity());
         }
         modelSpecificationsDetails.setNetValue(source.getGrossPrice() * modelSpecificationsDetails.getQuantity());
         modelSpecificationsDetails.setServiceText(source.getServiceText());

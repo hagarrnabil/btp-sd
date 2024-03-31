@@ -9,6 +9,8 @@ import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Component
 public class ModelSpecificationsCommandToModelSpecifications implements Converter<ModelSpecificationsCommand, ModelSpecifications> {
 
@@ -23,20 +25,20 @@ public class ModelSpecificationsCommandToModelSpecifications implements Converte
 
         final ModelSpecifications modelSpecifications = new ModelSpecifications();
         modelSpecifications.setModelSpecCode(source.getModelSpecCode());
-//        for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
-//            ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
+        for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
 //            if (!source.getModelSpecDetailsCode().isEmpty()) {
-//                modelSpecificationsDetails.setModelSpecDetailsCode(Long.parseLong(source.getModelSpecDetailsCode().toString().trim()));
-//                modelSpecifications.setModelSpecificationsDetails(modelSpecificationsDetails);
+//                ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
+//                modelSpecificationsDetails.setModelSpecDetailsCode(Long.parseLong(source.getModelSpecDetailsCode().toString().replaceAll("\\\"\" ", "")));
+                modelSpecifications.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
 //                modelSpecificationsDetails.addModelSpecifications(modelSpecifications);
 //            }
-//        }
-        if (source.getModelSpecDetailsCode() != null) {
-            ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
-            modelSpecificationsDetails.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
-            modelSpecifications.setModelSpecificationsDetails(modelSpecificationsDetails);
-            modelSpecificationsDetails.addModelSpecifications(modelSpecifications);
         }
+//        if (source.getModelSpecDetailsCode() != null) {
+//            ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
+//            modelSpecificationsDetails.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
+//            modelSpecifications.setModelSpecificationsDetails(modelSpecificationsDetails);
+//            modelSpecificationsDetails.addModelSpecifications(modelSpecifications);
+//        }
         if (source.getCurrencyCode() != null) {
             Currency currency = new Currency();
             currency.setCurrencyCode(source.getCurrencyCode());

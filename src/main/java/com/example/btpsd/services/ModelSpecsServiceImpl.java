@@ -85,10 +85,10 @@ public class ModelSpecsServiceImpl implements ModelSpecsService {
             if (newModelSpecs.getSearchTerm() != oldModelSpecs.getSearchTerm())
                 oldModelSpecs.setSearchTerm(newModelSpecs.getSearchTerm());
             if (newModelSpecs.getModelSpecDetailsCode() != null) {
-                ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
-                modelSpecificationsDetails.setModelSpecDetailsCode(Long.parseLong(newModelSpecs.getModelSpecDetailsCode().toString()));
-                oldModelSpecs.setModelSpecificationsDetails(modelSpecificationsDetails);
-                modelSpecificationsDetails.addModelSpecifications(oldModelSpecs);
+//                ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
+//                modelSpecificationsDetails.setModelSpecDetailsCode(Long.parseLong(newModelSpecs.getModelSpecDetailsCode().toString()));
+                oldModelSpecs.setModelSpecDetailsCode(newModelSpecs.getModelSpecDetailsCode());
+//                modelSpecificationsDetails.addModelSpecifications(oldModelSpecs);
             }
             if (newModelSpecs.getCurrencyCode() != null) {
                 Currency currency = new Currency();

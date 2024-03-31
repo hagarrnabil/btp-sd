@@ -8,6 +8,7 @@ import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 @Component
@@ -24,14 +25,14 @@ public class ModelSpecificationsToModelSpecificationsCommand implements Converte
 
         final ModelSpecificationsCommand modelSpecificationsCommand = new ModelSpecificationsCommand();
         modelSpecificationsCommand.setModelSpecCode(source.getModelSpecCode());
-//        for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
+        for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
 //            if (!source.getModelSpecDetailsCode().isEmpty()) {
-//                modelSpecificationsCommand.setModelSpecDetailsCode(Collections.singletonList(source.getModelSpecificationsDetails().getModelSpecDetailsCode()));
+                modelSpecificationsCommand.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
 //            }
-//        }
-        if (source.getModelSpecificationsDetails() != null) {
-            modelSpecificationsCommand.setModelSpecDetailsCode(source.getModelSpecificationsDetails().getModelSpecDetailsCode());
         }
+//        if (source.getModelSpecificationsDetails() != null) {
+//            modelSpecificationsCommand.setModelSpecDetailsCode(source.getModelSpecificationsDetails().getModelSpecDetailsCode());
+//        }
         if (source.getCurrency() != null) {
             modelSpecificationsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());
         }

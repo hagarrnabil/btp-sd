@@ -14,8 +14,8 @@ import java.util.List;
 public class ModelSpecificationsCommand implements Serializable {
 
     private Long modelSpecCode;
-//    private List<Long> modelSpecDetailsCode = new ArrayList<Long>();
-    private Long modelSpecDetailsCode;
+    private List<Long> modelSpecDetailsCode = new ArrayList<Long>();
+//    private Long modelSpecDetailsCode;
     private Long currencyCode;
     private String modelServSpec;
     private Boolean blockingIndicator;
