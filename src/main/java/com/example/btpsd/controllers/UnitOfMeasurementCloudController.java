@@ -1,7 +1,12 @@
 package com.example.btpsd.controllers;
 
+import com.example.btpsd.model.UnitOfMeasurementCloud;
+import com.example.btpsd.repositories.UomCloudRepository;
 import org.apache.commons.codec.binary.Base64;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.BufferedReader;
@@ -13,9 +18,12 @@ import java.nio.charset.StandardCharsets;
 @RestController
 public class UnitOfMeasurementCloudController {
 
+    @Autowired
+    UomCloudRepository uomCloudRepository;
     private final String USER_AGENT = "PostmanRuntime/7.37.0";
+
     @GetMapping("/measurementsCloud")
-    private StringBuilder sendingGetRequest() throws Exception {
+    private StringBuilder sendingGetRequest(@RequestBody UnitOfMeasurementCloud unitOfMeasurementCloud) throws Exception {
 
         String urlString = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/YY1_UOM_CDS/YY1_UOM?$format=json";
 
@@ -39,7 +47,7 @@ public class UnitOfMeasurementCloudController {
 
 
         StringBuilder response = new StringBuilder();
-        try(BufferedReader br = new BufferedReader(
+        try (BufferedReader br = new BufferedReader(
                 new InputStreamReader(con.getInputStream(), "utf-8"))) {
             String responseLine = null;
             while ((responseLine = br.readLine()) != null) {
@@ -47,6 +55,13 @@ public class UnitOfMeasurementCloudController {
             }
             System.out.println(response.toString());
         }
+
+//        unitOfMeasurementCloud.setUnitOfMeasure();
+//        uomCloudRepository.save(unitOfMeasurementCloud);
+
+//        JSONObject obj = new JSONObject();
+//        obj.put("UnitOfMeasure", unitOfMeasurementCloud.)
         return response;
+
     }
 }
