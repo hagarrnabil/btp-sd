@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,6 +45,7 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private Boolean supplementaryLine;
     private Boolean lotSizeForCostingIsOne;
     private Boolean dontUseFormula;
+    private LocalDate lastChangeDate;
     @JsonIgnore
     private Set<ModelSpecificationsCommand> modelSpecificationsCommands = new HashSet<>();
 }

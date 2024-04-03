@@ -8,3 +8,8 @@ spring:
 
   main:
     allow-circular-references: true
+
+
+#  mvc:
+#    format:
+#      date: dd/MM/yyyy

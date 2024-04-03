@@ -1,12 +1,16 @@
 package com.example.btpsd.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -89,6 +93,8 @@ public class ModelSpecificationsDetails implements Serializable {
     private Boolean lotSizeForCostingIsOne;
 
     private Boolean dontUseFormula;
+
+    private LocalDate lastChangeDate;
 
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "modelSpecificationsDetails")

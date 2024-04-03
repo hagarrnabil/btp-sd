@@ -26,13 +26,8 @@ public class ModelSpecificationsToModelSpecificationsCommand implements Converte
         final ModelSpecificationsCommand modelSpecificationsCommand = new ModelSpecificationsCommand();
         modelSpecificationsCommand.setModelSpecCode(source.getModelSpecCode());
         for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
-//            if (!source.getModelSpecDetailsCode().isEmpty()) {
                 modelSpecificationsCommand.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
-//            }
         }
-//        if (source.getModelSpecificationsDetails() != null) {
-//            modelSpecificationsCommand.setModelSpecDetailsCode(source.getModelSpecificationsDetails().getModelSpecDetailsCode());
-//        }
         if (source.getCurrency() != null) {
             modelSpecificationsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());
         }
@@ -41,7 +36,7 @@ public class ModelSpecificationsToModelSpecificationsCommand implements Converte
         modelSpecificationsCommand.setServiceSelection(source.getServiceSelection());
         modelSpecificationsCommand.setDescription(source.getDescription());
         modelSpecificationsCommand.setSearchTerm(source.getSearchTerm());
-
+        modelSpecificationsCommand.setLastChangeDate(source.getLastChangeDate().now());
         return modelSpecificationsCommand;
 
     }

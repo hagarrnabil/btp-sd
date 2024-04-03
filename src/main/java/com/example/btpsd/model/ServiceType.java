@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,20 +33,16 @@ public class ServiceType implements Serializable {
     @NotNull
     private String description;
 
+    private LocalDate lastChangeDate;
+
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceType")
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceType")
-    @JsonIgnore
-    private Set<ServiceNumber> serviceNumbers = new HashSet<>();
+//    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceType")
+//    @JsonIgnore
+//    private Set<ServiceNumber> serviceNumbers = new HashSet<>();
 
-    public ServiceType(String serviceId, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails, Set<ServiceNumber> serviceNumbers) {
-        this.serviceId = serviceId;
-        this.description = description;
-        this.modelSpecificationsDetails = modelSpecificationsDetails;
-        this.serviceNumbers = serviceNumbers;
-    }
 
     public ServiceType addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setServiceType(this);
@@ -51,9 +50,9 @@ public class ServiceType implements Serializable {
         return this;
     }
 
-    public ServiceType addServiceNumbers(ServiceNumber serviceNumber){
-        serviceNumber.setServiceType(this);
-        this.serviceNumbers.add(serviceNumber);
-        return this;
-    }
+//    public ServiceType addServiceNumbers(ServiceNumber serviceNumber){
+//        serviceNumber.setServiceType(this);
+//        this.serviceNumbers.add(serviceNumber);
+//        return this;
+//    }
 }

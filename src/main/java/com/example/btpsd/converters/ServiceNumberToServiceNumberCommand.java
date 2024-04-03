@@ -47,20 +47,21 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         serviceNumberCommand.setDeletionIndicator(source.getDeletionIndicator());
         serviceNumberCommand.setShortTextChangeAllowed(source.getShortTextChangeAllowed());
         serviceNumberCommand.setMainItem(source.getMainItem());
-        serviceNumberCommand.setLastChangeDate(source.getLastChangeDate());
+        serviceNumberCommand.setLastChangeDate(source.getLastChangeDate().now());
         serviceNumberCommand.setServiceText(source.getServiceText());
         serviceNumberCommand.setBaseUnitOfMeasurement(source.getBaseUnitOfMeasurement());
         serviceNumberCommand.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
         serviceNumberCommand.setDefaultUnitOfMeasurement(source.getDefaultUnitOfMeasurement());
+        serviceNumberCommand.setServiceTypeCode(source.getServiceTypeCode());
         if (source.getFormula() != null) {
             serviceNumberCommand.setFormulaCode(source.getFormula().getFormulaCode());
         }
         if (source.getMaterialGroup() != null) {
             serviceNumberCommand.setMaterialGroupCode(source.getMaterialGroup().getMaterialGroupCode());
         }
-        if (source.getServiceType() != null) {
-            serviceNumberCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
-        }
+//        if (source.getServiceType() != null) {
+//            serviceNumberCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
+//        }
         if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
             source.getModelSpecificationsDetails()
                     .forEach(modelSpecificationsDetails -> serviceNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));

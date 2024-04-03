@@ -47,23 +47,24 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
         serviceNumber.setDeletionIndicator(source.getDeletionIndicator());
         serviceNumber.setShortTextChangeAllowed(source.getShortTextChangeAllowed());
         serviceNumber.setMainItem(source.getMainItem());
-        serviceNumber.setLastChangeDate(source.getLastChangeDate());
+        serviceNumber.setLastChangeDate(source.getLastChangeDate().now());
         serviceNumber.setServiceText(source.getServiceText());
         serviceNumber.setBaseUnitOfMeasurement(source.getBaseUnitOfMeasurement());
         serviceNumber.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
         serviceNumber.setDefaultUnitOfMeasurement(source.getDefaultUnitOfMeasurement());
+        serviceNumber.setServiceTypeCode(source.getServiceTypeCode());
         if (source.getFormulaCode() != null) {
             Formula formula = new Formula();
             formula.setFormulaCode(source.getFormulaCode());
             serviceNumber.setFormula(formula);
             formula.addServiceNumbers(serviceNumber);
         }
-        if (source.getServiceTypeCode() != null) {
-            ServiceType serviceType = new ServiceType();
-            serviceType.setServiceTypeCode(source.getServiceTypeCode());
-            serviceNumber.setServiceType(serviceType);
-            serviceType.addServiceNumbers(serviceNumber);
-        }
+//        if (source.getServiceTypeCode() != null) {
+//            ServiceType serviceType = new ServiceType();
+//            serviceType.setServiceTypeCode(source.getServiceTypeCode());
+//            serviceNumber.setServiceType(serviceType);
+//            serviceType.addServiceNumbers(serviceNumber);
+//        }
         if (source.getMaterialGroupCode() != null) {
             MaterialGroup materialGroup= new MaterialGroup();
             materialGroup.setMaterialGroupCode(source.getMaterialGroupCode());

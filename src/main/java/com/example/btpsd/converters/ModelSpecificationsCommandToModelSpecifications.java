@@ -26,19 +26,8 @@ public class ModelSpecificationsCommandToModelSpecifications implements Converte
         final ModelSpecifications modelSpecifications = new ModelSpecifications();
         modelSpecifications.setModelSpecCode(source.getModelSpecCode());
         for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
-//            if (!source.getModelSpecDetailsCode().isEmpty()) {
-//                ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
-//                modelSpecificationsDetails.setModelSpecDetailsCode(Long.parseLong(source.getModelSpecDetailsCode().toString().replaceAll("\\\"\" ", "")));
-                modelSpecifications.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
-//                modelSpecificationsDetails.addModelSpecifications(modelSpecifications);
-//            }
+            modelSpecifications.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
         }
-//        if (source.getModelSpecDetailsCode() != null) {
-//            ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
-//            modelSpecificationsDetails.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
-//            modelSpecifications.setModelSpecificationsDetails(modelSpecificationsDetails);
-//            modelSpecificationsDetails.addModelSpecifications(modelSpecifications);
-//        }
         if (source.getCurrencyCode() != null) {
             Currency currency = new Currency();
             currency.setCurrencyCode(source.getCurrencyCode());
@@ -50,7 +39,7 @@ public class ModelSpecificationsCommandToModelSpecifications implements Converte
         modelSpecifications.setServiceSelection(source.getServiceSelection());
         modelSpecifications.setDescription(source.getDescription());
         modelSpecifications.setSearchTerm(source.getSearchTerm());
-
+        modelSpecifications.setLastChangeDate(source.getLastChangeDate().now());
         return modelSpecifications;
 
     }

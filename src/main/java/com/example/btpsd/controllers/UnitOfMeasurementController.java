@@ -1,6 +1,7 @@
 package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.UnitOfMeasurementCommand;
+import com.example.btpsd.config.RestTemplateConfig;
 import com.example.btpsd.converters.UnitOfMeasurementToUnitOfMeasurementCommand;
 import com.example.btpsd.model.UnitOfMeasurement;
 import com.example.btpsd.repositories.UnitOfMeasurementRepository;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -26,8 +28,8 @@ import java.util.Optional;
 @RestController
 public class UnitOfMeasurementController {
 
-//    @Autowired
-//    RestTemplateConfig restTemplateConfig;
+    @Autowired
+    RestTemplateConfig restTemplateConfig;
 
     private final UnitOfMeasurementRepository unitOfMeasurementRepository;
 
@@ -71,13 +73,25 @@ public class UnitOfMeasurementController {
     @PostMapping("/measurements")
     public String post() {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<String> entity = new HttpEntity<String>(headers);
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.exchange("http://localhost:8080/measurementsCloud", HttpMethod.POST, entity, String.class).getBody();
-    }
+        final URI uri = URI.create("http://localhost:8080/measurementsCloud");
 
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.postForObject(uri, HttpMethod.POST, String.class);
+
+        System.out.println(result);
+
+        return result;
+
+
+    }
+//
+//    HttpHeaders headers = new HttpHeaders();
+//    final String uri = "http://localhost:8080/measurementsCloud";
+//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+//    HttpEntity<String> entity = new HttpEntity<String>(headers);
+//
+//    String result = restTemplateConfig.restTemplate().exchange(uri, HttpMethod.POST, entity, String.class);
+//        return result;
 //        final URI uri = URI.create("http://localhost:8080/measurementsCloud");
 //
 //        RestTemplate restTemplate = new RestTemplate();

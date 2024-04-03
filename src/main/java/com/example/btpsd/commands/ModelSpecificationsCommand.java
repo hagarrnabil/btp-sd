@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +16,11 @@ public class ModelSpecificationsCommand implements Serializable {
 
     private Long modelSpecCode;
     private List<Long> modelSpecDetailsCode = new ArrayList<Long>();
-//    private Long modelSpecDetailsCode;
     private Long currencyCode;
     private String modelServSpec;
     private Boolean blockingIndicator;
     private Boolean serviceSelection;
     private String description;
     private String searchTerm;
-
+    private LocalDate lastChangeDate;
 }

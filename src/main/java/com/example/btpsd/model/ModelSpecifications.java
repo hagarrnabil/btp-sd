@@ -2,10 +2,13 @@ package com.example.btpsd.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +45,8 @@ public class ModelSpecifications implements Serializable {
     private String description;
 
     private String searchTerm;
+
+    private LocalDate lastChangeDate;
 
     @ManyToOne
     private ModelSpecificationsDetails modelSpecificationsDetails;

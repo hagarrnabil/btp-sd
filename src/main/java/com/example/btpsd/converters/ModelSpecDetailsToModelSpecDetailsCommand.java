@@ -76,11 +76,6 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
             modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
         }
         else if (source.getDontUseFormula() == false) {
-//            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
-//            Integer min = 1;
-//            Integer max = 100;
-//            Integer randomWithRandomDataGenerator = randomDataGenerator.nextInt(min, max);
-//            modelSpecificationsDetailsCommand.setQuantity(randomWithRandomDataGenerator);
             modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
         }
         modelSpecificationsDetailsCommand.setNetValue(source.getGrossPrice() * modelSpecificationsDetailsCommand.getQuantity());
@@ -91,6 +86,7 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setBiddersLine(source.getBiddersLine());
         modelSpecificationsDetailsCommand.setSupplementaryLine(source.getSupplementaryLine());
         modelSpecificationsDetailsCommand.setLotSizeForCostingIsOne(source.getLotSizeForCostingIsOne());
+        modelSpecificationsDetailsCommand.setLastChangeDate(source.getLastChangeDate().now());
         if (source.getModelSpecifications() != null && source.getModelSpecifications().size() > 0) {
             source.getModelSpecifications()
                     .forEach(modelSpecifications -> modelSpecificationsDetailsCommand.getModelSpecificationsCommands().add(modelSpecConverter.convert(modelSpecifications)));

@@ -99,12 +99,14 @@ public class ServiceNumberServiceImpl implements ServiceNumberService{
                 oldServiceNumber.setToBeConvertedUnitOfMeasurement(newServiceNumberCommand.getToBeConvertedUnitOfMeasurement());
             if (newServiceNumberCommand.getDefaultUnitOfMeasurement() != oldServiceNumber.getDefaultUnitOfMeasurement())
                 oldServiceNumber.setDefaultUnitOfMeasurement(newServiceNumberCommand.getDefaultUnitOfMeasurement());
-            if (newServiceNumberCommand.getServiceTypeCode() != null) {
-                ServiceType serviceType = new ServiceType();
-                serviceType.setServiceTypeCode(newServiceNumberCommand.getServiceTypeCode());
-                oldServiceNumber.setServiceType(serviceType);
-                serviceType.addServiceNumbers(oldServiceNumber);
-            }
+            if (newServiceNumberCommand.getServiceTypeCode() != oldServiceNumber.getServiceTypeCode())
+                oldServiceNumber.setServiceTypeCode(newServiceNumberCommand.getServiceTypeCode());
+//            if (newServiceNumberCommand.getServiceTypeCode() != null) {
+//                ServiceType serviceType = new ServiceType();
+//                serviceType.setServiceTypeCode(newServiceNumberCommand.getServiceTypeCode());
+//                oldServiceNumber.setServiceType(serviceType);
+//                serviceType.addServiceNumbers(oldServiceNumber);
+//            }
             if (newServiceNumberCommand.getMaterialGroupCode() != null) {
                 MaterialGroup materialGroup = new MaterialGroup();
                 materialGroup.setMaterialGroupCode(newServiceNumberCommand.getMaterialGroupCode());

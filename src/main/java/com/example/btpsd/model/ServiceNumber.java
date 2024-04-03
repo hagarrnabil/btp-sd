@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public class ServiceNumber implements Serializable {
 
     private Long formulaCode;
 
-    private Long serviceTypeCode;
+    private String serviceTypeCode;
 
     private Long materialGroupCode;
 
@@ -56,8 +57,7 @@ public class ServiceNumber implements Serializable {
 
     private Integer convertedNumber;
 
-    @CreationTimestamp
-    private Instant lastChangeDate;
+    private LocalDate lastChangeDate;
 
     private String serviceText;
 
@@ -74,8 +74,8 @@ public class ServiceNumber implements Serializable {
     @ManyToOne
     private Formula formula;
 
-    @ManyToOne
-    private ServiceType serviceType;
+//    @ManyToOne
+//    private ServiceType serviceType;
 
     @ManyToOne
     private MaterialGroup materialGroup;
