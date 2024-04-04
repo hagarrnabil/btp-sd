@@ -2,13 +2,9 @@ package com.example.btpsd.converters;
 
 import com.example.btpsd.commands.FormulaCommand;
 import com.example.btpsd.model.Formula;
-import com.example.btpsd.model.UnitOfMeasurement;
-import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import org.graalvm.polyglot.Context;
-import org.graalvm.polyglot.HostAccess;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -24,11 +20,14 @@ public class FormulaCommandToFormula implements Converter<FormulaCommand, Formul
 
     private final ServiceNumberCommandToServiceNumber serviceNumberConverter;
 
-    ScriptEngine engine = GraalJSScriptEngine.create(null,
-            Context.newBuilder("js")
-                    .allowHostAccess(HostAccess.ALL)
-                    .allowHostClassLookup(s -> true)
-                    .option("js.ecmascript-version", "2022"));
+//    ScriptEngine engine = GraalJSScriptEngine.create(null,
+//            Context.newBuilder("js")
+//                    .allowHostAccess(HostAccess.ALL)
+//                    .allowHostClassLookup(s -> true)
+//                    .option("js.ecmascript-version", "2022"));
+
+    ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+    ScriptEngine engine = scriptEngineManager.getEngineByName("JavaScript");
 
     @Synchronized
     @Nullable

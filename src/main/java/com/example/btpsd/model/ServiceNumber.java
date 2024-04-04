@@ -23,17 +23,13 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-//@IdClass(ServiceNumberId.class)
 @Table(name = "serviceNumber")
 public class ServiceNumber implements Serializable {
 
-//    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long serviceNumberCode;
 
-//    @EqualsAndHashCode.Include
-//    @Id
     private Long noServiceNumber;
 
     private String searchTerm;
