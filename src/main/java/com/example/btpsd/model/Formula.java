@@ -52,6 +52,8 @@ public class Formula implements Serializable {
 
     private double result;
 
+    private double pi = 22/7;
+
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "formula")
     @JsonIgnore

@@ -2,9 +2,12 @@ package com.example.btpsd.converters;
 
 import com.example.btpsd.commands.FormulaCommand;
 import com.example.btpsd.model.Formula;
+import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.HostAccess;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +29,10 @@ public class FormulaCommandToFormula implements Converter<FormulaCommand, Formul
 //                    .allowHostClassLookup(s -> true)
 //                    .option("js.ecmascript-version", "2022"));
 
-    ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
-    ScriptEngine engine = scriptEngineManager.getEngineByName("JavaScript");
+    ScriptEngine engine = new ScriptEngineManager().getEngineByName("graal.js");
+
+//    ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+//    ScriptEngine engine = scriptEngineManager.getEngineByName("JavaScript");
 
     @Synchronized
     @Nullable
@@ -49,7 +54,15 @@ public class FormulaCommandToFormula implements Converter<FormulaCommand, Formul
         for (int i = 0; i < source.getParameterDescriptions().size(); i++) {
             formula.setParameterDescriptions(source.getParameterDescriptions());
         }
-        formula.setFormulaLogic(source.getFormulaLogic());
+//        formula.setFormulaLogic(source.getFormulaLogic());
+        for (int i = 0; i < source.getFormulaLogic().length(); i++)
+        {
+            if (source.getFormulaLogic().contains("π"))
+            {
+                formula.setFormulaLogic(String.valueOf(source.getPi()));
+            }
+            else formula.setFormulaLogic(source.getFormulaLogic());
+        }
         for (int i = 0; i < source.getTestParameters().size(); i++) {
             formula.setTestParameters(source.getTestParameters());
         }

@@ -32,10 +32,12 @@ public class ServiceNumber implements Serializable {
 
     private Long noServiceNumber;
 
+    @NotNull
     private String searchTerm;
 
     private Long formulaCode;
 
+    @NotNull
     private String serviceTypeCode;
 
     private Long materialGroupCode;
@@ -57,6 +59,7 @@ public class ServiceNumber implements Serializable {
 
     private String serviceText;
 
+    @NotNull
     private String baseUnitOfMeasurement;
 
     private String toBeConvertedUnitOfMeasurement;
