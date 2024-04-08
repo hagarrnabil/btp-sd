@@ -23,13 +23,13 @@ public class FormulaToFormulaCommand implements Converter<Formula, FormulaComman
 
     private final ServiceNumberToServiceNumberCommand serviceNumberConverter;
 
-//    ScriptEngine engine = GraalJSScriptEngine.create(null,
-//            Context.newBuilder("js")
-//                    .allowHostAccess(HostAccess.ALL)
-//                    .allowHostClassLookup(s -> true)
-//                    .option("js.ecmascript-version", "2022"));
+    ScriptEngine engine = GraalJSScriptEngine.create(null,
+            Context.newBuilder("js")
+                    .allowHostAccess(HostAccess.ALL)
+                    .allowHostClassLookup(s -> true)
+                    .option("js.ecmascript-version", "2022"));
 
-    ScriptEngine engine = new ScriptEngineManager().getEngineByName("graal.js");
+//    ScriptEngine engine = new ScriptEngineManager().getEngineByName("graal.js");
 
 //    ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
 //    ScriptEngine engine = scriptEngineManager.getEngineByName("JavaScript");
@@ -55,15 +55,15 @@ public class FormulaToFormulaCommand implements Converter<Formula, FormulaComman
         for (int i = 0; i < source.getParameterDescriptions().size(); i++) {
             formulaCommand.setParameterDescriptions(source.getParameterDescriptions());
         }
-//        formulaCommand.setFormulaLogic(source.getFormulaLogic());
-        for (int i = 0; i < source.getFormulaLogic().length(); i++)
-        {
-            if (source.getFormulaLogic().contains("π"))
-            {
-                formulaCommand.setFormulaLogic(String.valueOf(source.getPi()));
-            }
-            else formulaCommand.setFormulaLogic(source.getFormulaLogic());
-        }
+        formulaCommand.setFormulaLogic(source.getFormulaLogic());
+//        for (int i = 0; i < source.getFormulaLogic().length(); i++)
+//        {
+//            if (source.getFormulaLogic().contains("π"))
+//            {
+//                formulaCommand.setFormulaLogic(String.valueOf(22/7));
+//            }
+//            else formulaCommand.setFormulaLogic(source.getFormulaLogic());
+//        }
         for (int i = 0; i < source.getTestParameters().size(); i++) {
             formulaCommand.setTestParameters(source.getTestParameters());
         }

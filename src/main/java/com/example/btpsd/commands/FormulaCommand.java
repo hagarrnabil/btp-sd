@@ -36,7 +36,6 @@ public class FormulaCommand implements Serializable {
 
     private double result;
 
-    private double pi = 22/7;
 
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();

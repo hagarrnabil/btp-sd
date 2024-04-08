@@ -1,6 +1,8 @@
 package com.example.btpsd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,23 +17,21 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "unitOfMeasurementCloud")
-public class UnitOfMeasurementCloud implements Serializable {
+@Table(name = "dCloud")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class dCloud implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
-    private Long uomCloud;
-
-    @ElementCollection
-    private List<String> d = new ArrayList<String>();
+    private Long dCloud;
 
     @ElementCollection
     private List<String> results = new ArrayList<String>();
-
-    @JsonIgnore
-    @ElementCollection
-    private List<String> __metadata = new ArrayList<String>();
+//
+//    @JsonIgnore
+//    private metadataCloud metadataCloud;
 
     @JsonIgnore
     @JsonProperty("UnitOfMeasure")

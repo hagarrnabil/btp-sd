@@ -5,8 +5,15 @@ import com.example.btpsd.config.RestTemplateConfig;
 import com.example.btpsd.converters.UnitOfMeasurementToUnitOfMeasurementCommand;
 import com.example.btpsd.model.UnitOfMeasurement;
 import com.example.btpsd.model.UnitOfMeasurementCloud;
+import com.example.btpsd.model.dCloud;
 import com.example.btpsd.repositories.UnitOfMeasurementRepository;
+import com.example.btpsd.repositories.UomCloudRepository;
+import com.example.btpsd.repositories.dCloudRepository;
 import com.example.btpsd.services.UnitOfMeasurementService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.owlike.genson.Genson;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +29,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.ws.rs.HttpMethod;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -32,6 +37,15 @@ public class UnitOfMeasurementController {
 
     @Autowired
     RestTemplateConfig restTemplateConfig;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private dCloudRepository dCloudRepository;
 
     private final UnitOfMeasurementRepository unitOfMeasurementRepository;
 
@@ -41,52 +55,46 @@ public class UnitOfMeasurementController {
 
     @GetMapping("/measurements")
     @ResponseBody
-    public String all() {
+    public String all() throws JsonProcessingException {
 
         final String uri = "http://localhost:8080/measurementsCloud";
 
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
 
+        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+
+        List<dCloud> results = objectMapper.readValue(result, new TypeReference<List<dCloud>>(){});
+
+        // Save the list into a database
+        if(Objects.nonNull(results)) {
+            results.stream().filter(Objects::nonNull).forEach(element -> dCloudRepository.saveAndFlush(element));
+        }
+
+
         System.out.println(result);
 
         return result;
     }
-//        String url = "http://localhost:8080/measurementsCloud";
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-//
-//        HttpEntity<Iterable<UnitOfMeasurementCommand>> entity = new HttpEntity<Iterable<UnitOfMeasurementCommand>>(headers);
-//        return restTemplateConfig.restTemplate().exchange(url, HttpMethod.GET, entity, Iterable.class).getBody();
 
+
+//    @PostMapping("/measurements")
+//    public String post() {
+//
+//        final URI uri = URI.create("http://localhost:8080/measurementsCloud");
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//        String result = restTemplate.postForObject(uri, HttpMethod.POST, String.class);
+//
+//        System.out.println(result);
+//
+//        return result;
+//
+//
 //    }
-//    @GetMapping("/measurements")
-//    Set<UnitOfMeasurementCommand> all() {
-//        return unitOfMeasurementService.getUnitOfMeasurementCommands();
-//    }
-
-    @GetMapping("/measurements/{unitOfMeasurementCode}")
-    public Optional<UnitOfMeasurementCommand> findByIds(@PathVariable @NotNull Long unitOfMeasurementCode) {
-
-        return Optional.ofNullable(unitOfMeasurementService.findUnitOfMeasurementCommandById(unitOfMeasurementCode));
-    }
-
-    @PostMapping("/measurements")
-    public String post() {
-
-        final URI uri = URI.create("http://localhost:8080/measurementsCloud");
-
-        RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.postForObject(uri, HttpMethod.POST, String.class);
-
-        System.out.println(result);
-
-        return result;
 
 
-    }
-//
+    //
 //    HttpHeaders headers = new HttpHeaders();
 //    final String uri = "http://localhost:8080/measurementsCloud";
 //        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -104,12 +112,24 @@ public class UnitOfMeasurementController {
 //        return result;
 //    }
 
-//    UnitOfMeasurementCommand newUomCommand(@RequestBody UnitOfMeasurementCommand newUomCommand) {
-//
-//        UnitOfMeasurementCommand savedCommand = unitOfMeasurementService.saveUnitOfMeasurementCommand(newUomCommand);
-//        return savedCommand;
-//
+//    @GetMapping("/measurements")
+//    Set<UnitOfMeasurementCommand> all() {
+//        return unitOfMeasurementService.getUnitOfMeasurementCommands();
 //    }
+
+    @GetMapping("/measurements/{unitOfMeasurementCode}")
+    public Optional<UnitOfMeasurementCommand> findByIds(@PathVariable @NotNull Long unitOfMeasurementCode) {
+
+        return Optional.ofNullable(unitOfMeasurementService.findUnitOfMeasurementCommandById(unitOfMeasurementCode));
+    }
+
+    @PostMapping("/measurements")
+    UnitOfMeasurementCommand newUomCommand(@RequestBody UnitOfMeasurementCommand newUomCommand) {
+
+        UnitOfMeasurementCommand savedCommand = unitOfMeasurementService.saveUnitOfMeasurementCommand(newUomCommand);
+        return savedCommand;
+
+    }
 
     @DeleteMapping("/measurements/{unitOfMeasurementCode}")
     void deleteUomCommand(@PathVariable Long unitOfMeasurementCode) {

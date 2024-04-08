@@ -1,6 +1,7 @@
 package com.example.btpsd.commands;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.ElementCollection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,19 +14,15 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UnitOfMeasurementCloudCommand implements Serializable {
+public class dCloudCommand implements Serializable {
 
-    private Long uomCloud;
-
-    @ElementCollection
-    private List<String> d = new ArrayList<String>();
+    private Long dCloud;
 
     @ElementCollection
     private List<String> results = new ArrayList<String>();
-
-    @JsonIgnore
-    @ElementCollection
-    private List<String> __metadata = new ArrayList<String>();
+//
+//    @JsonIgnore
+//    private metadataCloud metadataCloud;
 
     private String unitOfMeasure;
 
@@ -36,5 +33,4 @@ public class UnitOfMeasurementCloudCommand implements Serializable {
     private String unitOfMeasureLongName;
 
     private String unitOfMeasureName;
-
 }
