@@ -29,20 +29,24 @@ public class dCloud implements Serializable {
 
     @ElementCollection
     private List<String> results = new ArrayList<String>();
-//
-//    @JsonIgnore
-//    private metadataCloud metadataCloud;
 
-    @JsonIgnore
-    @JsonProperty("UnitOfMeasure")
-    private String unitOfMeasure;
+
+//    @JsonProperty("__metadata")
+//    private metadataCloud metadataCloud;
+//    @JsonIgnore
+//    @ElementCollection
+//    private List<String> __metadata = new ArrayList<String>();
+
+//    @JsonIgnore
+//    @JsonProperty("UnitOfMeasure")
+//    private String unitOfMeasure;
 
     @JsonProperty("UnitOfMeasureSAPCode")
     private String unitOfMeasureSAPCode;
 
-    @JsonIgnore
-    @JsonProperty("UnitOfMeasure_1")
-    private String unitOfMeasure_1;
+//    @JsonIgnore
+//    @JsonProperty("UnitOfMeasure_1")
+//    private String unitOfMeasure_1;
 
     @JsonProperty("UnitOfMeasureLongName")
     private String unitOfMeasureLongName;

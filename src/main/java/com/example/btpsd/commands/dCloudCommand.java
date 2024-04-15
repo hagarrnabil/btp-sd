@@ -18,19 +18,21 @@ public class dCloudCommand implements Serializable {
 
     private Long dCloud;
 
-    @ElementCollection
-    private List<String> results = new ArrayList<String>();
-//
-//    @JsonIgnore
-//    private metadataCloud metadataCloud;
+//    private List<String> results = new ArrayList<String>();
 
+//    @JsonIgnore
+//    private List<String> __metadata = new ArrayList<String>();
+
+    @JsonIgnore
     private String unitOfMeasure;
 
     private String unitOfMeasureSAPCode;
 
+    @JsonIgnore
     private String unitOfMeasure_1;
 
     private String unitOfMeasureLongName;
 
     private String unitOfMeasureName;
+
 }

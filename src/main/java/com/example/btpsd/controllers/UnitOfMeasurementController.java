@@ -4,31 +4,20 @@ import com.example.btpsd.commands.UnitOfMeasurementCommand;
 import com.example.btpsd.config.RestTemplateConfig;
 import com.example.btpsd.converters.UnitOfMeasurementToUnitOfMeasurementCommand;
 import com.example.btpsd.model.UnitOfMeasurement;
-import com.example.btpsd.model.UnitOfMeasurementCloud;
 import com.example.btpsd.model.dCloud;
 import com.example.btpsd.repositories.UnitOfMeasurementRepository;
-import com.example.btpsd.repositories.UomCloudRepository;
 import com.example.btpsd.repositories.dCloudRepository;
 import com.example.btpsd.services.UnitOfMeasurementService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.owlike.genson.Genson;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.ws.rs.HttpMethod;
-import java.net.URI;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -55,24 +44,26 @@ public class UnitOfMeasurementController {
 
     @GetMapping("/measurements")
     @ResponseBody
-    public String all() throws JsonProcessingException {
+    public dCloud all() throws JsonProcessingException {
 
         final String uri = "http://localhost:8080/measurementsCloud";
 
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
+//        String result = restTemplate.getForObject(uri, String.class);
+
+        dCloud result = restTemplate.getForObject(uri, dCloud.class);
 
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
-        List<dCloud> results = objectMapper.readValue(result, new TypeReference<List<dCloud>>(){});
-
-        // Save the list into a database
-        if(Objects.nonNull(results)) {
-            results.stream().filter(Objects::nonNull).forEach(element -> dCloudRepository.saveAndFlush(element));
-        }
-
-
-        System.out.println(result);
+//        List<dCloud> results = objectMapper.readValue(result, new TypeReference<List<dCloud>>(){});
+//
+//        // Save the list into a database
+//        if(Objects.nonNull(results)) {
+//            results.stream().filter(Objects::nonNull).forEach(element -> dCloudRepository.saveAndFlush(element));
+//        }
+//
+//
+//        System.out.println(result);
 
         return result;
     }

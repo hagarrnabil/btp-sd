@@ -27,10 +27,12 @@ public class UnitOfMeasurementCloudCommand implements Serializable {
     @ElementCollection
     private List<String> __metadata = new ArrayList<String>();
 
+    @JsonIgnore
     private String unitOfMeasure;
 
     private String unitOfMeasureSAPCode;
 
+    @JsonIgnore
     private String unitOfMeasure_1;
 
     private String unitOfMeasureLongName;
