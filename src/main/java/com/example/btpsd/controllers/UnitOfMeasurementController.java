@@ -6,7 +6,7 @@ import com.example.btpsd.converters.UnitOfMeasurementToUnitOfMeasurementCommand;
 import com.example.btpsd.model.UnitOfMeasurement;
 import com.example.btpsd.model.dCloud;
 import com.example.btpsd.repositories.UnitOfMeasurementRepository;
-import com.example.btpsd.repositories.dCloudRepository;
+//import com.example.btpsd.repositories.dCloudRepository;
 import com.example.btpsd.services.UnitOfMeasurementService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -33,8 +33,8 @@ public class UnitOfMeasurementController {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    private dCloudRepository dCloudRepository;
+//    @Autowired
+//    private dCloudRepository dCloudRepository;
 
     private final UnitOfMeasurementRepository unitOfMeasurementRepository;
 
@@ -55,13 +55,13 @@ public class UnitOfMeasurementController {
 
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
-//        List<dCloud> results = objectMapper.readValue(result, new TypeReference<List<dCloud>>(){});
+//        List<dCloud> results = objectMapper.readValue(result.toString(), new TypeReference<List<dCloud>>(){});
 //
 //        // Save the list into a database
 //        if(Objects.nonNull(results)) {
 //            results.stream().filter(Objects::nonNull).forEach(element -> dCloudRepository.saveAndFlush(element));
 //        }
-//
+
 //
 //        System.out.println(result);
 

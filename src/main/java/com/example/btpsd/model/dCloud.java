@@ -10,25 +10,33 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-@Table(name = "dCloud")
+//@Entity
+//@Table(name = "dCloud")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class dCloud implements Serializable {
+//@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class dCloud {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
-    private Long dCloud;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @JsonIgnore
+//    private Long dCloud;
 
     @ElementCollection
-    private List<String> results = new ArrayList<String>();
+    private Map<String, Object> d;
+
+//    @ElementCollection
+//    private List<resultsCloud> results;
+
+//    @ElementCollection
+//    private List<String> results = new ArrayList<String>();
 
 
 //    @JsonProperty("__metadata")
@@ -41,17 +49,17 @@ public class dCloud implements Serializable {
 //    @JsonProperty("UnitOfMeasure")
 //    private String unitOfMeasure;
 
-    @JsonProperty("UnitOfMeasureSAPCode")
-    private String unitOfMeasureSAPCode;
-
-//    @JsonIgnore
-//    @JsonProperty("UnitOfMeasure_1")
-//    private String unitOfMeasure_1;
-
-    @JsonProperty("UnitOfMeasureLongName")
-    private String unitOfMeasureLongName;
-
-    @JsonProperty("UnitOfMeasureName")
-    private String unitOfMeasureName;
+//    @JsonProperty("UnitOfMeasureSAPCode")
+//    private String unitOfMeasureSAPCode;
+//
+////    @JsonIgnore
+////    @JsonProperty("UnitOfMeasure_1")
+////    private String unitOfMeasure_1;
+//
+//    @JsonProperty("UnitOfMeasureLongName")
+//    private String unitOfMeasureLongName;
+//
+//    @JsonProperty("UnitOfMeasureName")
+//    private String unitOfMeasureName;
 
 }
