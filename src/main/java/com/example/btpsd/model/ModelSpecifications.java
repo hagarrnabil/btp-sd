@@ -26,12 +26,10 @@ public class ModelSpecifications implements Serializable {
     private Long modelSpecCode;
 
 
-//    private Long modelSpecDetailsCode;
-
     @ElementCollection
     private List<Long> modelSpecDetailsCode = new ArrayList<Long>();
 
-    private Long currencyCode;
+    private String currencyCode;
 
     @Column(unique = true, columnDefinition = "char(225)", nullable = false)
     @Length(max = 225)
@@ -51,6 +49,6 @@ public class ModelSpecifications implements Serializable {
     @ManyToOne
     private ModelSpecificationsDetails modelSpecificationsDetails;
 
-    @ManyToOne
-    private Currency currency;
+//    @ManyToOne
+//    private Currency currency;
 }

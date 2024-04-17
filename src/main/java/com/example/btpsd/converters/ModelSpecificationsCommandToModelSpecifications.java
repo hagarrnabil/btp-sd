@@ -28,12 +28,13 @@ public class ModelSpecificationsCommandToModelSpecifications implements Converte
         for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
             modelSpecifications.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
         }
-        if (source.getCurrencyCode() != null) {
-            Currency currency = new Currency();
-            currency.setCurrencyCode(source.getCurrencyCode());
-            modelSpecifications.setCurrency(currency);
-            currency.addModelSpecifications(modelSpecifications);
-        }
+//        if (source.getCurrencyCode() != null) {
+//            Currency currency = new Currency();
+//            currency.setCurrencyCode(source.getCurrencyCode());
+//            modelSpecifications.setCurrency(currency);
+//            currency.addModelSpecifications(modelSpecifications);
+//        }
+        modelSpecifications.setCurrencyCode(source.getCurrencyCode());
         modelSpecifications.setModelServSpec(source.getModelServSpec());
         modelSpecifications.setBlockingIndicator(source.getBlockingIndicator());
         modelSpecifications.setServiceSelection(source.getServiceSelection());

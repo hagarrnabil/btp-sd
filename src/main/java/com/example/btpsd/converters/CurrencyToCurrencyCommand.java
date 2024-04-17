@@ -28,14 +28,14 @@ public class CurrencyToCurrencyCommand implements Converter<Currency, CurrencyCo
         currencyCommand.setCurrencyCode(source.getCurrencyCode());
         currencyCommand.setCode(source.getCode());
         currencyCommand.setDescription(source.getDescription());
-        if (source.getModelSpecifications() != null && source.getModelSpecifications().size() > 0){
-            source.getModelSpecifications()
-                    .forEach(modelSpecifications -> currencyCommand.getModelSpecificationsCommands().add(modelSpecConverter.convert(modelSpecifications)));
-        }
-        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
-            source.getModelSpecificationsDetails()
-                    .forEach(modelSpecificationsDetails -> currencyCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
-        }
+//        if (source.getModelSpecifications() != null && source.getModelSpecifications().size() > 0){
+//            source.getModelSpecifications()
+//                    .forEach(modelSpecifications -> currencyCommand.getModelSpecificationsCommands().add(modelSpecConverter.convert(modelSpecifications)));
+//        }
+//        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
+//            source.getModelSpecificationsDetails()
+//                    .forEach(modelSpecificationsDetails -> currencyCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
+//        }
         return currencyCommand;
     }
 }

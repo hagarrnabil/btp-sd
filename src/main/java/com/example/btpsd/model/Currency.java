@@ -30,24 +30,24 @@ public class Currency implements Serializable {
     @NotNull
     private String description;
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "currency")
-    @JsonIgnore
-    private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "currency")
-    @JsonIgnore
-    private Set<ModelSpecifications> modelSpecifications = new HashSet<>();
-
-
-    public Currency addModelSpecifications(ModelSpecifications modelSpecifications) {
-        modelSpecifications.setCurrency(this);
-        this.modelSpecifications.add(modelSpecifications);
-        return this;
-    }
-
-    public Currency addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails) {
-        modelSpecificationsDetails.setCurrency(this);
-        this.modelSpecificationsDetails.add(modelSpecificationsDetails);
-        return this;
-    }
+//    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "currency")
+//    @JsonIgnore
+//    private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
+//
+//    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "currency")
+//    @JsonIgnore
+//    private Set<ModelSpecifications> modelSpecifications = new HashSet<>();
+//
+//
+//    public Currency addModelSpecifications(ModelSpecifications modelSpecifications) {
+//        modelSpecifications.setCurrency(this);
+//        this.modelSpecifications.add(modelSpecifications);
+//        return this;
+//    }
+//
+//    public Currency addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails) {
+//        modelSpecificationsDetails.setCurrency(this);
+//        this.modelSpecificationsDetails.add(modelSpecificationsDetails);
+//        return this;
+//    }
 }

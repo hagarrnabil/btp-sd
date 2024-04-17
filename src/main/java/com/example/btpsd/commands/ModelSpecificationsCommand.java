@@ -16,7 +16,7 @@ public class ModelSpecificationsCommand implements Serializable {
 
     private Long modelSpecCode;
     private List<Long> modelSpecDetailsCode = new ArrayList<Long>();
-    private Long currencyCode;
+    private String currencyCode;
     private String modelServSpec;
     private Boolean blockingIndicator;
     private Boolean serviceSelection;

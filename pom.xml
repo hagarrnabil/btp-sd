@@ -102,7 +102,12 @@
             <artifactId>genson</artifactId>
             <version>1.6</version>
         </dependency>
-<!--        <dependency>-->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20231013</version>
+        </dependency>
+        <!--        <dependency>-->
 <!--            <groupId>com.sap.cloud.sdk.s4hana</groupId>-->
 <!--            <artifactId>s4hana-all</artifactId>-->
 <!--            <version>4.29.0</version>-->
@@ -138,6 +143,10 @@
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
             <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.messaging.saaj</groupId>

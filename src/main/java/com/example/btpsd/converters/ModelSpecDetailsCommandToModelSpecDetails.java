@@ -29,12 +29,12 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
 
         final ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
         modelSpecificationsDetails.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
-        if (source.getCurrencyCode() != null) {
-            Currency currency = new Currency();
-            currency.setCurrencyCode(source.getCurrencyCode());
-            modelSpecificationsDetails.setCurrency(currency);
-            currency.addModelSpecDetails(modelSpecificationsDetails);
-        }
+//        if (source.getCurrencyCode() != null) {
+//            Currency currency = new Currency();
+//            currency.setCurrencyCode(source.getCurrencyCode());
+//            modelSpecificationsDetails.setCurrency(currency);
+//            currency.addModelSpecDetails(modelSpecificationsDetails);
+//        }
         if (source.getPersonnelNumberCode() != null) {
             PersonnelNumber personnelNumber = new PersonnelNumber();
             personnelNumber.setPersonnelNumberCode(source.getPersonnelNumberCode());
@@ -95,8 +95,8 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         modelSpecificationsDetails.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         modelSpecificationsDetails.setPricePerUnitOfMeasurement(source.getPricePerUnitOfMeasurement());
         modelSpecificationsDetails.setExternalServiceNumber(source.getExternalServiceNumber());
-        modelSpecificationsDetails.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode()
-        );
+        modelSpecificationsDetails.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
+        modelSpecificationsDetails.setCurrencyCode(source.getCurrencyCode());
         if (source.getDontUseFormula() == true ){
             modelSpecificationsDetails.setQuantity(source.getQuantity());
         } else if (source.getDontUseFormula() == false) {

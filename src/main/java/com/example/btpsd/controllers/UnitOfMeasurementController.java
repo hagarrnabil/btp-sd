@@ -13,11 +13,18 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONException;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -41,33 +48,51 @@ public class UnitOfMeasurementController {
     private final UnitOfMeasurementService unitOfMeasurementService;
 
     private final UnitOfMeasurementToUnitOfMeasurementCommand unitOfMeasurementToUnitOfMeasurementCommand;
-
-    @GetMapping("/measurements")
-    @ResponseBody
-    public dCloud all() throws JsonProcessingException {
-
-        final String uri = "http://localhost:8080/measurementsCloud";
-
-        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.getForObject(uri, String.class);
-
-        dCloud result = restTemplate.getForObject(uri, dCloud.class);
-
-        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-
-//        List<dCloud> results = objectMapper.readValue(result.toString(), new TypeReference<List<dCloud>>(){});
 //
-//        // Save the list into a database
-//        if(Objects.nonNull(results)) {
-//            results.stream().filter(Objects::nonNull).forEach(element -> dCloudRepository.saveAndFlush(element));
-//        }
-
+//    @GetMapping("/measurements")
+//    @ResponseBody
+//    public dCloud all() throws JsonProcessingException {
 //
-//        System.out.println(result);
-
-        return result;
-    }
-
+//        final String uri = "http://localhost:8080/measurementsCloud";
+//
+//        RestTemplate restTemplate = new RestTemplate();
+////        String result = restTemplate.getForObject(uri, String.class);
+//
+//        dCloud result = restTemplate.getForObject(uri, dCloud.class);
+//
+//        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+//
+////        List<dCloud> results = objectMapper.readValue(result.toString(), new TypeReference<List<dCloud>>(){});
+////
+////        // Save the list into a database
+////        if(Objects.nonNull(results)) {
+////            results.stream().filter(Objects::nonNull).forEach(element -> dCloudRepository.saveAndFlush(element));
+////        }
+//
+////
+////        System.out.println(result);
+//
+//        return result;
+//    }
+//
+//    @GetMapping("/measurements")
+//    @ResponseBody
+//    public Set All() throws JSONException, IOException {
+//
+//        JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/measurementsCloud"), String.valueOf(Charset.forName("UTF-8"))));
+//
+////
+////        File fileName = new File("D:\\dev\\java\\ParsingJson\\uom json response.txt");
+////        String jsonStringFromFile = new String(Files.readAllBytes(Paths.get(fileName.toString())));
+////
+////
+////        JSONObject jsonObject = new JSONObject(jsonStringFromFile);
+//
+//        JSONArray jsonObjectUnits = jsonFromURL.getJSONObject("d").getJSONArray("results");
+//
+//       return Collections.singleton(jsonObjectUnits.forEach(unit -> System.out.println(unit)));
+//
+//    }
 
 //    @PostMapping("/measurements")
 //    public String post() {

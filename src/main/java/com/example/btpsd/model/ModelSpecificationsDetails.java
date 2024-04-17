@@ -40,7 +40,7 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private String unitOfMeasurementCode;
 
-    private Long currencyCode;
+    private String currencyCode;
 
     private Long formulaCode;
 
@@ -116,9 +116,9 @@ public class ModelSpecificationsDetails implements Serializable {
     @ManyToOne
     private PersonnelNumber personnelNumber;
 
-    @NotNull
-    @ManyToOne
-    private Currency currency;
+//    @NotNull
+//    @ManyToOne
+//    private Currency currency;
 
     @ManyToOne
     private Formula formula;

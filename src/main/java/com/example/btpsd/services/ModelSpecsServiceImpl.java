@@ -84,18 +84,20 @@ public class ModelSpecsServiceImpl implements ModelSpecsService {
                 oldModelSpecs.setDescription(newModelSpecs.getDescription());
             if (newModelSpecs.getSearchTerm() != oldModelSpecs.getSearchTerm())
                 oldModelSpecs.setSearchTerm(newModelSpecs.getSearchTerm());
+            if (newModelSpecs.getCurrencyCode() != oldModelSpecs.getCurrencyCode())
+                oldModelSpecs.setCurrencyCode(newModelSpecs.getCurrencyCode());
             if (newModelSpecs.getModelSpecDetailsCode() != null) {
 //                ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
 //                modelSpecificationsDetails.setModelSpecDetailsCode(Long.parseLong(newModelSpecs.getModelSpecDetailsCode().toString()));
                 oldModelSpecs.setModelSpecDetailsCode(newModelSpecs.getModelSpecDetailsCode());
 //                modelSpecificationsDetails.addModelSpecifications(oldModelSpecs);
             }
-            if (newModelSpecs.getCurrencyCode() != null) {
-                Currency currency = new Currency();
-                currency.setCurrencyCode(newModelSpecs.getCurrencyCode());
-                oldModelSpecs.setCurrency(currency);
-                currency.addModelSpecifications(oldModelSpecs);
-            }
+//            if (newModelSpecs.getCurrencyCode() != null) {
+//                Currency currency = new Currency();
+//                currency.setCurrencyCode(newModelSpecs.getCurrencyCode());
+//                oldModelSpecs.setCurrency(currency);
+//                currency.addModelSpecifications(oldModelSpecs);
+//            }
             return modelSpecificationRepository.save(oldModelSpecs);
         }).orElseThrow(() -> new RuntimeException("Model Specs not found"));
     }

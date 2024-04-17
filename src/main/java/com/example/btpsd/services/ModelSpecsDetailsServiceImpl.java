@@ -113,18 +113,20 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setLotSizeForCostingIsOne(newModelSpecDetails.getLotSizeForCostingIsOne());
             if (newModelSpecDetails.getUnitOfMeasurementCode() != oldModelSpecDetails.getUnitOfMeasurementCode())
                 oldModelSpecDetails.setUnitOfMeasurementCode(newModelSpecDetails.getUnitOfMeasurementCode());
+            if (newModelSpecDetails.getCurrencyCode() != oldModelSpecDetails.getCurrencyCode())
+                oldModelSpecDetails.setCurrencyCode(newModelSpecDetails.getCurrencyCode());
             if (newModelSpecDetails.getServiceNumberCode() != null) {
                 ServiceNumber serviceNumber = new ServiceNumber();
                 serviceNumber.setServiceNumberCode(newModelSpecDetails.getServiceNumberCode());
                 oldModelSpecDetails.setServiceNumber(serviceNumber);
                 serviceNumber.addModelSpecDetails(oldModelSpecDetails);
             }
-            if (newModelSpecDetails.getCurrencyCode() != null) {
-                Currency currency = new Currency();
-                currency.setCurrencyCode(newModelSpecDetails.getCurrencyCode());
-                oldModelSpecDetails.setCurrency(currency);
-                currency.addModelSpecDetails(oldModelSpecDetails);
-            }
+//            if (newModelSpecDetails.getCurrencyCode() != null) {
+//                Currency currency = new Currency();
+//                currency.setCurrencyCode(newModelSpecDetails.getCurrencyCode());
+//                oldModelSpecDetails.setCurrency(currency);
+//                currency.addModelSpecDetails(oldModelSpecDetails);
+//            }
             if (newModelSpecDetails.getFormulaCode() != null) {
                 Formula formula = new Formula();
                 formula.setFormulaCode(newModelSpecDetails.getFormulaCode());
