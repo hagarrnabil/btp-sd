@@ -35,7 +35,7 @@ public class ServiceNumber implements Serializable {
     @NotNull
     private String searchTerm;
 
-    private Long formulaCode;
+//    private Long formulaCode;
 
     @NotNull
     private String serviceTypeCode;
@@ -70,8 +70,8 @@ public class ServiceNumber implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
-    @ManyToOne
-    private Formula formula;
+//    @ManyToOne
+//    private Formula formula;
 
 //    @ManyToOne
 //    private ServiceType serviceType;

@@ -30,10 +30,10 @@ public class ServiceTypeToServiceTypeCommand implements Converter<ServiceType, S
         serviceTypeCommand.setServiceId(source.getServiceId());
         serviceTypeCommand.setDescription(source.getDescription());
         serviceTypeCommand.setLastChangeDate(source.getLastChangeDate().now());
-        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
-            source.getModelSpecificationsDetails()
-                    .forEach(modelSpecificationsDetails -> serviceTypeCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
-        }
+//        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
+//            source.getModelSpecificationsDetails()
+//                    .forEach(modelSpecificationsDetails -> serviceTypeCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
+//        }
 //        if (source.getServiceNumbers() != null && source.getServiceNumbers().size() > 0){
 //            source.getServiceNumbers()
 //                    .forEach(serviceNumber -> serviceTypeCommand.getServiceNumberCommands().add(serviceNumberConverter.convert(serviceNumber)));

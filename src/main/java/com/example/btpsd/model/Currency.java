@@ -30,9 +30,9 @@ public class Currency implements Serializable {
     @NotNull
     private String description;
 
-//    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "currency")
-//    @JsonIgnore
-//    private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "currency")
+    @JsonIgnore
+    private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 //
 //    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "currency")
 //    @JsonIgnore
@@ -45,9 +45,9 @@ public class Currency implements Serializable {
 //        return this;
 //    }
 //
-//    public Currency addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails) {
-//        modelSpecificationsDetails.setCurrency(this);
-//        this.modelSpecificationsDetails.add(modelSpecificationsDetails);
-//        return this;
-//    }
+    public Currency addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails) {
+        modelSpecificationsDetails.setCurrency(this);
+        this.modelSpecificationsDetails.add(modelSpecificationsDetails);
+        return this;
+    }
 }

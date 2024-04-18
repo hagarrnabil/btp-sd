@@ -32,10 +32,10 @@ public class CurrencyToCurrencyCommand implements Converter<Currency, CurrencyCo
 //            source.getModelSpecifications()
 //                    .forEach(modelSpecifications -> currencyCommand.getModelSpecificationsCommands().add(modelSpecConverter.convert(modelSpecifications)));
 //        }
-//        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
-//            source.getModelSpecificationsDetails()
-//                    .forEach(modelSpecificationsDetails -> currencyCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
-//        }
+        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
+            source.getModelSpecificationsDetails()
+                    .forEach(modelSpecificationsDetails -> currencyCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
+        }
         return currencyCommand;
     }
 }

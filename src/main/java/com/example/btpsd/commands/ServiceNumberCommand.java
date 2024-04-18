@@ -27,7 +27,7 @@ public class ServiceNumberCommand implements Serializable {
 
     private String searchTerm;
 
-    private Long formulaCode;
+//    private Long formulaCode;
 
     private String serviceTypeCode;
 

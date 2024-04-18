@@ -11,6 +11,8 @@ import com.example.btpsd.services.UnitOfMeasurementService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonElement;
+import jakarta.persistence.ElementCollection;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
@@ -48,7 +50,7 @@ public class UnitOfMeasurementController {
     private final UnitOfMeasurementService unitOfMeasurementService;
 
     private final UnitOfMeasurementToUnitOfMeasurementCommand unitOfMeasurementToUnitOfMeasurementCommand;
-//
+
 //    @GetMapping("/measurements")
 //    @ResponseBody
 //    public dCloud all() throws JsonProcessingException {
@@ -74,25 +76,16 @@ public class UnitOfMeasurementController {
 //
 //        return result;
 //    }
-//
-//    @GetMapping("/measurements")
-//    @ResponseBody
-//    public Set All() throws JSONException, IOException {
-//
-//        JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/measurementsCloud"), String.valueOf(Charset.forName("UTF-8"))));
-//
-////
-////        File fileName = new File("D:\\dev\\java\\ParsingJson\\uom json response.txt");
-////        String jsonStringFromFile = new String(Files.readAllBytes(Paths.get(fileName.toString())));
-////
-////
-////        JSONObject jsonObject = new JSONObject(jsonStringFromFile);
-//
-//        JSONArray jsonObjectUnits = jsonFromURL.getJSONObject("d").getJSONArray("results");
-//
-//       return Collections.singleton(jsonObjectUnits.forEach(unit -> System.out.println(unit)));
-//
-//    }
+
+    @GetMapping("/measurements")
+    @ResponseBody
+    public String All() throws JSONException, IOException {
+
+        JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/measurementsCloud"), String.valueOf(Charset.forName("UTF-8"))));
+        JSONArray jsonObjectUnits = jsonFromURL.getJSONObject("d").getJSONArray("results");
+
+       return jsonObjectUnits.toString();
+    }
 
 //    @PostMapping("/measurements")
 //    public String post() {

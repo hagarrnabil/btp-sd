@@ -78,10 +78,10 @@ public class FormulaCommandToFormula implements Converter<FormulaCommand, Formul
             source.getModelSpecificationsDetailsCommands()
                     .forEach(modelSpecificationsDetailsCommand -> formula.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));
         }
-        if (source.getServiceNumberCommands() != null && source.getServiceNumberCommands().size() > 0) {
-            source.getServiceNumberCommands()
-                    .forEach(serviceNumberCommand -> formula.getServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
-        }
+//        if (source.getServiceNumberCommands() != null && source.getServiceNumberCommands().size() > 0) {
+//            source.getServiceNumberCommands()
+//                    .forEach(serviceNumberCommand -> formula.getServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
+//        }
         return formula;
     }
 }

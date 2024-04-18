@@ -16,10 +16,10 @@ import java.util.Set;
 public class ModelSpecificationsDetailsCommand implements Serializable {
 
     private Long modelSpecDetailsCode;
-    private String currencyCode;
+    private Long currencyCode;
     private Long formulaCode;
     private Long personnelNumberCode;
-    private Long serviceTypeCode;
+    private String serviceTypeCode;
     private Long materialGroupCode;
     private String unitOfMeasurementCode;
     private Long serviceNumberCode;
@@ -44,7 +44,7 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private Boolean biddersLine;
     private Boolean supplementaryLine;
     private Boolean lotSizeForCostingIsOne;
-    private Boolean dontUseFormula;
+//    private Boolean dontUseFormula;
     private LocalDate lastChangeDate;
     @JsonIgnore
     private Set<ModelSpecificationsCommand> modelSpecificationsCommands = new HashSet<>();

@@ -57,9 +57,9 @@ public class Formula implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "formula")
-    @JsonIgnore
-    private Set<ServiceNumber> serviceNumbers = new HashSet<>();
+//    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "formula")
+//    @JsonIgnore
+//    private Set<ServiceNumber> serviceNumbers = new HashSet<>();
 
 
     public Formula addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails) {
@@ -68,9 +68,9 @@ public class Formula implements Serializable {
         return this;
     }
 
-    public Formula addServiceNumbers(ServiceNumber serviceNumber) {
-        serviceNumber.setFormula(this);
-        this.serviceNumbers.add(serviceNumber);
-        return this;
-    }
+//    public Formula addServiceNumbers(ServiceNumber serviceNumber) {
+//        serviceNumber.setFormula(this);
+//        this.serviceNumbers.add(serviceNumber);
+//        return this;
+//    }
 }

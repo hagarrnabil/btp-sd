@@ -23,9 +23,9 @@ public class ServiceTypeCommand implements Serializable {
 
     private LocalDate lastChangeDate;
 
-    @JsonIgnore
-    private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
+//    @JsonIgnore
+//    private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
 
-    @JsonIgnore
-    private Set<ServiceNumberCommand> serviceNumberCommands = new HashSet<>();
+//    @JsonIgnore
+//    private Set<ServiceNumberCommand> serviceNumberCommands = new HashSet<>();
 }

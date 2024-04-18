@@ -32,7 +32,7 @@ public class ModelSpecificationsDetails implements Serializable {
     @Column(unique = true)
     private Long noServiceNumber;
 
-    private Long serviceTypeCode;
+    private String serviceTypeCode;
 
     private Long materialGroupCode;
 
@@ -40,7 +40,7 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private String unitOfMeasurementCode;
 
-    private String currencyCode;
+    private Long currencyCode;
 
     private Long formulaCode;
 
@@ -92,7 +92,7 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Boolean lotSizeForCostingIsOne;
 
-    private Boolean dontUseFormula;
+//    private Boolean dontUseFormula;
 
     private LocalDate lastChangeDate;
 
@@ -110,15 +110,15 @@ public class ModelSpecificationsDetails implements Serializable {
     @ManyToOne
     private MaterialGroup materialGroup;
 
-    @ManyToOne
-    private ServiceType serviceType;
+//    @ManyToOne
+//    private ServiceType serviceType;
 
     @ManyToOne
     private PersonnelNumber personnelNumber;
 
-//    @NotNull
-//    @ManyToOne
-//    private Currency currency;
+    @NotNull
+    @ManyToOne
+    private Currency currency;
 
     @ManyToOne
     private Formula formula;

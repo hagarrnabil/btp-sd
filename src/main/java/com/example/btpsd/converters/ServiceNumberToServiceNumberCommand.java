@@ -53,9 +53,9 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         serviceNumberCommand.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
         serviceNumberCommand.setDefaultUnitOfMeasurement(source.getDefaultUnitOfMeasurement());
         serviceNumberCommand.setServiceTypeCode(source.getServiceTypeCode());
-        if (source.getFormula() != null) {
-            serviceNumberCommand.setFormulaCode(source.getFormula().getFormulaCode());
-        }
+//        if (source.getFormula() != null) {
+//            serviceNumberCommand.setFormulaCode(source.getFormula().getFormulaCode());
+//        }
         if (source.getMaterialGroup() != null) {
             serviceNumberCommand.setMaterialGroupCode(source.getMaterialGroup().getMaterialGroupCode());
         }

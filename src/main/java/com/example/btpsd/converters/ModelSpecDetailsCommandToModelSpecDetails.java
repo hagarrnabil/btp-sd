@@ -29,24 +29,24 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
 
         final ModelSpecificationsDetails modelSpecificationsDetails = new ModelSpecificationsDetails();
         modelSpecificationsDetails.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
-//        if (source.getCurrencyCode() != null) {
-//            Currency currency = new Currency();
-//            currency.setCurrencyCode(source.getCurrencyCode());
-//            modelSpecificationsDetails.setCurrency(currency);
-//            currency.addModelSpecDetails(modelSpecificationsDetails);
-//        }
+        if (source.getCurrencyCode() != null) {
+            Currency currency = new Currency();
+            currency.setCurrencyCode(source.getCurrencyCode());
+            modelSpecificationsDetails.setCurrency(currency);
+            currency.addModelSpecDetails(modelSpecificationsDetails);
+        }
         if (source.getPersonnelNumberCode() != null) {
             PersonnelNumber personnelNumber = new PersonnelNumber();
             personnelNumber.setPersonnelNumberCode(source.getPersonnelNumberCode());
             modelSpecificationsDetails.setPersonnelNumber(personnelNumber);
             personnelNumber.addModelSpecDetails(modelSpecificationsDetails);
         }
-        if (source.getServiceTypeCode() != null) {
-            ServiceType serviceType = new ServiceType();
-            serviceType.setServiceTypeCode(source.getServiceTypeCode());
-            modelSpecificationsDetails.setServiceType(serviceType);
-            serviceType.addModelSpecDetails(modelSpecificationsDetails);
-        }
+//        if (source.getServiceTypeCode() != null) {
+//            ServiceType serviceType = new ServiceType();
+//            serviceType.setServiceTypeCode(source.getServiceTypeCode());
+//            modelSpecificationsDetails.setServiceType(serviceType);
+//            serviceType.addModelSpecDetails(modelSpecificationsDetails);
+//        }
         if (source.getMaterialGroupCode() != null) {
             MaterialGroup materialGroup = new MaterialGroup();
             materialGroup.setMaterialGroupCode(source.getMaterialGroupCode());
@@ -88,7 +88,7 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         modelSpecificationsDetails.setLineIndex(source.getLineIndex());
         modelSpecificationsDetails.setDeletionIndicator(source.getDeletionIndicator());
         modelSpecificationsDetails.setShortText(source.getShortText());
-        modelSpecificationsDetails.setDontUseFormula(source.getDontUseFormula());
+//        modelSpecificationsDetails.setDontUseFormula(source.getDontUseFormula());
         modelSpecificationsDetails.setGrossPrice(source.getGrossPrice());
         modelSpecificationsDetails.setOverFulfilmentPercentage(source.getOverFulfilmentPercentage());
         modelSpecificationsDetails.setPriceChangedAllowed(source.getPriceChangedAllowed());
@@ -96,12 +96,13 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         modelSpecificationsDetails.setPricePerUnitOfMeasurement(source.getPricePerUnitOfMeasurement());
         modelSpecificationsDetails.setExternalServiceNumber(source.getExternalServiceNumber());
         modelSpecificationsDetails.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
-        modelSpecificationsDetails.setCurrencyCode(source.getCurrencyCode());
-        if (source.getDontUseFormula() == true ){
-            modelSpecificationsDetails.setQuantity(source.getQuantity());
-        } else if (source.getDontUseFormula() == false) {
-            modelSpecificationsDetails.setQuantity(source.getQuantity());
-        }
+        modelSpecificationsDetails.setServiceTypeCode(source.getServiceTypeCode());
+        modelSpecificationsDetails.setQuantity(source.getQuantity());
+//        if (source.getDontUseFormula() == true ){
+//            modelSpecificationsDetails.setQuantity(source.getQuantity());
+//        } else if (source.getDontUseFormula() == false) {
+//            modelSpecificationsDetails.setQuantity(source.getQuantity());
+//        }
         modelSpecificationsDetails.setNetValue(source.getGrossPrice() * modelSpecificationsDetails.getQuantity());
         modelSpecificationsDetails.setServiceText(source.getServiceText());
         modelSpecificationsDetails.setLineText(source.getLineText());

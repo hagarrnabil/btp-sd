@@ -35,20 +35,20 @@ public class ServiceType implements Serializable {
 
     private LocalDate lastChangeDate;
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceType")
-    @JsonIgnore
-    private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
+//    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceType")
+//    @JsonIgnore
+//    private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
 //    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceType")
 //    @JsonIgnore
 //    private Set<ServiceNumber> serviceNumbers = new HashSet<>();
 
-
-    public ServiceType addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
-        modelSpecificationsDetails.setServiceType(this);
-        this.modelSpecificationsDetails.add(modelSpecificationsDetails);
-        return this;
-    }
+//
+//    public ServiceType addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
+//        modelSpecificationsDetails.setServiceType(this);
+//        this.modelSpecificationsDetails.add(modelSpecificationsDetails);
+//        return this;
+//    }
 
 //    public ServiceType addServiceNumbers(ServiceNumber serviceNumber){
 //        serviceNumber.setServiceType(this);

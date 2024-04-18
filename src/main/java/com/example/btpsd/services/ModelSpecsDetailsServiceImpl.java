@@ -99,8 +99,8 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setNetValue(newModelSpecDetails.getNetValue());
             if (newModelSpecDetails.getLineText() != oldModelSpecDetails.getLineText())
                 oldModelSpecDetails.setLineText(newModelSpecDetails.getLineText());
-            if (newModelSpecDetails.getDontUseFormula() != oldModelSpecDetails.getDontUseFormula())
-                oldModelSpecDetails.setDontUseFormula(newModelSpecDetails.getDontUseFormula());
+//            if (newModelSpecDetails.getDontUseFormula() != oldModelSpecDetails.getDontUseFormula())
+//                oldModelSpecDetails.setDontUseFormula(newModelSpecDetails.getDontUseFormula());
             if (newModelSpecDetails.getLineNumber() != oldModelSpecDetails.getLineNumber())
                 oldModelSpecDetails.setLineNumber(newModelSpecDetails.getLineNumber());
             if (newModelSpecDetails.getAlternatives() != oldModelSpecDetails.getAlternatives())
@@ -113,20 +113,20 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setLotSizeForCostingIsOne(newModelSpecDetails.getLotSizeForCostingIsOne());
             if (newModelSpecDetails.getUnitOfMeasurementCode() != oldModelSpecDetails.getUnitOfMeasurementCode())
                 oldModelSpecDetails.setUnitOfMeasurementCode(newModelSpecDetails.getUnitOfMeasurementCode());
-            if (newModelSpecDetails.getCurrencyCode() != oldModelSpecDetails.getCurrencyCode())
-                oldModelSpecDetails.setCurrencyCode(newModelSpecDetails.getCurrencyCode());
+            if (newModelSpecDetails.getServiceTypeCode() != oldModelSpecDetails.getServiceTypeCode())
+                oldModelSpecDetails.setServiceTypeCode(newModelSpecDetails.getServiceTypeCode());
             if (newModelSpecDetails.getServiceNumberCode() != null) {
                 ServiceNumber serviceNumber = new ServiceNumber();
                 serviceNumber.setServiceNumberCode(newModelSpecDetails.getServiceNumberCode());
                 oldModelSpecDetails.setServiceNumber(serviceNumber);
                 serviceNumber.addModelSpecDetails(oldModelSpecDetails);
             }
-//            if (newModelSpecDetails.getCurrencyCode() != null) {
-//                Currency currency = new Currency();
-//                currency.setCurrencyCode(newModelSpecDetails.getCurrencyCode());
-//                oldModelSpecDetails.setCurrency(currency);
-//                currency.addModelSpecDetails(oldModelSpecDetails);
-//            }
+            if (newModelSpecDetails.getCurrencyCode() != null) {
+                Currency currency = new Currency();
+                currency.setCurrencyCode(newModelSpecDetails.getCurrencyCode());
+                oldModelSpecDetails.setCurrency(currency);
+                currency.addModelSpecDetails(oldModelSpecDetails);
+            }
             if (newModelSpecDetails.getFormulaCode() != null) {
                 Formula formula = new Formula();
                 formula.setFormulaCode(newModelSpecDetails.getFormulaCode());
@@ -139,12 +139,12 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setPersonnelNumber(personnelNumber);
                 personnelNumber.addModelSpecDetails(oldModelSpecDetails);
             }
-            if (newModelSpecDetails.getServiceTypeCode() != null) {
-                ServiceType serviceType = new ServiceType();
-                serviceType.setServiceTypeCode(newModelSpecDetails.getServiceTypeCode());
-                oldModelSpecDetails.setServiceType(serviceType);
-                serviceType.addModelSpecDetails(oldModelSpecDetails);
-            }
+//            if (newModelSpecDetails.getServiceTypeCode() != null) {
+//                ServiceType serviceType = new ServiceType();
+//                serviceType.setServiceTypeCode(newModelSpecDetails.getServiceTypeCode());
+//                oldModelSpecDetails.setServiceType(serviceType);
+//                serviceType.addModelSpecDetails(oldModelSpecDetails);
+//            }
             if (newModelSpecDetails.getMaterialGroupCode() != null) {
                 MaterialGroup materialGroup = new MaterialGroup();
                 materialGroup.setMaterialGroupCode(newModelSpecDetails.getMaterialGroupCode());

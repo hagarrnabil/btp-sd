@@ -75,10 +75,10 @@ public class FormulaToFormulaCommand implements Converter<Formula, FormulaComman
         } catch (ScriptException e) {
             throw new RuntimeException(e);
         }
-        if (source.getServiceNumbers() != null && source.getServiceNumbers().size() > 0) {
-            source.getServiceNumbers()
-                    .forEach(serviceNumber -> formulaCommand.getServiceNumberCommands().add(serviceNumberConverter.convert(serviceNumber)));
-        }
+//        if (source.getServiceNumbers() != null && source.getServiceNumbers().size() > 0) {
+//            source.getServiceNumbers()
+//                    .forEach(serviceNumber -> formulaCommand.getServiceNumberCommands().add(serviceNumberConverter.convert(serviceNumber)));
+//        }
         if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0) {
             source.getModelSpecificationsDetails()
                     .forEach(modelSpecificationsDetails -> formulaCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));

@@ -32,15 +32,15 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         if (source.getPersonnelNumber() != null) {
             modelSpecificationsDetailsCommand.setPersonnelNumberCode(source.getPersonnelNumber().getPersonnelNumberCode());
         }
-//        if (source.getCurrency() != null) {
-//            modelSpecificationsDetailsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());
-//        }
+        if (source.getCurrency() != null) {
+            modelSpecificationsDetailsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());
+        }
         if (source.getFormula() != null) {
             modelSpecificationsDetailsCommand.setFormulaCode(source.getFormula().getFormulaCode());
         }
-        if (source.getServiceType() != null) {
-            modelSpecificationsDetailsCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
-        }
+//        if (source.getServiceType() != null) {
+//            modelSpecificationsDetailsCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
+//        }
         if (source.getMaterialGroup() != null) {
             modelSpecificationsDetailsCommand.setMaterialGroupCode(source.getMaterialGroup().getMaterialGroupCode());
         }
@@ -64,7 +64,7 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setLineIndex(source.getLineIndex());
         modelSpecificationsDetailsCommand.setDeletionIndicator(source.getDeletionIndicator());
         modelSpecificationsDetailsCommand.setShortText(source.getShortText());
-        modelSpecificationsDetailsCommand.setDontUseFormula(source.getDontUseFormula());
+//        modelSpecificationsDetailsCommand.setDontUseFormula(source.getDontUseFormula());
         modelSpecificationsDetailsCommand.setGrossPrice(source.getGrossPrice());
         modelSpecificationsDetailsCommand.setOverFulfilmentPercentage(source.getOverFulfilmentPercentage());
         modelSpecificationsDetailsCommand.setPriceChangedAllowed(source.getPriceChangedAllowed());
@@ -72,13 +72,14 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setPricePerUnitOfMeasurement(source.getPricePerUnitOfMeasurement());
         modelSpecificationsDetailsCommand.setExternalServiceNumber(source.getExternalServiceNumber());
         modelSpecificationsDetailsCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
-        modelSpecificationsDetailsCommand.setCurrencyCode(source.getCurrencyCode());
-        if (source.getDontUseFormula() == true){
-            modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
-        }
-        else if (source.getDontUseFormula() == false) {
-            modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
-        }
+        modelSpecificationsDetailsCommand.setServiceTypeCode(source.getServiceTypeCode());
+        modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
+//        if (source.getDontUseFormula() == true){
+//            modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
+//        }
+//        else if (source.getDontUseFormula() == false) {
+//            modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
+//        }
         modelSpecificationsDetailsCommand.setNetValue(source.getGrossPrice() * modelSpecificationsDetailsCommand.getQuantity());
         modelSpecificationsDetailsCommand.setServiceText(source.getServiceText());
         modelSpecificationsDetailsCommand.setLineText(source.getLineText());

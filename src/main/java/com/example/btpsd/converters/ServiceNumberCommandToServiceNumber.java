@@ -53,12 +53,12 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
         serviceNumber.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
         serviceNumber.setDefaultUnitOfMeasurement(source.getDefaultUnitOfMeasurement());
         serviceNumber.setServiceTypeCode(source.getServiceTypeCode());
-        if (source.getFormulaCode() != null) {
-            Formula formula = new Formula();
-            formula.setFormulaCode(source.getFormulaCode());
-            serviceNumber.setFormula(formula);
-            formula.addServiceNumbers(serviceNumber);
-        }
+//        if (source.getFormulaCode() != null) {
+//            Formula formula = new Formula();
+//            formula.setFormulaCode(source.getFormulaCode());
+//            serviceNumber.setFormula(formula);
+//            formula.addServiceNumbers(serviceNumber);
+//        }
 //        if (source.getServiceTypeCode() != null) {
 //            ServiceType serviceType = new ServiceType();
 //            serviceType.setServiceTypeCode(source.getServiceTypeCode());
