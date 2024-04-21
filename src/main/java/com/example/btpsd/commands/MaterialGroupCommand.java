@@ -19,10 +19,4 @@ public class MaterialGroupCommand implements Serializable {
     private String code;
 
     private String description;
-
-    @JsonIgnore
-    private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
-
-    @JsonIgnore
-    private Set<ServiceNumberCommand> serviceNumberCommands = new HashSet<>();
 }

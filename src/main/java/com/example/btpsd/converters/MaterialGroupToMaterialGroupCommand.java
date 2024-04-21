@@ -29,14 +29,6 @@ public class MaterialGroupToMaterialGroupCommand implements Converter<MaterialGr
         materialGroupCommand.setMaterialGroupCode(source.getMaterialGroupCode());
         materialGroupCommand.setCode(source.getCode());
         materialGroupCommand.setDescription(source.getDescription());
-        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
-            source.getModelSpecificationsDetails()
-                    .forEach(modelSpecificationsDetails -> materialGroupCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
-        }
-        if (source.getServiceNumbers() != null && source.getServiceNumbers().size() > 0){
-            source.getServiceNumbers()
-                    .forEach(serviceNumber -> materialGroupCommand.getServiceNumberCommands().add(serviceNumberConverter.convert(serviceNumber)));
-        }
         return materialGroupCommand;
     }
 }

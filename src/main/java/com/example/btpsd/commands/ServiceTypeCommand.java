@@ -22,10 +22,4 @@ public class ServiceTypeCommand implements Serializable {
     private String description;
 
     private LocalDate lastChangeDate;
-
-//    @JsonIgnore
-//    private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
-
-//    @JsonIgnore
-//    private Set<ServiceNumberCommand> serviceNumberCommands = new HashSet<>();
 }

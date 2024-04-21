@@ -29,11 +29,6 @@ public class FormulaCommandToFormula implements Converter<FormulaCommand, Formul
                     .allowHostClassLookup(s -> true)
                     .option("js.ecmascript-version", "2022"));
 
-//    ScriptEngine engine = new ScriptEngineManager().getEngineByName("graal.js");
-
-//    ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
-//    ScriptEngine engine = scriptEngineManager.getEngineByName("JavaScript");
-
     @Synchronized
     @Nullable
     @Override
@@ -55,14 +50,6 @@ public class FormulaCommandToFormula implements Converter<FormulaCommand, Formul
             formula.setParameterDescriptions(source.getParameterDescriptions());
         }
         formula.setFormulaLogic(source.getFormulaLogic());
-//        for (int i = 0; i < source.getFormulaLogic().length(); i++)
-//        {
-//            if (source.getFormulaLogic().contains("π"))
-//            {
-//                formula.setFormulaLogic(String.valueOf(22/7));
-//            }
-//            else formula.setFormulaLogic(source.getFormulaLogic());
-//        }
         for (int i = 0; i < source.getTestParameters().size(); i++) {
             formula.setTestParameters(source.getTestParameters());
         }
@@ -74,14 +61,6 @@ public class FormulaCommandToFormula implements Converter<FormulaCommand, Formul
         } catch (ScriptException e) {
             throw new RuntimeException(e);
         }
-        if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {
-            source.getModelSpecificationsDetailsCommands()
-                    .forEach(modelSpecificationsDetailsCommand -> formula.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));
-        }
-//        if (source.getServiceNumberCommands() != null && source.getServiceNumberCommands().size() > 0) {
-//            source.getServiceNumberCommands()
-//                    .forEach(serviceNumberCommand -> formula.getServiceNumbers().add(serviceNumberConverter.convert(serviceNumberCommand)));
-//        }
         return formula;
     }
 }

@@ -26,18 +26,6 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
         }
 
         final ServiceNumber serviceNumber = new ServiceNumber();
-//        serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
-//        if (source.getServiceNumberCode() == null) {
-//            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
-//            Long min = 1L;
-//            Long max = 1000L;
-//            Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
-//            serviceNumber.setNoServiceNumber(randomWithRandomDataGenerator);
-//        }
-//        else {
-//            serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
-//        }
-//        serviceNumber.setNoServiceNumber(source.getNoServiceNumber());
         serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
         serviceNumber.setNoServiceNumber(source.getNoServiceNumber());
         serviceNumber.setSearchTerm(source.getSearchTerm());
@@ -53,24 +41,7 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
         serviceNumber.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
         serviceNumber.setDefaultUnitOfMeasurement(source.getDefaultUnitOfMeasurement());
         serviceNumber.setServiceTypeCode(source.getServiceTypeCode());
-//        if (source.getFormulaCode() != null) {
-//            Formula formula = new Formula();
-//            formula.setFormulaCode(source.getFormulaCode());
-//            serviceNumber.setFormula(formula);
-//            formula.addServiceNumbers(serviceNumber);
-//        }
-//        if (source.getServiceTypeCode() != null) {
-//            ServiceType serviceType = new ServiceType();
-//            serviceType.setServiceTypeCode(source.getServiceTypeCode());
-//            serviceNumber.setServiceType(serviceType);
-//            serviceType.addServiceNumbers(serviceNumber);
-//        }
-        if (source.getMaterialGroupCode() != null) {
-            MaterialGroup materialGroup= new MaterialGroup();
-            materialGroup.setMaterialGroupCode(source.getMaterialGroupCode());
-            serviceNumber.setMaterialGroup(materialGroup);
-            materialGroup.addServiceNumbers(serviceNumber);
-        }
+        serviceNumber.setMaterialGroupCode(source.getMaterialGroupCode());
         if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {
             source.getModelSpecificationsDetailsCommands()
                     .forEach(modelSpecificationsDetailsCommand -> serviceNumber.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));

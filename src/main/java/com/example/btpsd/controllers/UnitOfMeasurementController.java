@@ -10,7 +10,7 @@ import com.example.btpsd.repositories.UnitOfMeasurementRepository;
 import com.example.btpsd.services.UnitOfMeasurementService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import jakarta.persistence.ElementCollection;
 import jakarta.validation.constraints.NotNull;
@@ -36,11 +36,11 @@ public class UnitOfMeasurementController {
     @Autowired
     RestTemplateConfig restTemplateConfig;
 
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+//    @Autowired
+//    private RestTemplate restTemplate;
+//
+//    @Autowired
+//    private ObjectMapper objectMapper;
 
 //    @Autowired
 //    private dCloudRepository dCloudRepository;
@@ -84,7 +84,7 @@ public class UnitOfMeasurementController {
         JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/measurementsCloud"), String.valueOf(Charset.forName("UTF-8"))));
         JSONArray jsonObjectUnits = jsonFromURL.getJSONObject("d").getJSONArray("results");
 
-       return jsonObjectUnits.toString();
+       return jsonFromURL.toString();
     }
 
 //    @PostMapping("/measurements")

@@ -30,10 +30,6 @@ public class UnitOfMeasurementCommandToUnitOfMeasurement implements Converter<Un
         unitOfMeasurement.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         unitOfMeasurement.setCode(source.getCode());
         unitOfMeasurement.setDescription(source.getDescription());
-//        if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {
-//            source.getModelSpecificationsDetailsCommands()
-//                    .forEach(modelSpecificationsDetailsCommand -> unitOfMeasurement.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));
-//        }
         return unitOfMeasurement;
     }
 

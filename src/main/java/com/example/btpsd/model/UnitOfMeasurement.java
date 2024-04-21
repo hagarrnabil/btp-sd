@@ -31,14 +31,4 @@ public class UnitOfMeasurement implements Serializable {
     @NotNull
     private String description;
 
-//    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "unitOfMeasurement")
-//    @JsonIgnore
-//    private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
-
-
-//    public UnitOfMeasurement addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
-//        modelSpecificationsDetails.setUnitOfMeasurement(this);
-//        this.modelSpecificationsDetails.add(modelSpecificationsDetails);
-//        return this;
-//    }
 }

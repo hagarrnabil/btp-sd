@@ -22,7 +22,4 @@ public class UnitOfMeasurementCommand implements Serializable {
     private String code;
 
     private String description;
-
-//    @JsonIgnore
-//    private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
 }

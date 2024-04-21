@@ -52,25 +52,4 @@ public class Formula implements Serializable {
 
     private double result;
 
-
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "formula")
-    @JsonIgnore
-    private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
-
-//    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "formula")
-//    @JsonIgnore
-//    private Set<ServiceNumber> serviceNumbers = new HashSet<>();
-
-
-    public Formula addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails) {
-        modelSpecificationsDetails.setFormula(this);
-        this.modelSpecificationsDetails.add(modelSpecificationsDetails);
-        return this;
-    }
-
-//    public Formula addServiceNumbers(ServiceNumber serviceNumber) {
-//        serviceNumber.setFormula(this);
-//        this.serviceNumbers.add(serviceNumber);
-//        return this;
-//    }
 }

@@ -115,6 +115,14 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setUnitOfMeasurementCode(newModelSpecDetails.getUnitOfMeasurementCode());
             if (newModelSpecDetails.getServiceTypeCode() != oldModelSpecDetails.getServiceTypeCode())
                 oldModelSpecDetails.setServiceTypeCode(newModelSpecDetails.getServiceTypeCode());
+            if (newModelSpecDetails.getFormulaCode() != oldModelSpecDetails.getFormulaCode())
+                oldModelSpecDetails.setFormulaCode(newModelSpecDetails.getFormulaCode());
+            if (newModelSpecDetails.getMaterialGroupCode() != oldModelSpecDetails.getMaterialGroupCode())
+                oldModelSpecDetails.setMaterialGroupCode(newModelSpecDetails.getMaterialGroupCode());
+            if (newModelSpecDetails.getLineTypeCode() != oldModelSpecDetails.getLineTypeCode())
+                oldModelSpecDetails.setLineTypeCode(newModelSpecDetails.getLineTypeCode());
+            if (newModelSpecDetails.getPersonnelNumberCode() != oldModelSpecDetails.getPersonnelNumberCode())
+                oldModelSpecDetails.setPersonnelNumberCode(newModelSpecDetails.getPersonnelNumberCode());
             if (newModelSpecDetails.getServiceNumberCode() != null) {
                 ServiceNumber serviceNumber = new ServiceNumber();
                 serviceNumber.setServiceNumberCode(newModelSpecDetails.getServiceNumberCode());
@@ -126,42 +134,6 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 currency.setCurrencyCode(newModelSpecDetails.getCurrencyCode());
                 oldModelSpecDetails.setCurrency(currency);
                 currency.addModelSpecDetails(oldModelSpecDetails);
-            }
-            if (newModelSpecDetails.getFormulaCode() != null) {
-                Formula formula = new Formula();
-                formula.setFormulaCode(newModelSpecDetails.getFormulaCode());
-                oldModelSpecDetails.setFormula(formula);
-                formula.addModelSpecDetails(oldModelSpecDetails);
-            }
-            if (newModelSpecDetails.getPersonnelNumberCode() != null) {
-                PersonnelNumber personnelNumber = new PersonnelNumber();
-                personnelNumber.setPersonnelNumberCode(newModelSpecDetails.getPersonnelNumberCode());
-                oldModelSpecDetails.setPersonnelNumber(personnelNumber);
-                personnelNumber.addModelSpecDetails(oldModelSpecDetails);
-            }
-//            if (newModelSpecDetails.getServiceTypeCode() != null) {
-//                ServiceType serviceType = new ServiceType();
-//                serviceType.setServiceTypeCode(newModelSpecDetails.getServiceTypeCode());
-//                oldModelSpecDetails.setServiceType(serviceType);
-//                serviceType.addModelSpecDetails(oldModelSpecDetails);
-//            }
-            if (newModelSpecDetails.getMaterialGroupCode() != null) {
-                MaterialGroup materialGroup = new MaterialGroup();
-                materialGroup.setMaterialGroupCode(newModelSpecDetails.getMaterialGroupCode());
-                oldModelSpecDetails.setMaterialGroup(materialGroup);
-                materialGroup.addModelSpecDetails(oldModelSpecDetails);
-            }
-//            if (newModelSpecDetails.getUnitOfMeasurementCode() != null) {
-//                UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-//                unitOfMeasurement.setUnitOfMeasurementCode(Long.valueOf(newModelSpecDetails.getUnitOfMeasurementCode()));
-//                oldModelSpecDetails.setUnitOfMeasurement(unitOfMeasurement);
-//                unitOfMeasurement.addModelSpecDetails(oldModelSpecDetails);
-//            }
-            if (newModelSpecDetails.getLineTypeCode() != null) {
-                LineType lineType = new LineType();
-                lineType.setLineTypeCode(newModelSpecDetails.getLineTypeCode());
-                oldModelSpecDetails.setLineType(lineType);
-                lineType.addModelSpecDetails(oldModelSpecDetails);
             }
             return modelSpecificationsDetailsRepository.save(oldModelSpecDetails);
         }).orElseThrow(() -> new RuntimeException("Model Spec Details not found"));

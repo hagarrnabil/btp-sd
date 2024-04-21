@@ -29,24 +29,13 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
 
         final ModelSpecificationsDetailsCommand modelSpecificationsDetailsCommand = new ModelSpecificationsDetailsCommand();
         modelSpecificationsDetailsCommand.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
-        if (source.getPersonnelNumber() != null) {
-            modelSpecificationsDetailsCommand.setPersonnelNumberCode(source.getPersonnelNumber().getPersonnelNumberCode());
-        }
+        modelSpecificationsDetailsCommand.setPersonnelNumberCode(source.getPersonnelNumberCode());
+        modelSpecificationsDetailsCommand.setFormulaCode(source.getFormulaCode());
+        modelSpecificationsDetailsCommand.setMaterialGroupCode(source.getMaterialGroupCode());
+        modelSpecificationsDetailsCommand.setLineTypeCode(source.getLineTypeCode());
         if (source.getCurrency() != null) {
             modelSpecificationsDetailsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());
         }
-        if (source.getFormula() != null) {
-            modelSpecificationsDetailsCommand.setFormulaCode(source.getFormula().getFormulaCode());
-        }
-//        if (source.getServiceType() != null) {
-//            modelSpecificationsDetailsCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
-//        }
-        if (source.getMaterialGroup() != null) {
-            modelSpecificationsDetailsCommand.setMaterialGroupCode(source.getMaterialGroup().getMaterialGroupCode());
-        }
-//        if (source.getUnitOfMeasurement() != null) {
-//            modelSpecificationsDetailsCommand.setUnitOfMeasurementCode(String.valueOf(source.getUnitOfMeasurement().getUnitOfMeasurementCode()));
-//        }
         if (source.getServiceNumber() != null) {
             modelSpecificationsDetailsCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
@@ -57,14 +46,10 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
             Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
             modelSpecificationsDetailsCommand.setNoServiceNumber(randomWithRandomDataGenerator);
         }
-        if (source.getLineType() != null) {
-            modelSpecificationsDetailsCommand.setLineTypeCode(source.getLineType().getLineTypeCode());
-        }
         modelSpecificationsDetailsCommand.setSelectionCheckBox(source.getSelectionCheckBox());
         modelSpecificationsDetailsCommand.setLineIndex(source.getLineIndex());
         modelSpecificationsDetailsCommand.setDeletionIndicator(source.getDeletionIndicator());
         modelSpecificationsDetailsCommand.setShortText(source.getShortText());
-//        modelSpecificationsDetailsCommand.setDontUseFormula(source.getDontUseFormula());
         modelSpecificationsDetailsCommand.setGrossPrice(source.getGrossPrice());
         modelSpecificationsDetailsCommand.setOverFulfilmentPercentage(source.getOverFulfilmentPercentage());
         modelSpecificationsDetailsCommand.setPriceChangedAllowed(source.getPriceChangedAllowed());
@@ -74,12 +59,6 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         modelSpecificationsDetailsCommand.setServiceTypeCode(source.getServiceTypeCode());
         modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
-//        if (source.getDontUseFormula() == true){
-//            modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
-//        }
-//        else if (source.getDontUseFormula() == false) {
-//            modelSpecificationsDetailsCommand.setQuantity(source.getQuantity());
-//        }
         modelSpecificationsDetailsCommand.setNetValue(source.getGrossPrice() * modelSpecificationsDetailsCommand.getQuantity());
         modelSpecificationsDetailsCommand.setServiceText(source.getServiceText());
         modelSpecificationsDetailsCommand.setLineText(source.getLineText());

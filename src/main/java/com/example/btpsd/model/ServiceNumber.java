@@ -35,12 +35,10 @@ public class ServiceNumber implements Serializable {
     @NotNull
     private String searchTerm;
 
-//    private Long formulaCode;
-
     @NotNull
     private String serviceTypeCode;
 
-    private Long materialGroupCode;
+    private String materialGroupCode;
 
     @NotNull
     private String description;
@@ -69,15 +67,6 @@ public class ServiceNumber implements Serializable {
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
-
-//    @ManyToOne
-//    private Formula formula;
-
-//    @ManyToOne
-//    private ServiceType serviceType;
-
-    @ManyToOne
-    private MaterialGroup materialGroup;
 
 
     public ServiceNumber addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){

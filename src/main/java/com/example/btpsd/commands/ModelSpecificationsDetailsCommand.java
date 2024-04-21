@@ -17,14 +17,14 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
 
     private Long modelSpecDetailsCode;
     private Long currencyCode;
-    private Long formulaCode;
-    private Long personnelNumberCode;
+    private String formulaCode;
+    private String personnelNumberCode;
     private String serviceTypeCode;
-    private Long materialGroupCode;
+    private String materialGroupCode;
     private String unitOfMeasurementCode;
     private Long serviceNumberCode;
     private Long noServiceNumber;
-    private Long lineTypeCode;
+    private String lineTypeCode;
     private Boolean selectionCheckBox;
     private String lineIndex;
     private Boolean deletionIndicator;
@@ -44,7 +44,6 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private Boolean biddersLine;
     private Boolean supplementaryLine;
     private Boolean lotSizeForCostingIsOne;
-//    private Boolean dontUseFormula;
     private LocalDate lastChangeDate;
     @JsonIgnore
     private Set<ModelSpecificationsCommand> modelSpecificationsCommands = new HashSet<>();

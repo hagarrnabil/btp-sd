@@ -30,19 +30,4 @@ public class LineType implements Serializable {
     @NotNull
     private String description;
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "lineType")
-    @JsonIgnore
-    private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
-
-    public LineType(String code, String description, Set<ModelSpecificationsDetails> modelSpecificationsDetails) {
-        this.code = code;
-        this.description = description;
-        this.modelSpecificationsDetails = modelSpecificationsDetails;
-    }
-
-    public LineType addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails) {
-        modelSpecificationsDetails.setLineType(this);
-        this.modelSpecificationsDetails.add(modelSpecificationsDetails);
-        return this;
-    }
 }

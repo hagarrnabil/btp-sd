@@ -15,15 +15,15 @@ import java.util.Locale;
 @Configuration
 public class RestTemplateConfig {
 
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
-    @Bean
-    ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
+//    @Bean
+//    public RestTemplate restTemplate() {
+//        return new RestTemplate();
+//    }
+//
+//    @Bean
+//    ObjectMapper objectMapper() {
+//        return new ObjectMapper();
+//    }
 
 
 }

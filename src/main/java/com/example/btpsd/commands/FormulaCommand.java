@@ -39,7 +39,4 @@ public class FormulaCommand implements Serializable {
 
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
-
-//    @JsonIgnore
-//    private Set<ServiceNumberCommand> serviceNumberCommands = new HashSet<>();
 }

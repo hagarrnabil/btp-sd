@@ -20,6 +20,4 @@ public class PersonnelNumberCommand implements Serializable {
 
     private String description;
 
-    @JsonIgnore
-    private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
 }

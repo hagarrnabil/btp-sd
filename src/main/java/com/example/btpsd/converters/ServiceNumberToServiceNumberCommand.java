@@ -26,18 +26,6 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         }
 
         final ServiceNumberCommand serviceNumberCommand = new ServiceNumberCommand();
-//        serviceNumberCommand.setServiceNumberCode(source.getServiceNumberCode());
-//        if (source.getServiceNumberCode() == null) {
-//            RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
-//            Long min = 1L;
-//            Long max = 1000L;
-//            Long randomWithRandomDataGenerator = randomDataGenerator.nextLong(min, max);
-//            serviceNumberCommand.setNoServiceNumber(randomWithRandomDataGenerator);
-//        }
-//        else {
-//            serviceNumberCommand.setServiceNumberCode(source.getServiceNumberCode());
-//        }
-//        serviceNumberCommand.setNoServiceNumber(source.getNoServiceNumber());
         serviceNumberCommand.setServiceNumberCode(source.getServiceNumberCode());
         serviceNumberCommand.setNoServiceNumber(source.getNoServiceNumber());
         serviceNumberCommand.setSearchTerm(source.getSearchTerm());
@@ -53,15 +41,7 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         serviceNumberCommand.setToBeConvertedUnitOfMeasurement(source.getToBeConvertedUnitOfMeasurement());
         serviceNumberCommand.setDefaultUnitOfMeasurement(source.getDefaultUnitOfMeasurement());
         serviceNumberCommand.setServiceTypeCode(source.getServiceTypeCode());
-//        if (source.getFormula() != null) {
-//            serviceNumberCommand.setFormulaCode(source.getFormula().getFormulaCode());
-//        }
-        if (source.getMaterialGroup() != null) {
-            serviceNumberCommand.setMaterialGroupCode(source.getMaterialGroup().getMaterialGroupCode());
-        }
-//        if (source.getServiceType() != null) {
-//            serviceNumberCommand.setServiceTypeCode(source.getServiceType().getServiceTypeCode());
-//        }
+        serviceNumberCommand.setMaterialGroupCode(source.getMaterialGroupCode());
         if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
             source.getModelSpecificationsDetails()
                     .forEach(modelSpecificationsDetails -> serviceNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));

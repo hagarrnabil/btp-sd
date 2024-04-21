@@ -34,17 +34,17 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private String serviceTypeCode;
 
-    private Long materialGroupCode;
+    private String materialGroupCode;
 
-    private Long personnelNumberCode;
+    private String personnelNumberCode;
 
     private String unitOfMeasurementCode;
 
     private Long currencyCode;
 
-    private Long formulaCode;
+    private String formulaCode;
 
-    private Long lineTypeCode;
+    private String lineTypeCode;
 
     private Boolean selectionCheckBox;
 
@@ -92,8 +92,6 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Boolean lotSizeForCostingIsOne;
 
-//    private Boolean dontUseFormula;
-
     private LocalDate lastChangeDate;
 
 
@@ -104,27 +102,9 @@ public class ModelSpecificationsDetails implements Serializable {
     @ManyToOne
     private ServiceNumber serviceNumber;
 
-//    @ManyToOne
-//    private UnitOfMeasurement unitOfMeasurement;
-
-    @ManyToOne
-    private MaterialGroup materialGroup;
-
-//    @ManyToOne
-//    private ServiceType serviceType;
-
-    @ManyToOne
-    private PersonnelNumber personnelNumber;
-
     @NotNull
     @ManyToOne
     private Currency currency;
-
-    @ManyToOne
-    private Formula formula;
-
-    @ManyToOne
-    private LineType lineType;
 
 
     public ModelSpecificationsDetails addModelSpecifications(ModelSpecifications modelSpecifications){

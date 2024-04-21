@@ -26,10 +26,6 @@ public class LineTypeCommandToLineType implements Converter<LineTypeCommand, Lin
         lineType.setLineTypeCode(source.getLineTypeCode());
         lineType.setCode(source.getCode());
         lineType.setDescription(source.getDescription());
-        if (source.getModelSpecificationsDetailsCommands() != null && source.getModelSpecificationsDetailsCommands().size() > 0) {
-            source.getModelSpecificationsDetailsCommands()
-                    .forEach(modelSpecificationsDetailsCommand -> lineType.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));
-        }
         return lineType;
     }
 }

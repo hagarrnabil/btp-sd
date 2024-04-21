@@ -27,10 +27,6 @@ public class PersonnelNumberToPersonnelNumberCommand implements Converter<Person
         personnelNumberCommand.setPersonnelNumberCode(source.getPersonnelNumberCode());
         personnelNumberCommand.setCode(source.getCode());
         personnelNumberCommand.setDescription(source.getDescription());
-        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
-            source.getModelSpecificationsDetails()
-                    .forEach(modelSpecificationsDetails -> personnelNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
-        }
         return personnelNumberCommand;
     }
 
