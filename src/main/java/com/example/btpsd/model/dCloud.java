@@ -17,26 +17,26 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//@Entity
-//@Table(name = "dCloud")
+@Entity
+@Table(name = "dCloud")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 //@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class dCloud {
+public class dCloud implements Serializable{
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @JsonIgnore
-//    private Long dCloud;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
+    private Long dCloud;
 
     @ElementCollection
-    private Map<String, Object> d;
+    private List<String> d = new ArrayList<String>();
 
 //    @ElementCollection
 //    private List<resultsCloud> results;
 
-//    @ElementCollection
-//    private List<String> results = new ArrayList<String>();
+    @ElementCollection
+    private List<String> results = new ArrayList<String>();
 
 
 //    @JsonProperty("__metadata")

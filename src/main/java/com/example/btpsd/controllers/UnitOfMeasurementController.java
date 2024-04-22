@@ -83,9 +83,24 @@ public class UnitOfMeasurementController {
 
         JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/measurementsCloud"), String.valueOf(Charset.forName("UTF-8"))));
         JSONArray jsonObjectUnits = jsonFromURL.getJSONObject("d").getJSONArray("results");
+        JSONArray newJson = new JSONArray();
 
-       return jsonFromURL.toString();
+        for (int index=0, size = jsonObjectUnits.length(); index < size; index++) {
+
+            JSONObject objectInArray = jsonObjectUnits.getJSONObject(index);
+            String[] elementNames = JSONObject.getNames(objectInArray);
+            System.out.printf("%d ELEMENTS IN CURRENT OBJECT:\n", elementNames.length);
+            for (String elementName : elementNames) {
+                if (elementName.contains("UnitOfMeasure_1") || elementName.equals("UnitOfMeasure") || elementName.contains("__metadata")) {
+                    objectInArray.remove(elementName);
+                }
+            }
+            newJson.put(objectInArray);
+        }
+        return newJson.toString();
     }
+
+
 
 //    @PostMapping("/measurements")
 //    public String post() {
