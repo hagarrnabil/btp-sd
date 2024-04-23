@@ -16,7 +16,7 @@ public interface UnitOfMeasurementService {
 
     UnitOfMeasurementCommand saveUnitOfMeasurementCommand(UnitOfMeasurementCommand command);
 
-    UnitOfMeasurement updateUnitOfMeasurement(UnitOfMeasurementCommand newUnitOfMeasurementCommand, Long l);
+//    UnitOfMeasurement updateUnitOfMeasurement(UnitOfMeasurementCommand newUnitOfMeasurementCommand, Long l);
 
     UnitOfMeasurementCommand findUnitOfMeasurementCommandById(Long l);
 

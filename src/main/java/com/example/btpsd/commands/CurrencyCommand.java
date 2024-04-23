@@ -20,7 +20,4 @@ public class CurrencyCommand implements Serializable {
 
     private String description;
 
-    @JsonIgnore
-    private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
-
 }

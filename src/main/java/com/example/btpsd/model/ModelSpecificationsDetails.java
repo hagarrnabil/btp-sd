@@ -40,7 +40,7 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private String unitOfMeasurementCode;
 
-    private Long currencyCode;
+    private String currencyCode;
 
     private String formulaCode;
 
@@ -92,6 +92,7 @@ public class ModelSpecificationsDetails implements Serializable {
 
     private Boolean lotSizeForCostingIsOne;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate lastChangeDate;
 
 
@@ -101,10 +102,6 @@ public class ModelSpecificationsDetails implements Serializable {
 
     @ManyToOne
     private ServiceNumber serviceNumber;
-
-    @NotNull
-    @ManyToOne
-    private Currency currency;
 
 
     public ModelSpecificationsDetails addModelSpecifications(ModelSpecifications modelSpecifications){

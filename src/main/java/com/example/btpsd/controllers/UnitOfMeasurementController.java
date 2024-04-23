@@ -4,15 +4,9 @@ import com.example.btpsd.commands.UnitOfMeasurementCommand;
 import com.example.btpsd.config.RestTemplateConfig;
 import com.example.btpsd.converters.UnitOfMeasurementToUnitOfMeasurementCommand;
 import com.example.btpsd.model.UnitOfMeasurement;
-import com.example.btpsd.model.dCloud;
 import com.example.btpsd.repositories.UnitOfMeasurementRepository;
 //import com.example.btpsd.repositories.dCloudRepository;
 import com.example.btpsd.services.UnitOfMeasurementService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonElement;
-import jakarta.persistence.ElementCollection;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
@@ -20,9 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URL;
@@ -89,7 +81,6 @@ public class UnitOfMeasurementController {
 
             JSONObject objectInArray = jsonObjectUnits.getJSONObject(index);
             String[] elementNames = JSONObject.getNames(objectInArray);
-            System.out.printf("%d ELEMENTS IN CURRENT OBJECT:\n", elementNames.length);
             for (String elementName : elementNames) {
                 if (elementName.contains("UnitOfMeasure_1") || elementName.equals("UnitOfMeasure") || elementName.contains("__metadata")) {
                     objectInArray.remove(elementName);
@@ -97,7 +88,27 @@ public class UnitOfMeasurementController {
             }
             newJson.put(objectInArray);
         }
+
+        for (int index = 0; index < newJson.length(); index++)
+        {
+            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+            JSONObject objectInsideArray = newJson.getJSONObject(index);
+            String[] elementNames = JSONObject.getNames(objectInsideArray);
+            for (String elementName : elementNames) {
+                if (elementName.equals("UnitOfMeasureSAPCode")) {
+                    unitOfMeasurement.setUnitOfMeasureSAPCode(objectInsideArray.getString("UnitOfMeasureSAPCode"));
+                } else if (elementName.equals("UnitOfMeasureLongName")) {
+                    unitOfMeasurement.setUnitOfMeasureLongName(objectInsideArray.getString("UnitOfMeasureLongName"));
+                }
+                else {
+                    unitOfMeasurement.setUnitOfMeasureName(objectInsideArray.getString("UnitOfMeasureName"));
+                }
+                index++;
+                unitOfMeasurementRepository.save(unitOfMeasurement);
+            }
+        }
         return newJson.toString();
+//        return unitOfMeasurementRepository.findAll();
     }
 
 
@@ -160,19 +171,19 @@ public class UnitOfMeasurementController {
         unitOfMeasurementService.deleteById(unitOfMeasurementCode);
     }
 
-    @PutMapping
-    @RequestMapping("/measurements/{unitOfMeasurementCode}")
-    @Transactional
-    UnitOfMeasurementCommand updateUomCommand(@RequestBody UnitOfMeasurementCommand newUomCommand, @PathVariable Long unitOfMeasurementCode) {
+//    @PutMapping
+//    @RequestMapping("/measurements/{unitOfMeasurementCode}")
+//    @Transactional
+//    UnitOfMeasurementCommand updateUomCommand(@RequestBody UnitOfMeasurementCommand newUomCommand, @PathVariable Long unitOfMeasurementCode) {
+//
+//        UnitOfMeasurementCommand command = unitOfMeasurementToUnitOfMeasurementCommand.convert(unitOfMeasurementService.updateUnitOfMeasurement(newUomCommand, unitOfMeasurementCode));
+//        return command;
+//    }
 
-        UnitOfMeasurementCommand command = unitOfMeasurementToUnitOfMeasurementCommand.convert(unitOfMeasurementService.updateUnitOfMeasurement(newUomCommand, unitOfMeasurementCode));
-        return command;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/measurements/search")
-    @ResponseBody
-    public List<UnitOfMeasurement> Search(@RequestParam String keyword) {
-
-        return unitOfMeasurementRepository.search(keyword);
-    }
+//    @RequestMapping(method = RequestMethod.GET, value = "/measurements/search")
+//    @ResponseBody
+//    public List<UnitOfMeasurement> Search(@RequestParam String keyword) {
+//
+//        return unitOfMeasurementRepository.search(keyword);
+//    }
 }

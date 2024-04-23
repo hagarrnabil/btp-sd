@@ -1,5 +1,6 @@
 package com.example.btpsd.commands;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,5 +23,6 @@ public class ModelSpecificationsCommand implements Serializable {
     private Boolean serviceSelection;
     private String description;
     private String searchTerm;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate lastChangeDate;
 }

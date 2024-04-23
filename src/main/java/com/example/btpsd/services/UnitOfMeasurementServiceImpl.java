@@ -67,18 +67,18 @@ public class UnitOfMeasurementServiceImpl implements UnitOfMeasurementService{
 
     }
 
-    @Override
-    public UnitOfMeasurement updateUnitOfMeasurement(UnitOfMeasurementCommand newUnitOfMeasurementCommand, Long l) {
-
-        return unitOfMeasurementRepository.findById(l).map(oldUOM -> {
-            if (newUnitOfMeasurementCommand.getCode() != oldUOM.getCode())
-                oldUOM.setCode(newUnitOfMeasurementCommand.getCode());
-            if (newUnitOfMeasurementCommand.getDescription() != oldUOM.getDescription())
-                oldUOM.setDescription(newUnitOfMeasurementCommand.getDescription());
-            return unitOfMeasurementRepository.save(oldUOM);
-        }).orElseThrow(() -> new RuntimeException("Unit Of Measurement not found"));
-
-    }
+//    @Override
+//    public UnitOfMeasurement updateUnitOfMeasurement(UnitOfMeasurementCommand newUnitOfMeasurementCommand, Long l) {
+//
+//        return unitOfMeasurementRepository.findById(l).map(oldUOM -> {
+//            if (newUnitOfMeasurementCommand.getUnitOfMeasureLongName() != oldUOM.getCode())
+//                oldUOM.setCode(newUnitOfMeasurementCommand.getCode());
+//            if (newUnitOfMeasurementCommand.getDescription() != oldUOM.getDescription())
+//                oldUOM.setDescription(newUnitOfMeasurementCommand.getDescription());
+//            return unitOfMeasurementRepository.save(oldUOM);
+//        }).orElseThrow(() -> new RuntimeException("Unit Of Measurement not found"));
+//
+//    }
 
     @Override
     @Transactional

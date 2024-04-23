@@ -1,5 +1,6 @@
 package com.example.btpsd.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
@@ -44,11 +45,9 @@ public class ModelSpecifications implements Serializable {
 
     private String searchTerm;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate lastChangeDate;
 
     @ManyToOne
     private ModelSpecificationsDetails modelSpecificationsDetails;
-
-//    @ManyToOne
-//    private Currency currency;
 }

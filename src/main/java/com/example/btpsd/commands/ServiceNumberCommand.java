@@ -1,6 +1,7 @@
 package com.example.btpsd.commands;
 
 import com.example.btpsd.model.UnitOfMeasurement;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.ManyToOne;
@@ -43,6 +44,7 @@ public class ServiceNumberCommand implements Serializable {
 
     private Integer convertedNumber;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate lastChangeDate;
 
     private String serviceText;

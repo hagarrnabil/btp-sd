@@ -33,9 +33,7 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         modelSpecificationsDetailsCommand.setFormulaCode(source.getFormulaCode());
         modelSpecificationsDetailsCommand.setMaterialGroupCode(source.getMaterialGroupCode());
         modelSpecificationsDetailsCommand.setLineTypeCode(source.getLineTypeCode());
-        if (source.getCurrency() != null) {
-            modelSpecificationsDetailsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());
-        }
+        modelSpecificationsDetailsCommand.setCurrencyCode(source.getCurrencyCode());
         if (source.getServiceNumber() != null) {
             modelSpecificationsDetailsCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }

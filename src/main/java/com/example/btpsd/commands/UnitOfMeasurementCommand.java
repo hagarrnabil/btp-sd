@@ -19,7 +19,10 @@ public class UnitOfMeasurementCommand implements Serializable {
 
     private Long unitOfMeasurementCode;
 
-    private String code;
+    private String UnitOfMeasureSAPCode;
 
-    private String description;
+    //    @NotNull
+    private String UnitOfMeasureLongName;
+
+    private String UnitOfMeasureName;
 }

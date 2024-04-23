@@ -24,11 +24,13 @@ public class UnitOfMeasurement implements Serializable {
     private Long unitOfMeasurementCode;
 
 
-    @Column(unique = true, columnDefinition = "char(225)", nullable = false)
-    @Length(max = 225)
-    private String code;
+//    @Column(unique = true, columnDefinition = "char(225)", nullable = false)
+//    @Length(max = 225)
+    private String UnitOfMeasureSAPCode;
 
-    @NotNull
-    private String description;
+//    @NotNull
+    private String UnitOfMeasureLongName;
+
+    private String UnitOfMeasureName;
 
 }

@@ -1,5 +1,6 @@
 package com.example.btpsd.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -53,11 +54,12 @@ public class ServiceNumber implements Serializable {
 
     private Integer convertedNumber;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate lastChangeDate;
 
     private String serviceText;
 
-    @NotNull
+//    @NotNull
     private String baseUnitOfMeasurement;
 
     private String toBeConvertedUnitOfMeasurement;

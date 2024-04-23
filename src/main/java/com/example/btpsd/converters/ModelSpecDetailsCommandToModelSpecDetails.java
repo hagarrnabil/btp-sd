@@ -33,12 +33,7 @@ ModelSpecDetailsCommandToModelSpecDetails implements Converter<ModelSpecificatio
         modelSpecificationsDetails.setFormulaCode(source.getFormulaCode());
         modelSpecificationsDetails.setMaterialGroupCode(source.getMaterialGroupCode());
         modelSpecificationsDetails.setLineTypeCode(source.getLineTypeCode());
-        if (source.getCurrencyCode() != null) {
-            Currency currency = new Currency();
-            currency.setCurrencyCode(source.getCurrencyCode());
-            modelSpecificationsDetails.setCurrency(currency);
-            currency.addModelSpecDetails(modelSpecificationsDetails);
-        }
+        modelSpecificationsDetails.setCurrencyCode(source.getCurrencyCode());
         if (source.getServiceNumberCode() != null) {
             ServiceNumber serviceNumber = new ServiceNumber();
             serviceNumber.setServiceNumberCode(source.getServiceNumberCode());

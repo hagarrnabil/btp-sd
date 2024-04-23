@@ -1,25 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql.sd-dev.svc.cluster.local:3306/mysql?allowPublicKeyRetrieval=true
+    username: admin
+    password: P@ssword
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: mysql
+    show-sql: true
+
+  sql:
+    init:
+      mode: always
+
 #spring:
 #  datasource:
-#    url: jdbc:mysql://mysql.trial.svc.cluster.local:3306/mysql
-#    username: admin
-#    password: P@ssword
+#    url: jdbc:postgresql://postgres.trial.svc.cluster.local:5432/postgres
+#    username: postgres
+#    password: password
 #  jpa:
 #    hibernate:
 #      ddl-auto: create-drop
-#
-#    database-platform: org.hibernate.dialect.MySQL8Dialect
-#    database: mysql
-#    show-sql: true
-#
-#
-
-spring:
-  datasource:
-    url: jdbc:postgresql://postgres.trial.svc.cluster.local:5432/postgres
-    username: postgres
-    password: password
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    properties.hibernate:
-      .hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+#    properties.hibernate:
+#      .hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect

@@ -1,5 +1,6 @@
 package com.example.btpsd.commands;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.Set;
 public class ModelSpecificationsDetailsCommand implements Serializable {
 
     private Long modelSpecDetailsCode;
-    private Long currencyCode;
+    private String currencyCode;
     private String formulaCode;
     private String personnelNumberCode;
     private String serviceTypeCode;
@@ -44,6 +45,7 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
     private Boolean biddersLine;
     private Boolean supplementaryLine;
     private Boolean lotSizeForCostingIsOne;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate lastChangeDate;
     @JsonIgnore
     private Set<ModelSpecificationsCommand> modelSpecificationsCommands = new HashSet<>();

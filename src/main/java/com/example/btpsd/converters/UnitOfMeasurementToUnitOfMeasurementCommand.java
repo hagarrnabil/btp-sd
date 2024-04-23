@@ -28,8 +28,9 @@ public class UnitOfMeasurementToUnitOfMeasurementCommand implements Converter<Un
 
         final UnitOfMeasurementCommand unitOfMeasurementCommand = new UnitOfMeasurementCommand();
         unitOfMeasurementCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
-        unitOfMeasurementCommand.setCode(source.getCode());
-        unitOfMeasurementCommand.setDescription(source.getDescription());
+        unitOfMeasurementCommand.setUnitOfMeasureSAPCode(source.getUnitOfMeasureSAPCode());
+        unitOfMeasurementCommand.setUnitOfMeasureLongName(source.getUnitOfMeasureLongName());
+        unitOfMeasurementCommand.setUnitOfMeasureName(source.getUnitOfMeasureName());
         return unitOfMeasurementCommand;
     }
 

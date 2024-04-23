@@ -123,17 +123,13 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setLineTypeCode(newModelSpecDetails.getLineTypeCode());
             if (newModelSpecDetails.getPersonnelNumberCode() != oldModelSpecDetails.getPersonnelNumberCode())
                 oldModelSpecDetails.setPersonnelNumberCode(newModelSpecDetails.getPersonnelNumberCode());
+            if (newModelSpecDetails.getCurrencyCode() != oldModelSpecDetails.getCurrencyCode())
+                oldModelSpecDetails.setCurrencyCode(newModelSpecDetails.getCurrencyCode());
             if (newModelSpecDetails.getServiceNumberCode() != null) {
                 ServiceNumber serviceNumber = new ServiceNumber();
                 serviceNumber.setServiceNumberCode(newModelSpecDetails.getServiceNumberCode());
                 oldModelSpecDetails.setServiceNumber(serviceNumber);
                 serviceNumber.addModelSpecDetails(oldModelSpecDetails);
-            }
-            if (newModelSpecDetails.getCurrencyCode() != null) {
-                Currency currency = new Currency();
-                currency.setCurrencyCode(newModelSpecDetails.getCurrencyCode());
-                oldModelSpecDetails.setCurrency(currency);
-                currency.addModelSpecDetails(oldModelSpecDetails);
             }
             return modelSpecificationsDetailsRepository.save(oldModelSpecDetails);
         }).orElseThrow(() -> new RuntimeException("Model Spec Details not found"));
