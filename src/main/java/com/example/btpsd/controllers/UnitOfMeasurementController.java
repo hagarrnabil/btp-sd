@@ -14,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -71,8 +72,9 @@ public class UnitOfMeasurementController {
 
     @GetMapping("/measurements")
     @ResponseBody
-    public String All() throws JSONException, IOException {
+    public String All(@RequestParam Locale lang) throws JSONException, IOException {
 
+        LocaleContextHolder.getLocale();
         JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/measurementsCloud"), String.valueOf(Charset.forName("UTF-8"))));
         JSONArray jsonObjectUnits = jsonFromURL.getJSONObject("d").getJSONArray("results");
         JSONArray newJson = new JSONArray();

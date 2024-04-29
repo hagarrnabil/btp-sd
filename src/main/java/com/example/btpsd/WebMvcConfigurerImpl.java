@@ -2,8 +2,10 @@ package com.example.btpsd;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -26,11 +28,19 @@ public class WebMvcConfigurerImpl extends WebMvcConfigurationSupport {
 //    }
 
     @Bean
-    public LocaleResolver Localeresolver() {
-        AcceptHeaderLocaleResolver ahlr = new AcceptHeaderLocaleResolver();
-        ahlr.setDefaultLocale(Locale.ENGLISH);
-        return ahlr;
+    public LocaleResolver localeResolver()
+    {
+        final SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+        localeResolver.setDefaultLocale(new Locale("en", "US"));
+        return localeResolver;
     }
+
+//    @Bean
+//    public LocaleResolver Localeresolver() {
+//        AcceptHeaderLocaleResolver ahlr = new AcceptHeaderLocaleResolver();
+//        ahlr.setDefaultLocale(Locale.ENGLISH);
+//        return ahlr;
+//    }
 
     @Bean
     public LocaleChangeInterceptor LocaleChangeInterceptor() {
@@ -43,7 +53,5 @@ public class WebMvcConfigurerImpl extends WebMvcConfigurationSupport {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(LocaleChangeInterceptor());
     }
-
-
-
+    
 }
