@@ -11,9 +11,8 @@ spring:
     allow-bean-definition-overriding: true
 
   messages:
-    basename: messages,config.i18n.messages
+    fallback-to-system-locale: true
 
-#  mvc:
 #    format:
 #      date: dd/MM/yyyy
 

@@ -72,7 +72,7 @@ public class UnitOfMeasurementController {
 
     @GetMapping("/measurements")
     @ResponseBody
-    public String All(@RequestParam Locale lang) throws JSONException, IOException {
+    public String All(@RequestParam Locale locale) throws JSONException, IOException {
 
         LocaleContextHolder.getLocale();
         JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/measurementsCloud"), String.valueOf(Charset.forName("UTF-8"))));
@@ -104,6 +104,13 @@ public class UnitOfMeasurementController {
                 }
                 else {
                     unitOfMeasurement.setUnitOfMeasureName(objectInsideArray.getString("UnitOfMeasureName"));
+                }
+
+                for(int j = 0; j<objectInsideArray.length(); j++){
+                    if(objectInsideArray.getString(elementName).matches("^\\w+$"))
+                    {
+                        objectInsideArray.remove(String.valueOf(j));
+                    }
                 }
                 index++;
                 unitOfMeasurementRepository.save(unitOfMeasurement);
