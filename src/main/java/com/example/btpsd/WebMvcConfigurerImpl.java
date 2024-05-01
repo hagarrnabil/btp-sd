@@ -19,13 +19,14 @@ import java.util.Locale;
 
 @Configuration
 public class WebMvcConfigurerImpl extends WebMvcConfigurationSupport {
+    
 
-//    @Bean
-//    public LocaleResolver LocaleResolver() {
-//        SessionLocaleResolver slr = new SessionLocaleResolver();
-//        slr.setDefaultLocale(Locale.US);
-//        return slr;
-//    }
+    @Bean
+    public LocaleResolver LocaleResolver() {
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        slr.setDefaultLocale(Locale.US);
+        return slr;
+    }
 
     @Bean
     public LocaleResolver localeResolver()
@@ -35,17 +36,10 @@ public class WebMvcConfigurerImpl extends WebMvcConfigurationSupport {
         return localeResolver;
     }
 
-//    @Bean
-//    public LocaleResolver Localeresolver() {
-//        AcceptHeaderLocaleResolver ahlr = new AcceptHeaderLocaleResolver();
-//        ahlr.setDefaultLocale(Locale.ENGLISH);
-//        return ahlr;
-//    }
-
     @Bean
     public LocaleChangeInterceptor LocaleChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("lang");
+        lci.setParamName("language");
         return lci;
     }
 
