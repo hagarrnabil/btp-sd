@@ -5,29 +5,31 @@ spring:
   datasource:
     url: jdbc:h2:mem:testdb
 
-
-  main:
-    allow-circular-references: true
-    allow-bean-definition-overriding: true
-
-  messages:
-    fallback-to-system-locale: true
-
-#    format:
-#      date: dd/MM/yyyy
-
 #spring:
 #  datasource:
-#    url: jdbc:postgresql://172.17.0.8:5432/postgres
-#    username: postgres
-#    password: password
+#    url: jdbc:mysql://172.17.0.2:3306/mysql
+#    username: admin
+#    password: P@ssword
 #  jpa:
 #    hibernate:
 #      ddl-auto: create-drop
 #
-#    properties.hibernate:
-#      .hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
-
 #    database-platform: org.hibernate.dialect.MySQL8Dialect
 #    database: mysql
 #    show-sql: true
+
+    #    properties.hibernate:
+    #      .hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+
+
+    #  main:
+    #    allow-circular-references: true
+    #    allow-bean-definition-overriding: true
+    #
+    #  messages:
+    #    fallback-to-system-locale: true
+
+    #    format:
+    #      date: dd/MM/yyyy

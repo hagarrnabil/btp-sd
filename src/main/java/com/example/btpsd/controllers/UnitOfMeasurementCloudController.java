@@ -24,15 +24,15 @@ public class UnitOfMeasurementCloudController {
     @GetMapping("/measurementsCloud")
     private StringBuilder sendingGetRequest() throws Exception {
 
-        String urlString = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/YY1_UOM_CDS/YY1_UOM?$format=json";
+        String urlString = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/YY1_UOM4_CDS/YY1_UOM4?$format=json";
 
         URL url = new URL(urlString);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
         con.setRequestMethod("GET");
         con.setRequestProperty("Content-Type", "*/*");
-        String user = "CU_UOM";
-        String password = "CgAHz8WybHmmnybVCPMuYJlBjXMLjESQp\\YmNLAa";
+        String user = "UOM_USER4";
+        String password = "s3ZhGnQXEymrUcgCPXR\\ZBPgDAeKYbxLEaozZQPv";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);

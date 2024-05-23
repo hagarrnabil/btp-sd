@@ -15,9 +15,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.*;
+import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.*;
@@ -72,11 +77,28 @@ public class UnitOfMeasurementController {
 
     @GetMapping("/measurements")
     @ResponseBody
-    public String All() throws JSONException, IOException {
+    public String All() throws JSONException, IOException, URISyntaxException {
 
-        Locale locale = LocaleContextHolder.getLocale();
-        JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/measurementsCloud"), String.valueOf(Charset.forName("UTF-8"))));
-        JSONArray jsonObjectUnits = jsonFromURL.getJSONObject("d").getJSONArray("results");
+//        Locale locale = LocaleContextHolder.getLocale();
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        String uri = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/YY1_UOM4_CDS/YY1_UOM4?$format=json";
+        String user = "UOM_USER4";
+        String password = "s3ZhGnQXEymrUcgCPXR\\ZBPgDAeKYbxLEaozZQPv";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+
+        restTemplate.getInterceptors().add(
+                new BasicAuthenticationInterceptor(user, password));
+
+        JSONObject result = new JSONObject(restTemplate.exchange( uri, HttpMethod.GET, entity, JSONObject.class).getBody());
+
+
+//
+//        JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/measurementsCloud"), String.valueOf(Charset.forName("UTF-8"))));
+        JSONArray jsonObjectUnits = result.getJSONObject("d").getJSONArray("results");
         JSONArray newJson = new JSONArray();
 
         for (int index=0, size = jsonObjectUnits.length(); index < size; index++) {
@@ -91,30 +113,25 @@ public class UnitOfMeasurementController {
             newJson.put(objectInArray);
         }
 
-//        for (int j = 0; j< newJson.length(); j++){
-//                if(newJson.getJSONObject(j).similar("[a-zA-Z]+")) {
-//                    newJson.remove(j);
-//                }
-//        }
 
-        for (int index = 0; index < newJson.length(); index++)
-        {
-            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
-            JSONObject objectInsideArray = newJson.getJSONObject(index);
-            String[] elementNames = JSONObject.getNames(objectInsideArray);
-            for (String elementName : elementNames) {
-                if (elementName.equals("UnitOfMeasureSAPCode")) {
-                    unitOfMeasurement.setUnitOfMeasureSAPCode(objectInsideArray.getString("UnitOfMeasureSAPCode"));
-                } else if (elementName.equals("UnitOfMeasureLongName")) {
-                    unitOfMeasurement.setUnitOfMeasureLongName(objectInsideArray.getString("UnitOfMeasureLongName"));
-                }
-                else {
-                    unitOfMeasurement.setUnitOfMeasureName(objectInsideArray.getString("UnitOfMeasureName"));
-                }
-                index++;
-                unitOfMeasurementRepository.save(unitOfMeasurement);
-            }
-        }
+//        for (int index = 0; index < newJson.length(); index++)
+//        {
+//            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+//            JSONObject objectInsideArray = newJson.getJSONObject(index);
+//            String[] elementNames = JSONObject.getNames(objectInsideArray);
+//            for (String elementName : elementNames) {
+//                if (elementName.equals("UnitOfMeasureSAPCode")) {
+//                    unitOfMeasurement.setUnitOfMeasureSAPCode(objectInsideArray.getString("UnitOfMeasureSAPCode"));
+//                } else if (elementName.equals("UnitOfMeasureLongName")) {
+//                    unitOfMeasurement.setUnitOfMeasureLongName(objectInsideArray.getString("UnitOfMeasureLongName"));
+//                }
+//                else {
+//                    unitOfMeasurement.setUnitOfMeasureName(objectInsideArray.getString("UnitOfMeasureName"));
+//                }
+//                index++;
+//                unitOfMeasurementRepository.save(unitOfMeasurement);
+//            }
+//        }
         return newJson.toString();
 //        return unitOfMeasurementRepository.findAll();
     }
