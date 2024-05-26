@@ -21,7 +21,6 @@ public class UnitOfMeasurementCommand implements Serializable {
 
     private String UnitOfMeasureSAPCode;
 
-    //    @NotNull
     private String UnitOfMeasureLongName;
 
     private String UnitOfMeasureName;

@@ -16,13 +16,21 @@ import java.util.List;
 public class ModelSpecificationsCommand implements Serializable {
 
     private Long modelSpecCode;
+
     private List<Long> modelSpecDetailsCode = new ArrayList<Long>();
+
     private String currencyCode;
+
     private String modelServSpec;
+
     private Boolean blockingIndicator;
+
     private Boolean serviceSelection;
+
     private String description;
+
     private String searchTerm;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate lastChangeDate;
 }

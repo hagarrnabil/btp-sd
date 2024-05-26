@@ -28,9 +28,6 @@ public class ModelSpecificationsToModelSpecificationsCommand implements Converte
         for (int i = 0; i < source.getModelSpecDetailsCode().size(); i++) {
                 modelSpecificationsCommand.setModelSpecDetailsCode(source.getModelSpecDetailsCode());
         }
-//        if (source.getCurrency() != null) {
-//            modelSpecificationsCommand.setCurrencyCode(source.getCurrency().getCurrencyCode());
-//        }
         modelSpecificationsCommand.setCurrencyCode(source.getCurrencyCode());
         modelSpecificationsCommand.setModelServSpec(source.getModelServSpec());
         modelSpecificationsCommand.setBlockingIndicator(source.getBlockingIndicator());

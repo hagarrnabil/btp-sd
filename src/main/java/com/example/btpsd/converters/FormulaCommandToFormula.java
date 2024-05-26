@@ -19,9 +19,6 @@ import javax.script.ScriptException;
 @Component
 public class FormulaCommandToFormula implements Converter<FormulaCommand, Formula> {
 
-    private final ModelSpecDetailsCommandToModelSpecDetails modelSpecDetailsConverter;
-
-    private final ServiceNumberCommandToServiceNumber serviceNumberConverter;
 
     ScriptEngine engine = GraalJSScriptEngine.create(null,
             Context.newBuilder("js")

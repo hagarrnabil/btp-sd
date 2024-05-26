@@ -12,9 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ServiceTypeToServiceTypeCommand implements Converter<ServiceType, ServiceTypeCommand> {
 
-    private final ModelSpecDetailsToModelSpecDetailsCommand modelSpecDetailsConverter;
-
-    private final ServiceNumberToServiceNumberCommand serviceNumberConverter;
 
     @Synchronized
     @Nullable

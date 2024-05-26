@@ -12,10 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class UnitOfMeasurementToUnitOfMeasurementCommand implements Converter<UnitOfMeasurement, UnitOfMeasurementCommand> {
 
-    private final ModelSpecDetailsToModelSpecDetailsCommand modelSpecDetailsConverter;
-
-    private final FormulaToFormulaCommand formulaConverter;
-
 
     @Synchronized
     @Nullable

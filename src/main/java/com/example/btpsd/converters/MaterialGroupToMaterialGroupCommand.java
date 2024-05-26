@@ -12,9 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class MaterialGroupToMaterialGroupCommand implements Converter<MaterialGroup, MaterialGroupCommand> {
 
-    private final ModelSpecDetailsToModelSpecDetailsCommand modelSpecDetailsConverter;
-
-    private final ServiceNumberToServiceNumberCommand serviceNumberConverter;
 
     @Synchronized
     @Nullable

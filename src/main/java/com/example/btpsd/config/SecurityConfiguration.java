@@ -53,103 +53,43 @@ public class SecurityConfiguration {
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, JpaUserDetailsService jpaUserDetailsService)
             throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
+
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder
                 .userDetailsService(jpaUserDetailsService)
-                .passwordEncoder(passwordEncoder())
-                .and()
-                .build();
+                .passwordEncoder(passwordEncoder());
+        return authenticationManagerBuilder.build();
     }
 
 
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsService(BCryptPasswordEncoder bCryptPasswordEncoder) {
-//
-//        return new InMemoryUserDetailsManager(
-//                User.withUsername("user").password(bCryptPasswordEncoder.encode("1234")).roles("USER").build(),
-//                User.withUsername("salesAdmin").password(bCryptPasswordEncoder.encode("1234")).roles("SALESADMIN").build(),
-//                User.withUsername("admin").password(bCryptPasswordEncoder.encode("1234")).roles("ADMIN").build()
-//        );
-//    }
-
-//    @Bean
-//    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/iasusers");
+        return (web) -> web.ignoring().requestMatchers("/iasusers","measurementsCloud");
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // @formatter:off
-        http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+        http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz ->
-                        authz.requestMatchers("/companies/*").hasRole("ADMIN")
-                                .requestMatchers("/locations/*").hasRole("USER")
-                                .requestMatchers("/profits/*").hasRole("USER")
-                                .requestMatchers("/projects/*").hasRole("USER")
-                                .requestMatchers("/buildings/*").hasRole("USER")
-                                .requestMatchers("/buildingtypes/*").hasRole("USER")
-                                .requestMatchers("/units/*").hasRole("USER")
-                                .requestMatchers("/unitorientations/*").hasRole("USER")
-                                .requestMatchers("/unitfixture/*").hasRole("USER")
-                                .requestMatchers("/unitstatuses/*").hasRole("USER")
-                                .requestMatchers("/unitviews/*").hasRole("USER")
-                                .requestMatchers("/usagetype/*").hasRole("USER")
-                                .requestMatchers("/unitsubtypes/*").hasRole("USER")
-                                .requestMatchers("/unitfloors/*").hasRole("USER")
-                                .requestMatchers("/areas/*").hasRole("USER")
-                                .requestMatchers("/projectareas/*").hasRole("USER")
-                                .requestMatchers("/buildingareas/*").hasRole("USER")
-                                .requestMatchers("/unitareas/*").hasRole("USER")
-                                .requestMatchers("/measurements/*").hasRole("USER")
+                        authz.requestMatchers("/measurements/*").hasRole("USER")
+                                .requestMatchers("/formulas/*").hasRole("USER")
+                                .requestMatchers("/linetypes/*").hasRole("USER")
+                                .requestMatchers("/materialgroups/*").hasRole("USER")
+                                .requestMatchers("/modelspecs/*").hasRole("USER")
+                                .requestMatchers("/modelspecdetails/*").hasRole("USER")
+                                .requestMatchers("/personnelnumbers/*").hasRole("USER")
+                                .requestMatchers("/servicenumbers/*").hasRole("USER")
+                                .requestMatchers("/servicetypes/*").hasRole("USER")
                                 .requestMatchers("/*").authenticated()
                                 .anyRequest().denyAll())
-                .oauth2ResourceServer()
-                .jwt()
-                .jwtAuthenticationConverter(new MyCustomHybridTokenAuthenticationConverter());
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(new MyCustomHybridTokenAuthenticationConverter())));
 
-        http.csrf().disable();
-//        http.csrf().ignoringRequestMatchers("/companies/*","/locations/*","/profits/*","/projects/*",
-//                "/buildings/*","/buildingtypes/*","/units/*","/unitorientations/*","/unitfixture/*",
-//                "/unitstatuses/*","/unitviews/*","/usagetype/*","/unitsubtypes/*","/unitfloors/*","/areas/*",
-//                "/projectareas/*","/buildingareas/*","/unitareas/*","/measurements/*","/iasusers/*");
-
+        http.csrf(csrf -> csrf.disable());
         return http.build();
     }
 
 
-//    @Configuration
-//    public class CustomClaimsConfiguration {
-//        @Bean
-//        public OAuth2TokenCustomizer<JwtEncodingContext> jwtTokenCustomizer() {
-//            return (context) -> {
-//                if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
-//                    context.getClaims().claims((claims) -> {
-//                        claims.put("claim-1", "value-1");
-//                        claims.put("claim-2", "value-2");
-//                    });
-//                }
-//            };
-//        }
-//    }
-
-//    @Bean
-//    OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
-//        return context -> {
-//            if (context.getTokenType() == OAuth2TokenType.ACCESS_TOKEN) {
-//                Authentication principal = context.getPrincipal();
-//                Set<String> authorities = principal.getAuthorities().stream()
-//                        .map(GrantedAuthority::getAuthority)
-//                        .collect(Collectors.toSet());
-//                context.getClaims().claim("roles", authorities);
-//            }
-//        };
-//    }
 
     /**
      * Workaround for hybrid use case until Cloud Authorization Service is globally available.

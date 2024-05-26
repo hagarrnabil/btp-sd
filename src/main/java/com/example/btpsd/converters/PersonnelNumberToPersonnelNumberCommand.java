@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersonnelNumberToPersonnelNumberCommand implements Converter<PersonnelNumber, PersonnelNumberCommand> {
 
-    private final ModelSpecDetailsToModelSpecDetailsCommand modelSpecDetailsConverter;
 
     @Synchronized
     @Nullable

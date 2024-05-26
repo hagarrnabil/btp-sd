@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class LineTypeToLineTypeCommand implements Converter<LineType, LineTypeCommand> {
 
-    private final ModelSpecDetailsToModelSpecDetailsCommand modelSpecDetailsConverter;
 
     @Synchronized
     @Nullable

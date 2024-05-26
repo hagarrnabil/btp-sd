@@ -31,74 +31,34 @@ import java.util.*;
 @RestController
 public class UnitOfMeasurementController {
 
-    @Autowired
-    RestTemplateConfig restTemplateConfig;
-
-//    @Autowired
-//    private RestTemplate restTemplate;
-//
-//    @Autowired
-//    private ObjectMapper objectMapper;
-
-//    @Autowired
-//    private dCloudRepository dCloudRepository;
-
     private final UnitOfMeasurementRepository unitOfMeasurementRepository;
 
     private final UnitOfMeasurementService unitOfMeasurementService;
 
     private final UnitOfMeasurementToUnitOfMeasurementCommand unitOfMeasurementToUnitOfMeasurementCommand;
 
-//    @GetMapping("/measurements")
-//    @ResponseBody
-//    public dCloud all() throws JsonProcessingException {
-//
-//        final String uri = "http://localhost:8080/measurementsCloud";
-//
-//        RestTemplate restTemplate = new RestTemplate();
-////        String result = restTemplate.getForObject(uri, String.class);
-//
-//        dCloud result = restTemplate.getForObject(uri, dCloud.class);
-//
-//        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-//
-////        List<dCloud> results = objectMapper.readValue(result.toString(), new TypeReference<List<dCloud>>(){});
-////
-////        // Save the list into a database
-////        if(Objects.nonNull(results)) {
-////            results.stream().filter(Objects::nonNull).forEach(element -> dCloudRepository.saveAndFlush(element));
-////        }
-//
-////
-////        System.out.println(result);
-//
-//        return result;
-//    }
 
     @GetMapping("/measurements")
     @ResponseBody
     public String All() throws JSONException, IOException, URISyntaxException {
 
-//        Locale locale = LocaleContextHolder.getLocale();
 
-        RestTemplate restTemplate = new RestTemplate();
-
-        String uri = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/YY1_UOM4_CDS/YY1_UOM4?$format=json";
-        String user = "UOM_USER4";
-        String password = "s3ZhGnQXEymrUcgCPXR\\ZBPgDAeKYbxLEaozZQPv";
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-        HttpEntity<?> entity = new HttpEntity<>(headers);
-
-        restTemplate.getInterceptors().add(
-                new BasicAuthenticationInterceptor(user, password));
-
-        JSONObject result = new JSONObject(restTemplate.exchange( uri, HttpMethod.GET, entity, JSONObject.class).getBody());
-
-
+//        RestTemplate restTemplate = new RestTemplate();
+//        String uri = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/YY1_UOM4_CDS/YY1_UOM4?$format=json";
+//        String user = "UOM_USER4";
+//        String password = "s3ZhGnQXEymrUcgCPXR\\ZBPgDAeKYbxLEaozZQPv";
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+//        HttpEntity<?> entity = new HttpEntity<>(headers);
 //
-//        JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/measurementsCloud"), String.valueOf(Charset.forName("UTF-8"))));
-        JSONArray jsonObjectUnits = result.getJSONObject("d").getJSONArray("results");
+//        restTemplate.getInterceptors().add(
+//                new BasicAuthenticationInterceptor(user, password));
+//
+//        JSONObject result = new JSONObject(restTemplate.exchange( uri, HttpMethod.GET, entity, JSONObject.class).getBody());
+
+
+        JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/measurementsCloud"), String.valueOf(Charset.forName("UTF-8"))));
+        JSONArray jsonObjectUnits = jsonFromURL.getJSONObject("d").getJSONArray("results");
         JSONArray newJson = new JSONArray();
 
         for (int index=0, size = jsonObjectUnits.length(); index < size; index++) {
@@ -113,6 +73,7 @@ public class UnitOfMeasurementController {
             newJson.put(objectInArray);
         }
 
+        // saving into db
 
 //        for (int index = 0; index < newJson.length(); index++)
 //        {
@@ -138,63 +99,32 @@ public class UnitOfMeasurementController {
 
 
 
-//    @PostMapping("/measurements")
-//    public String post() {
-//
-//        final URI uri = URI.create("http://localhost:8080/measurementsCloud");
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.postForObject(uri, HttpMethod.POST, String.class);
-//
-//        System.out.println(result);
-//
-//        return result;
-//
-//
-//    }
 
 
-    //
-//    HttpHeaders headers = new HttpHeaders();
-//    final String uri = "http://localhost:8080/measurementsCloud";
-//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-//    HttpEntity<String> entity = new HttpEntity<String>(headers);
-//
-//    String result = restTemplateConfig.restTemplate().exchange(uri, HttpMethod.POST, entity, String.class);
-//        return result;
-//        final URI uri = URI.create("http://localhost:8080/measurementsCloud");
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.postForObject(uri, HttpMethod.POST, String.class);
-//
-//        System.out.println(result);
-//
-//        return result;
-//    }
 
 //    @GetMapping("/measurements")
 //    Set<UnitOfMeasurementCommand> all() {
 //        return unitOfMeasurementService.getUnitOfMeasurementCommands();
 //    }
 
-    @GetMapping("/measurements/{unitOfMeasurementCode}")
-    public Optional<UnitOfMeasurementCommand> findByIds(@PathVariable @NotNull Long unitOfMeasurementCode) {
-
-        return Optional.ofNullable(unitOfMeasurementService.findUnitOfMeasurementCommandById(unitOfMeasurementCode));
-    }
-
-    @PostMapping("/measurements")
-    UnitOfMeasurementCommand newUomCommand(@RequestBody UnitOfMeasurementCommand newUomCommand) {
-
-        UnitOfMeasurementCommand savedCommand = unitOfMeasurementService.saveUnitOfMeasurementCommand(newUomCommand);
-        return savedCommand;
-
-    }
-
-    @DeleteMapping("/measurements/{unitOfMeasurementCode}")
-    void deleteUomCommand(@PathVariable Long unitOfMeasurementCode) {
-        unitOfMeasurementService.deleteById(unitOfMeasurementCode);
-    }
+//    @GetMapping("/measurements/{unitOfMeasurementCode}")
+//    public Optional<UnitOfMeasurementCommand> findByIds(@PathVariable @NotNull Long unitOfMeasurementCode) {
+//
+//        return Optional.ofNullable(unitOfMeasurementService.findUnitOfMeasurementCommandById(unitOfMeasurementCode));
+//    }
+//
+//    @PostMapping("/measurements")
+//    UnitOfMeasurementCommand newUomCommand(@RequestBody UnitOfMeasurementCommand newUomCommand) {
+//
+//        UnitOfMeasurementCommand savedCommand = unitOfMeasurementService.saveUnitOfMeasurementCommand(newUomCommand);
+//        return savedCommand;
+//
+//    }
+//
+//    @DeleteMapping("/measurements/{unitOfMeasurementCode}")
+//    void deleteUomCommand(@PathVariable Long unitOfMeasurementCode) {
+//        unitOfMeasurementService.deleteById(unitOfMeasurementCode);
+//    }
 
 //    @PutMapping
 //    @RequestMapping("/measurements/{unitOfMeasurementCode}")

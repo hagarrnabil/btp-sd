@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class LineTypeCommandToLineType implements Converter<LineTypeCommand, LineType> {
 
-    private final ModelSpecDetailsCommandToModelSpecDetails modelSpecDetailsConverter;
 
     @Synchronized
     @Nullable
