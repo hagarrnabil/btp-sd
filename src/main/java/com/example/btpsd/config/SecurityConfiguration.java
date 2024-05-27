@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableWebSecurity(debug = true) // TODO "debug" may include sensitive information. Do not use in a production system!
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 @PropertySource(factory = IdentityServicesPropertySourceFactory.class, ignoreResourceNotFound = true, value = {""})
 public class SecurityConfiguration {
 
