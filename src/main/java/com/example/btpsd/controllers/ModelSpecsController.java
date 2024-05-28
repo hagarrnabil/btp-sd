@@ -17,6 +17,7 @@ import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class ModelSpecsController {
 
     private final ModelSpecificationRepository modelSpecificationRepository;

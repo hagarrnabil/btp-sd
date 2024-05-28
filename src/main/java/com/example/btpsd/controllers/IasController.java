@@ -2,6 +2,7 @@ package com.example.btpsd.controllers;
 
 import com.example.btpsd.model.IasUser;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class IasController {
 
     @PostMapping("/iasusers")
@@ -61,5 +63,4 @@ public class IasController {
         }
         return jsonInputString;
     }
-
 }

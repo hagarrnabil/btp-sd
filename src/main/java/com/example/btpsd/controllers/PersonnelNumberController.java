@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class PersonnelNumberController {
 
     private final PersonnelNumberRepository personnelNumberRepository;
