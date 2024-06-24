@@ -59,21 +59,53 @@ public class ServiceNumber implements Serializable {
 
     private String serviceText;
 
-//    @NotNull
     private String baseUnitOfMeasurement;
 
     private String toBeConvertedUnitOfMeasurement;
 
     private String defaultUnitOfMeasurement;
 
+
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
     @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
 
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
+    @JsonIgnore
+    private Set<Invoice> invoiceSet = new HashSet<>();
+
+
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
+    @JsonIgnore
+    private Set<MainItem> mainItemSet = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
+    @JsonIgnore
+    private Set<SubItem> subItemSet = new HashSet<>();
+
+
     public ServiceNumber addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setServiceNumber(this);
         this.modelSpecificationsDetails.add(modelSpecificationsDetails);
+        return this;
+    }
+
+    public ServiceNumber addInvoice(Invoice invoice){
+        invoice.setServiceNumber(this);
+        this.invoiceSet.add(invoice);
+        return this;
+    }
+
+    public ServiceNumber addMainItem(MainItem mainItem){
+        mainItem.setServiceNumber(this);
+        this.mainItemSet.add(mainItem);
+        return this;
+    }
+
+    public ServiceNumber addSubItem(SubItem subItem){
+        subItem.setServiceNumber(this);
+        this.subItemSet.add(subItem);
         return this;
     }
 }

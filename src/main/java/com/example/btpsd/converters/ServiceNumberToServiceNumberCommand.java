@@ -46,6 +46,18 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
             source.getModelSpecificationsDetails()
                     .forEach(modelSpecificationsDetails -> serviceNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
         }
+        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
+            source.getModelSpecificationsDetails()
+                    .forEach(modelSpecificationsDetails -> serviceNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
+        }
+        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
+            source.getModelSpecificationsDetails()
+                    .forEach(modelSpecificationsDetails -> serviceNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
+        }
+        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
+            source.getModelSpecificationsDetails()
+                    .forEach(modelSpecificationsDetails -> serviceNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
+        }
         return serviceNumberCommand;
     }
 

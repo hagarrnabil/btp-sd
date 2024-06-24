@@ -87,7 +87,7 @@ public class SecurityConfiguration {
         corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT"));
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setAllowedHeaders(List.of("*"));
+        corsConfiguration.setAllowedHeaders(List.of("Origin, Content-Type, Accept"));
         corsConfiguration.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
@@ -113,7 +113,13 @@ public class SecurityConfiguration {
                                 .anyRequest().denyAll())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(new MyCustomHybridTokenAuthenticationConverter())));
 
-        http.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()));
+        http.cors(cors -> cors.configurationSource(request -> {
+            CorsConfiguration configuration = new CorsConfiguration();
+            configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+            configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));
+            configuration.setAllowedHeaders(Arrays.asList("Origin, Content-Type, Accept"));
+            return configuration;
+        }));
         http.csrf(csrf -> csrf.disable());
         return http.build();
     }

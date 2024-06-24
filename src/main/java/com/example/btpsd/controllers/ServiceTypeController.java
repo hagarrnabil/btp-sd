@@ -16,7 +16,6 @@ import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class ServiceTypeController {
 
     private final ServiceTypeRepository serviceTypeRepository;
@@ -25,17 +24,20 @@ public class ServiceTypeController {
 
     private final ServiceTypeToServiceTypeCommand serviceTypeToServiceTypeCommand;
 
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @GetMapping("/servicetypes")
     Set<ServiceTypeCommand> all() {
         return serviceTypeService.getServiceTypeCommands();
     }
 
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @GetMapping("/servicetypes/{serviceTypeCode}")
     public Optional<ServiceTypeCommand> findByIds(@PathVariable @NotNull Long serviceTypeCode) {
 
         return Optional.ofNullable(serviceTypeService.findServiceTypeCommandById(serviceTypeCode));
     }
 
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @PostMapping("/servicetypes")
     ServiceTypeCommand newServiceTypeCommand(@RequestBody ServiceTypeCommand newServiceTypeCommand) {
 
@@ -44,11 +46,13 @@ public class ServiceTypeController {
 
     }
 
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @DeleteMapping("/servicetypes/{serviceTypeCode}")
     void deleteServiceTypeCommand(@PathVariable Long serviceTypeCode) {
         serviceTypeService.deleteById(serviceTypeCode);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @PutMapping
     @RequestMapping("/servicetypes/{serviceTypeCode}")
     @Transactional
@@ -59,6 +63,7 @@ public class ServiceTypeController {
     }
 
 
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @RequestMapping(method = RequestMethod.GET, value = "/servicetypes/search")
     @ResponseBody
     public List<ServiceType> Search(@RequestParam String keyword) {
