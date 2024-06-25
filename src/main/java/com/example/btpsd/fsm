@@ -1,0 +1,379 @@
+{
+   "layout": {
+      "mappings": [
+	 {
+	        "expression": "${branch}",
+            "field": {
+               "displayProperties": [{
+                  "property": "branch",
+                  "title": "Branch",
+                  "type": "string"
+               }],
+               "visible": true,
+               "editable": true,
+               "name": "branch"
+            },
+            "dependantFields": ["branch"]
+         },
+         {
+            "expression": "${approval.decisionStatus}",
+            "field": {
+               "displayProperties": [{
+                  "property": "approvalStatus",
+                  "title": "Approval",
+                  "type": "string"
+               }],
+               "visible": true,
+               "editable": false,
+               "name": "approvalStatus"
+            },
+            "dependantFields": ["approval.decisionStatus"]
+         },
+         {
+            "expression": "concat(\" \", ${person.firstName}, ${person.lastName})",
+            "field": {
+               "displayProperties": [{
+                  "property": "technician",
+                  "title": "Technician",
+                  "type": "autocomplete"
+               }],
+               "visible": true,
+               "editable": false,
+               "name": "technician",
+               "property": "createPerson"
+            },
+            "dependantFields": [
+               "person.firstName",
+               "person.lastName"
+            ]
+         },
+         {
+            "expression": "${serviceCall.code}",
+            "field": {
+               "displayProperties": [{
+                  "property": "callID",
+                  "title": "Service Call",
+                  "type": "autocomplete"
+               }],
+               "visible": true,
+               "editable": true,
+               "name": "callID",
+               "property": "callID",
+               "entity": "ServiceCall",
+               "required": true
+            },
+            "dependantFields": [
+               "serviceCall.code",
+               "serviceCall.subject"
+            ]
+         },
+         {
+            "expression": "${activity.code}",
+            "field": {
+               "displayProperties": [{
+                  "property": "activityID",
+                  "title": "Activity",
+                  "type": "autocomplete"
+               }],
+               "visible": true,
+               "editable": true,
+               "name": "activityID",
+               "property": "activityID",
+               "entity": "Activity"
+            },
+            "dependantFields": [
+               "activity.code",
+               "activity.subject"
+            ]
+         },
+         {
+            "expression": "${serviceCall.subject}",
+            "field": {
+               "displayProperties": [{
+                  "property": "subject",
+                  "title": "Subject",
+                  "type": "string"
+               }],
+               "visible": true,
+               "editable": false,
+               "name": "subject"
+            },
+            "dependantFields": [
+               "serviceCall.subject",
+               "activity.subject"
+            ]
+         },
+         {
+            "expression": "",
+            "field": {
+               "displayProperties": [{
+                  "property": "",
+                  "title": "more",
+                  "type": "string"
+               }],
+               "visible": true,
+               "editable": false,
+               "name": "more"
+            },
+            "dependantFields": []
+         },
+         {
+            "expression": "new Date(${endDateTime}).getTime() - new Date(${startDateTime}).getTime() - (${breakInMinutes} * 60000)",
+            "field": {
+               "displayProperties": [{
+                  "property": "duration",
+                  "sortable": false,
+                  "title": "Hours",
+                  "type": "duration"
+               }],
+               "visible": true,
+               "editable": true,
+               "name": "duration"
+            },
+            "dependantFields": [
+               "timeEffort.startDateTime",
+               "timeEffort.endDateTime",
+               "timeEffort.breakInMinutes"
+            ]
+         },
+         {
+            "expression": "",
+            "field": {
+               "displayProperties": [{
+                  "property": "details",
+                  "sortable": false,
+                  "title": "Details",
+                  "type": "string"
+               }],
+               "visible": true,
+               "editable": false,
+               "name": "details"
+            },
+            "dependantFields": []
+         }
+      ],
+      "groups": [{
+         "mappedFields": {
+            "2": [
+               "branch",
+               "approvalStatus",
+               "technician",
+               "callID",
+               "subject",
+               "activityID",
+               "details"
+            ],
+            "3": ["more"]
+         },
+         "title": "CSTimeRecordingOverviewList",
+         "fields": [
+            "overview.branch",
+            "overview.id",
+            "overview.type",
+            "overview.createDateTime",
+            "overview.chargeOption"
+         ]
+      }]
+   },
+   "plugins": {"widgets": {
+      "rightColumn": [],
+      "leftColumn": [],
+      "centerColumn": []
+   }},
+   "fieldsConfiguration": {
+      "title": "CSTimeRecordingOverview",
+      "fields": [
+	 {
+            "displayProperties": [{
+               "property": "branch",
+               "title": "Branch",
+               "type": "string"
+            }],
+            "visible": true,
+            "editable": true,
+            "name": "overview.branch",
+            "property": "branch",
+            "entity": "",
+            "required": false
+         },
+         {
+            "displayProperties": [{
+               "property": "id",
+               "title": "ID",
+               "type": "string"
+            }],
+            "visible": true,
+            "editable": false,
+            "name": "overview.id",
+            "property": "id",
+            "entity": "",
+            "required": false
+         },
+         {
+            "displayProperties": [{
+               "property": "createDateTime",
+               "title": "Create date",
+               "type": "string"
+            }],
+            "visible": true,
+            "editable": true,
+            "name": "overview.createDateTime",
+            "property": "createDateTime",
+            "required": true
+         },
+         {
+            "displayProperties": [{
+               "property": "remarks",
+               "title": "Remarks",
+               "type": "string"
+            }],
+            "visible": true,
+            "editable": true,
+            "name": "overview.remarks",
+            "property": "remarks",
+            "required": true
+         },
+         {
+            "displayProperties": [{
+               "property": "region",
+               "title": "region",
+               "type": "string"
+            }],
+            "visible": true,
+            "editable": true,
+            "name": "activity.region",
+            "property": "region",
+            "required": true
+         },
+         {
+            "displayProperties": [{
+               "property": "_type",
+               "title": "Type",
+               "type": "string"
+            }],
+            "visible": true,
+            "editable": false,
+            "name": "overview.type",
+            "property": "_type",
+            "entity": "",
+            "required": false
+         },
+         {
+            "displayProperties": [{
+               "property": "approval.decisionStatus",
+               "title": "Approval",
+               "type": "string"
+            }],
+            "visible": true,
+            "editable": false,
+            "name": "approval.decisionStatus",
+            "property": "decisionStatus",
+            "entity": "Approval",
+            "required": false
+         },
+         {
+            "displayProperties": [{
+               "property": "firstName",
+               "title": "First name",
+               "type": "string"
+            }],
+            "visible": true,
+            "editable": false,
+            "name": "person.firstName",
+            "property": "firstName",
+            "entity": "Person",
+            "required": true
+         },
+         {
+            "displayProperties": [{
+               "property": "lastName",
+               "title": "Last name",
+               "type": "string"
+            }],
+            "visible": true,
+            "editable": false,
+            "name": "person.lastName",
+            "property": "lastName",
+            "entity": "Person",
+            "required": true
+         },
+         {
+            "displayProperties": [{
+               "property": "subject",
+               "title": "Subject",
+               "type": "string"
+            }],
+            "visible": true,
+            "editable": false,
+            "name": "serviceCall.subject",
+            "property": "subject",
+            "entity": "ServiceCall",
+            "required": false
+         },
+         {
+            "displayProperties": [{
+               "property": "code",
+               "title": "Call ID",
+               "type": "string"
+            }],
+            "visible": false,
+            "editable": false,
+            "name": "serviceCall.code",
+            "property": "code",
+            "entity": "ServiceCall",
+            "required": false
+         },
+         {
+            "displayProperties": [{
+               "property": "id",
+               "title": "ID",
+               "type": "string"
+            }],
+            "visible": false,
+            "editable": false,
+            "name": "activity.id",
+            "property": "id",
+            "entity": "Activity",
+            "required": false
+         },
+         {
+            "displayProperties": [{
+               "property": "code",
+               "title": "Call ID",
+               "type": "string"
+            }],
+            "visible": false,
+            "editable": false,
+            "name": "activity.code",
+            "property": "code",
+            "entity": "Activity",
+            "required": false
+         },
+         {
+            "displayProperties": [{
+               "property": "subject",
+               "title": "Subject",
+               "type": "string"
+            }],
+            "visible": false,
+            "editable": false,
+            "name": "activity.subject",
+            "property": "subject",
+            "entity": "Activity",
+            "required": false
+         },
+         {
+            "displayProperties": [{
+               "property": "chargeOption",
+               "title": "Chargeable",
+               "type": "switch"
+            }],
+            "visible": true,
+            "editable": true,
+            "name": "overview.chargeOption",
+            "property": "chargeOption",
+            "required": false
+         }
+      ]
+   }
+}

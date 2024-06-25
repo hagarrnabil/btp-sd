@@ -4,6 +4,7 @@ import com.example.btpsd.commands.MainItemCommand;
 import com.example.btpsd.commands.ServiceNumberCommand;
 import com.example.btpsd.model.MainItem;
 import com.example.btpsd.model.ServiceNumber;
+import com.example.btpsd.model.SubItem;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class MainItemToMainItemCommand implements Converter<MainItem, MainItemCommand> {
+
+    private final SubItemToSubItemCommand subItemConverter;
 
     @Synchronized
     @Nullable
@@ -29,7 +32,19 @@ public class MainItemToMainItemCommand implements Converter<MainItem, MainItemCo
         mainItemCommand.setCurrencyCode(source.getCurrencyCode());
         mainItemCommand.setFormulaCode(source.getFormulaCode());
         mainItemCommand.setQuantity(source.getQuantity());
-
+        mainItemCommand.setAmountPerUnit(source.getAmountPerUnit());
+        mainItemCommand.setTotal(source.getSubItem().getAmountPerUnit());
+        mainItemCommand.setProfitMargin(source.getProfitMargin());
+        mainItemCommand.setTotalWithProfit( (mainItemCommand.getProfitMargin()/100) * mainItemCommand.getTotal() );
+        if (source.getServiceNumber() != null) {
+            mainItemCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
+        }
+        if (source.getInvoice() != null) {
+            mainItemCommand.setInvoiceCode(source.getInvoice().getInvoiceCode());
+        }
+        if (source.getSubItem() != null) {
+            mainItemCommand.setSubItemCode(source.getSubItem().getSubItemCode());
+        }
         return mainItemCommand;
     }
 

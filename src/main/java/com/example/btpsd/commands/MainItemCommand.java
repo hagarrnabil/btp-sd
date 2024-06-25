@@ -1,5 +1,6 @@
 package com.example.btpsd.commands;
 
+import com.example.btpsd.model.Invoice;
 import com.example.btpsd.model.SubItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,8 @@ public class MainItemCommand implements Serializable {
 
     private Long serviceNumberCode;
 
+    private Long subItemCode;
+
     private String unitOfMeasurementCode;
 
     private String currencyCode;
@@ -31,11 +34,10 @@ public class MainItemCommand implements Serializable {
 
     private Double total;
 
-    private Integer profitMargin;
+    private Double profitMargin;
 
     private Double totalWithProfit;
 
     @JsonIgnore
-    private List<SubItemCommand> subItemCommandList = new ArrayList<>();
-
+    private List<InvoiceCommand> invoiceCommandList = new ArrayList<>();
 }

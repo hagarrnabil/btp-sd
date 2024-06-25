@@ -1,4 +1,45 @@
 package com.example.btpsd.converters;
 
-public class SubItemToSubItemCommand {
+import com.example.btpsd.commands.SubItemCommand;
+import com.example.btpsd.model.SubItem;
+import io.micrometer.common.lang.Nullable;
+import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
+import org.apache.commons.math3.random.RandomDataGenerator;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+@RequiredArgsConstructor
+@Component
+public class SubItemToSubItemCommand implements Converter<SubItem, SubItemCommand> {
+
+    @Synchronized
+    @Nullable
+    @Override
+    public SubItemCommand convert(SubItem source) {
+
+        if (source == null) {
+            return null;
+        }
+
+        final SubItemCommand subItemCommand = new SubItemCommand();
+        subItemCommand.setSubItemCode(source.getSubItemCode());
+        subItemCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
+        subItemCommand.setCurrencyCode(source.getCurrencyCode());
+        subItemCommand.setFormulaCode(source.getFormulaCode());
+        subItemCommand.setQuantity(source.getQuantity());
+        subItemCommand.setAmountPerUnit(source.getAmountPerUnit());
+        subItemCommand.setTotal(subItemCommand.getAmountPerUnit() * subItemCommand.getQuantity());
+        if (source.getServiceNumber() != null) {
+            subItemCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
+        }
+        if (source.getInvoice() != null) {
+            subItemCommand.setInvoiceCode(source.getInvoice().getInvoiceCode());
+        }
+        if (source.getMainItem() != null) {
+            subItemCommand.setMainItemCode(source.getMainItem().getMainItemCode());
+        }
+        return subItemCommand;
+    }
+
 }

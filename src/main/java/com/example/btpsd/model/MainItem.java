@@ -25,6 +25,10 @@ public class MainItem implements Serializable {
 
     private Long serviceNumberCode;
 
+    private Long invoiceCode;
+
+    private Long subItemCode;
+
     private String unitOfMeasurementCode;
 
     private String currencyCode;
@@ -38,26 +42,25 @@ public class MainItem implements Serializable {
 
     private Double total;
 
-    private Integer profitMargin;
+    private Double profitMargin;
 
     private Double totalWithProfit;
 
 
-    @OneToMany(mappedBy = "mainItem", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.MERGE)
     @JsonIgnore
-    private List<SubItem> subItemList = new ArrayList<>();
+    private List<Invoice> invoiceList = new ArrayList<>();
 
+
+    @ManyToOne
+    private SubItem subItem;
 
     @ManyToOne
     private ServiceNumber serviceNumber;
 
-    @ManyToOne
-    private Invoice invoice;
-
-
-    public MainItem addSubItem(SubItem subItem){
-        subItem.setMainItem(this);
-        this.subItemList.add(subItem);
+    public MainItem addInvoice(Invoice invoice){
+        invoice.setMainItem(this);
+        this.invoiceList.add(invoice);
         return this;
     }
 }

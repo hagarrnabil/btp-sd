@@ -42,29 +42,19 @@ public class Invoice implements Serializable {
     private Double totalWithProfit;
 
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.MERGE)
-    @JsonIgnore
-    private List<MainItem> mainItemList = new ArrayList<>();
+    @ManyToOne
+    private MainItem mainItem;
 
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.MERGE)
-    @JsonIgnore
-    private List<SubItem> subItemList = new ArrayList<>();
+    @ManyToOne
+    private SubItem subItem;
+
+
+    @ManyToOne
+    private Invoice invoice;
 
 
     @ManyToOne
     private ServiceNumber serviceNumber;
 
-
-    public Invoice addMainItem(MainItem mainItem){
-        mainItem.setInvoice(this);
-        this.mainItemList.add(mainItem);
-        return this;
-    }
-
-    public Invoice addSubItem(SubItem subItem){
-        subItem.setInvoice(this);
-        this.subItemList.add(subItem);
-        return this;
-    }
 }

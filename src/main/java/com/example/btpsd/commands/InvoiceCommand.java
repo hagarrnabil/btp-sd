@@ -18,6 +18,10 @@ public class InvoiceCommand implements Serializable {
 
     private Long serviceNumberCode;
 
+    private Long mainItemCode;
+
+    private Long subItemCode;
+
     private String unitOfMeasurementCode;
 
     private String currencyCode;
@@ -33,12 +37,5 @@ public class InvoiceCommand implements Serializable {
     private Integer profitMargin;
 
     private Double totalWithProfit;
-
-    @JsonIgnore
-    private List<MainItemCommand> mainItemCommandList = new ArrayList<>();
-
-    @JsonIgnore
-    private List<SubItemCommand> subItemCommandList = new ArrayList<>();
-
 
 }

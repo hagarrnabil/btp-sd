@@ -3,8 +3,11 @@ package com.example.btpsd.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -35,15 +38,30 @@ public class SubItem implements Serializable {
     private Double total;
 
 
+    @OneToMany(mappedBy = "mainItem", cascade = CascadeType.MERGE)
+    @JsonIgnore
+    private List<MainItem> mainItemList = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.MERGE)
+    @JsonIgnore
+    private List<Invoice> invoiceList = new ArrayList<>();
+
+
     @ManyToOne
     private ServiceNumber serviceNumber;
 
 
-    @ManyToOne
-    private Invoice invoice;
+    public SubItem addMainItem(MainItem mainItem){
+        mainItem.setSubItem(this);
+        this.mainItemList.add(mainItem);
+        return this;
+    }
 
-
-    @ManyToOne
-    private MainItem mainItem;
+    public SubItem addInvoice(Invoice invoice){
+        invoice.setSubItem(this);
+        this.invoiceList.add(invoice);
+        return this;
+    }
 
 }
