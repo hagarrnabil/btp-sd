@@ -40,4 +40,6 @@ public class MainItemCommand implements Serializable {
 
     @JsonIgnore
     private List<InvoiceCommand> invoiceCommandList = new ArrayList<>();
+
+    private SubItemCommand subItemCommand;
 }

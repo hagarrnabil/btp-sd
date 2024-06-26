@@ -15,6 +15,11 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
 
     private final ModelSpecDetailsToModelSpecDetailsCommand modelSpecDetailsConverter;
 
+    private final InvoiceToInvoiceCommand invoiceConverter;
+
+    private final MainItemToMainItemCommand mainItemConverter;
+
+    private final SubItemToSubItemCommand subItemConverter;
 
     @Synchronized
     @Nullable
@@ -42,21 +47,21 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         serviceNumberCommand.setDefaultUnitOfMeasurement(source.getDefaultUnitOfMeasurement());
         serviceNumberCommand.setServiceTypeCode(source.getServiceTypeCode());
         serviceNumberCommand.setMaterialGroupCode(source.getMaterialGroupCode());
-        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
+        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0) {
             source.getModelSpecificationsDetails()
                     .forEach(modelSpecificationsDetails -> serviceNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
         }
-        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
-            source.getModelSpecificationsDetails()
-                    .forEach(modelSpecificationsDetails -> serviceNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
+        if (source.getInvoiceSet() != null && source.getInvoiceSet().size() > 0) {
+            source.getInvoiceSet()
+                    .forEach(invoice -> serviceNumberCommand.getInvoiceCommands().add(invoiceConverter.convert(invoice)));
         }
-        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
-            source.getModelSpecificationsDetails()
-                    .forEach(modelSpecificationsDetails -> serviceNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
+        if (source.getMainItemSet() != null && source.getMainItemSet().size() > 0) {
+            source.getMainItemSet()
+                    .forEach(mainItem -> serviceNumberCommand.getMainItemCommands().add(mainItemConverter.convert(mainItem)));
         }
-        if (source.getModelSpecificationsDetails() != null && source.getModelSpecificationsDetails().size() > 0){
-            source.getModelSpecificationsDetails()
-                    .forEach(modelSpecificationsDetails -> serviceNumberCommand.getModelSpecificationsDetailsCommands().add(modelSpecDetailsConverter.convert(modelSpecificationsDetails)));
+        if (source.getSubItemSet() != null && source.getSubItemSet().size() > 0) {
+            source.getSubItemSet()
+                    .forEach(subItem -> serviceNumberCommand.getSubItemCommands().add(subItemConverter.convert(subItem)));
         }
         return serviceNumberCommand;
     }

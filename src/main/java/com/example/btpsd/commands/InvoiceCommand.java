@@ -38,4 +38,5 @@ public class InvoiceCommand implements Serializable {
 
     private Double totalWithProfit;
 
+    private SubItemCommand subItemCommand;
 }

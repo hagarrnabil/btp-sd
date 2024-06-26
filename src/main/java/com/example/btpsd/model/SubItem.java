@@ -38,12 +38,12 @@ public class SubItem implements Serializable {
     private Double total;
 
 
-    @OneToMany(mappedBy = "mainItem", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "subItem", cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<MainItem> mainItemList = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "subItem", cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<Invoice> invoiceList = new ArrayList<>();
 

@@ -24,6 +24,10 @@ public class Invoice implements Serializable {
 
     private Long serviceNumberCode;
 
+    private Long mainItemCode;
+
+    private Long subItemCode;
+
     private String unitOfMeasurementCode;
 
     private String currencyCode;
@@ -48,10 +52,6 @@ public class Invoice implements Serializable {
 
     @ManyToOne
     private SubItem subItem;
-
-
-    @ManyToOne
-    private Invoice invoice;
 
 
     @ManyToOne

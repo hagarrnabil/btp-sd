@@ -13,6 +13,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class SubItemToSubItemCommand implements Converter<SubItem, SubItemCommand> {
 
+    private final InvoiceToInvoiceCommand invoiceConverter;
+
+    private final MainItemToMainItemCommand mainItemConverter;
+
     @Synchronized
     @Nullable
     @Override
@@ -33,11 +37,13 @@ public class SubItemToSubItemCommand implements Converter<SubItem, SubItemComman
         if (source.getServiceNumber() != null) {
             subItemCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
-        if (source.getInvoice() != null) {
-            subItemCommand.setInvoiceCode(source.getInvoice().getInvoiceCode());
+        if (source.getInvoiceList() != null && source.getInvoiceList().size() > 0) {
+            source.getInvoiceList()
+                    .forEach(invoice -> subItemCommand.getInvoiceCommandList().add(invoiceConverter.convert(invoice)));
         }
-        if (source.getMainItem() != null) {
-            subItemCommand.setMainItemCode(source.getMainItem().getMainItemCode());
+        if (source.getMainItemList() != null && source.getMainItemList().size() > 0) {
+            source.getMainItemList()
+                    .forEach(mainItem -> subItemCommand.getMainItemCommandList().add(mainItemConverter.convert(mainItem)));
         }
         return subItemCommand;
     }

@@ -99,8 +99,6 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setNetValue(newModelSpecDetails.getNetValue());
             if (newModelSpecDetails.getLineText() != oldModelSpecDetails.getLineText())
                 oldModelSpecDetails.setLineText(newModelSpecDetails.getLineText());
-//            if (newModelSpecDetails.getDontUseFormula() != oldModelSpecDetails.getDontUseFormula())
-//                oldModelSpecDetails.setDontUseFormula(newModelSpecDetails.getDontUseFormula());
             if (newModelSpecDetails.getLineNumber() != oldModelSpecDetails.getLineNumber())
                 oldModelSpecDetails.setLineNumber(newModelSpecDetails.getLineNumber());
             if (newModelSpecDetails.getAlternatives() != oldModelSpecDetails.getAlternatives())

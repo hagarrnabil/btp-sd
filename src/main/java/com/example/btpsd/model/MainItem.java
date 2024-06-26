@@ -47,7 +47,7 @@ public class MainItem implements Serializable {
     private Double totalWithProfit;
 
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "mainItem", cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<Invoice> invoiceList = new ArrayList<>();
 
