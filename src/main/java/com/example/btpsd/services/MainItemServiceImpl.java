@@ -5,6 +5,8 @@ import com.example.btpsd.converters.MainItemCommandToMainItem;
 import com.example.btpsd.converters.MainItemToMainItemCommand;
 import com.example.btpsd.model.Invoice;
 import com.example.btpsd.model.MainItem;
+import com.example.btpsd.model.ServiceNumber;
+import com.example.btpsd.model.SubItem;
 import com.example.btpsd.repositories.MainItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,7 +73,34 @@ public class MainItemServiceImpl implements MainItemService{
 
     @Override
     public MainItem updateMainItem(MainItemCommand newMainItemCommand, Long l) {
-        return null;
+
+        return mainItemRepository.findById(l).map(oldMainItem -> {
+            if (newMainItemCommand.getCurrencyCode() != oldMainItem.getCurrencyCode())
+                oldMainItem.setCurrencyCode(newMainItemCommand.getCurrencyCode());
+            if (newMainItemCommand.getFormulaCode() != oldMainItem.getFormulaCode())
+                oldMainItem.setFormulaCode(newMainItemCommand.getFormulaCode());
+            if (newMainItemCommand.getUnitOfMeasurementCode() != oldMainItem.getUnitOfMeasurementCode())
+                oldMainItem.setUnitOfMeasurementCode(newMainItemCommand.getUnitOfMeasurementCode());
+            if (newMainItemCommand.getAmountPerUnit() != oldMainItem.getAmountPerUnit())
+                oldMainItem.setAmountPerUnit(newMainItemCommand.getAmountPerUnit());
+            if (newMainItemCommand.getQuantity() != oldMainItem.getQuantity())
+                oldMainItem.setQuantity(newMainItemCommand.getQuantity());
+            if (newMainItemCommand.getProfitMargin() != oldMainItem.getProfitMargin())
+                oldMainItem.setProfitMargin(newMainItemCommand.getProfitMargin());
+            if (newMainItemCommand.getServiceNumberCode() != null) {
+                ServiceNumber serviceNumber = new ServiceNumber();
+                serviceNumber.setServiceNumberCode(newMainItemCommand.getServiceNumberCode());
+                oldMainItem.setServiceNumber(serviceNumber);
+                serviceNumber.addMainItem(oldMainItem);
+            }
+            if (newMainItemCommand.getSubItemCode() != null) {
+                SubItem subItem = new SubItem();
+                subItem.setSubItemCode(newMainItemCommand.getSubItemCode());
+                oldMainItem.setSubItem(subItem);
+                subItem.addMainItem(oldMainItem);
+            }
+            return mainItemRepository.save(oldMainItem);
+        }).orElseThrow(() -> new RuntimeException("Main Item not found"));
     }
 
     @Override
