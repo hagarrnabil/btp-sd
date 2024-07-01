@@ -33,7 +33,7 @@ public class SubItemCommandToSubItem implements Converter<SubItemCommand, SubIte
         subItem.setFormulaCode(source.getFormulaCode());
         subItem.setQuantity(source.getQuantity());
         subItem.setAmountPerUnit(source.getAmountPerUnit());
-        subItem.setTotal(subItem.getAmountPerUnit() * subItem.getQuantity());
+        subItem.setTotal(source.getAmountPerUnit() * source.getQuantity());
         if (source.getServiceNumberCode() != null) {
             ServiceNumber serviceNumber = new ServiceNumber();
             serviceNumber.setServiceNumberCode(source.getServiceNumberCode());

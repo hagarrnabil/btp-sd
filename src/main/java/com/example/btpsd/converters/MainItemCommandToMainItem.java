@@ -34,7 +34,7 @@ public class MainItemCommandToMainItem implements Converter<MainItemCommand, Mai
         mainItem.setFormulaCode(source.getFormulaCode());
         mainItem.setQuantity(source.getQuantity());
         mainItem.setAmountPerUnit(source.getAmountPerUnit());
-        mainItem.setTotal(source.getSubItemCommand().getAmountPerUnit());
+        mainItem.setTotal(source.getQuantity() * source.getAmountPerUnit());
         mainItem.setProfitMargin(source.getProfitMargin());
         mainItem.setTotalWithProfit( (mainItem.getProfitMargin()/100) * mainItem.getTotal() );
         if (source.getServiceNumberCode() != null) {

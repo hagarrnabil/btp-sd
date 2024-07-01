@@ -28,7 +28,7 @@ public class InvoiceToInvoiceCommand implements Converter<Invoice, InvoiceComman
         invoiceCommand.setFormulaCode(source.getFormulaCode());
         invoiceCommand.setQuantity(source.getQuantity());
         invoiceCommand.setAmountPerUnit(source.getAmountPerUnit());
-        invoiceCommand.setTotal(source.getSubItem().getAmountPerUnit());
+        invoiceCommand.setTotal(source.getQuantity() * source.getAmountPerUnit());
         invoiceCommand.setProfitMargin(source.getProfitMargin());
         invoiceCommand.setTotalWithProfit( (invoiceCommand.getProfitMargin()/100) * invoiceCommand.getTotal() );
         if (source.getServiceNumber() != null) {

@@ -1,7 +1,7 @@
 {
    "layout": {
       "mappings": [
-	 {
+	    {
 	        "expression": "${branch}",
             "field": {
                "displayProperties": [{
@@ -13,7 +13,21 @@
                "editable": true,
                "name": "branch"
             },
-            "dependantFields": ["branch"]
+            "dependantFields": ["activity.branch"]
+         },
+         {
+            "expression": "${region}",
+            "field": {
+               "displayProperties": [{
+                  "property": "region",
+                  "title": "Region",
+                  "type": "string"
+               }],
+               "visible": true,
+               "editable": true,
+               "name": "region"
+            },
+            "dependantFields": ["activity.region"]
          },
          {
             "expression": "${approval.decisionStatus}",
@@ -156,6 +170,7 @@
          "mappedFields": {
             "2": [
                "branch",
+               "region",
                "approvalStatus",
                "technician",
                "callID",
@@ -167,7 +182,6 @@
          },
          "title": "CSTimeRecordingOverviewList",
          "fields": [
-            "overview.branch",
             "overview.id",
             "overview.type",
             "overview.createDateTime",
@@ -183,19 +197,6 @@
    "fieldsConfiguration": {
       "title": "CSTimeRecordingOverview",
       "fields": [
-	 {
-            "displayProperties": [{
-               "property": "branch",
-               "title": "Branch",
-               "type": "string"
-            }],
-            "visible": true,
-            "editable": true,
-            "name": "overview.branch",
-            "property": "branch",
-            "entity": "",
-            "required": false
-         },
          {
             "displayProperties": [{
                "property": "id",

@@ -57,11 +57,4 @@ public class MainItemController {
         return command;
     }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "/subitems/search")
-//    @ResponseBody
-//    public List<SubItem> Search(@RequestParam String keyword) {
-//
-//        return subItemRepository.search(keyword);
-//    }
-
 }

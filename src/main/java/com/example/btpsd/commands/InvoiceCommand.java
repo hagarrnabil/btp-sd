@@ -3,7 +3,7 @@ package com.example.btpsd.commands;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,9 +34,10 @@ public class InvoiceCommand implements Serializable {
 
     private Double total;
 
-    private Integer profitMargin;
+    private Double profitMargin;
 
     private Double totalWithProfit;
 
+    @JsonIgnore
     private SubItemCommand subItemCommand;
 }

@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -66,8 +67,9 @@ public class SecurityConfiguration {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/iasusers","/measurementsCloud","/invoices","/mainitems","/subitems");
+        return (web) -> web.ignoring().requestMatchers("/iasusers","/measurementsCloud","/invoices","/mainitems","/subitems","/linetypes");
     }
+
 
 
 //    @Bean
@@ -102,13 +104,16 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authz ->
                         authz.requestMatchers("/measurements/*").hasRole("USER")
                                 .requestMatchers("/formulas/*").hasRole("USER")
-                                .requestMatchers("/linetypes/*").hasRole("USER")
+//                                .requestMatchers("/linetypes/*").hasRole("USER")
                                 .requestMatchers("/materialgroups/*").hasRole("USER")
                                 .requestMatchers("/modelspecs/*").hasRole("USER")
                                 .requestMatchers("/modelspecdetails/*").hasRole("USER")
                                 .requestMatchers("/personnelnumbers/*").hasRole("USER")
                                 .requestMatchers("/servicenumbers/*").hasRole("USER")
                                 .requestMatchers("/servicetypes/*").hasRole("USER")
+//                                .requestMatchers("/invoices/*").hasRole("USER")
+//                                .requestMatchers("/mainitems/*").hasRole("USER")
+//                                .requestMatchers("/subitems/*").hasRole("USER")
                                 .requestMatchers("/*").authenticated()
                                 .anyRequest().denyAll())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(new MyCustomHybridTokenAuthenticationConverter())));

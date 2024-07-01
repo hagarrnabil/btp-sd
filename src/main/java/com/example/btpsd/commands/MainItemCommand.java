@@ -1,11 +1,9 @@
 package com.example.btpsd.commands;
 
-import com.example.btpsd.model.Invoice;
-import com.example.btpsd.model.SubItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -41,5 +39,6 @@ public class MainItemCommand implements Serializable {
     @JsonIgnore
     private List<InvoiceCommand> invoiceCommandList = new ArrayList<>();
 
+    @JsonIgnore
     private SubItemCommand subItemCommand;
 }
