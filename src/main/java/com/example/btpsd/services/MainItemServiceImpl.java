@@ -94,10 +94,7 @@ public class MainItemServiceImpl implements MainItemService{
                 serviceNumber.addMainItem(oldMainItem);
             }
             if (newMainItemCommand.getSubItemCode() != null) {
-                SubItem subItem = new SubItem();
-                subItem.setSubItemCode(newMainItemCommand.getSubItemCode());
-                oldMainItem.setSubItem(subItem);
-                subItem.addMainItem(oldMainItem);
+                oldMainItem.setSubItemCode(newMainItemCommand.getSubItemCode());
             }
             return mainItemRepository.save(oldMainItem);
         }).orElseThrow(() -> new RuntimeException("Main Item not found"));

@@ -101,10 +101,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 mainItem.addInvoice(oldInvoice);
             }
             if (newInvoiceCommand.getSubItemCode() != null) {
-                SubItem subItem = new SubItem();
-                subItem.setSubItemCode(newInvoiceCommand.getSubItemCode());
-                oldInvoice.setSubItem(subItem);
-                subItem.addInvoice(oldInvoice);
+                oldInvoice.setSubItemCode(newInvoiceCommand.getSubItemCode());
             }
             return invoiceRepository.save(oldInvoice);
         }).orElseThrow(() -> new RuntimeException("Invoice not found"));

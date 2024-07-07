@@ -67,7 +67,8 @@ public class SecurityConfiguration {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/iasusers","/measurementsCloud","/invoices","/mainitems","/subitems","/linetypes");
+        return (web) -> web.ignoring().requestMatchers("/iasusers","/measurementsCloud","/invoices","/mainitems","/subitems","/linetypes",
+                "/invoices/*","/mainitems/*","/subitems/*");
     }
 
 

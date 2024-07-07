@@ -23,11 +23,12 @@ public class MainItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long mainItemCode;
 
+    @ElementCollection
+    private List<Long> subItemCode = new ArrayList<Long>();
+
     private Long serviceNumberCode;
 
     private Long invoiceCode;
-
-    private Long subItemCode;
 
     private String unitOfMeasurementCode;
 

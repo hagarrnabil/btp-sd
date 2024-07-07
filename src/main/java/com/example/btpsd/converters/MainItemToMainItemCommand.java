@@ -39,8 +39,21 @@ public class MainItemToMainItemCommand implements Converter<MainItem, MainItemCo
         if (source.getServiceNumber() != null) {
             mainItemCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
-        if (source.getSubItem() != null) {
-            mainItemCommand.setSubItemCode(source.getSubItem().getSubItemCode());
+//        if (source.getSubItemCode().isEmpty()){
+//            mainItemCommand.setAmountPerUnit(source.getAmountPerUnit());
+//            mainItemCommand.setTotal(source.getQuantity() * source.getAmountPerUnit());
+//            mainItemCommand.setTotalWithProfit( (mainItemCommand.getProfitMargin()/100) * mainItemCommand.getTotal() );
+//        }
+//        else {
+//            for (int i = 0; i < source.getSubItemCode().size(); i++) {
+//                mainItemCommand.setSubItemCode(source.getSubItemCode());
+//                mainItemCommand.setAmountPerUnit(source.getSubItem().getAmountPerUnit());
+//                mainItemCommand.setTotal(source.getQuantity() * source.getSubItem().getAmountPerUnit());
+//                mainItemCommand.setTotalWithProfit( (mainItemCommand.getProfitMargin()/100) * mainItemCommand.getTotal() );
+//            }
+//        }
+        for (int i = 0; i < source.getSubItemCode().size(); i++) {
+            mainItemCommand.setSubItemCode(source.getSubItemCode());
         }
         if (source.getInvoiceList() != null && source.getInvoiceList().size() > 0) {
             source.getInvoiceList()

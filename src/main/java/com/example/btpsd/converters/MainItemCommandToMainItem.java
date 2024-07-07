@@ -43,11 +43,21 @@ public class MainItemCommandToMainItem implements Converter<MainItemCommand, Mai
             mainItem.setServiceNumber(serviceNumber);
             serviceNumber.addMainItem(mainItem);
         }
-        if (source.getSubItemCode() != null) {
-            SubItem subItem = new SubItem();
-            subItem.setSubItemCode(source.getSubItemCode());
-            mainItem.setSubItem(subItem);
-            subItem.addMainItem(mainItem);
+//        if (source.getSubItemCode().isEmpty()){
+//            mainItem.setAmountPerUnit(source.getAmountPerUnit());
+//            mainItem.setTotal(source.getQuantity() * source.getAmountPerUnit());
+//            mainItem.setTotalWithProfit( (mainItem.getProfitMargin()/100) * mainItem.getTotal() );
+//        }
+//        else {
+//            for (int i = 0; i < source.getSubItemCode().size(); i++) {
+//                mainItem.setSubItemCode(source.getSubItemCode());
+//                mainItem.setAmountPerUnit(source.getSubItemCommand().getAmountPerUnit());
+//                mainItem.setTotal(source.getQuantity() * source.getSubItemCommand().getAmountPerUnit());
+//                mainItem.setTotalWithProfit( (mainItem.getProfitMargin()/100) * mainItem.getTotal() );
+//            }
+//        }
+        for (int i = 0; i < source.getSubItemCode().size(); i++) {
+            mainItem.setSubItemCode(source.getSubItemCode());
         }
         if (source.getInvoiceCommandList() != null && source.getInvoiceCommandList().size() > 0) {
             source.getInvoiceCommandList()

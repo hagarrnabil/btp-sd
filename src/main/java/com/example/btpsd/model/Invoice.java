@@ -6,6 +6,8 @@ import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -24,7 +26,8 @@ public class Invoice implements Serializable {
 
     private Long mainItemCode;
 
-    private Long subItemCode;
+    @ElementCollection
+    private List<Long> subItemCode = new ArrayList<Long>();
 
     private String unitOfMeasurementCode;
 

@@ -20,7 +20,7 @@ public class InvoiceCommand implements Serializable {
 
     private Long mainItemCode;
 
-    private Long subItemCode;
+    private List<Long> subItemCode = new ArrayList<Long>();
 
     private String unitOfMeasurementCode;
 

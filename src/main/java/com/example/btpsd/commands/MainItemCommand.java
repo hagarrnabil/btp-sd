@@ -16,9 +16,9 @@ public class MainItemCommand implements Serializable {
 
     private Long mainItemCode;
 
-    private Long serviceNumberCode;
+    private List<Long> subItemCode = new ArrayList<Long>();
 
-    private Long subItemCode;
+    private Long serviceNumberCode;
 
     private String unitOfMeasurementCode;
 
