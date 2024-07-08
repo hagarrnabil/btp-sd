@@ -19,12 +19,12 @@ public class IasController {
     @PostMapping("/iasusers")
     public String createUser(@RequestBody IasUser ias) throws IOException {
 
-        URL url = new URL("https://amwftwpkt.trial-accounts.ondemand.com/service/scim/Users");
+        URL url = new URL("https://anjbwp8zl.trial-accounts.ondemand.com/service/scim/Users");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/scim+json");
-        String user = "745eab74-e3ee-45e1-838e-5342849e0e6d";
-        String password = "9Ad7POfUxoeLcwFa-ugFqzBgBGGBnjMf5";
+        String user = "dcfbad2d-fb95-444e-a4d2-768529252cb9";
+        String password = "QZOMXUEl=.N/=1Sf8AJrRbTleOQeLH2";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);

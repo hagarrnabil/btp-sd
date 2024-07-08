@@ -67,8 +67,7 @@ public class SecurityConfiguration {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/iasusers","/measurementsCloud","/invoices","/mainitems","/subitems","/linetypes",
-                "/invoices/*","/mainitems/*","/subitems/*");
+        return (web) -> web.ignoring().requestMatchers("/iasusers");
     }
 
 
@@ -112,9 +111,9 @@ public class SecurityConfiguration {
                                 .requestMatchers("/personnelnumbers/*").hasRole("USER")
                                 .requestMatchers("/servicenumbers/*").hasRole("USER")
                                 .requestMatchers("/servicetypes/*").hasRole("USER")
-//                                .requestMatchers("/invoices/*").hasRole("USER")
-//                                .requestMatchers("/mainitems/*").hasRole("USER")
-//                                .requestMatchers("/subitems/*").hasRole("USER")
+                                .requestMatchers("/invoices/*").hasRole("USER")
+                                .requestMatchers("/mainitems/*").hasRole("USER")
+                                .requestMatchers("/subitems/*").hasRole("USER")
                                 .requestMatchers("/*").authenticated()
                                 .anyRequest().denyAll())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(new MyCustomHybridTokenAuthenticationConverter())));
