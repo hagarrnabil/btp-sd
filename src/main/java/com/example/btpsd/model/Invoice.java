@@ -49,12 +49,12 @@ public class Invoice implements Serializable {
     private Double totalWithProfit;
 
 
-    @ManyToOne
-    private MainItem mainItem;
-
-
-    @ManyToOne
-    private SubItem subItem;
+//    @ManyToOne
+//    private MainItem mainItem;
+//
+//
+//    @ManyToOne
+//    private SubItem subItem;
 
 
     @ManyToOne

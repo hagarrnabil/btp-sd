@@ -34,12 +34,12 @@ public class InvoiceToInvoiceCommand implements Converter<Invoice, InvoiceComman
         if (source.getServiceNumber() != null) {
             invoiceCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
-        for (int i = 0; i < source.getSubItemCode().size(); i++) {
-            invoiceCommand.setSubItemCode(source.getSubItemCode());
-        }
-        for (int i = 0; i < source.getMainItemCode().size(); i++) {
-            invoiceCommand.setMainItemCode(source.getMainItemCode());
-        }
+//        for (int i = 0; i < source.getSubItemCode().size(); i++) {
+//            invoiceCommand.setSubItemCode(source.getSubItemCode());
+//        }
+//        for (int i = 0; i < source.getMainItemCode().size(); i++) {
+//            invoiceCommand.setMainItemCode(source.getMainItemCode());
+//        }
         return invoiceCommand;
 
     }

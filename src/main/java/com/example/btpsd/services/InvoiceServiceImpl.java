@@ -94,12 +94,12 @@ public class InvoiceServiceImpl implements InvoiceService {
                 oldInvoice.setServiceNumber(serviceNumber);
                 serviceNumber.addInvoice(oldInvoice);
             }
-            if (newInvoiceCommand.getMainItemCode() != null) {
-                oldInvoice.setMainItemCode(newInvoiceCommand.getMainItemCode());
-            }
-            if (newInvoiceCommand.getSubItemCode() != null) {
-                oldInvoice.setSubItemCode(newInvoiceCommand.getSubItemCode());
-            }
+//            if (newInvoiceCommand.getMainItemCode() != null) {
+//                oldInvoice.setMainItemCode(newInvoiceCommand.getMainItemCode());
+//            }
+//            if (newInvoiceCommand.getSubItemCode() != null) {
+//                oldInvoice.setSubItemCode(newInvoiceCommand.getSubItemCode());
+//            }
             return invoiceRepository.save(oldInvoice);
         }).orElseThrow(() -> new RuntimeException("Invoice not found"));
         }

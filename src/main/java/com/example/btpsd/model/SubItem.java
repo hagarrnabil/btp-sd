@@ -37,31 +37,24 @@ public class SubItem implements Serializable {
 
     private Double total;
 
+//
+//    @OneToMany(mappedBy = "subItem", cascade = CascadeType.MERGE)
+//    @JsonIgnore
+//    private List<Invoice> invoiceList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "subItem", cascade = CascadeType.MERGE)
-    @JsonIgnore
-    private List<MainItem> mainItemList = new ArrayList<>();
 
-
-    @OneToMany(mappedBy = "subItem", cascade = CascadeType.MERGE)
-    @JsonIgnore
-    private List<Invoice> invoiceList = new ArrayList<>();
+    @ManyToOne
+    private MainItem mainItem;
 
 
     @ManyToOne
     private ServiceNumber serviceNumber;
 
 
-    public SubItem addMainItem(MainItem mainItem){
-        mainItem.setSubItem(this);
-        this.mainItemList.add(mainItem);
-        return this;
-    }
-
-    public SubItem addInvoice(Invoice invoice){
-        invoice.setSubItem(this);
-        this.invoiceList.add(invoice);
-        return this;
-    }
+//    public SubItem addInvoice(Invoice invoice){
+//        invoice.setSubItem(this);
+//        this.invoiceList.add(invoice);
+//        return this;
+//    }
 
 }

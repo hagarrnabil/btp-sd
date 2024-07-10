@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class MainItemToMainItemCommand implements Converter<MainItem, MainItemCommand> {
 
     private final InvoiceToInvoiceCommand invoiceConverter;
+    private final SubItemToSubItemCommand subItemConverter;
 
     @Synchronized
     @Nullable
@@ -52,12 +53,16 @@ public class MainItemToMainItemCommand implements Converter<MainItem, MainItemCo
 //                mainItemCommand.setTotalWithProfit( (mainItemCommand.getProfitMargin()/100) * mainItemCommand.getTotal() );
 //            }
 //        }
-        for (int i = 0; i < source.getSubItemCode().size(); i++) {
-            mainItemCommand.setSubItemCode(source.getSubItemCode());
-        }
-        if (source.getInvoiceList() != null && source.getInvoiceList().size() > 0) {
-            source.getInvoiceList()
-                    .forEach(invoice -> mainItemCommand.getInvoiceCommandList().add(invoiceConverter.convert(invoice)));
+//        for (int i = 0; i < source.getSubItemCode().size(); i++) {
+//            mainItemCommand.setSubItemCode(source.getSubItemCode());
+//        }
+//        if (source.getInvoiceList() != null && source.getInvoiceList().size() > 0) {
+//            source.getInvoiceList()
+//                    .forEach(invoice -> mainItemCommand.getInvoiceCommandList().add(invoiceConverter.convert(invoice)));
+//        }
+        if (source.getSubItemList() != null && source.getSubItemList().size() > 0) {
+            source.getSubItemList()
+                    .forEach(subItem -> mainItemCommand.getSubItemCommandList().add(subItemConverter.convert(subItem)));
         }
         return mainItemCommand;
     }

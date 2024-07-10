@@ -7,7 +7,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -23,8 +25,8 @@ public class MainItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long mainItemCode;
 
-    @ElementCollection
-    private List<Long> subItemCode = new ArrayList<Long>();
+//    @ElementCollection
+//    private List<Long> subItemCode = new ArrayList<Long>();
 
     private Long serviceNumberCode;
 
@@ -49,20 +51,28 @@ public class MainItem implements Serializable {
     private Double totalWithProfit;
 
 
+//    @OneToMany(mappedBy = "mainItem", cascade = CascadeType.MERGE)
+//    @JsonIgnore
+//    private List<Invoice> invoiceList = new ArrayList<>();
+
+
     @OneToMany(mappedBy = "mainItem", cascade = CascadeType.MERGE)
-    @JsonIgnore
-    private List<Invoice> invoiceList = new ArrayList<>();
+    private Set<SubItem> subItemList = new HashSet<>();;
 
-
-    @ManyToOne
-    private SubItem subItem;
 
     @ManyToOne
     private ServiceNumber serviceNumber;
 
-    public MainItem addInvoice(Invoice invoice){
-        invoice.setMainItem(this);
-        this.invoiceList.add(invoice);
+
+//    public MainItem addInvoice(Invoice invoice){
+//        invoice.setMainItem(this);
+//        this.invoiceList.add(invoice);
+//        return this;
+//    }
+
+    public MainItem addSubItem(SubItem subItem){
+        subItem.setMainItem(this);
+        this.subItemList.add(subItem);
         return this;
     }
 }

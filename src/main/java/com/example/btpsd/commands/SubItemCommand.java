@@ -30,10 +30,10 @@ public class SubItemCommand implements Serializable {
 
     private Double total;
 
-    @JsonIgnore
-    private List<MainItemCommand> mainItemCommandList = new ArrayList<>();
+//    @JsonIgnore
+//    private List<MainItemCommand> mainItemCommandList = new ArrayList<>();
 
-    @JsonIgnore
-    private List<InvoiceCommand> invoiceCommandList = new ArrayList<>();
+//    @JsonIgnore
+//    private List<InvoiceCommand> invoiceCommandList = new ArrayList<>();
 
 }

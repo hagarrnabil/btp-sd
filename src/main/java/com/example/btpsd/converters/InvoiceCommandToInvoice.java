@@ -40,12 +40,12 @@ public class InvoiceCommandToInvoice implements Converter<InvoiceCommand, Invoic
             invoice.setServiceNumber(serviceNumber);
             serviceNumber.addInvoice(invoice);
         }
-        for (int i = 0; i < source.getSubItemCode().size(); i++) {
-            invoice.setSubItemCode(source.getSubItemCode());
-        }
-        for (int i = 0; i < source.getMainItemCode().size(); i++) {
-            invoice.setMainItemCode(source.getMainItemCode());
-        }
+//        for (int i = 0; i < source.getSubItemCode().size(); i++) {
+//            invoice.setSubItemCode(source.getSubItemCode());
+//        }
+//        for (int i = 0; i < source.getMainItemCode().size(); i++) {
+//            invoice.setMainItemCode(source.getMainItemCode());
+//        }
         return invoice;
     }
 }

@@ -15,7 +15,6 @@ public class SubItemCommandToSubItem implements Converter<SubItemCommand, SubIte
 
     private final InvoiceCommandToInvoice invoiceConverter;
 
-    private final MainItemCommandToMainItem mainItemConverter;
 
     @Synchronized
     @Nullable
@@ -40,14 +39,14 @@ public class SubItemCommandToSubItem implements Converter<SubItemCommand, SubIte
             subItem.setServiceNumber(serviceNumber);
             serviceNumber.addSubItem(subItem);
         }
-        if (source.getInvoiceCommandList() != null && source.getInvoiceCommandList().size() > 0) {
-            source.getInvoiceCommandList()
-                    .forEach(invoiceCommand -> subItem.getInvoiceList().add(invoiceConverter.convert(invoiceCommand)));
-        }
-        if (source.getMainItemCommandList() != null && source.getMainItemCommandList().size() > 0) {
-            source.getMainItemCommandList()
-                    .forEach(mainItemCommand -> subItem.getMainItemList().add(mainItemConverter.convert(mainItemCommand)));
-        }
+//        if (source.getInvoiceCommandList() != null && source.getInvoiceCommandList().size() > 0) {
+//            source.getInvoiceCommandList()
+//                    .forEach(invoiceCommand -> subItem.getInvoiceList().add(invoiceConverter.convert(invoiceCommand)));
+//        }
+//        if (source.getMainItemCommandList() != null && source.getMainItemCommandList().size() > 0) {
+//            source.getMainItemCommandList()
+//                    .forEach(mainItemCommand -> subItem.getMainItemList().add(mainItemConverter.convert(mainItemCommand)));
+//        }
         return subItem;
     }
 }

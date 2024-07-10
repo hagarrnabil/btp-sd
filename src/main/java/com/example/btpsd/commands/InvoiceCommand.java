@@ -38,6 +38,6 @@ public class InvoiceCommand implements Serializable {
 
     private Double totalWithProfit;
 
-    @JsonIgnore
-    private SubItemCommand subItemCommand;
+//    @JsonIgnore
+//    private SubItemCommand subItemCommand;
 }

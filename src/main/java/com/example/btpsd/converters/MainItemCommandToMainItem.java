@@ -18,6 +18,8 @@ public class MainItemCommandToMainItem implements Converter<MainItemCommand, Mai
 
     private final InvoiceCommandToInvoice invoiceConverter;
 
+    private final SubItemCommandToSubItem subItemConverter;
+
     @Synchronized
     @Nullable
     @Override
@@ -56,12 +58,16 @@ public class MainItemCommandToMainItem implements Converter<MainItemCommand, Mai
 //                mainItem.setTotalWithProfit( (mainItem.getProfitMargin()/100) * mainItem.getTotal() );
 //            }
 //        }
-        for (int i = 0; i < source.getSubItemCode().size(); i++) {
-            mainItem.setSubItemCode(source.getSubItemCode());
-        }
-        if (source.getInvoiceCommandList() != null && source.getInvoiceCommandList().size() > 0) {
-            source.getInvoiceCommandList()
-                    .forEach(invoiceCommand -> mainItem.getInvoiceList().add(invoiceConverter.convert(invoiceCommand)));
+//        for (int i = 0; i < source.getSubItemCode().size(); i++) {
+//            mainItem.setSubItemCode(source.getSubItemCode());
+//        }
+//        if (source.getInvoiceCommandList() != null && source.getInvoiceCommandList().size() > 0) {
+//            source.getInvoiceCommandList()
+//                    .forEach(invoiceCommand -> mainItem.getInvoiceList().add(invoiceConverter.convert(invoiceCommand)));
+//        }
+        if (source.getSubItemCommandList() != null && source.getSubItemCommandList().size() > 0) {
+            source.getSubItemCommandList()
+                    .forEach(subItemCommand -> mainItem.getSubItemList().add(subItemConverter.convert(subItemCommand)));
         }
         return mainItem;
     }

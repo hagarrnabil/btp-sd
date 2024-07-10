@@ -65,7 +65,7 @@ public class SecurityConfiguration {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers("/iasusers","/formulas/*","/formulas","/linetypes/*","/linetypes","/materialgroups/*","/materialgroups", "/modelspecs", "/modelspecs/*",
                 "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*","/personnelnumbers","/servicenumbers/*", "/servicenumbers","/servicetypes/*","/servicetypes",
-                "/invoices/*", "/invoices", "/mainitems/*","/mainitems", "/subitems/*","/subitems");
+                "/invoices/*", "/invoices", "/mainitems/*","/mainitems", "/subitems/*","/subitems","/currencies/*","/currencies");
     }
 
     @Bean
@@ -75,6 +75,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authz ->
                         authz.requestMatchers("/measurements/*").hasRole("USER")
                                 .requestMatchers("/formulas/*").hasRole("USER")
+                                .requestMatchers("/currencies/*").hasRole("USER")
                                 .requestMatchers("/linetypes/*").hasRole("USER")
                                 .requestMatchers("/materialgroups/*").hasRole("USER")
                                 .requestMatchers("/modelspecs/*").hasRole("USER")
