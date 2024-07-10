@@ -83,6 +83,8 @@ public class SubItemServiceImpl implements SubItemService {
                 oldSubItem.setAmountPerUnit(newSubItemCommand.getAmountPerUnit());
             if (newSubItemCommand.getQuantity() != oldSubItem.getQuantity())
                 oldSubItem.setQuantity(newSubItemCommand.getQuantity());
+            if (newSubItemCommand.getTotal() != oldSubItem.getTotal())
+                oldSubItem.setTotal(newSubItemCommand.getTotal());
             if (newSubItemCommand.getServiceNumberCode() != null) {
                 ServiceNumber serviceNumber = new ServiceNumber();
                 serviceNumber.setServiceNumberCode(newSubItemCommand.getServiceNumberCode());

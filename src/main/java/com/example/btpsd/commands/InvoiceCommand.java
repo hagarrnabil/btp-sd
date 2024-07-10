@@ -18,7 +18,7 @@ public class InvoiceCommand implements Serializable {
 
     private Long serviceNumberCode;
 
-    private Long mainItemCode;
+    private List<Long> mainItemCode = new ArrayList<Long>();
 
     private List<Long> subItemCode = new ArrayList<Long>();
 

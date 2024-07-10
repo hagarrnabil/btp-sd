@@ -43,11 +43,8 @@ public class InvoiceCommandToInvoice implements Converter<InvoiceCommand, Invoic
         for (int i = 0; i < source.getSubItemCode().size(); i++) {
             invoice.setSubItemCode(source.getSubItemCode());
         }
-        if (source.getMainItemCode() != null) {
-            MainItem mainItem = new MainItem();
-            mainItem.setMainItemCode(source.getMainItemCode());
-            invoice.setMainItem(mainItem);
-            mainItem.addInvoice(invoice);
+        for (int i = 0; i < source.getMainItemCode().size(); i++) {
+            invoice.setMainItemCode(source.getMainItemCode());
         }
         return invoice;
     }

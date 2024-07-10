@@ -95,10 +95,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 serviceNumber.addInvoice(oldInvoice);
             }
             if (newInvoiceCommand.getMainItemCode() != null) {
-                MainItem mainItem = new MainItem();
-                mainItem.setMainItemCode(newInvoiceCommand.getMainItemCode());
-                oldInvoice.setMainItem(mainItem);
-                mainItem.addInvoice(oldInvoice);
+                oldInvoice.setMainItemCode(newInvoiceCommand.getMainItemCode());
             }
             if (newInvoiceCommand.getSubItemCode() != null) {
                 oldInvoice.setSubItemCode(newInvoiceCommand.getSubItemCode());

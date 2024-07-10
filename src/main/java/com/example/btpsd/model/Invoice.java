@@ -24,7 +24,8 @@ public class Invoice implements Serializable {
 
     private Long serviceNumberCode;
 
-    private Long mainItemCode;
+    @ElementCollection
+    private List<Long> mainItemCode = new ArrayList<Long>();
 
     @ElementCollection
     private List<Long> subItemCode = new ArrayList<Long>();

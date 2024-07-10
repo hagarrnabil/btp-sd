@@ -11,12 +11,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,13 +24,11 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -67,35 +63,10 @@ public class SecurityConfiguration {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/iasusers");
+        return (web) -> web.ignoring().requestMatchers("/iasusers","/formulas/*","/formulas","/linetypes/*","/linetypes","/materialgroups/*","/materialgroups", "/modelspecs", "/modelspecs/*",
+                "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*","/personnelnumbers","/servicenumbers/*", "/servicenumbers","/servicetypes/*","/servicetypes",
+                "/invoices/*", "/invoices", "/mainitems/*","/mainitems", "/subitems/*","/subitems");
     }
-
-
-
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**")
-//                        .allowedOrigins("http://localhost:4200");
-//            }
-//        };
-//    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200"));
-        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT"));
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setAllowedHeaders(List.of("Origin, Content-Type, Accept"));
-        corsConfiguration.setMaxAge(3600L);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
-    }
-
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -104,7 +75,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authz ->
                         authz.requestMatchers("/measurements/*").hasRole("USER")
                                 .requestMatchers("/formulas/*").hasRole("USER")
-//                                .requestMatchers("/linetypes/*").hasRole("USER")
+                                .requestMatchers("/linetypes/*").hasRole("USER")
                                 .requestMatchers("/materialgroups/*").hasRole("USER")
                                 .requestMatchers("/modelspecs/*").hasRole("USER")
                                 .requestMatchers("/modelspecdetails/*").hasRole("USER")
@@ -118,13 +89,6 @@ public class SecurityConfiguration {
                                 .anyRequest().denyAll())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(new MyCustomHybridTokenAuthenticationConverter())));
 
-        http.cors(cors -> cors.configurationSource(request -> {
-            CorsConfiguration configuration = new CorsConfiguration();
-            configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-            configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));
-            configuration.setAllowedHeaders(Arrays.asList("Origin, Content-Type, Accept"));
-            return configuration;
-        }));
         http.csrf(csrf -> csrf.disable());
         return http.build();
     }

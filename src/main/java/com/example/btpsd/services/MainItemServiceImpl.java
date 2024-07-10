@@ -87,6 +87,8 @@ public class MainItemServiceImpl implements MainItemService{
                 oldMainItem.setQuantity(newMainItemCommand.getQuantity());
             if (newMainItemCommand.getProfitMargin() != oldMainItem.getProfitMargin())
                 oldMainItem.setProfitMargin(newMainItemCommand.getProfitMargin());
+            if (newMainItemCommand.getTotal() != oldMainItem.getTotal())
+                oldMainItem.setTotal(newMainItemCommand.getTotal());
             if (newMainItemCommand.getServiceNumberCode() != null) {
                 ServiceNumber serviceNumber = new ServiceNumber();
                 serviceNumber.setServiceNumberCode(newMainItemCommand.getServiceNumberCode());
