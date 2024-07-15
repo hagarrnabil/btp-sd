@@ -26,6 +26,8 @@ public class SubItemCommand implements Serializable {
 
     private String formulaCode;
 
+    private String description;
+
     private Integer quantity;
 
     private Double amountPerUnit;

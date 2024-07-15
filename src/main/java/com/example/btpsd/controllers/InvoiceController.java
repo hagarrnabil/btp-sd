@@ -48,7 +48,7 @@ public class InvoiceController {
         invoiceService.deleteById(invoiceCode);
     }
 
-    @PutMapping
+    @PatchMapping
     @RequestMapping("/invoices/{invoiceCode}")
     @Transactional
     InvoiceCommand updateInvoiceCommand(@RequestBody InvoiceCommand newInvoiceCommand, @PathVariable Long invoiceCode) {

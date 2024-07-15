@@ -49,7 +49,7 @@ public class MaterialGroupController {
         materialGroupService.deleteById(materialGroupCode);
     }
 
-    @PutMapping
+    @PatchMapping
     @RequestMapping("/materialgroups/{materialGroupCode}")
     @Transactional
     MaterialGroupCommand updateMaterialGroupCommand(@RequestBody MaterialGroupCommand newMaterialGroupCommand, @PathVariable Long materialGroupCode) {

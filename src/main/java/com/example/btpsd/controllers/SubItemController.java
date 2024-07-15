@@ -47,7 +47,7 @@ public class SubItemController {
         subItemService.deleteById(subItemCode);
     }
 
-    @PutMapping
+    @PatchMapping
     @RequestMapping("/subitems/{subItemCode}")
     @Transactional
     SubItemCommand updateSubItemCommand(@RequestBody SubItemCommand newSubItemCommand, @PathVariable Long subItemCode) {

@@ -48,7 +48,7 @@ public class MainItemController {
         mainItemService.deleteById(mainItemCode);
     }
 
-    @PutMapping
+    @PatchMapping
     @RequestMapping("/mainitems/{mainItemCode}")
     @Transactional
     MainItemCommand updateMainItemCommand(@RequestBody MainItemCommand newMainItemCommand, @PathVariable Long mainItemCode) {

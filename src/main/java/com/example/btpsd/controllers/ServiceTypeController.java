@@ -53,7 +53,7 @@ public class ServiceTypeController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
-    @PutMapping
+    @PatchMapping
     @RequestMapping("/servicetypes/{serviceTypeCode}")
     @Transactional
     ServiceTypeCommand updateServiceTypeCommand(@RequestBody ServiceTypeCommand newServiceTypeCommand, @PathVariable Long serviceTypeCode) {

@@ -50,7 +50,7 @@ public class ServiceNumberController {
         serviceNumberService.deleteById(serviceNumberCode);
     }
 
-    @PutMapping
+    @PatchMapping
     @RequestMapping("/servicenumbers/{serviceNumberCode}")
     @Transactional
     ServiceNumberCommand updateServiceNumberCommand(@RequestBody ServiceNumberCommand newServiceNumberCommand, @PathVariable Long serviceNumberCode) {

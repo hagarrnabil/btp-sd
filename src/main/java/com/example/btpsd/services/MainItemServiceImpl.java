@@ -1,6 +1,7 @@
 package com.example.btpsd.services;
 
 import com.example.btpsd.commands.MainItemCommand;
+import com.example.btpsd.commands.SubItemCommand;
 import com.example.btpsd.converters.MainItemCommandToMainItem;
 import com.example.btpsd.converters.MainItemToMainItemCommand;
 import com.example.btpsd.converters.SubItemCommandToSubItem;
@@ -88,24 +89,31 @@ public class MainItemServiceImpl implements MainItemService{
                 oldMainItem.setFormulaCode(newMainItemCommand.getFormulaCode());
             if (newMainItemCommand.getUnitOfMeasurementCode() != oldMainItem.getUnitOfMeasurementCode())
                 oldMainItem.setUnitOfMeasurementCode(newMainItemCommand.getUnitOfMeasurementCode());
-            if (newMainItemCommand.getAmountPerUnit() != oldMainItem.getAmountPerUnit())
-                oldMainItem.setAmountPerUnit(newMainItemCommand.getAmountPerUnit());
             if (newMainItemCommand.getQuantity() != oldMainItem.getQuantity())
                 oldMainItem.setQuantity(newMainItemCommand.getQuantity());
+            if (newMainItemCommand.getDescription() != oldMainItem.getDescription())
+                oldMainItem.setDescription(newMainItemCommand.getDescription());
             if (newMainItemCommand.getProfitMargin() != oldMainItem.getProfitMargin())
                 oldMainItem.setProfitMargin(newMainItemCommand.getProfitMargin());
             if (newMainItemCommand.getTotal() != oldMainItem.getTotal())
                 oldMainItem.setTotal(newMainItemCommand.getTotal());
-            if (newMainItemCommand.getSubItems() != null && !newMainItemCommand.getSubItems().isEmpty() && 
-                !newMainItemCommand.getSubItems().equals(oldMainItem.getSubItemList())) {
+            if (newMainItemCommand.getSubItems() != null && !newMainItemCommand.getSubItems().isEmpty() &&
+                    !newMainItemCommand.getSubItems().equals(oldMainItem.getSubItemList())) {
 
-                newMainItemCommand.getSubItems().forEach(subItemCommand -> {
+                double totalAmountPerUnitFromSubItems = 0.0;
+
+                for (SubItemCommand subItemCommand : newMainItemCommand.getSubItems()) {
                     SubItem subItem = subItemConverter.convert(subItemCommand);
                     if (subItem != null) {
-//                        subItem.setMainItem(oldMainItem);  // Ensure bi-directional relationship
+                        totalAmountPerUnitFromSubItems += subItem.getAmountPerUnit();
                         oldMainItem.addSubItem(subItem);
                     }
-                });
+                }
+
+                oldMainItem.setAmountPerUnit(totalAmountPerUnitFromSubItems);
+            } else {
+                // Use the manually entered amountPerUnit if no subItems are present
+                oldMainItem.setAmountPerUnit(newMainItemCommand.getAmountPerUnit());
             }
             if (newMainItemCommand.getServiceNumberCode() != null) {
                 ServiceNumber serviceNumber = new ServiceNumber();

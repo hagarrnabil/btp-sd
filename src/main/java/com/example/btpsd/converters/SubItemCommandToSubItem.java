@@ -30,6 +30,7 @@ public class SubItemCommandToSubItem implements Converter<SubItemCommand, SubIte
         subItem.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         subItem.setCurrencyCode(source.getCurrencyCode());
         subItem.setFormulaCode(source.getFormulaCode());
+        subItem.setDescription(source.getDescription());
         subItem.setQuantity(source.getQuantity());
         subItem.setAmountPerUnit(source.getAmountPerUnit());
         subItem.setTotal(source.getAmountPerUnit() * source.getQuantity());

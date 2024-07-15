@@ -81,6 +81,8 @@ public class SubItemServiceImpl implements SubItemService {
                 oldSubItem.setUnitOfMeasurementCode(newSubItemCommand.getUnitOfMeasurementCode());
             if (newSubItemCommand.getAmountPerUnit() != oldSubItem.getAmountPerUnit())
                 oldSubItem.setAmountPerUnit(newSubItemCommand.getAmountPerUnit());
+            if (newSubItemCommand.getDescription() != oldSubItem.getDescription())
+                oldSubItem.setDescription(newSubItemCommand.getDescription());
             if (newSubItemCommand.getQuantity() != oldSubItem.getQuantity())
                 oldSubItem.setQuantity(newSubItemCommand.getQuantity());
             if (newSubItemCommand.getTotal() != oldSubItem.getTotal())

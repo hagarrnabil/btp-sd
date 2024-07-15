@@ -33,6 +33,8 @@ public class SubItem implements Serializable {
 
     private String formulaCode;
 
+    private String description;
+
     @NotNull
     private Integer quantity;
 

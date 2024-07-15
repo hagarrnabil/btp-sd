@@ -50,7 +50,7 @@ public class FormulaController {
         formulaService.deleteById(formulaCode);
     }
 
-    @PutMapping
+    @PatchMapping
     @RequestMapping("/formulas/{formulaCode}")
     @Transactional
     FormulaCommand updateFormulaCommand(@RequestBody FormulaCommand newFormulaCommand, @PathVariable Long formulaCode) {

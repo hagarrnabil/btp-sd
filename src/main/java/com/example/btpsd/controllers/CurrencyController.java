@@ -49,7 +49,7 @@ public class CurrencyController {
         currencyService.deleteById(currencyCode);
     }
 
-    @PutMapping
+    @PatchMapping
     @RequestMapping("/currencies/{currencyCode}")
     @Transactional
     CurrencyCommand updateCurrencyCommand(@RequestBody CurrencyCommand newCurrencyCommand, @PathVariable Long currencyCode) {

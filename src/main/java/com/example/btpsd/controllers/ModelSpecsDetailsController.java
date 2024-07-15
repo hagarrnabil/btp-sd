@@ -52,7 +52,7 @@ public class ModelSpecsDetailsController {
     }
 
 
-    @PutMapping
+    @PatchMapping
     @RequestMapping("/modelspecdetails/{modelSpecDetails}")
     @Transactional
     ModelSpecificationsDetailsCommand updateModelSpecDetailsCommand(@RequestBody ModelSpecificationsDetails newModelSpecDetails, @PathVariable Long modelSpecDetails){

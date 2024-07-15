@@ -35,6 +35,8 @@ public class MainItem implements Serializable {
 
     private String formulaCode;
 
+    private String description;
+
     @NotNull
     private Integer quantity;
 

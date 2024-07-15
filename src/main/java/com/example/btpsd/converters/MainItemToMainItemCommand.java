@@ -31,6 +31,7 @@ public class MainItemToMainItemCommand implements Converter<MainItem, MainItemCo
         mainItemCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         mainItemCommand.setCurrencyCode(source.getCurrencyCode());
         mainItemCommand.setFormulaCode(source.getFormulaCode());
+        mainItemCommand.setDescription(source.getDescription());
         mainItemCommand.setQuantity(source.getQuantity());
         mainItemCommand.setAmountPerUnit(source.getAmountPerUnit());
         mainItemCommand.setTotal(source.getQuantity() * source.getAmountPerUnit());

@@ -49,7 +49,7 @@ public class LineTypeController {
         lineTypeService.deleteById(lineTypeCode);
     }
 
-    @PutMapping
+    @PatchMapping
     @RequestMapping("/linetypes/{lineTypeCode}")
     @Transactional
     LineTypeCommand updateLineTypeCommand(@RequestBody LineTypeCommand newLineTypeCommand, @PathVariable Long lineTypeCode) {

@@ -49,7 +49,7 @@ public class PersonnelNumberController {
         personnelNumberService.deleteById(personnelNumberCode);
     }
 
-    @PutMapping
+    @PatchMapping
     @RequestMapping("/personnelnumbers/{personnelNumberCode}")
     @Transactional
     PersonnelNumberCommand updatePersonnelNumberCommand(@RequestBody PersonnelNumberCommand newPersonnelNumberCommand, @PathVariable Long personnelNumberCode) {
