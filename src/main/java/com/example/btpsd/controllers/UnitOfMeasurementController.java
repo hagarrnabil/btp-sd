@@ -29,7 +29,6 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class UnitOfMeasurementController {
 
     private final UnitOfMeasurementRepository unitOfMeasurementRepository;
