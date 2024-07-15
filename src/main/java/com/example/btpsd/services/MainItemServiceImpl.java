@@ -3,6 +3,7 @@ package com.example.btpsd.services;
 import com.example.btpsd.commands.MainItemCommand;
 import com.example.btpsd.converters.MainItemCommandToMainItem;
 import com.example.btpsd.converters.MainItemToMainItemCommand;
+import com.example.btpsd.converters.SubItemCommandToSubItem;
 import com.example.btpsd.model.Invoice;
 import com.example.btpsd.model.MainItem;
 import com.example.btpsd.model.ServiceNumber;
@@ -26,6 +27,7 @@ public class MainItemServiceImpl implements MainItemService{
     private final MainItemRepository mainItemRepository;
     private final MainItemCommandToMainItem mainItemCommandToMainItem;
     private final MainItemToMainItemCommand mainItemToMainItemCommand;
+    private final SubItemCommandToSubItem subItemConverter;
 
 
     @Override
@@ -64,15 +66,20 @@ public class MainItemServiceImpl implements MainItemService{
     public MainItemCommand saveMainItemCommand(MainItemCommand command) {
 
         MainItem detachedMainItem = mainItemCommandToMainItem.convert(command);
-        MainItem savedMainItem = mainItemRepository.save(detachedMainItem);
-        log.debug("Saved MainItem Id:" + savedMainItem.getMainItemCode());
-        return mainItemToMainItemCommand.convert(savedMainItem);
-
+        if (detachedMainItem != null) {
+            MainItem savedMainItem = mainItemRepository.save(detachedMainItem);
+            return mainItemToMainItemCommand.convert(savedMainItem);
+        } else {
+            // Handle conversion error
+            return null;
+        }
 
     }
 
     @Override
     public MainItem updateMainItem(MainItemCommand newMainItemCommand, Long l) {
+
+        
 
         return mainItemRepository.findById(l).map(oldMainItem -> {
             if (newMainItemCommand.getCurrencyCode() != oldMainItem.getCurrencyCode())
@@ -89,11 +96,23 @@ public class MainItemServiceImpl implements MainItemService{
                 oldMainItem.setProfitMargin(newMainItemCommand.getProfitMargin());
             if (newMainItemCommand.getTotal() != oldMainItem.getTotal())
                 oldMainItem.setTotal(newMainItemCommand.getTotal());
+            if (newMainItemCommand.getSubItems() != null && !newMainItemCommand.getSubItems().isEmpty() && 
+                !newMainItemCommand.getSubItems().equals(oldMainItem.getSubItemList())) {
+
+                newMainItemCommand.getSubItems().forEach(subItemCommand -> {
+                    SubItem subItem = subItemConverter.convert(subItemCommand);
+                    if (subItem != null) {
+//                        subItem.setMainItem(oldMainItem);  // Ensure bi-directional relationship
+                        oldMainItem.addSubItem(subItem);
+                    }
+                });
+            }
             if (newMainItemCommand.getServiceNumberCode() != null) {
                 ServiceNumber serviceNumber = new ServiceNumber();
                 serviceNumber.setServiceNumberCode(newMainItemCommand.getServiceNumberCode());
                 oldMainItem.setServiceNumber(serviceNumber);
                 serviceNumber.addMainItem(oldMainItem);
+
             }
             return mainItemRepository.save(oldMainItem);
         }).orElseThrow(() -> new RuntimeException("Main Item not found"));

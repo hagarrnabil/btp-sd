@@ -1,5 +1,6 @@
 package com.example.btpsd.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -22,6 +23,8 @@ public class SubItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long subItemCode;
 
+    private Long mainItemCode;
+
     private Long serviceNumberCode;
 
     private String unitOfMeasurementCode;
@@ -37,24 +40,14 @@ public class SubItem implements Serializable {
 
     private Double total;
 
-//
-//    @OneToMany(mappedBy = "subItem", cascade = CascadeType.MERGE)
-//    @JsonIgnore
-//    private List<Invoice> invoiceList = new ArrayList<>();
-
 
     @ManyToOne
+    @JoinColumn(name = "main_item_id")
     private MainItem mainItem;
 
 
     @ManyToOne
     private ServiceNumber serviceNumber;
 
-
-//    public SubItem addInvoice(Invoice invoice){
-//        invoice.setSubItem(this);
-//        this.invoiceList.add(invoice);
-//        return this;
-//    }
 
 }

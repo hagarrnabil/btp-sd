@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class MainItemCommandToMainItem implements Converter<MainItemCommand, MainItem> {
 
-    private final InvoiceCommandToInvoice invoiceConverter;
 
     private final SubItemCommandToSubItem subItemConverter;
 
@@ -45,29 +44,14 @@ public class MainItemCommandToMainItem implements Converter<MainItemCommand, Mai
             mainItem.setServiceNumber(serviceNumber);
             serviceNumber.addMainItem(mainItem);
         }
-//        if (source.getSubItemCode().isEmpty()){
-//            mainItem.setAmountPerUnit(source.getAmountPerUnit());
-//            mainItem.setTotal(source.getQuantity() * source.getAmountPerUnit());
-//            mainItem.setTotalWithProfit( (mainItem.getProfitMargin()/100) * mainItem.getTotal() );
-//        }
-//        else {
-//            for (int i = 0; i < source.getSubItemCode().size(); i++) {
-//                mainItem.setSubItemCode(source.getSubItemCode());
-//                mainItem.setAmountPerUnit(source.getSubItemCommand().getAmountPerUnit());
-//                mainItem.setTotal(source.getQuantity() * source.getSubItemCommand().getAmountPerUnit());
-//                mainItem.setTotalWithProfit( (mainItem.getProfitMargin()/100) * mainItem.getTotal() );
-//            }
-//        }
-//        for (int i = 0; i < source.getSubItemCode().size(); i++) {
-//            mainItem.setSubItemCode(source.getSubItemCode());
-//        }
-//        if (source.getInvoiceCommandList() != null && source.getInvoiceCommandList().size() > 0) {
-//            source.getInvoiceCommandList()
-//                    .forEach(invoiceCommand -> mainItem.getInvoiceList().add(invoiceConverter.convert(invoiceCommand)));
-//        }
-        if (source.getSubItemCommandList() != null && source.getSubItemCommandList().size() > 0) {
-            source.getSubItemCommandList()
-                    .forEach(subItemCommand -> mainItem.getSubItemList().add(subItemConverter.convert(subItemCommand)));
+        if (source.getSubItems() != null && !source.getSubItems().isEmpty()) {
+            source.getSubItems().forEach(subItemCommand -> {
+                SubItem subItem = subItemConverter.convert(subItemCommand);
+                if (subItem != null) {
+                    subItem.setMainItem(mainItem);  // Ensure bi-directional relationship
+                    mainItem.addSubItem(subItem);
+                }
+            });
         }
         return mainItem;
     }

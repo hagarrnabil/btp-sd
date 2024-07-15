@@ -91,6 +91,12 @@ public class SubItemServiceImpl implements SubItemService {
                 oldSubItem.setServiceNumber(serviceNumber);
                 serviceNumber.addSubItem(oldSubItem);
             }
+            if (newSubItemCommand.getMainItemCode() != null) {
+                MainItem mainItem = new MainItem();
+                mainItem.setMainItemCode(newSubItemCommand.getMainItemCode());
+                oldSubItem.setMainItem(mainItem);
+                mainItem.addSubItem(oldSubItem);
+            }
             return subItemRepository.save(oldSubItem);
         }).orElseThrow(() -> new RuntimeException("Sub Item not found"));
     }

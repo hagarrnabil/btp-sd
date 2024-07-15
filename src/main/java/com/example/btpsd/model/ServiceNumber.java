@@ -67,7 +67,7 @@ public class ServiceNumber implements Serializable {
 
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
-    @JsonIgnore
+//    @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
 

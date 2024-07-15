@@ -1,6 +1,7 @@
 package com.example.btpsd.commands;
 
 import com.example.btpsd.model.SubItem;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,8 +19,6 @@ import java.util.Set;
 public class MainItemCommand implements Serializable {
 
     private Long mainItemCode;
-
-//    private List<Long> subItemCode = new ArrayList<Long>();
 
     private Long serviceNumberCode;
 
@@ -39,11 +38,7 @@ public class MainItemCommand implements Serializable {
 
     private Double totalWithProfit;
 
-//    @JsonIgnore
-//    private List<InvoiceCommand> invoiceCommandList = new ArrayList<>();
+    @JsonProperty("subItems")
+    private List<SubItemCommand> subItems = new ArrayList<>();
 
-    private Set<SubItemCommand> subItemCommandList = new HashSet<>();
-
-//    @JsonIgnore
-//    private SubItemCommand subItemCommand;
 }

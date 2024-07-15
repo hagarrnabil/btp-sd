@@ -16,6 +16,8 @@ public class SubItemCommand implements Serializable {
 
     private Long subItemCode;
 
+    private Long mainItemCode;
+
     private Long serviceNumberCode;
 
     private String unitOfMeasurementCode;
@@ -30,10 +32,5 @@ public class SubItemCommand implements Serializable {
 
     private Double total;
 
-//    @JsonIgnore
-//    private List<MainItemCommand> mainItemCommandList = new ArrayList<>();
-
-//    @JsonIgnore
-//    private List<InvoiceCommand> invoiceCommandList = new ArrayList<>();
 
 }

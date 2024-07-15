@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class MainItemToMainItemCommand implements Converter<MainItem, MainItemCommand> {
 
-    private final InvoiceToInvoiceCommand invoiceConverter;
     private final SubItemToSubItemCommand subItemConverter;
 
     @Synchronized
@@ -40,30 +39,11 @@ public class MainItemToMainItemCommand implements Converter<MainItem, MainItemCo
         if (source.getServiceNumber() != null) {
             mainItemCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
-//        if (source.getSubItemCode().isEmpty()){
-//            mainItemCommand.setAmountPerUnit(source.getAmountPerUnit());
-//            mainItemCommand.setTotal(source.getQuantity() * source.getAmountPerUnit());
-//            mainItemCommand.setTotalWithProfit( (mainItemCommand.getProfitMargin()/100) * mainItemCommand.getTotal() );
-//        }
-//        else {
-//            for (int i = 0; i < source.getSubItemCode().size(); i++) {
-//                mainItemCommand.setSubItemCode(source.getSubItemCode());
-//                mainItemCommand.setAmountPerUnit(source.getSubItem().getAmountPerUnit());
-//                mainItemCommand.setTotal(source.getQuantity() * source.getSubItem().getAmountPerUnit());
-//                mainItemCommand.setTotalWithProfit( (mainItemCommand.getProfitMargin()/100) * mainItemCommand.getTotal() );
-//            }
-//        }
-//        for (int i = 0; i < source.getSubItemCode().size(); i++) {
-//            mainItemCommand.setSubItemCode(source.getSubItemCode());
-//        }
-//        if (source.getInvoiceList() != null && source.getInvoiceList().size() > 0) {
-//            source.getInvoiceList()
-//                    .forEach(invoice -> mainItemCommand.getInvoiceCommandList().add(invoiceConverter.convert(invoice)));
-//        }
         if (source.getSubItemList() != null && source.getSubItemList().size() > 0) {
             source.getSubItemList()
-                    .forEach(subItem -> mainItemCommand.getSubItemCommandList().add(subItemConverter.convert(subItem)));
+                    .forEach(subItem -> mainItemCommand.getSubItems().add(subItemConverter.convert(subItem)));
         }
+
         return mainItemCommand;
     }
 

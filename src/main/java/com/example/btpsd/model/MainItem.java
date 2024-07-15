@@ -1,5 +1,7 @@
 package com.example.btpsd.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -25,12 +27,7 @@ public class MainItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long mainItemCode;
 
-//    @ElementCollection
-//    private List<Long> subItemCode = new ArrayList<Long>();
-
     private Long serviceNumberCode;
-
-    private Long invoiceCode;
 
     private String unitOfMeasurementCode;
 
@@ -51,28 +48,21 @@ public class MainItem implements Serializable {
     private Double totalWithProfit;
 
 
-//    @OneToMany(mappedBy = "mainItem", cascade = CascadeType.MERGE)
-//    @JsonIgnore
-//    private List<Invoice> invoiceList = new ArrayList<>();
-
-
-    @OneToMany(mappedBy = "mainItem", cascade = CascadeType.MERGE)
-    private Set<SubItem> subItemList = new HashSet<>();;
-
+    @OneToMany(mappedBy = "mainItem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonProperty("subItemList")
+    private List<SubItem> subItemList = new ArrayList<>();
 
     @ManyToOne
     private ServiceNumber serviceNumber;
 
 
-//    public MainItem addInvoice(Invoice invoice){
-//        invoice.setMainItem(this);
-//        this.invoiceList.add(invoice);
-//        return this;
-//    }
-
-    public MainItem addSubItem(SubItem subItem){
-        subItem.setMainItem(this);
-        this.subItemList.add(subItem);
+    public MainItem addSubItem(SubItem subItem) {
+        if (!this.subItemList.contains(subItem)) {
+            subItem.setMainItem(this);
+            this.subItemList.add(subItem);
+        }
         return this;
     }
+
+
 }

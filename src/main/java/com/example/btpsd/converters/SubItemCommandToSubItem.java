@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SubItemCommandToSubItem implements Converter<SubItemCommand, SubItem> {
 
-    private final InvoiceCommandToInvoice invoiceConverter;
+//    private final InvoiceCommandToInvoice invoiceConverter;
 
 
     @Synchronized
@@ -39,14 +39,12 @@ public class SubItemCommandToSubItem implements Converter<SubItemCommand, SubIte
             subItem.setServiceNumber(serviceNumber);
             serviceNumber.addSubItem(subItem);
         }
-//        if (source.getInvoiceCommandList() != null && source.getInvoiceCommandList().size() > 0) {
-//            source.getInvoiceCommandList()
-//                    .forEach(invoiceCommand -> subItem.getInvoiceList().add(invoiceConverter.convert(invoiceCommand)));
-//        }
-//        if (source.getMainItemCommandList() != null && source.getMainItemCommandList().size() > 0) {
-//            source.getMainItemCommandList()
-//                    .forEach(mainItemCommand -> subItem.getMainItemList().add(mainItemConverter.convert(mainItemCommand)));
-//        }
+        if (source.getMainItemCode() != null) {
+            MainItem mainItem = new MainItem();
+            mainItem.setMainItemCode(source.getMainItemCode());
+            subItem.setMainItem(mainItem);
+            mainItem.addSubItem(subItem);  // Ensure bi-directional relationship
+        }
         return subItem;
     }
 }
