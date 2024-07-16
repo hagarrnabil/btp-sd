@@ -29,8 +29,10 @@ public class MainItem implements Serializable {
 
     private Long serviceNumberCode;
 
+//    @NotNull
     private String unitOfMeasurementCode;
 
+//    @NotNull
     private String currencyCode;
 
     private String formulaCode;
@@ -40,14 +42,19 @@ public class MainItem implements Serializable {
     @NotNull
     private Integer quantity;
 
+    @NotNull
     private Double amountPerUnit;
 
     private Double total;
 
-    @NotNull
+//    @NotNull
     private Double profitMargin;
 
     private Double totalWithProfit;
+
+    private Boolean doNotPrint;
+
+    private Double amountPerUnitWithProfit;
 
 
     @OneToMany(mappedBy = "mainItem", cascade = CascadeType.ALL, orphanRemoval = true)

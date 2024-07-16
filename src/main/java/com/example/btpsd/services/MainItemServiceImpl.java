@@ -97,10 +97,14 @@ public class MainItemServiceImpl implements MainItemService{
                 oldMainItem.setProfitMargin(newMainItemCommand.getProfitMargin());
             if (newMainItemCommand.getTotal() != oldMainItem.getTotal())
                 oldMainItem.setTotal(newMainItemCommand.getTotal());
+
             if (newMainItemCommand.getSubItems() != null && !newMainItemCommand.getSubItems().isEmpty() &&
                     !newMainItemCommand.getSubItems().equals(oldMainItem.getSubItemList())) {
 
                 double totalAmountPerUnitFromSubItems = 0.0;
+
+                // Clear existing subitems to avoid duplicates
+                oldMainItem.getSubItemList().clear();
 
                 for (SubItemCommand subItemCommand : newMainItemCommand.getSubItems()) {
                     SubItem subItem = subItemConverter.convert(subItemCommand);
@@ -115,6 +119,7 @@ public class MainItemServiceImpl implements MainItemService{
                 // Use the manually entered amountPerUnit if no subItems are present
                 oldMainItem.setAmountPerUnit(newMainItemCommand.getAmountPerUnit());
             }
+
             if (newMainItemCommand.getServiceNumberCode() != null) {
                 ServiceNumber serviceNumber = new ServiceNumber();
                 serviceNumber.setServiceNumberCode(newMainItemCommand.getServiceNumberCode());

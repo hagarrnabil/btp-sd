@@ -37,6 +37,8 @@ public class MainItemToMainItemCommand implements Converter<MainItem, MainItemCo
         mainItemCommand.setTotal(source.getQuantity() * source.getAmountPerUnit());
         mainItemCommand.setProfitMargin(source.getProfitMargin());
         mainItemCommand.setTotalWithProfit( (mainItemCommand.getProfitMargin()/100) * mainItemCommand.getTotal() );
+        mainItemCommand.setDoNotPrint(source.getDoNotPrint());
+        mainItemCommand.setAmountPerUnitWithProfit( (mainItemCommand.getProfitMargin()/100) * mainItemCommand.getAmountPerUnit() );
         if (source.getServiceNumber() != null) {
             mainItemCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }

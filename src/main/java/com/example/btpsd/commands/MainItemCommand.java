@@ -40,6 +40,10 @@ public class MainItemCommand implements Serializable {
 
     private Double totalWithProfit;
 
+    private Boolean doNotPrint;
+
+    private Double amountPerUnitWithProfit;
+
     @JsonProperty("subItems")
     private List<SubItemCommand> subItems = new ArrayList<>();
 

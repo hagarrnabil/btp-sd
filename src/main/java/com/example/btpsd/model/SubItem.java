@@ -27,8 +27,10 @@ public class SubItem implements Serializable {
 
     private Long serviceNumberCode;
 
+//    @NotNull
     private String unitOfMeasurementCode;
 
+//    @NotNull
     private String currencyCode;
 
     private String formulaCode;
@@ -38,6 +40,7 @@ public class SubItem implements Serializable {
     @NotNull
     private Integer quantity;
 
+    @NotNull
     private Double amountPerUnit;
 
     private Double total;
