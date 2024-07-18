@@ -1,14 +1,10 @@
 package com.example.btpsd.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @Getter
@@ -16,14 +12,14 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "subItem")
-public class SubItem implements Serializable {
+@Table(name = "invoiceSubItem")
+public class InvoiceSubItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long subItemCode;
+    private Long invoiceSubItemCode;
 
-    private Long mainItemCode;
+    private Long invoiceMainItemCode;
 
     private Long serviceNumberCode;
 
@@ -48,7 +44,7 @@ public class SubItem implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "main_item_id")
-    private MainItem mainItem;
+    private InvoiceMainItem mainItem;
 
 
     @ManyToOne

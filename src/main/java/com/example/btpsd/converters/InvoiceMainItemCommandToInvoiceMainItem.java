@@ -1,12 +1,10 @@
 package com.example.btpsd.converters;
 
-import com.example.btpsd.commands.MainItemCommand;
-import com.example.btpsd.commands.ModelSpecificationsDetailsCommand;
-import com.example.btpsd.commands.SubItemCommand;
-import com.example.btpsd.model.MainItem;
-import com.example.btpsd.model.ModelSpecificationsDetails;
+import com.example.btpsd.commands.InvoiceMainItemCommand;
+import com.example.btpsd.commands.InvoiceSubItemCommand;
+import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.model.ServiceNumber;
-import com.example.btpsd.model.SubItem;
+import com.example.btpsd.model.InvoiceSubItem;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
@@ -15,22 +13,22 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class MainItemCommandToMainItem implements Converter<MainItemCommand, MainItem> {
+public class InvoiceMainItemCommandToInvoiceMainItem implements Converter<InvoiceMainItemCommand, InvoiceMainItem> {
 
 
-    private final SubItemCommandToSubItem subItemConverter;
+    private final InvoiceSubItemCommandToInvoiceSubItem subItemConverter;
 
     @Synchronized
     @Nullable
     @Override
-    public MainItem convert(MainItemCommand source) {
+    public InvoiceMainItem convert(InvoiceMainItemCommand source) {
 
         if (source == null) {
             return null;
         }
 
-        final MainItem mainItem = new MainItem();
-        mainItem.setMainItemCode(source.getMainItemCode());
+        final InvoiceMainItem mainItem = new InvoiceMainItem();
+        mainItem.setInvoiceMainItemCode(source.getInvoiceMainItemCode());
         mainItem.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         mainItem.setCurrencyCode(source.getCurrencyCode());
         mainItem.setFormulaCode(source.getFormulaCode());
@@ -49,8 +47,8 @@ public class MainItemCommandToMainItem implements Converter<MainItemCommand, Mai
         if (source.getSubItems() != null && !source.getSubItems().isEmpty()) {
             double totalAmountPerUnitFromSubItems = 0.0;
 
-            for (SubItemCommand subItemCommand : source.getSubItems()) {
-                SubItem subItem = subItemConverter.convert(subItemCommand);
+            for (InvoiceSubItemCommand subItemCommand : source.getSubItems()) {
+                InvoiceSubItem subItem = subItemConverter.convert(subItemCommand);
                 if (subItem != null) {
                     totalAmountPerUnitFromSubItems += subItem.getAmountPerUnit();
                     subItem.setMainItem(mainItem);  // Ensure bi-directional relationship

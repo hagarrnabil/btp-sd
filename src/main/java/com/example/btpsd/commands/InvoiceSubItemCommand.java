@@ -3,20 +3,17 @@ package com.example.btpsd.commands;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class SubItemCommand implements Serializable {
+public class InvoiceSubItemCommand implements Serializable {
 
-    private Long subItemCode;
+    private Long invoiceSubItemCode;
 
-    private Long mainItemCode;
+    private Long invoiceMainItemCode;
 
     private Long serviceNumberCode;
 

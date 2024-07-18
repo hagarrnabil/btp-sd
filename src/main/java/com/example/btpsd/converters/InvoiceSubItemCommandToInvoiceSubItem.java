@@ -1,7 +1,6 @@
 package com.example.btpsd.converters;
 
-import com.example.btpsd.commands.ModelSpecificationsDetailsCommand;
-import com.example.btpsd.commands.SubItemCommand;
+import com.example.btpsd.commands.InvoiceSubItemCommand;
 import com.example.btpsd.model.*;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -11,22 +10,20 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class SubItemCommandToSubItem implements Converter<SubItemCommand, SubItem> {
-
-//    private final InvoiceCommandToInvoice invoiceConverter;
+public class InvoiceSubItemCommandToInvoiceSubItem implements Converter<InvoiceSubItemCommand, InvoiceSubItem> {
 
 
     @Synchronized
     @Nullable
     @Override
-    public SubItem convert(SubItemCommand source) {
+    public InvoiceSubItem convert(InvoiceSubItemCommand source) {
 
         if (source == null) {
             return null;
         }
 
-        final SubItem subItem = new SubItem();
-        subItem.setSubItemCode(source.getSubItemCode());
+        final InvoiceSubItem subItem = new InvoiceSubItem();
+        subItem.setInvoiceSubItemCode(source.getInvoiceSubItemCode());
         subItem.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         subItem.setCurrencyCode(source.getCurrencyCode());
         subItem.setFormulaCode(source.getFormulaCode());
@@ -40,9 +37,9 @@ public class SubItemCommandToSubItem implements Converter<SubItemCommand, SubIte
             subItem.setServiceNumber(serviceNumber);
             serviceNumber.addSubItem(subItem);
         }
-        if (source.getMainItemCode() != null) {
-            MainItem mainItem = new MainItem();
-            mainItem.setMainItemCode(source.getMainItemCode());
+        if (source.getInvoiceMainItemCode() != null) {
+            InvoiceMainItem mainItem = new InvoiceMainItem();
+            mainItem.setInvoiceMainItemCode(source.getInvoiceMainItemCode());
             subItem.setMainItem(mainItem);
             mainItem.addSubItem(subItem);  // Ensure bi-directional relationship
         }

@@ -1,32 +1,29 @@
 package com.example.btpsd.converters;
 
-import com.example.btpsd.commands.SubItemCommand;
-import com.example.btpsd.model.SubItem;
+import com.example.btpsd.commands.InvoiceSubItemCommand;
+import com.example.btpsd.model.InvoiceSubItem;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import org.apache.commons.math3.random.RandomDataGenerator;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class SubItemToSubItemCommand implements Converter<SubItem, SubItemCommand> {
-
-//    private final InvoiceToInvoiceCommand invoiceConverter;
+public class InvoiceSubItemToInvoiceSubItemCommand implements Converter<InvoiceSubItem, InvoiceSubItemCommand> {
 
 
     @Synchronized
     @Nullable
     @Override
-    public SubItemCommand convert(SubItem source) {
+    public InvoiceSubItemCommand convert(InvoiceSubItem source) {
 
         if (source == null) {
             return null;
         }
 
-        final SubItemCommand subItemCommand = new SubItemCommand();
-        subItemCommand.setSubItemCode(source.getSubItemCode());
+        final InvoiceSubItemCommand subItemCommand = new InvoiceSubItemCommand();
+        subItemCommand.setInvoiceSubItemCode(source.getInvoiceSubItemCode());
         subItemCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         subItemCommand.setCurrencyCode(source.getCurrencyCode());
         subItemCommand.setFormulaCode(source.getFormulaCode());
@@ -38,7 +35,7 @@ public class SubItemToSubItemCommand implements Converter<SubItem, SubItemComman
             subItemCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
         if (source.getMainItem() != null) {
-            subItemCommand.setMainItemCode(source.getMainItem().getMainItemCode());
+            subItemCommand.setInvoiceMainItemCode(source.getMainItem().getInvoiceMainItemCode());
         }
         return subItemCommand;
     }

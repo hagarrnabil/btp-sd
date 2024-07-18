@@ -5,7 +5,6 @@ import com.example.btpsd.model.ServiceNumber;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import org.apache.commons.math3.random.RandomDataGenerator;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +16,9 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
 
     private final InvoiceToInvoiceCommand invoiceConverter;
 
-    private final MainItemToMainItemCommand mainItemConverter;
+    private final InvoiceMainItemToInvoiceMainItemCommand mainItemConverter;
 
-    private final SubItemToSubItemCommand subItemConverter;
+    private final InvoiceSubItemToInvoiceSubItemCommand subItemConverter;
 
     @Synchronized
     @Nullable
@@ -57,7 +56,7 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
         }
         if (source.getMainItemSet() != null && source.getMainItemSet().size() > 0) {
             source.getMainItemSet()
-                    .forEach(mainItem -> serviceNumberCommand.getMainItemCommands().add(mainItemConverter.convert(mainItem)));
+                    .forEach(mainItem -> serviceNumberCommand.getInvoiceMainItemCommands().add(mainItemConverter.convert(mainItem)));
         }
         if (source.getSubItemSet() != null && source.getSubItemSet().size() > 0) {
             source.getSubItemSet()

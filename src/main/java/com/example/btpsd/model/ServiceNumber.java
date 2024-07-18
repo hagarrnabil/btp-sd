@@ -2,18 +2,11 @@ package com.example.btpsd.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -78,11 +71,11 @@ public class ServiceNumber implements Serializable {
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
     @JsonIgnore
-    private Set<MainItem> mainItemSet = new HashSet<>();
+    private Set<InvoiceMainItem> mainItemSet = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
     @JsonIgnore
-    private Set<SubItem> subItemSet = new HashSet<>();
+    private Set<InvoiceSubItem> subItemSet = new HashSet<>();
 
 
     public ServiceNumber addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
@@ -97,13 +90,13 @@ public class ServiceNumber implements Serializable {
         return this;
     }
 
-    public ServiceNumber addMainItem(MainItem mainItem){
+    public ServiceNumber addMainItem(InvoiceMainItem mainItem){
         mainItem.setServiceNumber(this);
         this.mainItemSet.add(mainItem);
         return this;
     }
 
-    public ServiceNumber addSubItem(SubItem subItem){
+    public ServiceNumber addSubItem(InvoiceSubItem subItem){
         subItem.setServiceNumber(this);
         this.subItemSet.add(subItem);
         return this;

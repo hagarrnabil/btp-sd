@@ -1,19 +1,13 @@
 package com.example.btpsd.commands;
 
-import com.example.btpsd.model.UnitOfMeasurement;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -62,9 +56,9 @@ public class ServiceNumberCommand implements Serializable {
     private Set<InvoiceCommand> invoiceCommands = new HashSet<>();
 
     @JsonIgnore
-    private Set<MainItemCommand> mainItemCommands = new HashSet<>();
+    private Set<InvoiceMainItemCommand> invoiceMainItemCommands = new HashSet<>();
 
     @JsonIgnore
-    private Set<SubItemCommand> subItemCommands = new HashSet<>();
+    private Set<InvoiceSubItemCommand> subItemCommands = new HashSet<>();
 
 }

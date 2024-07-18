@@ -1,13 +1,12 @@
 package com.example.btpsd.services;
 
-import com.example.btpsd.commands.SubItemCommand;
-import com.example.btpsd.converters.SubItemCommandToSubItem;
-import com.example.btpsd.converters.SubItemToSubItemCommand;
-import com.example.btpsd.model.Invoice;
-import com.example.btpsd.model.MainItem;
+import com.example.btpsd.commands.InvoiceSubItemCommand;
+import com.example.btpsd.converters.InvoiceSubItemCommandToInvoiceSubItem;
+import com.example.btpsd.converters.InvoiceSubItemToInvoiceSubItemCommand;
+import com.example.btpsd.model.InvoiceMainItem;
+import com.example.btpsd.model.InvoiceSubItem;
 import com.example.btpsd.model.ServiceNumber;
-import com.example.btpsd.model.SubItem;
-import com.example.btpsd.repositories.SubItemRepository;
+import com.example.btpsd.repositories.InvoiceSubItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,27 +20,27 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class SubItemServiceImpl implements SubItemService {
+public class InvoiceSubItemServiceImpl implements InvoiceSubItemService {
 
-    private final SubItemRepository subItemRepository;
-    private final SubItemCommandToSubItem subItemCommandToSubItem;
-    private final SubItemToSubItemCommand subItemToSubItemCommand;
+    private final InvoiceSubItemRepository invoiceSubItemRepository;
+    private final InvoiceSubItemCommandToInvoiceSubItem invoiceSubItemCommandToInvoiceSubItem;
+    private final InvoiceSubItemToInvoiceSubItemCommand invoiceSubItemToInvoiceSubItemCommand;
 
     @Override
     @Transactional
-    public Set<SubItemCommand> getSubItemCommands() {
+    public Set<InvoiceSubItemCommand> getSubItemCommands() {
 
-        return StreamSupport.stream(subItemRepository.findAll()
+        return StreamSupport.stream(invoiceSubItemRepository.findAll()
                         .spliterator(), false)
-                .map(subItemToSubItemCommand::convert)
+                .map(invoiceSubItemToInvoiceSubItemCommand::convert)
                 .collect(Collectors.toSet());
 
     }
 
     @Override
-    public SubItem findById(Long l) {
+    public InvoiceSubItem findById(Long l) {
 
-        Optional<SubItem> subItemOptional = subItemRepository.findById(l);
+        Optional<InvoiceSubItem> subItemOptional = invoiceSubItemRepository.findById(l);
 
         if (!subItemOptional.isPresent()) {
             throw new RuntimeException("Sub Item Not Found!");
@@ -54,25 +53,25 @@ public class SubItemServiceImpl implements SubItemService {
     @Override
     public void deleteById(Long idToDelete) {
 
-        subItemRepository.deleteById(idToDelete);
+        invoiceSubItemRepository.deleteById(idToDelete);
 
     }
 
     @Override
     @Transactional
-    public SubItemCommand saveSubItemCommand(SubItemCommand command) {
+    public InvoiceSubItemCommand saveSubItemCommand(InvoiceSubItemCommand command) {
 
-        SubItem detachedSubItem = subItemCommandToSubItem.convert(command);
-        SubItem savedSubItem = subItemRepository.save(detachedSubItem);
-        log.debug("Saved SubItem Id:" + savedSubItem.getSubItemCode());
-        return subItemToSubItemCommand.convert(savedSubItem);
+        InvoiceSubItem detachedSubItem = invoiceSubItemCommandToInvoiceSubItem.convert(command);
+        InvoiceSubItem savedSubItem = invoiceSubItemRepository.save(detachedSubItem);
+        log.debug("Saved InvoiceSubItem Id:" + savedSubItem.getInvoiceSubItemCode());
+        return invoiceSubItemToInvoiceSubItemCommand.convert(savedSubItem);
 
     }
 
     @Override
-    public SubItem updateSubItem(SubItemCommand newSubItemCommand, Long l) {
+    public InvoiceSubItem updateSubItem(InvoiceSubItemCommand newSubItemCommand, Long l) {
 
-        return subItemRepository.findById(l).map(oldSubItem -> {
+        return invoiceSubItemRepository.findById(l).map(oldSubItem -> {
             if (newSubItemCommand.getCurrencyCode() != oldSubItem.getCurrencyCode())
                 oldSubItem.setCurrencyCode(newSubItemCommand.getCurrencyCode());
             if (newSubItemCommand.getFormulaCode() != oldSubItem.getFormulaCode())
@@ -93,21 +92,21 @@ public class SubItemServiceImpl implements SubItemService {
                 oldSubItem.setServiceNumber(serviceNumber);
                 serviceNumber.addSubItem(oldSubItem);
             }
-            if (newSubItemCommand.getMainItemCode() != null) {
-                MainItem mainItem = new MainItem();
-                mainItem.setMainItemCode(newSubItemCommand.getMainItemCode());
+            if (newSubItemCommand.getInvoiceMainItemCode() != null) {
+                InvoiceMainItem mainItem = new InvoiceMainItem();
+                mainItem.setInvoiceMainItemCode(newSubItemCommand.getInvoiceMainItemCode());
                 oldSubItem.setMainItem(mainItem);
                 mainItem.addSubItem(oldSubItem);
             }
-            return subItemRepository.save(oldSubItem);
+            return invoiceSubItemRepository.save(oldSubItem);
         }).orElseThrow(() -> new RuntimeException("Sub Item not found"));
     }
 
     @Override
     @Transactional
-    public SubItemCommand findSubItemCommandById(Long l) {
+    public InvoiceSubItemCommand findSubItemCommandById(Long l) {
 
-        return subItemToSubItemCommand.convert(findById(l));
+        return invoiceSubItemToInvoiceSubItemCommand.convert(findById(l));
 
     }
 }
