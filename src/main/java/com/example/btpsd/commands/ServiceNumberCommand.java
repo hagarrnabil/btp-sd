@@ -52,8 +52,8 @@ public class ServiceNumberCommand implements Serializable {
     @JsonIgnore
     private Set<ModelSpecificationsDetailsCommand> modelSpecificationsDetailsCommands = new HashSet<>();
 
-    @JsonIgnore
-    private Set<InvoiceCommand> invoiceCommands = new HashSet<>();
+//    @JsonIgnore
+//    private Set<InvoiceCommand> invoiceCommands = new HashSet<>();
 
     @JsonIgnore
     private Set<InvoiceMainItemCommand> invoiceMainItemCommands = new HashSet<>();

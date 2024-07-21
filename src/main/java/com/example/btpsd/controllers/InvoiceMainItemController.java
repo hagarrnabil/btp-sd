@@ -2,6 +2,8 @@ package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.InvoiceMainItemCommand;
 import com.example.btpsd.converters.InvoiceMainItemToInvoiceMainItemCommand;
+import com.example.btpsd.model.InvoiceMainItem;
+import com.example.btpsd.model.ModelSpecificationsDetails;
 import com.example.btpsd.repositories.InvoiceMainItemRepository;
 import com.example.btpsd.services.InvoiceMainItemService;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -55,4 +58,10 @@ public class InvoiceMainItemController {
         return command;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/mainitems/search")
+    @ResponseBody
+    public List<InvoiceMainItem> Search(@RequestParam String keyword) {
+
+        return invoiceMainItemRepository.search(keyword);
+    }
 }

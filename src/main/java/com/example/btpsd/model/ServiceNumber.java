@@ -60,13 +60,13 @@ public class ServiceNumber implements Serializable {
 
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
-//    @JsonIgnore
+    @JsonIgnore
     private Set<ModelSpecificationsDetails> modelSpecificationsDetails = new HashSet<>();
 
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
-    @JsonIgnore
-    private Set<Invoice> invoiceSet = new HashSet<>();
+//    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
+//    @JsonIgnore
+//    private Set<Invoice> invoiceSet = new HashSet<>();
 
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
@@ -77,6 +77,10 @@ public class ServiceNumber implements Serializable {
     @JsonIgnore
     private Set<InvoiceSubItem> subItemSet = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
+    @JsonIgnore
+    private Set<ExecutionOrderMain> executionOrderMainSet = new HashSet<>();
+
 
     public ServiceNumber addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setServiceNumber(this);
@@ -84,11 +88,6 @@ public class ServiceNumber implements Serializable {
         return this;
     }
 
-    public ServiceNumber addInvoice(Invoice invoice){
-        invoice.setServiceNumber(this);
-        this.invoiceSet.add(invoice);
-        return this;
-    }
 
     public ServiceNumber addMainItem(InvoiceMainItem mainItem){
         mainItem.setServiceNumber(this);
@@ -101,4 +100,11 @@ public class ServiceNumber implements Serializable {
         this.subItemSet.add(subItem);
         return this;
     }
+
+    public ServiceNumber addExecutionOrderMainItem(ExecutionOrderMain executionOrderMain){
+        executionOrderMain.setServiceNumber(this);
+        this.executionOrderMainSet.add(executionOrderMain);
+        return this;
+    }
+
 }

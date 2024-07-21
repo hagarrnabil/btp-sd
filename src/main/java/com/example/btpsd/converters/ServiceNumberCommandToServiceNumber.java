@@ -14,7 +14,7 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
 
     private final ModelSpecDetailsCommandToModelSpecDetails modelSpecDetailsConverter;
 
-    private final InvoiceCommandToInvoice invoiceConverter;
+//    private final InvoiceCommandToInvoice invoiceConverter;
 
     private final InvoiceMainItemCommandToInvoiceMainItem mainItemConverter;
 
@@ -50,10 +50,10 @@ public class ServiceNumberCommandToServiceNumber implements Converter<ServiceNum
             source.getModelSpecificationsDetailsCommands()
                     .forEach(modelSpecificationsDetailsCommand -> serviceNumber.getModelSpecificationsDetails().add(modelSpecDetailsConverter.convert(modelSpecificationsDetailsCommand)));
         }
-        if (source.getInvoiceCommands() != null && source.getInvoiceCommands().size() > 0) {
-            source.getInvoiceCommands()
-                    .forEach(invoiceCommand -> serviceNumber.getInvoiceSet().add(invoiceConverter.convert(invoiceCommand)));
-        }
+//        if (source.getInvoiceCommands() != null && source.getInvoiceCommands().size() > 0) {
+//            source.getInvoiceCommands()
+//                    .forEach(invoiceCommand -> serviceNumber.getInvoiceSet().add(invoiceConverter.convert(invoiceCommand)));
+//        }
         if (source.getInvoiceMainItemCommands() != null && source.getInvoiceMainItemCommands().size() > 0) {
             source.getInvoiceMainItemCommands()
                     .forEach(mainItemCommand -> serviceNumber.getMainItemSet().add(mainItemConverter.convert(mainItemCommand)));

@@ -70,9 +70,12 @@ public class ExecutionOrderMain implements Serializable {
 
     private Boolean doNotPrint;
 
-    @OneToMany(mappedBy = "mainItem", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonProperty("subItemList")
-    private List<InvoiceSubItem> subItemList = new ArrayList<>();
+//    @OneToMany(mappedBy = "mainItem", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonProperty("subItemList")
+//    private List<InvoiceSubItem> subItemList = new ArrayList<>();
+
+    @ManyToOne
+    private ServiceNumber serviceNumber;
 
 
 }

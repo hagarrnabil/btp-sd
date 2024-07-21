@@ -2,6 +2,8 @@ package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.InvoiceSubItemCommand;
 import com.example.btpsd.converters.InvoiceSubItemToInvoiceSubItemCommand;
+import com.example.btpsd.model.InvoiceSubItem;
+import com.example.btpsd.model.ModelSpecificationsDetails;
 import com.example.btpsd.repositories.InvoiceSubItemRepository;
 import com.example.btpsd.services.InvoiceSubItemService;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -55,4 +58,10 @@ public class InvoiceSubItemController {
         return command;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/subitems/search")
+    @ResponseBody
+    public List<InvoiceSubItem> Search(@RequestParam String keyword) {
+
+        return invoiceSubItemRepository.search(keyword);
+    }
 }
