@@ -15,12 +15,12 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "executionOrderMain")
+@Table(name = "invoiceMainItem")
 public class ExecutionOrderMain implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long executionOrderMainCode;
+    private Long invoiceMainItemCode;
 
     private Long serviceNumberCode;
 

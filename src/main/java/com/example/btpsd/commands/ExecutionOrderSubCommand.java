@@ -12,4 +12,41 @@ import java.io.Serializable;
 public class ExecutionOrderSubCommand implements Serializable {
 
     private Long executionOrderSubCode;
+
+    private Long serviceNumberCode;
+
+    private String description;
+
+    private String unitOfMeasurementCode;
+
+    private String currencyCode;
+
+    private String materialGroupCode;
+
+    private String personnelNumberCode;
+
+    private String lineTypeCode;
+
+    private Integer totalQuantity;
+
+    private Double amountPerUnit;
+
+    private Double total;
+
+    private String externalServiceNumber;
+
+    private String serviceText;
+
+    private String lineText;
+
+    private String lineNumber;
+
+    private Boolean biddersLine;
+
+    private Boolean supplementaryLine;
+
+    private Boolean lotCostOne;
+
+    private Boolean doNotPrint;
+
 }
