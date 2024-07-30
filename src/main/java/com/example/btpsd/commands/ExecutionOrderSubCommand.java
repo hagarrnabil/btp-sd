@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class ExecutionOrderSubCommand implements Serializable {
 
-    private Long executionOrderSubCode;
+    private Long invoiceMainItemCode;
 
     private Long serviceNumberCode;
 

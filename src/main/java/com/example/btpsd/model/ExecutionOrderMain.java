@@ -36,10 +36,10 @@ public class ExecutionOrderMain implements Serializable {
 
     private String lineTypeCode;
 
-    @NotNull
+//    @NotNull
     private Integer totalQuantity;
 
-    @NotNull
+//    @NotNull
     private Double amountPerUnit;
 
     private Double total;

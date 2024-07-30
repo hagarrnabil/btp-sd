@@ -22,7 +22,7 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         }
 
         final ExecutionOrderMainCommand executionOrderMainCommand = new ExecutionOrderMainCommand();
-        executionOrderMainCommand.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
+//        executionOrderMainCommand.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
         if (source.getServiceNumber() != null) {
             executionOrderMainCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }

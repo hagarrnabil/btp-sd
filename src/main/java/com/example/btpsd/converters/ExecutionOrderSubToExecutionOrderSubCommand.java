@@ -22,7 +22,7 @@ public class ExecutionOrderSubToExecutionOrderSubCommand implements Converter<Ex
         }
 
         final ExecutionOrderSubCommand executionOrderSubCommand = new ExecutionOrderSubCommand();
-        executionOrderSubCommand.setExecutionOrderSubCode(source.getExecutionOrderSubCode());
+        executionOrderSubCommand.setInvoiceMainItemCode(source.getInvoiceMainItemCode());
         return executionOrderSubCommand;
     }
 }

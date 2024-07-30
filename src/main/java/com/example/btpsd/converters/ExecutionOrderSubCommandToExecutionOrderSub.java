@@ -24,7 +24,7 @@ public class ExecutionOrderSubCommandToExecutionOrderSub implements Converter<Ex
         }
 
         final ExecutionOrderSub executionOrderSub = new ExecutionOrderSub();
-        executionOrderSub.setExecutionOrderSubCode(source.getExecutionOrderSubCode());
+//        executionOrderSub.setExecutionOrderSubCode(source.getExecutionOrderSubCode());
         return executionOrderSub;
     }
 }

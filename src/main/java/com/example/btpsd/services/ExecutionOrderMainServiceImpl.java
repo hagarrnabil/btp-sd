@@ -61,7 +61,7 @@ public class ExecutionOrderMainServiceImpl implements ExecutionOrderMainService{
 
         ExecutionOrderMain detachedExecutionOrderMain = executionOrderMainCommandToExecutionOrderMain.convert(command);
         ExecutionOrderMain savedExecutionOrderMain = executionOrderMainRepository.save(detachedExecutionOrderMain);
-        log.debug("Saved Execution Order Main Id:" + savedExecutionOrderMain.getExecutionOrderMainCode());
+        log.debug("Saved Execution Order Main Id:" + savedExecutionOrderMain.getInvoiceMainItemCode());
         return executionOrderMainToExecutionOrderMainCommand.convert(savedExecutionOrderMain);
 
     }

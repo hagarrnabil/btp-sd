@@ -25,7 +25,7 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         }
 
         final ExecutionOrderMain executionOrderMain = new ExecutionOrderMain();
-        executionOrderMain.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
+        executionOrderMain.setInvoiceMainItemCode(source.getInvoiceMainItemCode());
         if (source.getServiceNumberCode() != null) {
             ServiceNumber serviceNumber = new ServiceNumber();
             serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
