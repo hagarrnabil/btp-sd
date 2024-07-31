@@ -59,4 +59,8 @@ public class ExecutionOrderSub implements Serializable {
 
     @ManyToOne
     private ServiceNumber serviceNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "execution_order_main_id")
+    private ExecutionOrderMain executionOrderMain;
 }

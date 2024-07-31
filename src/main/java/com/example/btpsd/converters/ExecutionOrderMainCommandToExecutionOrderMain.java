@@ -2,9 +2,9 @@ package com.example.btpsd.converters;
 
 import com.example.btpsd.commands.CurrencyCommand;
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
-import com.example.btpsd.model.Currency;
-import com.example.btpsd.model.ExecutionOrderMain;
-import com.example.btpsd.model.ServiceNumber;
+import com.example.btpsd.commands.ExecutionOrderSubCommand;
+import com.example.btpsd.commands.InvoiceSubItemCommand;
+import com.example.btpsd.model.*;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<ExecutionOrderMainCommand, ExecutionOrderMain> {
+
+    private final ExecutionOrderSubCommandToExecutionOrderSub executionOrderSubConverter;
 
     @Synchronized
     @Nullable
@@ -39,10 +41,6 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         executionOrderMain.setPersonnelNumberCode(source.getPersonnelNumberCode());
         executionOrderMain.setLineTypeCode(source.getLineTypeCode());
         executionOrderMain.setTotalQuantity(source.getTotalQuantity());
-        executionOrderMain.setAmountPerUnit(source.getAmountPerUnit());
-        executionOrderMain.setTotal(source.getTotal());
-        executionOrderMain.setActualQuantity(source.getActualQuantity());
-        executionOrderMain.setActualPercentage(source.getActualPercentage());
         executionOrderMain.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
         executionOrderMain.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         executionOrderMain.setManualPriceEntryAllowed(source.getManualPriceEntryAllowed());
@@ -54,6 +52,28 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         executionOrderMain.setSupplementaryLine(source.getSupplementaryLine());
         executionOrderMain.setLotCostOne(source.getLotCostOne());
         executionOrderMain.setDoNotPrint(source.getDoNotPrint());
+
+        if (source.getExecutionOrderSub() != null && !source.getExecutionOrderSub().isEmpty()) {
+            double totalAmountPerUnitFromSubItems = 0.0;
+
+            for (ExecutionOrderSubCommand subItemCommand : source.getExecutionOrderSub()) {
+                ExecutionOrderSub subItem = executionOrderSubConverter.convert(subItemCommand);
+                if (subItem != null) {
+                    totalAmountPerUnitFromSubItems += subItem.getAmountPerUnit();
+                    subItem.setExecutionOrderMain(executionOrderMain);  // Ensure bi-directional relationship
+                    executionOrderMain.addExecutionOrderSub(subItem);
+                }
+            }
+
+            executionOrderMain.setAmountPerUnit(totalAmountPerUnitFromSubItems);
+        } else {
+            // Use the manually entered amountPerUnit if no subItems are present
+            executionOrderMain.setAmountPerUnit(source.getAmountPerUnit());
+        }
+
+        executionOrderMain.setTotal(executionOrderMain.getTotalQuantity() * executionOrderMain.getAmountPerUnit());
+        executionOrderMain.setActualQuantity(source.getActualQuantity());
+        executionOrderMain.setActualPercentage(source.getActualPercentage());
         return executionOrderMain;
     }
 }

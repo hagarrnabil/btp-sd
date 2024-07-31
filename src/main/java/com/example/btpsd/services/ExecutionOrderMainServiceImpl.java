@@ -1,10 +1,15 @@
 package com.example.btpsd.services;
 
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
+import com.example.btpsd.commands.ExecutionOrderSubCommand;
+import com.example.btpsd.commands.InvoiceSubItemCommand;
 import com.example.btpsd.converters.ExecutionOrderMainCommandToExecutionOrderMain;
 import com.example.btpsd.converters.ExecutionOrderMainToExecutionOrderMainCommand;
+import com.example.btpsd.converters.ExecutionOrderSubCommandToExecutionOrderSub;
 import com.example.btpsd.model.Currency;
 import com.example.btpsd.model.ExecutionOrderMain;
+import com.example.btpsd.model.ExecutionOrderSub;
+import com.example.btpsd.model.InvoiceSubItem;
 import com.example.btpsd.repositories.ExecutionOrderMainRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +29,7 @@ public class ExecutionOrderMainServiceImpl implements ExecutionOrderMainService{
     private final ExecutionOrderMainRepository executionOrderMainRepository;
     private final ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand;
     private final ExecutionOrderMainCommandToExecutionOrderMain executionOrderMainCommandToExecutionOrderMain;
+    private final ExecutionOrderSubCommandToExecutionOrderSub executionOrderSubConverter;
 
     @Override
     @Transactional
@@ -114,6 +120,27 @@ public class ExecutionOrderMainServiceImpl implements ExecutionOrderMainService{
                 oldExecutionOrderMain.setLotCostOne(newExecutionOrderMainCommand.getLotCostOne());
             if (newExecutionOrderMainCommand.getDoNotPrint() != oldExecutionOrderMain.getDoNotPrint())
                 oldExecutionOrderMain.setDoNotPrint(newExecutionOrderMainCommand.getDoNotPrint());
+            if (newExecutionOrderMainCommand.getExecutionOrderSub() != null && !newExecutionOrderMainCommand.getExecutionOrderSub().isEmpty() &&
+                    !newExecutionOrderMainCommand.getExecutionOrderSub().equals(oldExecutionOrderMain.getExecutionOrderSubList())) {
+
+                double totalAmountPerUnitFromSubItems = 0.0;
+
+                // Clear existing subitems to avoid duplicates
+                oldExecutionOrderMain.getExecutionOrderSubList().clear();
+
+                for (ExecutionOrderSubCommand subItemCommand : newExecutionOrderMainCommand.getExecutionOrderSub()) {
+                    ExecutionOrderSub subItem = executionOrderSubConverter.convert(subItemCommand);
+                    if (subItem != null) {
+                        totalAmountPerUnitFromSubItems += subItem.getAmountPerUnit();
+                        oldExecutionOrderMain.addExecutionOrderSub(subItem);
+                    }
+                }
+
+                oldExecutionOrderMain.setAmountPerUnit(totalAmountPerUnitFromSubItems);
+            } else {
+                // Use the manually entered amountPerUnit if no subItems are present
+                oldExecutionOrderMain.setAmountPerUnit(newExecutionOrderMainCommand.getAmountPerUnit());
+            }
             return executionOrderMainRepository.save(oldExecutionOrderMain);
         }).orElseThrow(() -> new RuntimeException("Execution Order Main not found"));
 

@@ -1,10 +1,13 @@
 package com.example.btpsd.commands;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -58,4 +61,7 @@ public class ExecutionOrderMainCommand implements Serializable {
     private Boolean lotCostOne;
 
     private Boolean doNotPrint;
+
+    @JsonProperty("executionOrdersubList")
+    private List<ExecutionOrderSubCommand> executionOrderSub = new ArrayList<>();
 }

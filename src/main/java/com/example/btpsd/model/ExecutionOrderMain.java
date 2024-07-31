@@ -36,10 +36,10 @@ public class ExecutionOrderMain implements Serializable {
 
     private String lineTypeCode;
 
-//    @NotNull
+    //    @NotNull
     private Integer totalQuantity;
 
-//    @NotNull
+    //    @NotNull
     private Double amountPerUnit;
 
     private Double total;
@@ -70,12 +70,19 @@ public class ExecutionOrderMain implements Serializable {
 
     private Boolean doNotPrint;
 
-//    @OneToMany(mappedBy = "mainItem", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JsonProperty("subItemList")
-//    private List<InvoiceSubItem> subItemList = new ArrayList<>();
+    @OneToMany(mappedBy = "executionOrderMain", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonProperty("executionOrdersubList")
+    private List<ExecutionOrderSub> executionOrderSubList = new ArrayList<>();
 
     @ManyToOne
     private ServiceNumber serviceNumber;
 
 
+    public ExecutionOrderMain addExecutionOrderSub(ExecutionOrderSub executionOrderSub) {
+        if (!this.executionOrderSubList.contains(executionOrderSub)) {
+            executionOrderSub.setExecutionOrderMain(this);
+            this.executionOrderSubList.add(executionOrderSub);
+        }
+        return this;
+    }
 }

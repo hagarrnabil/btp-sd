@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<ExecutionOrderMain, ExecutionOrderMainCommand> {
 
+    private final ExecutionOrderSubToExecutionOrderSubCommand executionOrderSubConverter;
+
     @Synchronized
     @Nullable
     @Override
@@ -22,10 +24,7 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         }
 
         final ExecutionOrderMainCommand executionOrderMainCommand = new ExecutionOrderMainCommand();
-//        executionOrderMainCommand.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
-        if (source.getServiceNumber() != null) {
-            executionOrderMainCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
-        }
+        executionOrderMainCommand.setInvoiceMainItemCode(source.getInvoiceMainItemCode());
         executionOrderMainCommand.setDescription(source.getDescription());
         executionOrderMainCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         executionOrderMainCommand.setCurrencyCode(source.getCurrencyCode());
@@ -34,7 +33,7 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         executionOrderMainCommand.setLineTypeCode(source.getLineTypeCode());
         executionOrderMainCommand.setTotalQuantity(source.getTotalQuantity());
         executionOrderMainCommand.setAmountPerUnit(source.getAmountPerUnit());
-        executionOrderMainCommand.setTotal(source.getTotal());
+        executionOrderMainCommand.setTotal(source.getTotalQuantity() * source.getAmountPerUnit());
         executionOrderMainCommand.setActualQuantity(source.getActualQuantity());
         executionOrderMainCommand.setActualPercentage(source.getActualPercentage());
         executionOrderMainCommand.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
@@ -48,6 +47,15 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         executionOrderMainCommand.setSupplementaryLine(source.getSupplementaryLine());
         executionOrderMainCommand.setLotCostOne(source.getLotCostOne());
         executionOrderMainCommand.setDoNotPrint(source.getDoNotPrint());
+
+        if (source.getServiceNumber() != null) {
+            executionOrderMainCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
+        }
+        if (source.getExecutionOrderSubList() != null && source.getExecutionOrderSubList().size() > 0) {
+            source.getExecutionOrderSubList()
+                    .forEach(executionOrderSub -> executionOrderMainCommand.getExecutionOrderSub().add(executionOrderSubConverter.convert(executionOrderSub)));
+        }
+
         return executionOrderMainCommand;
     }
 }

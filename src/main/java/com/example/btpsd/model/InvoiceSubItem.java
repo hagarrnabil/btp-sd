@@ -33,10 +33,10 @@ public class InvoiceSubItem implements Serializable {
 
     private String description;
 
-    @NotNull
+//    @NotNull
     private Integer quantity;
 
-    @NotNull
+//    @NotNull
     private Double amountPerUnit;
 
     private Double total;
