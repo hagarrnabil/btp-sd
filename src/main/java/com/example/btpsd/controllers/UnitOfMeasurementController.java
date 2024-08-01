@@ -43,19 +43,6 @@ public class UnitOfMeasurementController {
     public String All() throws JSONException, IOException, URISyntaxException {
 
 
-//        RestTemplate restTemplate = new RestTemplate();
-//        String uri = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/YY1_UOM4_CDS/YY1_UOM4?$format=json";
-//        String user = "UOM_USER4";
-//        String password = "s3ZhGnQXEymrUcgCPXR\\ZBPgDAeKYbxLEaozZQPv";
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-//        HttpEntity<?> entity = new HttpEntity<>(headers);
-//
-//        restTemplate.getInterceptors().add(
-//                new BasicAuthenticationInterceptor(user, password));
-//
-//        JSONObject result = new JSONObject(restTemplate.exchange( uri, HttpMethod.GET, entity, JSONObject.class).getBody());
-
 
         JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/measurementsCloud"), String.valueOf(Charset.forName("UTF-8"))));
         JSONArray jsonObjectUnits = jsonFromURL.getJSONObject("d").getJSONArray("results");

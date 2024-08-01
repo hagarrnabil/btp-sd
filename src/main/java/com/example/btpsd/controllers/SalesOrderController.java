@@ -1,70 +1,80 @@
 package com.example.btpsd.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.codec.binary.Base64;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 
 @RequiredArgsConstructor
 @RestController
 public class SalesOrderController {
 
-
-    @RequestMapping(value = "/salesorder", method = RequestMethod.GET)
-    private StringBuilder getAllSalesOrders() throws Exception {
-
-        final int BLOCK_SIZE = 1024;
-        final int BUFFER_SIZE = 8 * BLOCK_SIZE;
-        DataOutputStream dataOut = null;
-        BufferedReader in = null;
+    @GetMapping("/salesorder")
+    @ResponseBody
+    public String All() throws JSONException, IOException, URISyntaxException {
 
 
-            //API endpoint
-            String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder?%24inlinecount=allpages&%24top=50";
+        JSONObject jsonFromURL = new JSONObject(IOUtils.toString(new URL("http://localhost:8080/salesordercloud"), String.valueOf(Charset.forName("UTF-8"))));
+        JSONArray jsonObjectUnits = jsonFromURL.getJSONObject("d").getJSONArray("results");
+        JSONArray newJson = new JSONArray();
 
+        for (int index = 0, size = jsonObjectUnits.length(); index < size; index++) {
 
-            URL urlObj = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
-            String user = "BTP_USER1";
-            String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
-            String auth = user + ":" + password;
-            byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
-            String authHeaderValue = "Basic " + new String(encodedAuth);
+            JSONObject objectInArray = jsonObjectUnits.getJSONObject(index);
+            String[] elementNames = JSONObject.getNames(objectInArray);
+            for (String elementName : elementNames) {
 
-            //setting request method
-            connection.setRequestMethod("GET");
+                if (elementName.equals("SalesOrderType") || elementName.equals("SalesOrderTypeInternalCode") || elementName.equals("SalesOrganization") || elementName.equals("DistributionChannel") ||
+                        elementName.equals("OrganizationDivision") || elementName.equals("SalesGroup") || elementName.equals("SalesOffice") || elementName.equals("SalesDistrict") || elementName.equals("CreatedByUser")
+                || elementName.equals("LastChangeDate") || elementName.equals("SenderBusinessSystemName") || elementName.equals("ExternalDocumentID") || elementName.equals("LastChangeDateTime") || elementName.equals("ExternalDocLastChangeDateTime")
+                || elementName.equals("PurchaseOrderByCustomer") || elementName.equals("PurchaseOrderByShipToParty") || elementName.equals("CustomerPurchaseOrderType") || elementName.equals("CustomerPurchaseOrderDate")
+                || elementName.equals("SalesOrderDate") || elementName.contains("Total") || elementName.contains("Overall") || elementName.contains("SDDocument") || elementName.contains("PricingDate") ||
+                elementName.contains("to_") || elementName.equals("RequestedDeliveryDate") || elementName.contains("Shipping") || elementName.contains("CompleteDeliveryIsDefined") || elementName.contains("Incoterms") ||
+                elementName.contains("Customer") || elementName.contains("PaymentMethod") || elementName.equals("FixedValueDate") || elementName.contains("AssignmentReference") || elementName.contains("Accounting") ||
+                elementName.contains("Additional") || elementName.equals("SlsDocIsRlvtForProofOfDeliv") || elementName.contains("Country") || elementName.equals("SalesOrderApprovalReason") || elementName.contains("Price") ||
+                elementName.equals("SalesDocApprovalStatus") || elementName.contains("ContractAccount") ||  elementName.contains("ServicesRenderedDate") || elementName.contains("Billing") || elementName.equals("__metadata") || elementName.contains("Delivery"))
 
-            //adding headers
-            connection.setRequestProperty("Authorization", authHeaderValue);
-            connection.setRequestProperty("Accept", "application/json");
+                {
 
+                    objectInArray.remove(elementName);
 
-            connection.setDoInput(true);
+                }
 
-            int responseCode = connection.getResponseCode();
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            char[] charArray = new char[BUFFER_SIZE];
-            int charsCount = 0;
-            while ((charsCount = in.read(charArray)) != -1) {
-                response.append(String.valueOf(charArray, 0, charsCount));
             }
+            newJson.put(objectInArray);
+        }
 
-            //printing response
-            System.out.println(response.toString());
+        // saving into db
 
+//        for (int index = 0; index < newJson.length(); index++)
+//        {
+//            UnitOfMeasurement unitOfMeasurement = new UnitOfMeasurement();
+//            JSONObject objectInsideArray = newJson.getJSONObject(index);
+//            String[] elementNames = JSONObject.getNames(objectInsideArray);
+//            for (String elementName : elementNames) {
+//                if (elementName.equals("UnitOfMeasureSAPCode")) {
+//                    unitOfMeasurement.setUnitOfMeasureSAPCode(objectInsideArray.getString("UnitOfMeasureSAPCode"));
+//                } else if (elementName.equals("UnitOfMeasureLongName")) {
+//                    unitOfMeasurement.setUnitOfMeasureLongName(objectInsideArray.getString("UnitOfMeasureLongName"));
+//                }
+//                else {
+//                    unitOfMeasurement.setUnitOfMeasureName(objectInsideArray.getString("UnitOfMeasureName"));
+//                }
+//                index++;
+//                unitOfMeasurementRepository.save(unitOfMeasurement);
+//            }
+//        }
+        return newJson.toString();
+//        return unitOfMeasurementRepository.findAll();
 
-        return response;
     }
-
 }
-
-
