@@ -1,36 +1,42 @@
-spring:
-  h2:
-    console:
-      enabled: true
-  datasource:
-    url: jdbc:h2:mem:testdb
-
-logging.level:
-  com.sap.cloud.security.samples.resecurity: DEBUG
-  org.springframework: ERROR
-  org.springframework.security: DEBUG
-  org.springframework.web: DEBUG
-sap.security.services:
-  identity:
-    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
-    domains:
-      - localhost                 # SecurityTest.DEFAULT_DOMAIN
-  xsuaa:
-    xsappname: xsapp!t0815        # SecurityTest.DEFAULT_APP_ID
-    uaadomain: localhost          # SecurityTest.DEFAULT_DOMAIN
-    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
-    url:       http://localhost   # SecurityTest.DEFAULT_URL
-
-
 #spring:
+#  h2:
+#    console:
+#      enabled: true
 #  datasource:
+#    url: jdbc:h2:mem:testdb
+#
+#logging.level:
+#  com.sap.cloud.security.samples.resecurity: DEBUG
+#  org.springframework: ERROR
+#  org.springframework.security: DEBUG
+#  org.springframework.web: DEBUG
+#sap.security.services:
+#  identity:
+#    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
+#    domains:
+#      - localhost                 # SecurityTest.DEFAULT_DOMAIN
+#  xsuaa:
+#    xsappname: xsapp!t0815        # SecurityTest.DEFAULT_APP_ID
+#    uaadomain: localhost          # SecurityTest.DEFAULT_DOMAIN
+#    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
+#    url:       http://localhost   # SecurityTest.DEFAULT_URL
+
+
+spring:
+  datasource:
+    url: ${vcap.services.mysql.credentials.url}
+    username: ${vcap.services.mysql.credentials.username}
+    password: ${vcap.services.mysql.credentials.password}
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: mysql
+    show-sql: true
+
+
+    defer-datasource-initialization: true
 #    url: jdbc:mysql://mysql.security.svc.cluster.local:3306/mysql
 #    username: admin
 #    password: P@ssword
-#  jpa:
-#    hibernate:
-#      ddl-auto: create-drop
-#
-#    database-platform: org.hibernate.dialect.MySQL8Dialect
-#    database: mysql
-#    show-sql: true
