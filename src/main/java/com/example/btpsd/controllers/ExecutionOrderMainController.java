@@ -26,10 +26,10 @@ public class ExecutionOrderMainController {
         return executionOrderMainService.getExecutionOrderMainCommands();
     }
 
-    @GetMapping("/executionordermain/{mainItemCode}")
-    public Optional<ExecutionOrderMainCommand> findByIds(@PathVariable @NotNull Long mainItemCode) {
+    @GetMapping("/executionordermain/{executionOrderMainCode}")
+    public Optional<ExecutionOrderMainCommand> findByIds(@PathVariable @NotNull Long executionOrderMainCode) {
 
-        return Optional.ofNullable(executionOrderMainService.findExecutionOrderMainCommandById(mainItemCode));
+        return Optional.ofNullable(executionOrderMainService.findExecutionOrderMainCommandById(executionOrderMainCode));
     }
 
     @PostMapping("/executionordermain")
@@ -40,17 +40,17 @@ public class ExecutionOrderMainController {
 
     }
 
-    @DeleteMapping("/executionordermain/{mainItemCode}")
-    void deleteExecutionOrderMainItemCommand(@PathVariable Long mainItemCode) {
-        executionOrderMainService.deleteById(mainItemCode);
+    @DeleteMapping("/executionordermain/{executionOrderMainCode}")
+    void deleteExecutionOrderMainItemCommand(@PathVariable Long executionOrderMainCode) {
+        executionOrderMainService.deleteById(executionOrderMainCode);
     }
 
     @PatchMapping
-    @RequestMapping("/executionordermain/{mainItemCode}")
+    @RequestMapping("/executionordermain/{executionOrderMainCode}")
     @Transactional
-    ExecutionOrderMainCommand updateExecutionOrderMainCommand(@RequestBody ExecutionOrderMainCommand newExecutionOrderMainItemCommand, @PathVariable Long mainItemCode) {
+    ExecutionOrderMainCommand updateExecutionOrderMainCommand(@RequestBody ExecutionOrderMainCommand newExecutionOrderMainItemCommand, @PathVariable Long executionOrderMainCode) {
 
-        ExecutionOrderMainCommand command = executionOrderMainToExecutionOrderMainCommand.convert(executionOrderMainService.updateExecutionOrderMain(newExecutionOrderMainItemCommand, mainItemCode));
+        ExecutionOrderMainCommand command = executionOrderMainToExecutionOrderMainCommand.convert(executionOrderMainService.updateExecutionOrderMain(newExecutionOrderMainItemCommand, executionOrderMainCode));
         return command;
     }
 

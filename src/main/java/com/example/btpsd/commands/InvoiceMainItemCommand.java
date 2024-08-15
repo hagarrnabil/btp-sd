@@ -40,6 +40,8 @@ public class InvoiceMainItemCommand implements Serializable {
 
     private Double amountPerUnitWithProfit;
 
+//    private IntermediateMainItemCommand intermediateMainItemCommand;
+
     @JsonProperty("subItems")
     private List<InvoiceSubItemCommand> subItems = new ArrayList<>();
 

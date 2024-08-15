@@ -1,6 +1,5 @@
 package com.example.btpsd.converters;
 
-import com.example.btpsd.commands.CurrencyCommand;
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
 import com.example.btpsd.commands.ExecutionOrderSubCommand;
 import com.example.btpsd.commands.InvoiceSubItemCommand;
@@ -27,21 +26,31 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         }
 
         final ExecutionOrderMain executionOrderMain = new ExecutionOrderMain();
-        executionOrderMain.setInvoiceMainItemCode(source.getInvoiceMainItemCode());
         if (source.getServiceNumberCode() != null) {
             ServiceNumber serviceNumber = new ServiceNumber();
             serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
             executionOrderMain.setServiceNumber(serviceNumber);
             serviceNumber.addExecutionOrderMainItem(executionOrderMain);
         }
+        executionOrderMain.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
         executionOrderMain.setDescription(source.getDescription());
         executionOrderMain.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         executionOrderMain.setCurrencyCode(source.getCurrencyCode());
         executionOrderMain.setMaterialGroupCode(source.getMaterialGroupCode());
         executionOrderMain.setPersonnelNumberCode(source.getPersonnelNumberCode());
         executionOrderMain.setLineTypeCode(source.getLineTypeCode());
+//        if (executionOrderMain.getLineTypeCode() != null && (executionOrderMain.getLineTypeCode() == "contingency line"|| executionOrderMain.getLineTypeCode()=="Contingency Line" ||
+//                executionOrderMain.getLineTypeCode()=="Contingency line")) {
+//        }
+        executionOrderMain.setServiceTypeCode(source.getServiceTypeCode());
         executionOrderMain.setTotalQuantity(source.getTotalQuantity());
+        executionOrderMain.setActualQuantity(source.getActualQuantity());
+        executionOrderMain.setActualPercentage(source.getActualPercentage());
         executionOrderMain.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
+        if(executionOrderMain.getActualQuantity() != null)
+        {
+            executionOrderMain.setActualQuantity(executionOrderMain.getActualQuantity() + executionOrderMain.getOverFulfillmentPercentage() /100);
+        }
         executionOrderMain.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         executionOrderMain.setManualPriceEntryAllowed(source.getManualPriceEntryAllowed());
         executionOrderMain.setExternalServiceNumber(source.getExternalServiceNumber());
@@ -50,9 +59,13 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         executionOrderMain.setLineNumber(source.getLineNumber());
         executionOrderMain.setBiddersLine(source.getBiddersLine());
         executionOrderMain.setSupplementaryLine(source.getSupplementaryLine());
-        executionOrderMain.setLotCostOne(source.getLotCostOne());
-        executionOrderMain.setDoNotPrint(source.getDoNotPrint());
+//        executionOrderMain.setLotCostOne(source.getLotCostOne());
+        executionOrderMain.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
 
+        if (executionOrderMain.getLotCostOne()) {
+            executionOrderMain.setTotal(executionOrderMain.getAmountPerUnit());
+        }
+        executionOrderMain.setDoNotPrint(source.getDoNotPrint());
         if (source.getExecutionOrderSub() != null && !source.getExecutionOrderSub().isEmpty()) {
             double totalAmountPerUnitFromSubItems = 0.0;
 
@@ -72,8 +85,8 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         }
 
         executionOrderMain.setTotal(executionOrderMain.getTotalQuantity() * executionOrderMain.getAmountPerUnit());
-        executionOrderMain.setActualQuantity(source.getActualQuantity());
-        executionOrderMain.setActualPercentage(source.getActualPercentage());
+
         return executionOrderMain;
+
     }
 }

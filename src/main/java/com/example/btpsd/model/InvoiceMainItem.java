@@ -60,6 +60,9 @@ public class InvoiceMainItem implements Serializable {
     @ManyToOne
     private ServiceNumber serviceNumber;
 
+    @OneToOne(mappedBy = "invoiceMainItem", cascade = CascadeType.ALL)
+    private ExecutionOrderMain executionOrderMain;
+
 
     public InvoiceMainItem addSubItem(InvoiceSubItem subItem) {
         if (!this.subItemList.contains(subItem)) {
@@ -68,6 +71,5 @@ public class InvoiceMainItem implements Serializable {
         }
         return this;
     }
-
 
 }

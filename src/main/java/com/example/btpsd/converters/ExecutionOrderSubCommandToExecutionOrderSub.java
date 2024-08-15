@@ -2,9 +2,7 @@ package com.example.btpsd.converters;
 
 import com.example.btpsd.commands.CurrencyCommand;
 import com.example.btpsd.commands.ExecutionOrderSubCommand;
-import com.example.btpsd.model.Currency;
-import com.example.btpsd.model.ExecutionOrderSub;
-import com.example.btpsd.model.ServiceNumber;
+import com.example.btpsd.model.*;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
@@ -25,16 +23,23 @@ public class ExecutionOrderSubCommandToExecutionOrderSub implements Converter<Ex
         }
 
         final ExecutionOrderSub executionOrderSub = new ExecutionOrderSub();
-        executionOrderSub.setInvoiceMainItemCode(source.getInvoiceMainItemCode());
+        executionOrderSub.setExecutionOrderSubCode(source.getExecutionOrderSubCode());
         if (source.getServiceNumberCode() != null) {
             ServiceNumber serviceNumber = new ServiceNumber();
             serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
             executionOrderSub.setServiceNumber(serviceNumber);
             serviceNumber.addExecutionOrderSubItem(executionOrderSub);
         }
+        if (source.getExecutionOrderMainCode() != null) {
+            ExecutionOrderMain executionOrderMain = new ExecutionOrderMain();
+            executionOrderMain.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
+            executionOrderSub.setExecutionOrderMain(executionOrderMain);
+            executionOrderMain.addExecutionOrderSub(executionOrderSub);  // Ensure bi-directional relationship
+        }
         executionOrderSub.setDescription(source.getDescription());
         executionOrderSub.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         executionOrderSub.setCurrencyCode(source.getCurrencyCode());
+        executionOrderSub.setServiceTypeCode(source.getServiceTypeCode());
         executionOrderSub.setMaterialGroupCode(source.getMaterialGroupCode());
         executionOrderSub.setPersonnelNumberCode(source.getPersonnelNumberCode());
         executionOrderSub.setLineTypeCode(source.getLineTypeCode());
@@ -46,7 +51,12 @@ public class ExecutionOrderSubCommandToExecutionOrderSub implements Converter<Ex
         executionOrderSub.setLineNumber(source.getLineNumber());
         executionOrderSub.setBiddersLine(source.getBiddersLine());
         executionOrderSub.setSupplementaryLine(source.getSupplementaryLine());
-        executionOrderSub.setLotCostOne(source.getLotCostOne());
+//        executionOrderSub.setLotCostOne(source.getLotCostOne());
+        executionOrderSub.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
+
+        if (executionOrderSub.getLotCostOne()) {
+            executionOrderSub.setTotal(executionOrderSub.getAmountPerUnit());
+        }
         executionOrderSub.setDoNotPrint(source.getDoNotPrint());
         executionOrderSub.setTotal(executionOrderSub.getTotalQuantity() * executionOrderSub.getAmountPerUnit());
         return executionOrderSub;

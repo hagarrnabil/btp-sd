@@ -15,12 +15,14 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "invoiceMainItem")
+@Table(name = "executionOrderMain")
 public class ExecutionOrderMain implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long invoiceMainItemCode;
+    private Long executionOrderMainCode;
+
+//    private Long invoiceMainItemCode;
 
     private Long serviceNumberCode;
 
@@ -35,6 +37,8 @@ public class ExecutionOrderMain implements Serializable {
     private String personnelNumberCode;
 
     private String lineTypeCode;
+
+    private String serviceTypeCode;
 
     //    @NotNull
     private Integer totalQuantity;
@@ -70,6 +74,7 @@ public class ExecutionOrderMain implements Serializable {
 
     private Boolean doNotPrint;
 
+
     @OneToMany(mappedBy = "executionOrderMain", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonProperty("executionOrdersubList")
     private List<ExecutionOrderSub> executionOrderSubList = new ArrayList<>();
@@ -77,6 +82,9 @@ public class ExecutionOrderMain implements Serializable {
     @ManyToOne
     private ServiceNumber serviceNumber;
 
+    @OneToOne
+    @JoinColumn(name = "invoice_main_item_id")
+    private InvoiceMainItem invoiceMainItem;
 
     public ExecutionOrderMain addExecutionOrderSub(ExecutionOrderSub executionOrderSub) {
         if (!this.executionOrderSubList.contains(executionOrderSub)) {
@@ -84,5 +92,17 @@ public class ExecutionOrderMain implements Serializable {
             this.executionOrderSubList.add(executionOrderSub);
         }
         return this;
+    }
+
+    public ExecutionOrderMain(InvoiceMainItem invoiceMainItem) {
+        this.serviceNumberCode = invoiceMainItem.getServiceNumberCode();
+        this.unitOfMeasurementCode = invoiceMainItem.getUnitOfMeasurementCode();
+        this.currencyCode = invoiceMainItem.getCurrencyCode();
+        this.description = invoiceMainItem.getDescription();
+        this.totalQuantity = invoiceMainItem.getQuantity();
+        this.total = invoiceMainItem.getTotalWithProfit();
+        this.doNotPrint = invoiceMainItem.getDoNotPrint();
+        this.amountPerUnit = invoiceMainItem.getAmountPerUnitWithProfit();
+        this.invoiceMainItem = invoiceMainItem;
     }
 }

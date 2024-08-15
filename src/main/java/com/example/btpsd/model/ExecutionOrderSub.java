@@ -12,12 +12,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "invoiceMainItem")
+@Table(name = "executionOrderSub")
 public class ExecutionOrderSub implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long invoiceMainItemCode;
+    private Long executionOrderSubCode;
 
     private Long serviceNumberCode;
 
@@ -32,6 +32,8 @@ public class ExecutionOrderSub implements Serializable {
     private String personnelNumberCode;
 
     private String lineTypeCode;
+
+    private String serviceTypeCode;
 
 //    @NotNull
     private Integer totalQuantity;

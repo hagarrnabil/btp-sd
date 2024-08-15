@@ -11,7 +11,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class ExecutionOrderSubCommand implements Serializable {
 
-    private Long invoiceMainItemCode;
+    private Long executionOrderSubCode;
+
+    private Long executionOrderMainCode;
 
     private Long serviceNumberCode;
 
@@ -26,6 +28,8 @@ public class ExecutionOrderSubCommand implements Serializable {
     private String personnelNumberCode;
 
     private String lineTypeCode;
+
+    private String serviceTypeCode;
 
     private Integer totalQuantity;
 

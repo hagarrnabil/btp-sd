@@ -2,9 +2,8 @@ package com.example.btpsd.converters;
 
 import com.example.btpsd.commands.InvoiceMainItemCommand;
 import com.example.btpsd.commands.InvoiceSubItemCommand;
-import com.example.btpsd.model.InvoiceMainItem;
-import com.example.btpsd.model.ServiceNumber;
-import com.example.btpsd.model.InvoiceSubItem;
+import com.example.btpsd.model.*;
+import com.example.btpsd.repositories.ExecutionOrderMainRepository;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
@@ -65,7 +64,8 @@ public class InvoiceMainItemCommandToInvoiceMainItem implements Converter<Invoic
         mainItem.setTotal(mainItem.getQuantity() * mainItem.getAmountPerUnit());
         mainItem.setTotalWithProfit((mainItem.getProfitMargin() / 100) * mainItem.getTotal());
         mainItem.setAmountPerUnitWithProfit((mainItem.getProfitMargin() / 100) * mainItem.getAmountPerUnit());
-
+        ExecutionOrderMain executionOrderMain = new ExecutionOrderMain(mainItem);
+        mainItem.setExecutionOrderMain(executionOrderMain);
         return mainItem;
     }
 }

@@ -1,6 +1,9 @@
 package com.example.btpsd.commands;
 
+import com.example.btpsd.model.InvoiceMainItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 public class ExecutionOrderMainCommand implements Serializable {
 
-    private Long invoiceMainItemCode;
+    private Long executionOrderMainCode;
+
+//    private Long invoiceMainItemCode;
 
     private Long serviceNumberCode;
 
@@ -30,8 +35,12 @@ public class ExecutionOrderMainCommand implements Serializable {
 
     private String lineTypeCode;
 
+    private String serviceTypeCode;
+
+    //    @NotNull
     private Integer totalQuantity;
 
+    //    @NotNull
     private Double amountPerUnit;
 
     private Double total;
@@ -61,6 +70,9 @@ public class ExecutionOrderMainCommand implements Serializable {
     private Boolean lotCostOne;
 
     private Boolean doNotPrint;
+
+    @JsonIgnore
+    private InvoiceMainItem invoiceMainItem;
 
     @JsonProperty("executionOrdersubList")
     private List<ExecutionOrderSubCommand> executionOrderSub = new ArrayList<>();

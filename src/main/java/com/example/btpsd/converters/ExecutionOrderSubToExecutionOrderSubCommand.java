@@ -22,29 +22,38 @@ public class ExecutionOrderSubToExecutionOrderSubCommand implements Converter<Ex
         }
 
         final ExecutionOrderSubCommand executionOrderSubCommand = new ExecutionOrderSubCommand();
-        executionOrderSubCommand.setInvoiceMainItemCode(source.getInvoiceMainItemCode());
+        executionOrderSubCommand.setExecutionOrderSubCode(source.getExecutionOrderSubCode());
         executionOrderSubCommand.setDescription(source.getDescription());
         executionOrderSubCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         executionOrderSubCommand.setCurrencyCode(source.getCurrencyCode());
         executionOrderSubCommand.setMaterialGroupCode(source.getMaterialGroupCode());
         executionOrderSubCommand.setPersonnelNumberCode(source.getPersonnelNumberCode());
+        executionOrderSubCommand.setServiceTypeCode(source.getServiceTypeCode());
         executionOrderSubCommand.setLineTypeCode(source.getLineTypeCode());
         executionOrderSubCommand.setTotalQuantity(source.getTotalQuantity());
         executionOrderSubCommand.setAmountPerUnit(source.getAmountPerUnit());
-        executionOrderSubCommand.setTotal(source.getTotalQuantity() * source.getAmountPerUnit());
+        executionOrderSubCommand.setTotal(executionOrderSubCommand.getTotalQuantity() * executionOrderSubCommand.getAmountPerUnit());
        executionOrderSubCommand.setExternalServiceNumber(source.getExternalServiceNumber());
         executionOrderSubCommand.setServiceText(source.getServiceText());
         executionOrderSubCommand.setLineText(source.getLineText());
         executionOrderSubCommand.setLineNumber(source.getLineNumber());
         executionOrderSubCommand.setBiddersLine(source.getBiddersLine());
         executionOrderSubCommand.setSupplementaryLine(source.getSupplementaryLine());
-        executionOrderSubCommand.setLotCostOne(source.getLotCostOne());
+//        executionOrderSubCommand.setLotCostOne(source.getLotCostOne());
+        executionOrderSubCommand.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
+
+        if (executionOrderSubCommand.getLotCostOne()) {
+            executionOrderSubCommand.setTotal(executionOrderSubCommand.getAmountPerUnit());
+        }
         executionOrderSubCommand.setDoNotPrint(source.getDoNotPrint());
 
         if (source.getServiceNumber() != null) {
             executionOrderSubCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
 
+        if (source.getExecutionOrderMain() != null) {
+            executionOrderSubCommand.setExecutionOrderMainCode(source.getExecutionOrderMain().getExecutionOrderMainCode());
+        }
         return executionOrderSubCommand;
     }
 }

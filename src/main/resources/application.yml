@@ -21,12 +21,11 @@
 #    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
 #    url:       http://localhost   # SecurityTest.DEFAULT_URL
 
-
 spring:
   datasource:
-    url: ${vcap.services.mysql.credentials.url}
-    username: ${vcap.services.mysql.credentials.username}
-    password: ${vcap.services.mysql.credentials.password}
+    url: jdbc:mysql://mysql.execution.svc.cluster.local:3306/mysql
+    username: admin
+    password: P@ssword
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -35,8 +34,21 @@ spring:
     database: mysql
     show-sql: true
 
-
-    defer-datasource-initialization: true
+#spring:
+#  datasource:
+#    url: ${vcap.services.mysql.credentials.uri}
+#    username: ${vcap.services.mysql.credentials.username}
+#    password: ${vcap.services.mysql.credentials.password}
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#
+#    database-platform: org.hibernate.dialect.MySQL8Dialect
+#    database: mysql
+#    show-sql: true
+#
+#
+#    defer-datasource-initialization: true
 #    url: jdbc:mysql://mysql.security.svc.cluster.local:3306/mysql
 #    username: admin
 #    password: P@ssword
