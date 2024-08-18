@@ -29,7 +29,7 @@ public class ExecutionOrderSubToExecutionOrderSubCommand implements Converter<Ex
         executionOrderSubCommand.setMaterialGroupCode(source.getMaterialGroupCode());
         executionOrderSubCommand.setPersonnelNumberCode(source.getPersonnelNumberCode());
         executionOrderSubCommand.setServiceTypeCode(source.getServiceTypeCode());
-        executionOrderSubCommand.setLineTypeCode(source.getLineTypeCode());
+        executionOrderSubCommand.setLineTypeCode("Standard line");
         executionOrderSubCommand.setTotalQuantity(source.getTotalQuantity());
         executionOrderSubCommand.setAmountPerUnit(source.getAmountPerUnit());
         executionOrderSubCommand.setTotal(executionOrderSubCommand.getTotalQuantity() * executionOrderSubCommand.getAmountPerUnit());
@@ -39,7 +39,6 @@ public class ExecutionOrderSubToExecutionOrderSubCommand implements Converter<Ex
         executionOrderSubCommand.setLineNumber(source.getLineNumber());
         executionOrderSubCommand.setBiddersLine(source.getBiddersLine());
         executionOrderSubCommand.setSupplementaryLine(source.getSupplementaryLine());
-//        executionOrderSubCommand.setLotCostOne(source.getLotCostOne());
         executionOrderSubCommand.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
 
         if (executionOrderSubCommand.getLotCostOne()) {

@@ -3,6 +3,7 @@ package com.example.btpsd.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 
@@ -49,6 +50,8 @@ public class ExecutionOrderSub implements Serializable {
 
     private String lineText;
 
+    @Column(unique = true, columnDefinition = "char(225)")
+    @Length(max = 225)
     private String lineNumber;
 
     private Boolean biddersLine;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,8 +22,6 @@ public class ExecutionOrderMain implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long executionOrderMainCode;
-
-//    private Long invoiceMainItemCode;
 
     private Long serviceNumberCode;
 
@@ -64,6 +63,8 @@ public class ExecutionOrderMain implements Serializable {
 
     private String lineText;
 
+    @Column(unique = true, columnDefinition = "char(225)")
+    @Length(max = 225)
     private String lineNumber;
 
     private Boolean biddersLine;

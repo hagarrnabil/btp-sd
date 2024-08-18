@@ -28,7 +28,7 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         executionOrderMainCommand.setCurrencyCode(source.getCurrencyCode());
         executionOrderMainCommand.setMaterialGroupCode(source.getMaterialGroupCode());
         executionOrderMainCommand.setPersonnelNumberCode(source.getPersonnelNumberCode());
-        executionOrderMainCommand.setLineTypeCode(source.getLineTypeCode());
+        executionOrderMainCommand.setLineTypeCode("Standard line");
         executionOrderMainCommand.setServiceTypeCode(source.getServiceTypeCode());
         executionOrderMainCommand.setTotalQuantity(source.getTotalQuantity());
         executionOrderMainCommand.setAmountPerUnit(source.getAmountPerUnit());
@@ -48,7 +48,6 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         executionOrderMainCommand.setLineNumber(source.getLineNumber());
         executionOrderMainCommand.setBiddersLine(source.getBiddersLine());
         executionOrderMainCommand.setSupplementaryLine(source.getSupplementaryLine());
-//        executionOrderMainCommand.setLotCostOne(source.getLotCostOne());
         executionOrderMainCommand.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
 
         if (executionOrderMainCommand.getLotCostOne()) {

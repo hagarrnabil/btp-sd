@@ -38,9 +38,9 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         executionOrderMain.setCurrencyCode(source.getCurrencyCode());
         executionOrderMain.setMaterialGroupCode(source.getMaterialGroupCode());
         executionOrderMain.setPersonnelNumberCode(source.getPersonnelNumberCode());
-        executionOrderMain.setLineTypeCode(source.getLineTypeCode());
-//        if (executionOrderMain.getLineTypeCode() != null && (executionOrderMain.getLineTypeCode() == "contingency line"|| executionOrderMain.getLineTypeCode()=="Contingency Line" ||
-//                executionOrderMain.getLineTypeCode()=="Contingency line")) {
+        executionOrderMain.setLineTypeCode("Standard line");
+//        if (executionOrderMain.getLineTypeCode()=="Contingency line") {
+//
 //        }
         executionOrderMain.setServiceTypeCode(source.getServiceTypeCode());
         executionOrderMain.setTotalQuantity(source.getTotalQuantity());
@@ -59,9 +59,7 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         executionOrderMain.setLineNumber(source.getLineNumber());
         executionOrderMain.setBiddersLine(source.getBiddersLine());
         executionOrderMain.setSupplementaryLine(source.getSupplementaryLine());
-//        executionOrderMain.setLotCostOne(source.getLotCostOne());
         executionOrderMain.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
-
         if (executionOrderMain.getLotCostOne()) {
             executionOrderMain.setTotal(executionOrderMain.getAmountPerUnit());
         }
