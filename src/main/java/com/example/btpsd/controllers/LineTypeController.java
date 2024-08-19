@@ -2,7 +2,6 @@ package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.LineTypeCommand;
 import com.example.btpsd.converters.LineTypeToLineTypeCommand;
-import com.example.btpsd.model.LineType;
 import com.example.btpsd.repositories.LineTypeRepository;
 import com.example.btpsd.services.LineTypeService;
 import jakarta.validation.constraints.NotNull;
@@ -57,10 +56,10 @@ public class LineTypeController {
         return command;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/linetypes/search")
-    @ResponseBody
-    public List<LineType> Search(@RequestParam String keyword) {
-
-        return lineTypeRepository.search(keyword);
-    }
+//    @RequestMapping(method = RequestMethod.GET, value = "/linetypes/search")
+//    @ResponseBody
+//    public List<LineType> Search(@RequestParam String keyword) {
+//
+//        return lineTypeRepository.search(keyword);
+//    }
 }

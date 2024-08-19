@@ -5,11 +5,9 @@ import com.example.btpsd.commands.ExecutionOrderSubCommand;
 import com.example.btpsd.converters.ExecutionOrderMainCommandToExecutionOrderMain;
 import com.example.btpsd.converters.ExecutionOrderMainToExecutionOrderMainCommand;
 import com.example.btpsd.converters.ExecutionOrderSubCommandToExecutionOrderSub;
-import com.example.btpsd.model.ExecutionOrderMain;
-import com.example.btpsd.model.ExecutionOrderSub;
-import com.example.btpsd.model.InvoiceMainItem;
-import com.example.btpsd.model.ServiceNumber;
+import com.example.btpsd.model.*;
 import com.example.btpsd.repositories.ExecutionOrderMainRepository;
+import com.example.btpsd.repositories.LineTypeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,9 +24,10 @@ import java.util.stream.StreamSupport;
 public class ExecutionOrderMainServiceImpl implements ExecutionOrderMainService {
 
     private final ExecutionOrderMainRepository executionOrderMainRepository;
+    private final LineTypeRepository lineTypeRepository;
     private final ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand;
     private final ExecutionOrderMainCommandToExecutionOrderMain executionOrderMainCommandToExecutionOrderMain;
-    private final ExecutionOrderSubCommandToExecutionOrderSub executionOrderSubConverter;
+
 
     @Override
     @Transactional
@@ -76,16 +75,28 @@ public class ExecutionOrderMainServiceImpl implements ExecutionOrderMainService 
 
         return executionOrderMainRepository.findById(l).map(oldExecutionOrderMain -> {
             updateNonNullFields(newExecutionOrderMainCommand, oldExecutionOrderMain);
+//            if (newExecutionOrderMainCommand.getLineTypeCode() != null) {
+//            LineType lineType = lineTypeRepository.findByCode(newExecutionOrderMainCommand.getLineTypeCode());
+//                if (lineType != null) {
+            oldExecutionOrderMain.setLineTypeCode(lineTypeRepository.findLineTypeCodeByCode(newExecutionOrderMainCommand.getLineTypeCode()));
+//                } else {
+//                    throw new IllegalArgumentException("Invalid LineType code: " + newExecutionOrderMainCommand.getLineTypeCode());
+//                }
+//            } else {
+//                // Optionally, set a default line type if not provided by the user
+//                LineType defaultLineType = lineTypeRepository.findByCode("Standard line");
+//                oldExecutionOrderMain.setLineTypeCode(String.valueOf(defaultLineType));
+//            }
             return executionOrderMainRepository.save(oldExecutionOrderMain);
         }).orElseThrow(() -> new RuntimeException("Execution Order Main not found"));
 
     }
 
-@Override
-@Transactional
-public ExecutionOrderMainCommand findExecutionOrderMainCommandById(Long l) {
+    @Override
+    @Transactional
+    public ExecutionOrderMainCommand findExecutionOrderMainCommandById(Long l) {
 
-    return executionOrderMainToExecutionOrderMainCommand.convert(findById(l));
+        return executionOrderMainToExecutionOrderMainCommand.convert(findById(l));
 
-}
+    }
 }

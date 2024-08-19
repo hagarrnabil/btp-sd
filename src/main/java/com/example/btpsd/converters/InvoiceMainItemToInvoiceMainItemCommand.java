@@ -33,9 +33,9 @@ public class InvoiceMainItemToInvoiceMainItemCommand implements Converter<Invoic
         invoiceMainItemCommand.setAmountPerUnit(source.getAmountPerUnit());
         invoiceMainItemCommand.setTotal(source.getQuantity() * source.getAmountPerUnit());
         invoiceMainItemCommand.setProfitMargin(source.getProfitMargin());
-        invoiceMainItemCommand.setTotalWithProfit( (invoiceMainItemCommand.getProfitMargin()/100) * invoiceMainItemCommand.getTotal() );
+        invoiceMainItemCommand.setTotalWithProfit( ((invoiceMainItemCommand.getProfitMargin()/100) * invoiceMainItemCommand.getTotal()) + invoiceMainItemCommand.getTotal());
         invoiceMainItemCommand.setDoNotPrint(source.getDoNotPrint());
-        invoiceMainItemCommand.setAmountPerUnitWithProfit( (invoiceMainItemCommand.getProfitMargin()/100) * invoiceMainItemCommand.getAmountPerUnit() );
+        invoiceMainItemCommand.setAmountPerUnitWithProfit( ((invoiceMainItemCommand.getProfitMargin()/100) * invoiceMainItemCommand.getAmountPerUnit()) + invoiceMainItemCommand.getAmountPerUnit());
         if (source.getServiceNumber() != null) {
             invoiceMainItemCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }

@@ -62,8 +62,8 @@ public class InvoiceMainItemCommandToInvoiceMainItem implements Converter<Invoic
         }
 
         mainItem.setTotal(mainItem.getQuantity() * mainItem.getAmountPerUnit());
-        mainItem.setTotalWithProfit((mainItem.getProfitMargin() / 100) * mainItem.getTotal());
-        mainItem.setAmountPerUnitWithProfit((mainItem.getProfitMargin() / 100) * mainItem.getAmountPerUnit());
+        mainItem.setTotalWithProfit(((mainItem.getProfitMargin() / 100) * mainItem.getTotal()) + mainItem.getTotal());
+        mainItem.setAmountPerUnitWithProfit(((mainItem.getProfitMargin() / 100) * mainItem.getAmountPerUnit()) + mainItem.getAmountPerUnit());
         ExecutionOrderMain executionOrderMain = new ExecutionOrderMain(mainItem);
         mainItem.setExecutionOrderMain(executionOrderMain);
         return mainItem;

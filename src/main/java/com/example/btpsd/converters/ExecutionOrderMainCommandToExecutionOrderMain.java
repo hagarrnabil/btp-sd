@@ -2,8 +2,8 @@ package com.example.btpsd.converters;
 
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
 import com.example.btpsd.commands.ExecutionOrderSubCommand;
-import com.example.btpsd.commands.InvoiceSubItemCommand;
 import com.example.btpsd.model.*;
+import com.example.btpsd.repositories.LineTypeRepository;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<ExecutionOrderMainCommand, ExecutionOrderMain> {
 
     private final ExecutionOrderSubCommandToExecutionOrderSub executionOrderSubConverter;
+    private final LineTypeRepository lineTypeRepository;
 
     @Synchronized
     @Nullable
@@ -38,18 +39,25 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         executionOrderMain.setCurrencyCode(source.getCurrencyCode());
         executionOrderMain.setMaterialGroupCode(source.getMaterialGroupCode());
         executionOrderMain.setPersonnelNumberCode(source.getPersonnelNumberCode());
-        executionOrderMain.setLineTypeCode("Standard line");
-//        if (executionOrderMain.getLineTypeCode()=="Contingency line") {
-//
-//        }
         executionOrderMain.setServiceTypeCode(source.getServiceTypeCode());
         executionOrderMain.setTotalQuantity(source.getTotalQuantity());
         executionOrderMain.setActualQuantity(source.getActualQuantity());
         executionOrderMain.setActualPercentage(source.getActualPercentage());
         executionOrderMain.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
-        if(executionOrderMain.getActualQuantity() != null)
-        {
-            executionOrderMain.setActualQuantity(executionOrderMain.getActualQuantity() + executionOrderMain.getOverFulfillmentPercentage() /100);
+//        if (source.getLineTypeCode() != null) {
+//        LineType lineType = lineTypeRepository.findByCode(source.getLineTypeCode());
+//            if (lineType != null) {
+        executionOrderMain.setLineTypeCode(lineTypeRepository.findLineTypeCodeByCode(executionOrderMain.getLineTypeCode()));
+//            } else {
+//                throw new IllegalArgumentException("Invalid LineType code: " + source.getLineTypeCode());
+//            }
+//        } else {
+//            // Optionally, set a default line type if not provided by the user
+//            LineType defaultLineType = lineTypeRepository.findByCode("Standard line");
+//            executionOrderMain.setLineTypeCode(String.valueOf(defaultLineType));
+//        }
+        if (executionOrderMain.getActualQuantity() != null) {
+            executionOrderMain.setActualQuantity(executionOrderMain.getActualQuantity() + executionOrderMain.getOverFulfillmentPercentage() / 100);
         }
         executionOrderMain.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         executionOrderMain.setManualPriceEntryAllowed(source.getManualPriceEntryAllowed());

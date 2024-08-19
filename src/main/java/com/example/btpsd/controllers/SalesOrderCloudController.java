@@ -17,7 +17,6 @@ import java.nio.charset.StandardCharsets;
 @RestController
 public class SalesOrderCloudController {
 
-
     @RequestMapping(value = "/salesordercloud", method = RequestMethod.GET)
     private StringBuilder getAllSalesOrders() throws Exception {
 
@@ -28,7 +27,7 @@ public class SalesOrderCloudController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder?%24inlinecount=allpageFs&%24top=50";
+        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder?%24inlinecount=allpages&%24top=50";
 
 
         URL urlObj = new URL(url);
@@ -45,7 +44,6 @@ public class SalesOrderCloudController {
         //adding headers
         connection.setRequestProperty("Authorization", authHeaderValue);
         connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestProperty("User-Agent","PostmanRuntime/7.37.3");
 
 
         connection.setDoInput(true);
@@ -94,14 +92,13 @@ public class SalesOrderCloudController {
         //adding headers
         connection.setRequestProperty("Authorization", authHeaderValue);
         connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestProperty("User-Agent","PostmanRuntime/7.37.3");
 
-        connection.setDoInput(true);
+//        connection.setDoInput(true);
 
         //sending POST request
         connection.setDoOutput(true);
         dataOut = new DataOutputStream(connection.getOutputStream());
-        dataOut.writeBytes("{\n   \"SalesOrder\": \"string\"}");
+        dataOut.writeBytes("{\"SalesOrder\": \"1\"}");
         dataOut.flush();
 
         int responseCode = connection.getResponseCode();
