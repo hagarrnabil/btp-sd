@@ -29,7 +29,12 @@ public class ExecutionOrderSubToExecutionOrderSubCommand implements Converter<Ex
         executionOrderSubCommand.setMaterialGroupCode(source.getMaterialGroupCode());
         executionOrderSubCommand.setPersonnelNumberCode(source.getPersonnelNumberCode());
         executionOrderSubCommand.setServiceTypeCode(source.getServiceTypeCode());
-        executionOrderSubCommand.setLineTypeCode("Standard line");
+        if(source.getLineTypeCode() != null){
+            executionOrderSubCommand.setLineTypeCode(source.getLineTypeCode());
+        }
+        else {
+            executionOrderSubCommand.setLineTypeCode("Standard line");
+        }
         executionOrderSubCommand.setTotalQuantity(source.getTotalQuantity());
         executionOrderSubCommand.setAmountPerUnit(source.getAmountPerUnit());
         executionOrderSubCommand.setTotal(executionOrderSubCommand.getTotalQuantity() * executionOrderSubCommand.getAmountPerUnit());

@@ -14,7 +14,7 @@ public class LineTypeInitializer {
         return args -> {
             repository.save(new LineType(1L,"Standard line", "Default line type"));
             repository.save(new LineType(2L,"Informatory line", "Informational line"));
-            repository.save(new LineType(3L,"Internal Line", "Internal usage line"));
+            repository.save(new LineType(3L,"Internal line", "Internal usage line"));
             repository.save(new LineType(4L,"Contingency line", "Backup or contingency line"));
         };
     }

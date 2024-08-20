@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<ExecutionOrderMain, ExecutionOrderMainCommand> {
 
     private final ExecutionOrderSubToExecutionOrderSubCommand executionOrderSubConverter;
-    private final LineTypeRepository lineTypeRepository;
 
     @Synchronized
     @Override
@@ -39,18 +38,12 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         executionOrderMainCommand.setActualQuantity(source.getActualQuantity());
         executionOrderMainCommand.setActualPercentage(source.getActualPercentage());
         executionOrderMainCommand.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
-//        if (source.getLineTypeCode() != null) {
-//        LineType lineType = lineTypeRepository.findByCode(source.getLineTypeCode());
-//            if (lineType != null) {
-        executionOrderMainCommand.setLineTypeCode(lineTypeRepository.findLineTypeCodeByCode(executionOrderMainCommand.getLineTypeCode()));
-//            } else {
-//                throw new IllegalArgumentException("Invalid LineType code: " + source.getLineTypeCode());
-//            }
-//        } else {
-//            // Optionally, set a default line type if not provided by the user
-//            LineType defaultLineType = lineTypeRepository.findByCode("Standard line");
-//            executionOrderMainCommand.setLineTypeCode(String.valueOf(defaultLineType));
-//        }
+        if(source.getLineTypeCode() != null){
+            executionOrderMainCommand.setLineTypeCode(source.getLineTypeCode());
+        }
+        else {
+            executionOrderMainCommand.setLineTypeCode("Standard line");
+        }
         if (executionOrderMainCommand.getActualQuantity() != null) {
             executionOrderMainCommand.setActualQuantity(executionOrderMainCommand.getActualQuantity() + executionOrderMainCommand.getOverFulfillmentPercentage() / 100);
         }

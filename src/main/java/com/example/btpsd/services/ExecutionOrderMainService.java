@@ -54,23 +54,24 @@ public interface ExecutionOrderMainService {
             target.setServiceNumber(serviceNumber);
             serviceNumber.addExecutionOrderMainItem(target);
         }
-        if (source.getExecutionOrderSub() != null && !source.getExecutionOrderSub().isEmpty() &&
-                !source.getExecutionOrderSub().equals(target.getExecutionOrderSubList())) {
 
-            double totalAmountPerUnitFromSubItems = 0.0;
 
-            // Clear existing subitems to avoid duplicates
+        if (source.getExecutionOrderSub() != null && !source.getExecutionOrderSub().isEmpty()) {
+
+            double totalFromSubItems = 0.0;
+
             target.getExecutionOrderSubList().clear();
 
             for (ExecutionOrderSubCommand subItemCommand : source.getExecutionOrderSub()) {
                 ExecutionOrderSub subItem = executionConverter.convert(subItemCommand);
                 if (subItem != null) {
-                    totalAmountPerUnitFromSubItems += subItem.getAmountPerUnit();
+                    totalFromSubItems += subItem.getTotal(); // Sum the total of each sub-item
                     target.addExecutionOrderSub(subItem);
                 }
             }
 
-            target.setAmountPerUnit(totalAmountPerUnitFromSubItems);
+            // Set amountPerUnit to the total from sub-items divided by the quantity
+            target.setAmountPerUnit(totalFromSubItems);
         } else {
             // Use the manually entered amountPerUnit if no subItems are present
             target.setAmountPerUnit(source.getAmountPerUnit());

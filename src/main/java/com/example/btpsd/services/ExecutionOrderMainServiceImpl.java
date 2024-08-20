@@ -75,18 +75,7 @@ public class ExecutionOrderMainServiceImpl implements ExecutionOrderMainService 
 
         return executionOrderMainRepository.findById(l).map(oldExecutionOrderMain -> {
             updateNonNullFields(newExecutionOrderMainCommand, oldExecutionOrderMain);
-//            if (newExecutionOrderMainCommand.getLineTypeCode() != null) {
-//            LineType lineType = lineTypeRepository.findByCode(newExecutionOrderMainCommand.getLineTypeCode());
-//                if (lineType != null) {
             oldExecutionOrderMain.setLineTypeCode(lineTypeRepository.findLineTypeCodeByCode(newExecutionOrderMainCommand.getLineTypeCode()));
-//                } else {
-//                    throw new IllegalArgumentException("Invalid LineType code: " + newExecutionOrderMainCommand.getLineTypeCode());
-//                }
-//            } else {
-//                // Optionally, set a default line type if not provided by the user
-//                LineType defaultLineType = lineTypeRepository.findByCode("Standard line");
-//                oldExecutionOrderMain.setLineTypeCode(String.valueOf(defaultLineType));
-//            }
             return executionOrderMainRepository.save(oldExecutionOrderMain);
         }).orElseThrow(() -> new RuntimeException("Execution Order Main not found"));
 

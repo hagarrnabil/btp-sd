@@ -97,23 +97,22 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
             if (newInvoiceMainItemCommand.getTotal() != oldMainItem.getTotal())
                 oldMainItem.setTotal(newInvoiceMainItemCommand.getTotal());
 
-            if (newInvoiceMainItemCommand.getSubItems() != null && !newInvoiceMainItemCommand.getSubItems().isEmpty() &&
-                    !newInvoiceMainItemCommand.getSubItems().equals(oldMainItem.getSubItemList())) {
+            if (newInvoiceMainItemCommand.getSubItems() != null && !newInvoiceMainItemCommand.getSubItems().isEmpty()) {
 
-                double totalAmountPerUnitFromSubItems = 0.0;
+                double totalFromSubItems = 0.0;
 
-                // Clear existing subitems to avoid duplicates
                 oldMainItem.getSubItemList().clear();
 
                 for (InvoiceSubItemCommand subItemCommand : newInvoiceMainItemCommand.getSubItems()) {
                     InvoiceSubItem subItem = subItemConverter.convert(subItemCommand);
                     if (subItem != null) {
-                        totalAmountPerUnitFromSubItems += subItem.getAmountPerUnit();
+                        totalFromSubItems += subItem.getTotal(); // Sum the total of each sub-item
                         oldMainItem.addSubItem(subItem);
                     }
                 }
 
-                oldMainItem.setAmountPerUnit(totalAmountPerUnitFromSubItems);
+                // Set amountPerUnit to the total from sub-items divided by the quantity
+                oldMainItem.setAmountPerUnit(totalFromSubItems);
             } else {
                 // Use the manually entered amountPerUnit if no subItems are present
                 oldMainItem.setAmountPerUnit(newInvoiceMainItemCommand.getAmountPerUnit());

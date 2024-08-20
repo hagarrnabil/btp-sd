@@ -8,6 +8,7 @@ import com.example.btpsd.model.ExecutionOrderSub;
 import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.model.ServiceNumber;
 import com.example.btpsd.repositories.ExecutionOrderSubRepository;
+import com.example.btpsd.repositories.LineTypeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.stream.StreamSupport;
 public class ExecutionOrderSubServiceImpl implements ExecutionOrderSubService{
 
     private final ExecutionOrderSubRepository executionOrderSubRepository;
+    private final LineTypeRepository lineTypeRepository;
     private final ExecutionOrderSubCommandToExecutionOrderSub executionOrderSubCommandToExecutionOrderSub;
     private final ExecutionOrderSubToExecutionOrderSubCommand executionOrderSubToExecutionOrderSubCommand;
 
@@ -75,6 +77,7 @@ public class ExecutionOrderSubServiceImpl implements ExecutionOrderSubService{
 
         return executionOrderSubRepository.findById(l).map(oldExecutionOrderMain -> {
             updateSubNonNullFiels(newExecutionOrderSubCommand, oldExecutionOrderMain);
+            oldExecutionOrderMain.setLineTypeCode(lineTypeRepository.findLineTypeCodeByCode(newExecutionOrderSubCommand.getLineTypeCode()));
             return executionOrderSubRepository.save(oldExecutionOrderMain);
         }).orElseThrow(() -> new RuntimeException("Execution Order Main not found"));
 

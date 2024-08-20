@@ -44,18 +44,18 @@ public class InvoiceMainItemCommandToInvoiceMainItem implements Converter<Invoic
         }
 
         if (source.getSubItems() != null && !source.getSubItems().isEmpty()) {
-            double totalAmountPerUnitFromSubItems = 0.0;
+            double totalFromSubItems = 0.0;
 
             for (InvoiceSubItemCommand subItemCommand : source.getSubItems()) {
                 InvoiceSubItem subItem = subItemConverter.convert(subItemCommand);
                 if (subItem != null) {
-                    totalAmountPerUnitFromSubItems += subItem.getAmountPerUnit();
-                    subItem.setMainItem(mainItem);  // Ensure bi-directional relationship
+                    totalFromSubItems += subItem.getTotal(); // Sum the total of each sub-item
                     mainItem.addSubItem(subItem);
                 }
             }
 
-            mainItem.setAmountPerUnit(totalAmountPerUnitFromSubItems);
+            // Set amountPerUnit to the total from sub-items divided by the quantity
+            mainItem.setAmountPerUnit(totalFromSubItems);
         } else {
             // Use the manually entered amountPerUnit if no subItems are present
             mainItem.setAmountPerUnit(source.getAmountPerUnit());

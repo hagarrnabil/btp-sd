@@ -20,11 +20,11 @@ import javax.script.ScriptException;
 public class FormulaCommandToFormula implements Converter<FormulaCommand, Formula> {
 
 
-//    ScriptEngine engine = GraalJSScriptEngine.create(null,
-//            Context.newBuilder("js")
-//                    .allowHostAccess(HostAccess.ALL)
-//                    .allowHostClassLookup(s -> true)
-//                    .option("js.ecmascript-version", "2022"));
+    ScriptEngine engine = GraalJSScriptEngine.create(null,
+            Context.newBuilder("js")
+                    .allowHostAccess(HostAccess.ALL)
+                    .allowHostClassLookup(s -> true)
+                    .option("js.ecmascript-version", "2022"));
 
     @Synchronized
     @Nullable
@@ -53,11 +53,11 @@ public class FormulaCommandToFormula implements Converter<FormulaCommand, Formul
         for (int i = 0; i < source.getNumberOfParameters(); i++) {
             formula.setExpression("" + source.getParameterIds() + "=" + source.getTestParameters() + ";" + source.getFormulaLogic() + ";" + "");
         }
-//        try {
-//            formula.setResult(Double.parseDouble(engine.eval(formula.getExpression()).toString()));
-//        } catch (ScriptException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            formula.setResult(Double.parseDouble(engine.eval(formula.getExpression()).toString()));
+        } catch (ScriptException e) {
+            throw new RuntimeException(e);
+        }
         return formula;
     }
 }
