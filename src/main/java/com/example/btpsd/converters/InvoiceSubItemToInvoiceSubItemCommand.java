@@ -8,6 +8,9 @@ import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @RequiredArgsConstructor
 @Component
 public class InvoiceSubItemToInvoiceSubItemCommand implements Converter<InvoiceSubItem, InvoiceSubItemCommand> {
@@ -37,6 +40,8 @@ public class InvoiceSubItemToInvoiceSubItemCommand implements Converter<InvoiceS
         if (source.getMainItem() != null) {
             subItemCommand.setInvoiceMainItemCode(source.getMainItem().getInvoiceMainItemCode());
         }
+        subItemCommand.setTotal(new BigDecimal(subItemCommand.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+        subItemCommand.setAmountPerUnit(new BigDecimal(subItemCommand.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
         return subItemCommand;
     }
 

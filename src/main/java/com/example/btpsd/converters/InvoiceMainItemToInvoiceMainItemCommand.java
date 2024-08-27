@@ -8,6 +8,9 @@ import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @RequiredArgsConstructor
 @Component
 public class InvoiceMainItemToInvoiceMainItemCommand implements Converter<InvoiceMainItem, InvoiceMainItemCommand> {
@@ -43,6 +46,20 @@ public class InvoiceMainItemToInvoiceMainItemCommand implements Converter<Invoic
             source.getSubItemList()
                     .forEach(subItem -> invoiceMainItemCommand.getSubItems().add(subItemConverter.convert(subItem)));
         }
+
+        if(invoiceMainItemCommand.getProfitMargin() != null){
+            invoiceMainItemCommand.setTotalWithProfit(((invoiceMainItemCommand.getProfitMargin() / 100) * invoiceMainItemCommand.getTotal()) + invoiceMainItemCommand.getTotal());
+            invoiceMainItemCommand.setAmountPerUnitWithProfit(((invoiceMainItemCommand.getProfitMargin() / 100) * invoiceMainItemCommand.getAmountPerUnit()) + invoiceMainItemCommand.getAmountPerUnit());
+        }
+        else {
+            invoiceMainItemCommand.setTotalWithProfit(null);
+            invoiceMainItemCommand.setAmountPerUnitWithProfit(null);
+        }
+
+        invoiceMainItemCommand.setTotal(new BigDecimal(invoiceMainItemCommand.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+        invoiceMainItemCommand.setTotalWithProfit(new BigDecimal(invoiceMainItemCommand.getTotalWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+        invoiceMainItemCommand.setAmountPerUnit(new BigDecimal(invoiceMainItemCommand.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+        invoiceMainItemCommand.setAmountPerUnitWithProfit(new BigDecimal(invoiceMainItemCommand.getAmountPerUnitWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
 
         return invoiceMainItemCommand;
     }

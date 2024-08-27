@@ -5,9 +5,11 @@ import com.example.btpsd.commands.InvoiceSubItemCommand;
 import com.example.btpsd.converters.InvoiceMainItemCommandToInvoiceMainItem;
 import com.example.btpsd.converters.InvoiceMainItemToInvoiceMainItemCommand;
 import com.example.btpsd.converters.InvoiceSubItemCommandToInvoiceSubItem;
+import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.model.InvoiceSubItem;
 import com.example.btpsd.model.ServiceNumber;
+import com.example.btpsd.repositories.ExecutionOrderMainRepository;
 import com.example.btpsd.repositories.InvoiceMainItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,7 @@ import java.util.stream.StreamSupport;
 public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
 
     private final InvoiceMainItemRepository invoiceMainItemRepository;
+    private final ExecutionOrderMainRepository executionOrderMainRepository;
     private final InvoiceMainItemCommandToInvoiceMainItem invoiceMainItemCommandToInvoiceMainItem;
     private final InvoiceMainItemToInvoiceMainItemCommand invoiceMainItemToInvoiceMainItemCommand;
     private final InvoiceSubItemCommandToInvoiceSubItem subItemConverter;
@@ -77,9 +80,9 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
     }
 
     @Override
+    @Transactional
     public InvoiceMainItem updateMainItem(InvoiceMainItemCommand newInvoiceMainItemCommand, Long l) {
 
-        
 
         return invoiceMainItemRepository.findById(l).map(oldMainItem -> {
             if (newInvoiceMainItemCommand.getCurrencyCode() != oldMainItem.getCurrencyCode())
@@ -125,6 +128,23 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
                 serviceNumber.addMainItem(oldMainItem);
 
             }
+
+            if(oldMainItem.getProfitMargin() != null){
+                oldMainItem.setTotalWithProfit(((oldMainItem.getProfitMargin() / 100) * oldMainItem.getTotal()) + oldMainItem.getTotal());
+                oldMainItem.setAmountPerUnitWithProfit(((oldMainItem.getProfitMargin() / 100) * oldMainItem.getAmountPerUnit()) + oldMainItem.getAmountPerUnit());
+            }
+            else {
+                oldMainItem.setTotalWithProfit(null);
+                oldMainItem.setAmountPerUnitWithProfit(null);
+            }
+
+            oldMainItem.setTotal(oldMainItem.getQuantity() * oldMainItem.getAmountPerUnit());
+
+            // Update the corresponding ExecutionOrderMain
+            if (oldMainItem.getExecutionOrderMain() != null) {
+                oldMainItem.getExecutionOrderMain().updateFromInvoiceMainItem(oldMainItem);
+            }
+
             return invoiceMainItemRepository.save(oldMainItem);
         }).orElseThrow(() -> new RuntimeException("Main Item not found"));
     }

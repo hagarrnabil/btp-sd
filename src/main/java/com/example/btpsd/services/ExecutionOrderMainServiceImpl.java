@@ -76,6 +76,7 @@ public class ExecutionOrderMainServiceImpl implements ExecutionOrderMainService 
         return executionOrderMainRepository.findById(l).map(oldExecutionOrderMain -> {
             updateNonNullFields(newExecutionOrderMainCommand, oldExecutionOrderMain);
             oldExecutionOrderMain.setLineTypeCode(lineTypeRepository.findLineTypeCodeByCode(newExecutionOrderMainCommand.getLineTypeCode()));
+
             return executionOrderMainRepository.save(oldExecutionOrderMain);
         }).orElseThrow(() -> new RuntimeException("Execution Order Main not found"));
 

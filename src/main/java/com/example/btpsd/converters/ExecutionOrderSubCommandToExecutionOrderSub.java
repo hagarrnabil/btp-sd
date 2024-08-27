@@ -9,6 +9,9 @@ import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @RequiredArgsConstructor
 @Component
 public class ExecutionOrderSubCommandToExecutionOrderSub implements Converter<ExecutionOrderSubCommand, ExecutionOrderSub> {
@@ -56,7 +59,6 @@ public class ExecutionOrderSubCommandToExecutionOrderSub implements Converter<Ex
         executionOrderSub.setLineNumber(source.getLineNumber());
         executionOrderSub.setBiddersLine(source.getBiddersLine());
         executionOrderSub.setSupplementaryLine(source.getSupplementaryLine());
-//        executionOrderSub.setLotCostOne(source.getLotCostOne());
         executionOrderSub.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
 
         if (executionOrderSub.getLotCostOne()) {
@@ -64,6 +66,7 @@ public class ExecutionOrderSubCommandToExecutionOrderSub implements Converter<Ex
         }
         executionOrderSub.setDoNotPrint(source.getDoNotPrint());
         executionOrderSub.setTotal(executionOrderSub.getTotalQuantity() * executionOrderSub.getAmountPerUnit());
+
         return executionOrderSub;
     }
 }

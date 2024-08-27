@@ -7,6 +7,8 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,9 +103,44 @@ public class ExecutionOrderMain implements Serializable {
         this.currencyCode = invoiceMainItem.getCurrencyCode();
         this.description = invoiceMainItem.getDescription();
         this.totalQuantity = invoiceMainItem.getQuantity();
-        this.total = invoiceMainItem.getTotalWithProfit();
         this.doNotPrint = invoiceMainItem.getDoNotPrint();
-        this.amountPerUnit = invoiceMainItem.getAmountPerUnitWithProfit();
+
+        if (invoiceMainItem.getProfitMargin() != null) {
+            this.amountPerUnit = new BigDecimal(invoiceMainItem.getAmountPerUnitWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            this.total = new BigDecimal(invoiceMainItem.getTotalWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        } else {
+            this.amountPerUnit = invoiceMainItem.getAmountPerUnit();
+            this.total = invoiceMainItem.getTotal();
+        }
+
         this.invoiceMainItem = invoiceMainItem;
+    }
+
+    public void updateFromInvoiceMainItem(InvoiceMainItem invoiceMainItem) {
+
+        if (invoiceMainItem == null) return;
+
+        this.serviceNumberCode = invoiceMainItem.getServiceNumberCode();
+        this.unitOfMeasurementCode = invoiceMainItem.getUnitOfMeasurementCode();
+        this.currencyCode = invoiceMainItem.getCurrencyCode();
+        this.description = invoiceMainItem.getDescription();
+        this.totalQuantity = invoiceMainItem.getQuantity();
+        this.doNotPrint = invoiceMainItem.getDoNotPrint();
+        this.invoiceMainItem = invoiceMainItem;
+
+        // Set amountPerUnit and total based on profit margin availability
+        if (invoiceMainItem.getProfitMargin() != null) {
+            this.amountPerUnit = new BigDecimal(invoiceMainItem.getAmountPerUnitWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            this.total = new BigDecimal(invoiceMainItem.getTotalWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        } else {
+            this.amountPerUnit = invoiceMainItem.getAmountPerUnit();
+            this.total = invoiceMainItem.getTotal();
+        }
+
+    }
+
+    public void setInvoiceMainItem(InvoiceMainItem invoiceMainItem) {
+        this.invoiceMainItem = invoiceMainItem;
+        invoiceMainItem.setExecutionOrderMain(this);
     }
 }
