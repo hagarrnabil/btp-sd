@@ -64,8 +64,14 @@ public class InvoiceMainItemCommandToInvoiceMainItem implements Converter<Invoic
             mainItem.setAmountPerUnit(source.getAmountPerUnit());
         }
 
+        mainItem.setTotal(mainItem.getQuantity() * mainItem.getAmountPerUnit());
+        mainItem.setTotal(new BigDecimal(mainItem.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+        mainItem.setAmountPerUnit(new BigDecimal(mainItem.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+
         if(mainItem.getProfitMargin() != null){
-            mainItem.setTotalWithProfit(new BigDecimal(mainItem.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+            mainItem.setTotalWithProfit(((mainItem.getProfitMargin() / 100) * mainItem.getTotal()) + mainItem.getTotal());
+            mainItem.setAmountPerUnitWithProfit(((mainItem.getProfitMargin() / 100) * mainItem.getAmountPerUnit()) + mainItem.getAmountPerUnit());
+            mainItem.setTotalWithProfit(new BigDecimal(mainItem.getTotalWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
             mainItem.setAmountPerUnitWithProfit(new BigDecimal(mainItem.getAmountPerUnitWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
         }
         else {
@@ -73,13 +79,8 @@ public class InvoiceMainItemCommandToInvoiceMainItem implements Converter<Invoic
             mainItem.setAmountPerUnitWithProfit(null);
         }
 
-        mainItem.setTotal(mainItem.getQuantity() * mainItem.getAmountPerUnit());
         ExecutionOrderMain executionOrderMain = new ExecutionOrderMain(mainItem);
         mainItem.setExecutionOrderMain(executionOrderMain);
-        mainItem.setTotal(new BigDecimal(mainItem.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue());
-//        mainItem.setTotalWithProfit(new BigDecimal(mainItem.getTotalWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
-        mainItem.setAmountPerUnit(new BigDecimal(mainItem.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
-//        mainItem.setAmountPerUnitWithProfit(new BigDecimal(mainItem.getAmountPerUnitWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
         return mainItem;
     }
 }

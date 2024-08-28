@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -129,16 +131,19 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
 
             }
 
+            oldMainItem.setTotal(oldMainItem.getQuantity() * oldMainItem.getAmountPerUnit());
+
             if(oldMainItem.getProfitMargin() != null){
                 oldMainItem.setTotalWithProfit(((oldMainItem.getProfitMargin() / 100) * oldMainItem.getTotal()) + oldMainItem.getTotal());
                 oldMainItem.setAmountPerUnitWithProfit(((oldMainItem.getProfitMargin() / 100) * oldMainItem.getAmountPerUnit()) + oldMainItem.getAmountPerUnit());
+                oldMainItem.setTotalWithProfit(new BigDecimal(oldMainItem.getTotalWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+                oldMainItem.setAmountPerUnitWithProfit(new BigDecimal(oldMainItem.getAmountPerUnitWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
             }
             else {
                 oldMainItem.setTotalWithProfit(null);
                 oldMainItem.setAmountPerUnitWithProfit(null);
             }
 
-            oldMainItem.setTotal(oldMainItem.getQuantity() * oldMainItem.getAmountPerUnit());
 
             // Update the corresponding ExecutionOrderMain
             if (oldMainItem.getExecutionOrderMain() != null) {
