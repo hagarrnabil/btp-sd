@@ -67,7 +67,7 @@ public class SecurityConfiguration {
                 "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*", "/personnelnumbers", "/servicenumbers/*", "/servicenumbers", "/servicetypes/*", "/servicetypes",
                 "/invoices/*", "/invoices", "/mainitems/*", "/mainitems", "/subitems/*", "/subitems", "/currencies/*", "/currencies", "/salesorder", "/salesorder/*", "/salesorderitems", "/salesorderitems/*," ,
                         "/salesorderpricing", "/salesorderpricing/*", "/executionordersub", "/executionordersub/*", "/executionordermain", "/executionordermain/*", "/salesordercloud", "/salesordercloud/*",
-                "/salesorderpostcloud", "/salesorderpostcloud/*");
+                "/salesorderpostcloud", "/salesorderpostcloud/*", "/serviceinvoice", "/serviceinvoice/*");
     }
 
     @Bean

@@ -30,12 +30,18 @@ public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceI
         serviceInvoiceMainCommand.setPersonnelNumberCode(source.getPersonnelNumberCode());
         serviceInvoiceMainCommand.setServiceTypeCode(source.getServiceTypeCode());
         serviceInvoiceMainCommand.setQuantity(source.getQuantity());
-//        serviceInvoiceMainCommand.setRemainingQuantity();
-        serviceInvoiceMainCommand.setAlternatives(source.getAlternatives());
+       serviceInvoiceMainCommand.setAlternatives(source.getAlternatives());
         serviceInvoiceMainCommand.setTotalQuantity(source.getTotalQuantity());
         serviceInvoiceMainCommand.setAmountPerUnit(source.getAmountPerUnit());
-        serviceInvoiceMainCommand.setTotal(source.getTotalQuantity() * source.getAmountPerUnit());
-        serviceInvoiceMainCommand.setActualQuantity(source.getActualQuantity());
+        if (serviceInvoiceMainCommand.getTotalQuantity() != null){
+            serviceInvoiceMainCommand.setTotal(serviceInvoiceMainCommand.getTotalQuantity() * serviceInvoiceMainCommand.getAmountPerUnit());
+        }
+        if (serviceInvoiceMainCommand.getQuantity() != null)
+        {
+            serviceInvoiceMainCommand.setTotal(serviceInvoiceMainCommand.getQuantity() * serviceInvoiceMainCommand.getAmountPerUnit());
+//            serviceInvoiceMainCommand.setActualQuantity(source.getQuantity() + serviceInvoiceMainCommand.getActualQuantity());
+//            serviceInvoiceMainCommand.setRemainingQuantity(source.getQuantity() - source.getActualQuantity());
+        }
         serviceInvoiceMainCommand.setActualPercentage(source.getActualPercentage());
         serviceInvoiceMainCommand.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
         if(source.getLineTypeCode() != null){

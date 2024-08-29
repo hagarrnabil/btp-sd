@@ -28,6 +28,7 @@ public interface ServiceInvoiceMainService {
         if (source.getUnitOfMeasurementCode() != null) target.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         if (source.getDescription() != null) target.setDescription(source.getDescription());
         if (source.getTotalQuantity() != null) target.setTotalQuantity(source.getTotalQuantity());
+        if (source.getQuantity() != null) target.setQuantity(source.getQuantity());
         if (source.getAmountPerUnit() != null) target.setAmountPerUnit(source.getAmountPerUnit());
         if (source.getTotal() != null) target.setTotal(source.getTotal());
         if (source.getActualQuantity() != null) target.setActualQuantity(source.getActualQuantity());

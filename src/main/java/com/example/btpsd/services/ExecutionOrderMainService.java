@@ -78,5 +78,11 @@ public interface ExecutionOrderMainService {
             // Use the manually entered amountPerUnit if no subItems are present
             target.setAmountPerUnit(source.getAmountPerUnit());
         }
+
+        // Update the corresponding ExecutionOrderMain
+        if (target.getServiceInvoiceMain() != null) {
+            target.getServiceInvoiceMain().updateFromExecutionOrder(target);
+        }
+
     }
 }

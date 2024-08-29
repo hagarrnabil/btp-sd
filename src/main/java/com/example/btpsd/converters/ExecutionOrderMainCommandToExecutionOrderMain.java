@@ -90,6 +90,9 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
 
         executionOrderMain.setTotal(executionOrderMain.getTotalQuantity() * executionOrderMain.getAmountPerUnit());
 
+        ServiceInvoiceMain serviceInvoiceMain = new ServiceInvoiceMain(executionOrderMain);
+        executionOrderMain.setServiceInvoiceMain(serviceInvoiceMain);
+
         return executionOrderMain;
 
     }

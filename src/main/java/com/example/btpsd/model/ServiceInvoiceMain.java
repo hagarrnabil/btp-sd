@@ -101,7 +101,7 @@ public class ServiceInvoiceMain implements Serializable {
         this.executionOrderMain = executionOrderMain;
     }
 
-    public void updateFromInvoiceMainItem(ExecutionOrderMain executionOrderMain) {
+    public void updateFromExecutionOrder(ExecutionOrderMain executionOrderMain) {
 
         if (executionOrderMain == null) return;
 

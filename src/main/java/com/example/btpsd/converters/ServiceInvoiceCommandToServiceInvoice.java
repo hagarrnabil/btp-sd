@@ -35,12 +35,19 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         serviceInvoiceMain.setPersonnelNumberCode(source.getPersonnelNumberCode());
         serviceInvoiceMain.setServiceTypeCode(source.getServiceTypeCode());
         serviceInvoiceMain.setQuantity(source.getQuantity());
-//        serviceInvoiceMainCommand.setRemainingQuantity();
         serviceInvoiceMain.setAlternatives(source.getAlternatives());
         serviceInvoiceMain.setTotalQuantity(source.getTotalQuantity());
         serviceInvoiceMain.setAmountPerUnit(source.getAmountPerUnit());
-        serviceInvoiceMain.setTotal(source.getTotalQuantity() * source.getAmountPerUnit());
-        serviceInvoiceMain.setActualQuantity(source.getActualQuantity());
+        if (serviceInvoiceMain.getTotalQuantity() != null){
+            serviceInvoiceMain.setTotal(serviceInvoiceMain.getTotalQuantity() * serviceInvoiceMain.getAmountPerUnit());
+        }
+        if (serviceInvoiceMain.getQuantity() != null)
+        {
+            serviceInvoiceMain.setTotal(serviceInvoiceMain.getQuantity() * serviceInvoiceMain.getAmountPerUnit());
+//            serviceInvoiceMain.setActualQuantity(source.getQuantity() + serviceInvoiceMain.getActualQuantity());
+//            serviceInvoiceMain.setRemainingQuantity(source.getQuantity() - source.getActualQuantity());
+
+        }
         serviceInvoiceMain.setActualPercentage(source.getActualPercentage());
         serviceInvoiceMain.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
         if(source.getLineTypeCode() != null){
