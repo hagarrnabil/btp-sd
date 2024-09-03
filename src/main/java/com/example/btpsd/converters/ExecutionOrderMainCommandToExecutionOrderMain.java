@@ -1,24 +1,16 @@
 package com.example.btpsd.converters;
 
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
-import com.example.btpsd.commands.ExecutionOrderSubCommand;
-import com.example.btpsd.commands.InvoiceSubItemCommand;
 import com.example.btpsd.model.*;
-import com.example.btpsd.repositories.LineTypeRepository;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 @RequiredArgsConstructor
 @Component
 public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<ExecutionOrderMainCommand, ExecutionOrderMain> {
-
-    private final ExecutionOrderSubCommandToExecutionOrderSub executionOrderSubConverter;
 
     @Synchronized
     @Nullable
@@ -47,15 +39,14 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         executionOrderMain.setActualQuantity(source.getActualQuantity());
         executionOrderMain.setActualPercentage(source.getActualPercentage());
         executionOrderMain.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
-        if(source.getLineTypeCode() != null){
+        if (source.getLineTypeCode() != null) {
             executionOrderMain.setLineTypeCode(source.getLineTypeCode());
-        }
-        else {
+        } else {
             executionOrderMain.setLineTypeCode("Standard line");
         }
-        if (executionOrderMain.getActualQuantity() != null) {
-            executionOrderMain.setActualQuantity(executionOrderMain.getActualQuantity() + executionOrderMain.getOverFulfillmentPercentage() / 100);
-        }
+//        if (executionOrderMain.getActualQuantity() != null) {
+//            executionOrderMain.setActualQuantity(executionOrderMain.getActualQuantity() + executionOrderMain.getOverFulfillmentPercentage() / 100);
+//        }
         executionOrderMain.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         executionOrderMain.setManualPriceEntryAllowed(source.getManualPriceEntryAllowed());
         executionOrderMain.setExternalServiceNumber(source.getExternalServiceNumber());
@@ -69,29 +60,16 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
             executionOrderMain.setTotal(executionOrderMain.getAmountPerUnit());
         }
         executionOrderMain.setDoNotPrint(source.getDoNotPrint());
-
-        if (source.getExecutionOrderSub() != null && !source.getExecutionOrderSub().isEmpty()) {
-            double totalFromSubItems = 0.0;
-
-            for (ExecutionOrderSubCommand subItemCommand : source.getExecutionOrderSub()) {
-                ExecutionOrderSub subItem = executionOrderSubConverter.convert(subItemCommand);
-                if (subItem != null) {
-                    totalFromSubItems += subItem.getTotal(); // Sum the total of each sub-item
-                    executionOrderMain.addExecutionOrderSub(subItem);
-                }
-            }
-
-            // Set amountPerUnit to the total from sub-items divided by the quantity
-            executionOrderMain.setAmountPerUnit(totalFromSubItems);
-        } else {
-            // Use the manually entered amountPerUnit if no subItems are present
-            executionOrderMain.setAmountPerUnit(source.getAmountPerUnit());
-        }
-
+        executionOrderMain.setAmountPerUnit(source.getAmountPerUnit());
         executionOrderMain.setTotal(executionOrderMain.getTotalQuantity() * executionOrderMain.getAmountPerUnit());
 
-        ServiceInvoiceMain serviceInvoiceMain = new ServiceInvoiceMain(executionOrderMain);
-        executionOrderMain.setServiceInvoiceMain(serviceInvoiceMain);
+        if (executionOrderMain.getServiceInvoiceMain() == null) {
+            executionOrderMain.setServiceInvoiceMain(new ServiceInvoiceMain(executionOrderMain));
+        } else {
+            executionOrderMain.getServiceInvoiceMain().updateFromExecutionOrder(executionOrderMain);
+        }
+//        ServiceInvoiceMain serviceInvoiceMain = new ServiceInvoiceMain(executionOrderMain);
+//        executionOrderMain.setServiceInvoiceMain(serviceInvoiceMain);
 
         return executionOrderMain;
 

@@ -1,5 +1,6 @@
 package com.example.btpsd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -78,7 +79,8 @@ public class ServiceInvoiceMain implements Serializable {
     @ManyToOne
     private ServiceNumber serviceNumber;
 
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "execution_order_main_id")
     private ExecutionOrderMain executionOrderMain;
 
@@ -91,6 +93,7 @@ public class ServiceInvoiceMain implements Serializable {
         this.actualQuantity = executionOrderMain.getActualQuantity();
         this.actualPercentage = executionOrderMain.getActualPercentage();
         this.biddersLine = executionOrderMain.getBiddersLine();
+        this.lineNumber = executionOrderMain.getLineNumber();
         this.doNotPrint = executionOrderMain.getDoNotPrint();
         this.supplementaryLine = executionOrderMain.getSupplementaryLine();
         this.lotCostOne = executionOrderMain.getLotCostOne();
@@ -105,23 +108,31 @@ public class ServiceInvoiceMain implements Serializable {
 
         if (executionOrderMain == null) return;
 
+        this.setExecutionOrderMain(executionOrderMain);
+
+        // Recalculate actualQuantity if necessary, ensuring synchronization with ExecutionOrderMain
+        Integer calculatedActualQuantity = this.getQuantity();
+        if (executionOrderMain.getActualQuantity() != null) {
+            calculatedActualQuantity += executionOrderMain.getActualQuantity();
+        }
+        this.setActualQuantity(calculatedActualQuantity);
         this.serviceNumberCode = executionOrderMain.getServiceNumberCode();
         this.unitOfMeasurementCode = executionOrderMain.getUnitOfMeasurementCode();
         this.currencyCode = executionOrderMain.getCurrencyCode();
         this.description = executionOrderMain.getDescription();
         this.totalQuantity = executionOrderMain.getTotalQuantity();
         this.actualQuantity = executionOrderMain.getActualQuantity();
-        this.actualPercentage = executionOrderMain.getActualPercentage();
+        this.remainingQuantity = this.totalQuantity - (this.actualQuantity != null ? this.actualQuantity : 0);
         this.biddersLine = executionOrderMain.getBiddersLine();
+        this.lineNumber = executionOrderMain.getLineNumber();
         this.doNotPrint = executionOrderMain.getDoNotPrint();
         this.supplementaryLine = executionOrderMain.getSupplementaryLine();
         this.lotCostOne = executionOrderMain.getLotCostOne();
         this.overFulfillmentPercentage = executionOrderMain.getOverFulfillmentPercentage();
         this.unlimitedOverFulfillment = executionOrderMain.getUnlimitedOverFulfillment();
-        this.executionOrderMain = executionOrderMain;
         this.amountPerUnit = new BigDecimal(executionOrderMain.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        this.total = new BigDecimal(executionOrderMain.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue();
-
+        this.total = new BigDecimal(this.quantity * this.amountPerUnit).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        this.executionOrderMain = executionOrderMain;
     }
 
     public void setExecutionOrderMain(ExecutionOrderMain executionOrderMain) {

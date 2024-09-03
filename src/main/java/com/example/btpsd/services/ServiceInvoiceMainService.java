@@ -3,6 +3,7 @@ package com.example.btpsd.services;
 import com.example.btpsd.commands.ServiceInvoiceMainCommand;
 import com.example.btpsd.model.ServiceInvoiceMain;
 import com.example.btpsd.model.ServiceNumber;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -16,11 +17,12 @@ public interface ServiceInvoiceMainService {
 
     ServiceInvoiceMainCommand saveServiceInvoiceMainCommand(ServiceInvoiceMainCommand command);
 
-    ServiceInvoiceMain updateServiceInvoiceMain(ServiceInvoiceMainCommand newServiceInvoiceMainCommand, Long l);
+    ServiceInvoiceMain updateServiceInvoiceMain(ServiceInvoiceMain updatedInvoice, Long l);
 
     ServiceInvoiceMainCommand findServiceInvoiceMainCommandById(Long l);
 
-    default void updateNonNullFields(ServiceInvoiceMainCommand source, ServiceInvoiceMain target) {
+    @Transactional
+    default void updateNonNullFields(ServiceInvoiceMain source, ServiceInvoiceMain target) {
         if (source.getCurrencyCode() != null) target.setCurrencyCode(source.getCurrencyCode());
         if (source.getMaterialGroupCode() != null) target.setMaterialGroupCode(source.getMaterialGroupCode());
         if (source.getLineTypeCode() != null) target.setLineTypeCode(source.getLineTypeCode());

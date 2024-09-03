@@ -10,6 +10,7 @@ import com.example.btpsd.model.ServiceInvoiceMain;
 import com.example.btpsd.repositories.ExecutionOrderMainRepository;
 import com.example.btpsd.repositories.LineTypeRepository;
 import com.example.btpsd.repositories.ServiceInvoiceMainRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ import java.util.stream.StreamSupport;
 public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService{
 
     private final ServiceInvoiceMainRepository serviceInvoiceMainRepository;
+    private final ExecutionOrderMainRepository executionOrderMainRepository;
+    private final ExecutionOrderMainService executionOrderMainService;
+    private final ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand;
     private final LineTypeRepository lineTypeRepository;
     private final ServiceInvoiceCommandToServiceInvoice serviceInvoiceCommandToServiceInvoice;
     private final ServiceInvoiceToServiceInvoiceCommand serviceInvoiceToServiceInvoiceCommand;
@@ -74,17 +78,39 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService{
     }
 
     @Override
-    public ServiceInvoiceMain updateServiceInvoiceMain(ServiceInvoiceMainCommand newServiceInvoiceMainCommand, Long l) {
+    @Transactional
+    public ServiceInvoiceMain updateServiceInvoiceMain(ServiceInvoiceMain updatedInvoice, Long l) {
 
-        return serviceInvoiceMainRepository.findById(l).map(oldServiceInvoiceMain -> {
-            updateNonNullFields(newServiceInvoiceMainCommand, oldServiceInvoiceMain);
-            oldServiceInvoiceMain.setLineTypeCode(lineTypeRepository.findLineTypeCodeByCode(newServiceInvoiceMainCommand.getLineTypeCode()));
+        ServiceInvoiceMain existingInvoice = serviceInvoiceMainRepository.findById(l)
+                .orElseThrow(() -> new EntityNotFoundException("ServiceInvoiceMain not found with ID: " + l));
 
-            return serviceInvoiceMainRepository.save(oldServiceInvoiceMain);
-        }).orElseThrow(() -> new RuntimeException("Service Invoice Main not found"));
+        // Ensure the ID is correctly set
+        updatedInvoice.setServiceInvoiceCode(existingInvoice.getServiceInvoiceCode());
+
+        updateNonNullFields(updatedInvoice, existingInvoice);
+        updatedInvoice.setLineTypeCode(lineTypeRepository.findLineTypeCodeByCode(updatedInvoice.getLineTypeCode()));
 
 
+        // Calculate actual quantity by adding quantity from ServiceInvoiceMain and actualQuantity from ExecutionOrderMain
+        Integer calculatedActualQuantity = updatedInvoice.getQuantity();
+        if (existingInvoice.getExecutionOrderMain() != null) {
+            calculatedActualQuantity += existingInvoice.getExecutionOrderMain().getActualQuantity() != null
+                    ? existingInvoice.getExecutionOrderMain().getActualQuantity()
+                    : 0;
+        }
+        updatedInvoice.setActualQuantity(calculatedActualQuantity);
+
+        // Synchronize the actualQuantity back to ExecutionOrderMain
+        if (existingInvoice.getExecutionOrderMain() != null) {
+            ExecutionOrderMain executionOrderMain = existingInvoice.getExecutionOrderMain();
+            executionOrderMain.setActualQuantity(calculatedActualQuantity);
+
+            executionOrderMainService.saveExecutionOrderMainCommand(executionOrderMainToExecutionOrderMainCommand.convert(executionOrderMain));
+        }
+
+        return serviceInvoiceMainRepository.save(updatedInvoice);
     }
+
 
     @Override
     @Transactional

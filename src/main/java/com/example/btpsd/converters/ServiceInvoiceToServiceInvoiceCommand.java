@@ -33,15 +33,13 @@ public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceI
        serviceInvoiceMainCommand.setAlternatives(source.getAlternatives());
         serviceInvoiceMainCommand.setTotalQuantity(source.getTotalQuantity());
         serviceInvoiceMainCommand.setAmountPerUnit(source.getAmountPerUnit());
-        if (serviceInvoiceMainCommand.getTotalQuantity() != null){
+        if (source.getQuantity() != null) {
+            serviceInvoiceMainCommand.setTotal(source.getQuantity() * serviceInvoiceMainCommand.getAmountPerUnit());
+        } else if (serviceInvoiceMainCommand.getAmountPerUnit() != null) {
+            // Calculate total even if quantity is missing, assuming totalQuantity is provided
             serviceInvoiceMainCommand.setTotal(serviceInvoiceMainCommand.getTotalQuantity() * serviceInvoiceMainCommand.getAmountPerUnit());
         }
-        if (serviceInvoiceMainCommand.getQuantity() != null)
-        {
-            serviceInvoiceMainCommand.setTotal(serviceInvoiceMainCommand.getQuantity() * serviceInvoiceMainCommand.getAmountPerUnit());
-//            serviceInvoiceMainCommand.setActualQuantity(source.getQuantity() + serviceInvoiceMainCommand.getActualQuantity());
-//            serviceInvoiceMainCommand.setRemainingQuantity(source.getQuantity() - source.getActualQuantity());
-        }
+        serviceInvoiceMainCommand.setActualQuantity(source.getActualQuantity());
         serviceInvoiceMainCommand.setActualPercentage(source.getActualPercentage());
         serviceInvoiceMainCommand.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
         if(source.getLineTypeCode() != null){
@@ -49,9 +47,6 @@ public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceI
         }
         else {
             serviceInvoiceMainCommand.setLineTypeCode("Standard line");
-        }
-        if (serviceInvoiceMainCommand.getActualQuantity() != null) {
-            serviceInvoiceMainCommand.setActualQuantity(serviceInvoiceMainCommand.getActualQuantity() + serviceInvoiceMainCommand.getOverFulfillmentPercentage() / 100);
         }
         serviceInvoiceMainCommand.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         serviceInvoiceMainCommand.setExternalServiceNumber(source.getExternalServiceNumber());

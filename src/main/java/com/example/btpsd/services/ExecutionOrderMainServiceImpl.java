@@ -1,10 +1,8 @@
 package com.example.btpsd.services;
 
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
-import com.example.btpsd.commands.ExecutionOrderSubCommand;
 import com.example.btpsd.converters.ExecutionOrderMainCommandToExecutionOrderMain;
 import com.example.btpsd.converters.ExecutionOrderMainToExecutionOrderMainCommand;
-import com.example.btpsd.converters.ExecutionOrderSubCommandToExecutionOrderSub;
 import com.example.btpsd.model.*;
 import com.example.btpsd.repositories.ExecutionOrderMainRepository;
 import com.example.btpsd.repositories.LineTypeRepository;
@@ -71,6 +69,7 @@ public class ExecutionOrderMainServiceImpl implements ExecutionOrderMainService 
     }
 
     @Override
+    @Transactional
     public ExecutionOrderMain updateExecutionOrderMain(ExecutionOrderMainCommand newExecutionOrderMainCommand, Long l) {
 
         return executionOrderMainRepository.findById(l).map(oldExecutionOrderMain -> {

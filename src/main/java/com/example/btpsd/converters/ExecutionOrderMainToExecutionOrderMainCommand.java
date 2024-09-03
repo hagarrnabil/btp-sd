@@ -14,8 +14,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<ExecutionOrderMain, ExecutionOrderMainCommand> {
 
-    private final ExecutionOrderSubToExecutionOrderSubCommand executionOrderSubConverter;
-
     @Synchronized
     @Override
     public ExecutionOrderMainCommand convert(ExecutionOrderMain source) {
@@ -44,9 +42,9 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         else {
             executionOrderMainCommand.setLineTypeCode("Standard line");
         }
-        if (executionOrderMainCommand.getActualQuantity() != null) {
-            executionOrderMainCommand.setActualQuantity(executionOrderMainCommand.getActualQuantity() + executionOrderMainCommand.getOverFulfillmentPercentage() / 100);
-        }
+//        if (executionOrderMainCommand.getActualQuantity() != null) {
+//            executionOrderMainCommand.setActualQuantity(executionOrderMainCommand.getActualQuantity() + executionOrderMainCommand.getOverFulfillmentPercentage() / 100);
+//        }
         executionOrderMainCommand.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         executionOrderMainCommand.setManualPriceEntryAllowed(source.getManualPriceEntryAllowed());
         executionOrderMainCommand.setExternalServiceNumber(source.getExternalServiceNumber());
@@ -64,10 +62,10 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         if (source.getServiceNumber() != null) {
             executionOrderMainCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
-        if (source.getExecutionOrderSubList() != null && source.getExecutionOrderSubList().size() > 0) {
-            source.getExecutionOrderSubList()
-                    .forEach(executionOrderSub -> executionOrderMainCommand.getExecutionOrderSub().add(executionOrderSubConverter.convert(executionOrderSub)));
-        }
+//        if (source.getExecutionOrderSubList() != null && source.getExecutionOrderSubList().size() > 0) {
+//            source.getExecutionOrderSubList()
+//                    .forEach(executionOrderSub -> executionOrderMainCommand.getExecutionOrderSub().add(executionOrderSubConverter.convert(executionOrderSub)));
+//        }
 
         return executionOrderMainCommand;
     }

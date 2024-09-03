@@ -1,18 +1,12 @@
 package com.example.btpsd.services;
 
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
-import com.example.btpsd.commands.ExecutionOrderSubCommand;
-import com.example.btpsd.commands.InvoiceSubItemCommand;
-import com.example.btpsd.converters.ExecutionOrderSubCommandToExecutionOrderSub;
 import com.example.btpsd.model.*;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Set;
 
 public interface ExecutionOrderMainService {
-
-    ExecutionOrderSubCommandToExecutionOrderSub executionConverter = new ExecutionOrderSubCommandToExecutionOrderSub();
 
     Set<ExecutionOrderMainCommand> getExecutionOrderMainCommands();
 
@@ -26,6 +20,7 @@ public interface ExecutionOrderMainService {
 
     ExecutionOrderMainCommand findExecutionOrderMainCommandById(Long l);
 
+    @Transactional
     default void updateNonNullFields(ExecutionOrderMainCommand source, ExecutionOrderMain target) {
         if (source.getCurrencyCode() != null) target.setCurrencyCode(source.getCurrencyCode());
         if (source.getMaterialGroupCode() != null) target.setMaterialGroupCode(source.getMaterialGroupCode());
@@ -56,28 +51,7 @@ public interface ExecutionOrderMainService {
             target.setServiceNumber(serviceNumber);
             serviceNumber.addExecutionOrderMainItem(target);
         }
-
-
-        if (source.getExecutionOrderSub() != null && !source.getExecutionOrderSub().isEmpty()) {
-
-            double totalFromSubItems = 0.0;
-
-            target.getExecutionOrderSubList().clear();
-
-            for (ExecutionOrderSubCommand subItemCommand : source.getExecutionOrderSub()) {
-                ExecutionOrderSub subItem = executionConverter.convert(subItemCommand);
-                if (subItem != null) {
-                    totalFromSubItems += subItem.getTotal(); // Sum the total of each sub-item
-                    target.addExecutionOrderSub(subItem);
-                }
-            }
-
-            // Set amountPerUnit to the total from sub-items divided by the quantity
-            target.setAmountPerUnit(totalFromSubItems);
-        } else {
-            // Use the manually entered amountPerUnit if no subItems are present
-            target.setAmountPerUnit(source.getAmountPerUnit());
-        }
+        if (source.getAmountPerUnit() != null) target.setAmountPerUnit(source.getAmountPerUnit());
 
         // Update the corresponding ExecutionOrderMain
         if (target.getServiceInvoiceMain() != null) {

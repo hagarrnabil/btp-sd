@@ -4,6 +4,8 @@ import com.example.btpsd.commands.ExecutionOrderMainCommand;
 import com.example.btpsd.commands.ServiceInvoiceMainCommand;
 import com.example.btpsd.converters.ExecutionOrderMainToExecutionOrderMainCommand;
 import com.example.btpsd.converters.ServiceInvoiceToServiceInvoiceCommand;
+import com.example.btpsd.model.ServiceInvoiceMain;
+import com.example.btpsd.repositories.ServiceInvoiceMainRepository;
 import com.example.btpsd.services.ExecutionOrderMainService;
 import com.example.btpsd.services.ServiceInvoiceMainService;
 import jakarta.validation.constraints.NotNull;
@@ -11,12 +13,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
 public class ServiceInvoiceMainController {
+
+    private final ServiceInvoiceMainRepository serviceInvoiceMainRepository;
 
     private final ServiceInvoiceMainService serviceInvoiceMainService;
 
@@ -49,17 +54,17 @@ public class ServiceInvoiceMainController {
     @PatchMapping
     @RequestMapping("/serviceinvoice/{serviceInvoiceCode}")
     @Transactional
-    ServiceInvoiceMainCommand updateServiceInvoiceCommand(@RequestBody ServiceInvoiceMainCommand newServiceInvoiceCommand, @PathVariable Long serviceInvoiceCode) {
+    ServiceInvoiceMainCommand updateServiceInvoiceCommand(@RequestBody ServiceInvoiceMain newServiceInvoiceCommand, @PathVariable Long serviceInvoiceCode) {
 
         ServiceInvoiceMainCommand command = serviceInvoiceToServiceInvoiceCommand.convert(serviceInvoiceMainService.updateServiceInvoiceMain(newServiceInvoiceCommand, serviceInvoiceCode));
         return command;
     }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "/mainitems/search")
-//    @ResponseBody
-//    public List<InvoiceMainItem> Search(@RequestParam String keyword) {
-//
-//        return invoiceMainItemRepository.search(keyword);
-//    }
+    @RequestMapping(method = RequestMethod.GET, value = "/serviceinvoice/linenumber")
+    @ResponseBody
+    public List<ServiceInvoiceMain> findByLineNumber(@RequestParam String lineNumber) {
+
+        return serviceInvoiceMainRepository.findByLineNumber(lineNumber);
+    }
 
 }

@@ -78,10 +78,6 @@ public class ExecutionOrderMain implements Serializable {
     private Boolean doNotPrint;
 
 
-    @OneToMany(mappedBy = "executionOrderMain", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonProperty("executionOrdersubList")
-    private List<ExecutionOrderSub> executionOrderSubList = new ArrayList<>();
-
     @ManyToOne
     private ServiceNumber serviceNumber;
 
@@ -92,13 +88,6 @@ public class ExecutionOrderMain implements Serializable {
     @OneToOne(mappedBy = "executionOrderMain", cascade = CascadeType.ALL)
     private ServiceInvoiceMain serviceInvoiceMain;
 
-    public ExecutionOrderMain addExecutionOrderSub(ExecutionOrderSub executionOrderSub) {
-        if (!this.executionOrderSubList.contains(executionOrderSub)) {
-            executionOrderSub.setExecutionOrderMain(this);
-            this.executionOrderSubList.add(executionOrderSub);
-        }
-        return this;
-    }
 
     public ExecutionOrderMain(InvoiceMainItem invoiceMainItem) {
         this.serviceNumberCode = invoiceMainItem.getServiceNumberCode();
@@ -139,7 +128,6 @@ public class ExecutionOrderMain implements Serializable {
             this.amountPerUnit = invoiceMainItem.getAmountPerUnit();
             this.total = invoiceMainItem.getTotal();
         }
-
     }
 
     public void setInvoiceMainItem(InvoiceMainItem invoiceMainItem) {

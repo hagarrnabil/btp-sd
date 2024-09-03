@@ -25,25 +25,20 @@ public class InvoiceMainItem implements Serializable {
 
     private Long serviceNumberCode;
 
-//    @NotNull
     private String unitOfMeasurementCode;
 
-//    @NotNull
     private String currencyCode;
 
     private String formulaCode;
 
     private String description;
 
-//    @NotNull
     private Integer quantity;
 
-//    @NotNull
     private Double amountPerUnit;
 
     private Double total;
 
-//    @NotNull
     private Double profitMargin;
 
     private Double totalWithProfit;

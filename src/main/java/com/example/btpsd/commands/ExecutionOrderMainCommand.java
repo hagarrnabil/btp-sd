@@ -73,7 +73,4 @@ public class ExecutionOrderMainCommand implements Serializable {
 
     @JsonIgnore
     private InvoiceMainItem invoiceMainItem;
-
-    @JsonProperty("executionOrdersubList")
-    private List<ExecutionOrderSubCommand> executionOrderSub = new ArrayList<>();
 }

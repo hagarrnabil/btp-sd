@@ -79,9 +79,6 @@ public class ServiceNumber implements Serializable {
     @JsonIgnore
     private Set<ExecutionOrderMain> executionOrderMainSet = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "serviceNumber")
-    @JsonIgnore
-    private Set<ExecutionOrderSub> executionOrderSubSet = new HashSet<>();
 
     public ServiceNumber addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setServiceNumber(this);
@@ -114,10 +111,5 @@ public class ServiceNumber implements Serializable {
         return this;
     }
 
-    public ServiceNumber addExecutionOrderSubItem(ExecutionOrderSub executionOrderSub){
-        executionOrderSub.setServiceNumber(this);
-        this.executionOrderSubSet.add(executionOrderSub);
-        return this;
-    }
 
 }
