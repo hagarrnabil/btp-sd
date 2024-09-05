@@ -85,7 +85,7 @@ public class ExecutionOrderMain implements Serializable {
     @JoinColumn(name = "invoice_main_item_id")
     private InvoiceMainItem invoiceMainItem;
 
-    @OneToOne(mappedBy = "executionOrderMain", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "executionOrderMain", cascade = CascadeType.PERSIST)
     private ServiceInvoiceMain serviceInvoiceMain;
 
 
