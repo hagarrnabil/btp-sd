@@ -44,9 +44,6 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         } else {
             executionOrderMain.setLineTypeCode("Standard line");
         }
-//        if (executionOrderMain.getActualQuantity() != null) {
-//            executionOrderMain.setActualQuantity(executionOrderMain.getActualQuantity() + executionOrderMain.getOverFulfillmentPercentage() / 100);
-//        }
         executionOrderMain.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         executionOrderMain.setManualPriceEntryAllowed(source.getManualPriceEntryAllowed());
         executionOrderMain.setExternalServiceNumber(source.getExternalServiceNumber());
@@ -68,9 +65,6 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         } else {
             executionOrderMain.getServiceInvoiceMain().updateFromExecutionOrder(executionOrderMain);
         }
-//        ServiceInvoiceMain serviceInvoiceMain = new ServiceInvoiceMain(executionOrderMain);
-//        executionOrderMain.setServiceInvoiceMain(serviceInvoiceMain);
-
         return executionOrderMain;
 
     }

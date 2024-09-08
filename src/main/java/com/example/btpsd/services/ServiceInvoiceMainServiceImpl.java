@@ -85,7 +85,7 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
         ServiceInvoiceMain existingInvoice = serviceInvoiceMainRepository.findById(l)
                 .orElseThrow(() -> new EntityNotFoundException("ServiceInvoiceMain not found with ID: " + l));
 
-        // Update only non-null fields in the existing entity
+        // Update non-null fields in the existing entity
         if (updatedInvoice.getCurrencyCode() != null) existingInvoice.setCurrencyCode(updatedInvoice.getCurrencyCode());
         if (updatedInvoice.getMaterialGroupCode() != null) existingInvoice.setMaterialGroupCode(updatedInvoice.getMaterialGroupCode());
         if (updatedInvoice.getLineTypeCode() != null) existingInvoice.setLineTypeCode(updatedInvoice.getLineTypeCode());
@@ -93,16 +93,17 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
         if (updatedInvoice.getUnitOfMeasurementCode() != null) existingInvoice.setUnitOfMeasurementCode(updatedInvoice.getUnitOfMeasurementCode());
         if (updatedInvoice.getDescription() != null) existingInvoice.setDescription(updatedInvoice.getDescription());
         if (updatedInvoice.getTotalQuantity() != null) existingInvoice.setTotalQuantity(updatedInvoice.getTotalQuantity());
+
+        // Handle quantity update
         if (updatedInvoice.getQuantity() != null) {
             existingInvoice.setQuantity(updatedInvoice.getQuantity());
-            existingInvoice.setTotalQuantity(updatedInvoice.getQuantity());
             if (updatedInvoice.getAmountPerUnit() != null) {
                 existingInvoice.setTotal(updatedInvoice.getQuantity() * updatedInvoice.getAmountPerUnit());
             }
         }
+
         if (updatedInvoice.getAmountPerUnit() != null) existingInvoice.setAmountPerUnit(updatedInvoice.getAmountPerUnit());
         if (updatedInvoice.getTotal() != null) existingInvoice.setTotal(updatedInvoice.getTotal());
-        if (updatedInvoice.getActualQuantity() != null) existingInvoice.setActualQuantity(updatedInvoice.getActualQuantity());
         if (updatedInvoice.getActualPercentage() != null) existingInvoice.setActualPercentage(updatedInvoice.getActualPercentage());
         if (updatedInvoice.getOverFulfillmentPercentage() != null) existingInvoice.setOverFulfillmentPercentage(updatedInvoice.getOverFulfillmentPercentage());
         if (updatedInvoice.getUnlimitedOverFulfillment() != null) existingInvoice.setUnlimitedOverFulfillment(updatedInvoice.getUnlimitedOverFulfillment());
@@ -116,7 +117,7 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
         if (updatedInvoice.getDoNotPrint() != null) existingInvoice.setDoNotPrint(updatedInvoice.getDoNotPrint());
         if (updatedInvoice.getServiceTypeCode() != null) existingInvoice.setServiceTypeCode(updatedInvoice.getServiceTypeCode());
 
-        // Handling ServiceNumber association
+        // Handle ServiceNumber association
         if (updatedInvoice.getServiceNumberCode() != null) {
             ServiceNumber serviceNumber = existingInvoice.getServiceNumber();
             if (serviceNumber == null) {
@@ -141,16 +142,29 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
         }
         existingInvoice.setActualQuantity(calculatedActualQuantity);
 
-        // Update the actualQuantity in ExecutionOrderMain
+        // Calculate remainingQuantity: Total Quantity - Actual Quantity
+        Integer totalQuantity = existingInvoice.getTotalQuantity() != null ? existingInvoice.getTotalQuantity() : 0;
+        Integer remainingQuantity = totalQuantity - existingInvoice.getActualQuantity();
+        existingInvoice.setRemainingQuantity(remainingQuantity);
+
+        // Calculate actualPercentage: (Actual Quantity * 100) / Total Quantity
+        if (totalQuantity > 0) {
+            Integer actualPercentage = (calculatedActualQuantity * 100) / totalQuantity;
+            existingInvoice.setActualPercentage(actualPercentage);
+        } else {
+            existingInvoice.setActualPercentage(0);
+        }
+
+        // Update the actualQuantity and actualPercentage in ExecutionOrderMain if present
         if (executionOrderMain != null) {
-            executionOrderMain.setActualQuantity(calculatedActualQuantity);
+            executionOrderMain.setActualQuantity(existingInvoice.getActualQuantity());
+            executionOrderMain.setActualPercentage(existingInvoice.getActualPercentage());
             executionOrderMainService.saveExecutionOrderMainCommand(executionOrderMainToExecutionOrderMainCommand.convert(executionOrderMain));
         }
 
         // Persist the changes and return the updated entity
         return serviceInvoiceMainRepository.save(existingInvoice);
     }
-
 
 
     @Override
