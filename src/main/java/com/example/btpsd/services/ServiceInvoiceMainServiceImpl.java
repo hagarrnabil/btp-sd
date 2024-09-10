@@ -128,6 +128,7 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
             serviceNumber.addServiceInvoiceMain(existingInvoice);
         }
 
+
         // Fetch and attach the existing ExecutionOrderMain if present
         ExecutionOrderMain executionOrderMain = existingInvoice.getExecutionOrderMain();
         if (executionOrderMain != null) {
@@ -140,12 +141,28 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
         if (executionOrderMain != null && executionOrderMain.getActualQuantity() != null) {
             calculatedActualQuantity += executionOrderMain.getActualQuantity();
         }
+
+        // Enforce overfulfillment logic
+        Integer totalQuantity = existingInvoice.getTotalQuantity() != null ? existingInvoice.getTotalQuantity() : 0;
+        if (calculatedActualQuantity > totalQuantity) {
+            boolean canOverFulfill = Boolean.TRUE.equals(existingInvoice.getUnlimitedOverFulfillment()) ||
+                    (existingInvoice.getOverFulfillmentPercentage() != null &&
+                            calculatedActualQuantity <= totalQuantity + (totalQuantity * existingInvoice.getOverFulfillmentPercentage() / 100));
+
+            if (!canOverFulfill) {
+                throw new IllegalArgumentException("Actual quantity exceeds total quantity without allowed overfulfillment.");
+            }
+        }
+
         existingInvoice.setActualQuantity(calculatedActualQuantity);
 
-        // Calculate remainingQuantity: Total Quantity - Actual Quantity
-        Integer totalQuantity = existingInvoice.getTotalQuantity() != null ? existingInvoice.getTotalQuantity() : 0;
+        totalQuantity = existingInvoice.getTotalQuantity() != null ? existingInvoice.getTotalQuantity() : 0;
         Integer remainingQuantity = totalQuantity - existingInvoice.getActualQuantity();
+        log.debug("total quantity " + totalQuantity);
+        log.debug("remaining quantity " + remainingQuantity);
         existingInvoice.setRemainingQuantity(remainingQuantity);
+        log.debug("remaining quantity after setting " + existingInvoice.getRemainingQuantity());
+
 
         // Calculate actualPercentage: (Actual Quantity * 100) / Total Quantity
         if (totalQuantity > 0) {
@@ -162,8 +179,9 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
             executionOrderMainService.saveExecutionOrderMainCommand(executionOrderMainToExecutionOrderMainCommand.convert(executionOrderMain));
         }
 
-        // Persist the changes and return the updated entity
-        return serviceInvoiceMainRepository.save(existingInvoice);
+        ServiceInvoiceMain savedServiceInvoiceMain = serviceInvoiceMainRepository.save(existingInvoice);
+
+        return serviceInvoiceMainRepository.save(savedServiceInvoiceMain);
     }
 
 

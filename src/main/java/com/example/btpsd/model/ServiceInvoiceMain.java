@@ -1,6 +1,7 @@
 package com.example.btpsd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -84,6 +85,14 @@ public class ServiceInvoiceMain implements Serializable {
     @JoinColumn(name = "execution_order_main_id")
     private ExecutionOrderMain executionOrderMain;
 
+    public Integer getRemainingQuantity() {
+        return remainingQuantity;
+    }
+
+    public void setRemainingQuantity(Integer remainingQuantity) {
+        this.remainingQuantity = remainingQuantity;
+    }
+
     public ServiceInvoiceMain(ExecutionOrderMain executionOrderMain) {
         this.serviceNumberCode = executionOrderMain.getServiceNumberCode();
         this.unitOfMeasurementCode = executionOrderMain.getUnitOfMeasurementCode();
@@ -143,10 +152,13 @@ public class ServiceInvoiceMain implements Serializable {
         }
         this.setActualQuantity(calculatedActualQuantity);
 
-        // Check and update remainingQuantity
-        if (this.totalQuantity != null) {
-            this.remainingQuantity = this.totalQuantity - (this.actualQuantity != null ? this.actualQuantity : 0);
+
+        if (this.totalQuantity != null && this.actualQuantity != null) {
+            this.remainingQuantity = this.totalQuantity - this.actualQuantity;
+        } else {
+            this.remainingQuantity = null; // Or some other fallback
         }
+
 
         if (executionOrderMain.getBiddersLine() != null) {
             this.biddersLine = executionOrderMain.getBiddersLine();

@@ -15,3 +15,4 @@
 ### [MainItems] https://sd.c-2754c50.kyma.ondemand.com/mainitems                 : This is a link to all the available main items in our SD project.
 ### [SubItems] https://sd.c-2754c50.kyma.ondemand.com/subitems                   : This is a link to all the available sub items in our SD project.
 ### [MainItems] https://sd.c-2754c50.kyma.ondemand.com/executionordermain        : This is a link to all the available execution order main items in our SD project.
+### [ServiceInvoice] https://sd.c-2754c50.kyma.ondemand.com/serviceinvoice       : This is a link to all the available service invoice items in our SD project.

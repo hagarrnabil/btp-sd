@@ -39,9 +39,26 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         serviceInvoiceMain.setAlternatives(source.getAlternatives());
         serviceInvoiceMain.setTotalQuantity(source.getTotalQuantity());
         serviceInvoiceMain.setAmountPerUnit(source.getAmountPerUnit());
+
+        // Calculate actualQuantity
         Integer calculatedActualQuantity = serviceInvoiceMain.getQuantity() +
                 (serviceInvoiceMain.getExecutionOrderMain() != null ? serviceInvoiceMain.getExecutionOrderMain().getActualQuantity() : 0);
         serviceInvoiceMain.setActualQuantity(calculatedActualQuantity);
+
+        // Enforce overfulfillment logic
+        Integer totalQuantity = source.getTotalQuantity() != null ? source.getTotalQuantity() : 0;
+        if (calculatedActualQuantity > totalQuantity) {
+            boolean canOverFulfill = Boolean.TRUE.equals(source.getUnlimitedOverFulfillment()) ||
+                    (source.getOverFulfillmentPercentage() != null &&
+                            calculatedActualQuantity <= totalQuantity + (totalQuantity * source.getOverFulfillmentPercentage() / 100));
+
+            if (!canOverFulfill) {
+                throw new IllegalArgumentException("Actual quantity exceeds total quantity without allowed overfulfillment.");
+            }
+        }
+
+        serviceInvoiceMain.setActualQuantity(calculatedActualQuantity);
+
         if (source.getQuantity() != null) {
             serviceInvoiceMain.setTotal(source.getQuantity() * serviceInvoiceMain.getAmountPerUnit());
             serviceInvoiceMain.setRemainingQuantity(serviceInvoiceMain.getTotalQuantity() - serviceInvoiceMain.getActualQuantity());

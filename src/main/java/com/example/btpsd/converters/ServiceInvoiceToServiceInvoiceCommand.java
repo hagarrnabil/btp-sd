@@ -39,6 +39,7 @@ public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceI
             // Calculate total even if quantity is missing, assuming totalQuantity is provided
             serviceInvoiceMainCommand.setTotal(serviceInvoiceMainCommand.getTotalQuantity() * serviceInvoiceMainCommand.getAmountPerUnit());
         }
+        serviceInvoiceMainCommand.setRemainingQuantity(source.getRemainingQuantity());
         serviceInvoiceMainCommand.setActualQuantity(source.getActualQuantity());
         serviceInvoiceMainCommand.setActualPercentage(source.getActualPercentage());
         serviceInvoiceMainCommand.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());

@@ -71,4 +71,12 @@ public class ServiceInvoiceMainCommand implements Serializable {
 
     @JsonIgnore
     private InvoiceMainItem invoiceMainItem;
+
+    public Integer getRemainingQuantity() {
+        return remainingQuantity;
+    }
+
+    public void setRemainingQuantity(Integer remainingQuantity) {
+        this.remainingQuantity = remainingQuantity;
+    }
 }
