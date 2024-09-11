@@ -16,11 +16,5 @@ applications:
       - java_buildpack
     env:
       JBP_CONFIG_OPEN_JDK_JRE: '{jre: { version: 17.0.+ }}'
-      SPRING_PROFILES_ACTIVE: cloud
-      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: true}'
     services:
-      - name: mysql
-      - name: xsuaa-authn
-      - name: ias-authn
-        parameters: { "credential-type": "X509_GENERATED" }
-
+      - postgres

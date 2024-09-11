@@ -178,10 +178,11 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
             executionOrderMain.setActualPercentage(existingInvoice.getActualPercentage());
             executionOrderMainService.saveExecutionOrderMainCommand(executionOrderMainToExecutionOrderMainCommand.convert(executionOrderMain));
         }
+        log.info("Updating ServiceInvoiceMain with ID: " + existingInvoice.getServiceInvoiceCode());
+
 
         ServiceInvoiceMain savedServiceInvoiceMain = serviceInvoiceMainRepository.save(existingInvoice);
-
-        return serviceInvoiceMainRepository.save(savedServiceInvoiceMain);
+        return savedServiceInvoiceMain;
     }
 
 
