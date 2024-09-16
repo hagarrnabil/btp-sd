@@ -85,20 +85,13 @@ public class ServiceInvoiceMain implements Serializable {
     @JoinColumn(name = "execution_order_main_id")
     private ExecutionOrderMain executionOrderMain;
 
-    public Integer getRemainingQuantity() {
-        return remainingQuantity;
-    }
-
-    public void setRemainingQuantity(Integer remainingQuantity) {
-        this.remainingQuantity = remainingQuantity;
-    }
-
     public ServiceInvoiceMain(ExecutionOrderMain executionOrderMain) {
         this.serviceNumberCode = executionOrderMain.getServiceNumberCode();
         this.unitOfMeasurementCode = executionOrderMain.getUnitOfMeasurementCode();
         this.currencyCode = executionOrderMain.getCurrencyCode();
         this.description = executionOrderMain.getDescription();
         this.totalQuantity = executionOrderMain.getTotalQuantity();
+        this.quantity = executionOrderMain.getServiceQuantity();
         this.actualQuantity = executionOrderMain.getActualQuantity();
         this.actualPercentage = executionOrderMain.getActualPercentage();
         this.biddersLine = executionOrderMain.getBiddersLine();
@@ -144,6 +137,8 @@ public class ServiceInvoiceMain implements Serializable {
         if (executionOrderMain.getTotalQuantity() != null) {
             this.totalQuantity = executionOrderMain.getTotalQuantity();
         }
+
+        this.quantity = executionOrderMain.getServiceQuantity();
 
         // Check and update actualQuantity
         Integer calculatedActualQuantity = (this.getQuantity() != null) ? this.getQuantity() : 0;

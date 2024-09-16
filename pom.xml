@@ -26,11 +26,11 @@
         <apache.httpclient.version>4.5.14</apache.httpclient.version>
         <java.version>17</java.version>
         <skipTests>true</skipTests>
-        <flyway.user>myUser</flyway.user>
-        <flyway.password>mySecretPwd</flyway.password>
-        <flyway.schemas>schema1,schema2,schema3</flyway.schemas>
-        <flyway.placeholders.keyABC>valueXYZ</flyway.placeholders.keyABC>
-        <flyway.placeholders.otherplaceholder>value123</flyway.placeholders.otherplaceholder>
+<!--        <flyway.user>myUser</flyway.user>-->
+<!--        <flyway.password>mySecretPwd</flyway.password>-->
+<!--        <flyway.schemas>schema1,schema2,schema3</flyway.schemas>-->
+<!--        <flyway.placeholders.keyABC>valueXYZ</flyway.placeholders.keyABC>-->
+<!--        <flyway.placeholders.otherplaceholder>value123</flyway.placeholders.otherplaceholder>-->
     </properties>
 
 
@@ -48,11 +48,11 @@
 
 
     <dependencies>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>10.17.3</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.flywaydb</groupId>-->
+<!--            <artifactId>flyway-core</artifactId>-->
+<!--            <version>10.17.3</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>

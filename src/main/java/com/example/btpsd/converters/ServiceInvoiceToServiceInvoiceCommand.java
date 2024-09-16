@@ -39,9 +39,25 @@ public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceI
             // Calculate total even if quantity is missing, assuming totalQuantity is provided
             serviceInvoiceMainCommand.setTotal(serviceInvoiceMainCommand.getTotalQuantity() * serviceInvoiceMainCommand.getAmountPerUnit());
         }
-        serviceInvoiceMainCommand.setRemainingQuantity(source.getRemainingQuantity());
-        serviceInvoiceMainCommand.setActualQuantity(source.getActualQuantity());
-        serviceInvoiceMainCommand.setActualPercentage(source.getActualPercentage());
+        // Calculate actualQuantity
+        Integer calculatedActualQuantity = serviceInvoiceMainCommand.getQuantity() +
+                (serviceInvoiceMainCommand.getExecutionOrderMain() != null ? serviceInvoiceMainCommand.getExecutionOrderMain().getActualQuantity() : 0);
+        serviceInvoiceMainCommand.setActualQuantity(calculatedActualQuantity);
+
+
+        // Initialize total quantity
+        Integer totalQuantity = serviceInvoiceMainCommand.getTotalQuantity() != null ? serviceInvoiceMainCommand.getTotalQuantity() : 0;
+
+        // Calculate actual percentage
+        if (totalQuantity > 0) {
+            Integer actualPercentage = (calculatedActualQuantity * 100) / totalQuantity;
+            serviceInvoiceMainCommand.setActualPercentage(actualPercentage);
+        } else {
+            serviceInvoiceMainCommand.setActualPercentage(0);  // If totalQuantity is zero, percentage should be 0
+        }
+
+        // Update the remaining quantity
+        serviceInvoiceMainCommand.setRemainingQuantity(totalQuantity - calculatedActualQuantity);
         serviceInvoiceMainCommand.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
         if(source.getLineTypeCode() != null){
             serviceInvoiceMainCommand.setLineTypeCode(source.getLineTypeCode());

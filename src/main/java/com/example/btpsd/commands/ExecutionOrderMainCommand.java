@@ -40,6 +40,8 @@ public class ExecutionOrderMainCommand implements Serializable {
     //    @NotNull
     private Integer totalQuantity;
 
+    private Integer serviceQuantity;
+
     //    @NotNull
     private Double amountPerUnit;
 

@@ -2,6 +2,9 @@ package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
 import com.example.btpsd.converters.ExecutionOrderMainToExecutionOrderMainCommand;
+import com.example.btpsd.model.ExecutionOrderMain;
+import com.example.btpsd.model.ServiceInvoiceMain;
+import com.example.btpsd.repositories.ExecutionOrderMainRepository;
 import com.example.btpsd.services.ExecutionOrderMainService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -10,14 +13,16 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
-public class ExecutionOrderMainController {
+public class
+ExecutionOrderMainController {
 
-//    private final InvoiceMainItemRepository invoiceMainItemRepository;
+    private final ExecutionOrderMainRepository executionOrderMainRepository;
 
     private final ExecutionOrderMainService executionOrderMainService;
 
@@ -56,10 +61,10 @@ public class ExecutionOrderMainController {
         return command;
     }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "/mainitems/search")
-//    @ResponseBody
-//    public List<InvoiceMainItem> Search(@RequestParam String keyword) {
-//
-//        return invoiceMainItemRepository.search(keyword);
-//    }
+    @RequestMapping(method = RequestMethod.GET, value = "/executionordermain/linenumber")
+    @ResponseBody
+    public List<ExecutionOrderMain> findByLineNumber(@RequestParam String lineNumber) {
+
+        return executionOrderMainRepository.findByLineNumber(lineNumber);
+    }
 }

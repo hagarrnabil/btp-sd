@@ -57,8 +57,10 @@ public class InvoiceMainItemToInvoiceMainItemCommand implements Converter<Invoic
             invoiceMainItemCommand.setAmountPerUnit(new BigDecimal(invoiceMainItemCommand.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
         }
         else {
-            invoiceMainItemCommand.setTotalWithProfit(null);
-            invoiceMainItemCommand.setAmountPerUnitWithProfit(null);
+            invoiceMainItemCommand.setTotalWithProfit(((0 / 100) * invoiceMainItemCommand.getTotal()) + invoiceMainItemCommand.getTotal());
+            invoiceMainItemCommand.setAmountPerUnitWithProfit(((0 / 100) * invoiceMainItemCommand.getAmountPerUnit()) + invoiceMainItemCommand.getAmountPerUnit());
+            invoiceMainItemCommand.setTotalWithProfit(new BigDecimal(invoiceMainItemCommand.getTotalWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+            invoiceMainItemCommand.setAmountPerUnitWithProfit(new BigDecimal(invoiceMainItemCommand.getAmountPerUnitWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
         }
 
         return invoiceMainItemCommand;

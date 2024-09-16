@@ -137,10 +137,9 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
         }
 
         // Calculate actualQuantity
-        Integer calculatedActualQuantity = updatedInvoice.getQuantity();
-        if (executionOrderMain != null && executionOrderMain.getActualQuantity() != null) {
-            calculatedActualQuantity += executionOrderMain.getActualQuantity();
-        }
+        Integer calculatedActualQuantity = updatedInvoice.getQuantity() +
+                (existingInvoice.getExecutionOrderMain() != null ? existingInvoice.getExecutionOrderMain().getActualQuantity() : 0);
+        existingInvoice.setActualQuantity(calculatedActualQuantity);
 
         // Enforce overfulfillment logic
         Integer totalQuantity = existingInvoice.getTotalQuantity() != null ? existingInvoice.getTotalQuantity() : 0;
@@ -154,17 +153,7 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
             }
         }
 
-        existingInvoice.setActualQuantity(calculatedActualQuantity);
-
-        totalQuantity = existingInvoice.getTotalQuantity() != null ? existingInvoice.getTotalQuantity() : 0;
-        Integer remainingQuantity = totalQuantity - existingInvoice.getActualQuantity();
-        log.debug("total quantity " + totalQuantity);
-        log.debug("remaining quantity " + remainingQuantity);
-        existingInvoice.setRemainingQuantity(remainingQuantity);
-        log.debug("remaining quantity after setting " + existingInvoice.getRemainingQuantity());
-
-
-        // Calculate actualPercentage: (Actual Quantity * 100) / Total Quantity
+        // Calculate actualPercentage
         if (totalQuantity > 0) {
             Integer actualPercentage = (calculatedActualQuantity * 100) / totalQuantity;
             existingInvoice.setActualPercentage(actualPercentage);
@@ -172,13 +161,26 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
             existingInvoice.setActualPercentage(0);
         }
 
-        // Update the actualQuantity and actualPercentage in ExecutionOrderMain if present
-        if (executionOrderMain != null) {
+        // Update the remainingQuantity
+        existingInvoice.setRemainingQuantity(totalQuantity - existingInvoice.getActualQuantity());
+
+        // Synchronize with ExecutionOrderMain if present
+        if (existingInvoice.getExecutionOrderMain() != null) {
+            executionOrderMain = existingInvoice.getExecutionOrderMain();
             executionOrderMain.setActualQuantity(existingInvoice.getActualQuantity());
             executionOrderMain.setActualPercentage(existingInvoice.getActualPercentage());
+
+            // Save ExecutionOrderMain
             executionOrderMainService.saveExecutionOrderMainCommand(executionOrderMainToExecutionOrderMainCommand.convert(executionOrderMain));
         }
-        log.info("Updating ServiceInvoiceMain with ID: " + existingInvoice.getServiceInvoiceCode());
+
+//        // Update the actualQuantity and actualPercentage in ExecutionOrderMain if present
+//        if (executionOrderMain != null) {
+//            executionOrderMain.setActualQuantity(existingInvoice.getActualQuantity());
+//            executionOrderMain.setActualPercentage(existingInvoice.getActualPercentage());
+//            executionOrderMainService.saveExecutionOrderMainCommand(executionOrderMainToExecutionOrderMainCommand.convert(executionOrderMain));
+//        }
+//        log.info("Updating ServiceInvoiceMain with ID: " + existingInvoice.getServiceInvoiceCode());
 
 
         ServiceInvoiceMain savedServiceInvoiceMain = serviceInvoiceMainRepository.save(existingInvoice);

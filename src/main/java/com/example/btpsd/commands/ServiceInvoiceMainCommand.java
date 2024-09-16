@@ -1,5 +1,6 @@
 package com.example.btpsd.commands;
 
+import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.InvoiceMainItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
@@ -72,11 +73,6 @@ public class ServiceInvoiceMainCommand implements Serializable {
     @JsonIgnore
     private InvoiceMainItem invoiceMainItem;
 
-    public Integer getRemainingQuantity() {
-        return remainingQuantity;
-    }
-
-    public void setRemainingQuantity(Integer remainingQuantity) {
-        this.remainingQuantity = remainingQuantity;
-    }
+    @JsonIgnore
+    private ExecutionOrderMain executionOrderMain;
 }

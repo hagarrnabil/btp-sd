@@ -1,6 +1,8 @@
 package com.example.btpsd.services;
 
 import com.example.btpsd.commands.ServiceInvoiceMainCommand;
+import com.example.btpsd.converters.ExecutionOrderMainToExecutionOrderMainCommand;
+import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.ServiceInvoiceMain;
 import com.example.btpsd.model.ServiceNumber;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Set;
 
 public interface ServiceInvoiceMainService {
+
+    ExecutionOrderMainService executionOrderMainService = null;
+    ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand = new ExecutionOrderMainToExecutionOrderMainCommand();
 
     Set<ServiceInvoiceMainCommand> getServiceInvoiceMainCommands();
 
@@ -53,4 +58,45 @@ public interface ServiceInvoiceMainService {
             serviceNumber.addServiceInvoiceMain(target);
         }
     }
+
+    default void applyOverfulfillmentLogic(ServiceInvoiceMain serviceInvoiceMain) {
+        // Calculate actualQuantity
+        Integer calculatedActualQuantity = serviceInvoiceMain.getQuantity() +
+                (serviceInvoiceMain.getExecutionOrderMain() != null ? serviceInvoiceMain.getExecutionOrderMain().getActualQuantity() : 0);
+        serviceInvoiceMain.setActualQuantity(calculatedActualQuantity);
+
+        // Enforce overfulfillment logic
+        Integer totalQuantity = serviceInvoiceMain.getTotalQuantity() != null ? serviceInvoiceMain.getTotalQuantity() : 0;
+        if (calculatedActualQuantity > totalQuantity) {
+            boolean canOverFulfill = Boolean.TRUE.equals(serviceInvoiceMain.getUnlimitedOverFulfillment()) ||
+                    (serviceInvoiceMain.getOverFulfillmentPercentage() != null &&
+                            calculatedActualQuantity <= totalQuantity + (totalQuantity * serviceInvoiceMain.getOverFulfillmentPercentage() / 100));
+
+            if (!canOverFulfill) {
+                throw new IllegalArgumentException("Actual quantity exceeds total quantity without allowed overfulfillment.");
+            }
+        }
+
+        // Calculate actualPercentage
+        if (totalQuantity > 0) {
+            Integer actualPercentage = (calculatedActualQuantity * 100) / totalQuantity;
+            serviceInvoiceMain.setActualPercentage(actualPercentage);
+        } else {
+            serviceInvoiceMain.setActualPercentage(0);
+        }
+
+        // Update the remainingQuantity
+        serviceInvoiceMain.setRemainingQuantity(totalQuantity - serviceInvoiceMain.getActualQuantity());
+
+        // Synchronize with ExecutionOrderMain if present
+        if (serviceInvoiceMain.getExecutionOrderMain() != null) {
+            ExecutionOrderMain executionOrderMain = serviceInvoiceMain.getExecutionOrderMain();
+            executionOrderMain.setActualQuantity(serviceInvoiceMain.getActualQuantity());
+            executionOrderMain.setActualPercentage(serviceInvoiceMain.getActualPercentage());
+
+            // Save ExecutionOrderMain
+            executionOrderMainService.saveExecutionOrderMainCommand(executionOrderMainToExecutionOrderMainCommand.convert(executionOrderMain));
+        }
+    }
+
 }

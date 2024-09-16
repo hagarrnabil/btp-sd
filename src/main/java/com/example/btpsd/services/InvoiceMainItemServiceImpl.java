@@ -140,8 +140,10 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
                 oldMainItem.setAmountPerUnitWithProfit(new BigDecimal(oldMainItem.getAmountPerUnitWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
             }
             else {
-                oldMainItem.setTotalWithProfit(null);
-                oldMainItem.setAmountPerUnitWithProfit(null);
+                oldMainItem.setTotalWithProfit(((0 / 100) * oldMainItem.getTotal()) + oldMainItem.getTotal());
+                oldMainItem.setAmountPerUnitWithProfit(((0 / 100) * oldMainItem.getAmountPerUnit()) + oldMainItem.getAmountPerUnit());
+                oldMainItem.setTotalWithProfit(new BigDecimal(oldMainItem.getTotalWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+                oldMainItem.setAmountPerUnitWithProfit(new BigDecimal(oldMainItem.getAmountPerUnitWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
             }
 
 

@@ -4,7 +4,9 @@ import com.example.btpsd.commands.ServiceInvoiceMainCommand;
 import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.ServiceInvoiceMain;
 import com.example.btpsd.model.ServiceNumber;
+import com.example.btpsd.repositories.ServiceInvoiceMainRepository;
 import com.example.btpsd.services.ExecutionOrderMainService;
+import com.example.btpsd.services.ServiceInvoiceMainService;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceInvoiceMainCommand, ServiceInvoiceMain> {
 
     private final ExecutionOrderMainService executionOrderMainService;
+    private final ServiceInvoiceMainRepository serviceInvoiceMainRepository;
     private final ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand;
 
     @Synchronized
@@ -45,24 +48,20 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
                 (serviceInvoiceMain.getExecutionOrderMain() != null ? serviceInvoiceMain.getExecutionOrderMain().getActualQuantity() : 0);
         serviceInvoiceMain.setActualQuantity(calculatedActualQuantity);
 
-        // Enforce overfulfillment logic
-        Integer totalQuantity = source.getTotalQuantity() != null ? source.getTotalQuantity() : 0;
-        if (calculatedActualQuantity > totalQuantity) {
-            boolean canOverFulfill = Boolean.TRUE.equals(source.getUnlimitedOverFulfillment()) ||
-                    (source.getOverFulfillmentPercentage() != null &&
-                            calculatedActualQuantity <= totalQuantity + (totalQuantity * source.getOverFulfillmentPercentage() / 100));
+        // Initialize total quantity
+        Integer totalQuantity = serviceInvoiceMain.getTotalQuantity() != null ? serviceInvoiceMain.getTotalQuantity() : 0;
 
-            if (!canOverFulfill) {
-                throw new IllegalArgumentException("Actual quantity exceeds total quantity without allowed overfulfillment.");
-            }
+        // Calculate actual percentage
+        if (totalQuantity > 0) {
+            Integer actualPercentage = (calculatedActualQuantity * 100) / totalQuantity;
+            serviceInvoiceMain.setActualPercentage(actualPercentage);
+        } else {
+            serviceInvoiceMain.setActualPercentage(0);  // If totalQuantity is zero, percentage should be 0
         }
 
-        serviceInvoiceMain.setActualQuantity(calculatedActualQuantity);
+        // Update the remaining quantity
+        serviceInvoiceMain.setRemainingQuantity(totalQuantity - calculatedActualQuantity);
 
-        if (source.getQuantity() != null) {
-            serviceInvoiceMain.setTotal(source.getQuantity() * serviceInvoiceMain.getAmountPerUnit());
-            serviceInvoiceMain.setRemainingQuantity(serviceInvoiceMain.getTotalQuantity() - serviceInvoiceMain.getActualQuantity());
-        }
         if (serviceInvoiceMain.getExecutionOrderMain() != null) {
             ExecutionOrderMain executionOrderMain = serviceInvoiceMain.getExecutionOrderMain();
             executionOrderMain.setActualQuantity(calculatedActualQuantity); // Reflect back to ExecutionOrderMain
@@ -75,6 +74,12 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         if (serviceInvoiceMain.getExecutionOrderMain() != null) {
             serviceInvoiceMain.updateFromExecutionOrder(serviceInvoiceMain.getExecutionOrderMain());
         }
+
+        if (source.getQuantity() != null) {
+            serviceInvoiceMain.setTotal(source.getQuantity() * serviceInvoiceMain.getAmountPerUnit());
+            serviceInvoiceMain.setRemainingQuantity(serviceInvoiceMain.getTotalQuantity() - serviceInvoiceMain.getActualQuantity());
+        }
+
         serviceInvoiceMain.setActualPercentage(source.getActualPercentage());
         serviceInvoiceMain.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
         if(source.getLineTypeCode() != null){
@@ -101,7 +106,14 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
             serviceInvoiceMain.setServiceNumber(serviceNumber);
             serviceNumber.addServiceInvoiceMain(serviceInvoiceMain);
         }
-        return serviceInvoiceMain;
+
+        serviceInvoiceMainRepository.save(serviceInvoiceMain);
+        // Fetch the saved entity to ensure values are correct
+        ServiceInvoiceMain savedServiceInvoiceMain = serviceInvoiceMainRepository.findById(serviceInvoiceMain.getServiceInvoiceCode())
+                .orElseThrow(() -> new RuntimeException("Service Invoice not found"));
+
+        // Return saved entity (or map to DTO)
+        return savedServiceInvoiceMain;
 
     }
 
