@@ -15,4 +15,9 @@ public class IasUser {
     private String familyName;
     private String givenName;
     private String userName;
+
+    /*
+it have no relationships with other entities
+comment made by youssef
+ */
 }

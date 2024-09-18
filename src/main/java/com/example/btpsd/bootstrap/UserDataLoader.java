@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Slf4j
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Component
 public class UserDataLoader implements CommandLineRunner {
 
@@ -26,6 +26,13 @@ public class UserDataLoader implements CommandLineRunner {
     private final AuthorityRepository authorityRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public UserDataLoader(RoleRepository roleRepository, AuthorityRepository authorityRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.roleRepository = roleRepository;
+        this.authorityRepository = authorityRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     private void loadSecurityData() {
 

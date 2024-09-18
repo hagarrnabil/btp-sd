@@ -67,4 +67,9 @@ public class InvoiceMainItem implements Serializable {
         return this;
     }
 
+    /*
+it have one relationship
+with ServiceNumber (many to one)
+comment made by youssef
+ */
 }

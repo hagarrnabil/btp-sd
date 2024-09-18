@@ -111,5 +111,13 @@ public class ServiceNumber implements Serializable {
         return this;
     }
 
-
+/*
+it has Five relationships with other entities
+with ModelSpecificationsDetails (One to Many)
+with InvoiceMainItem (One to Many)
+with InvoiceSubItem (One to Many)
+with ServiceInvoiceMain (One to Many)
+with ExecutionOrderMain (One to Many)
+comment made by youssef
+ */
 }

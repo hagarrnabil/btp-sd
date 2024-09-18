@@ -30,4 +30,8 @@ public class MaterialGroup implements Serializable {
     @NotNull
     private String description;
 
+    /*
+it have no relationships with other entities
+comment made by youssef
+ */
 }

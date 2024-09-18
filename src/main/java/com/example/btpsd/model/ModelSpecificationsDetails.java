@@ -109,4 +109,11 @@ public class ModelSpecificationsDetails implements Serializable {
         this.modelSpecifications.add(modelSpecifications);
         return this;
     }
+    /*
+it have Two relationships
+ with ServiceNumber (Many to One)
+ with ModelSpecifications (one to many)
+comment made by youssef
+ */
+
 }

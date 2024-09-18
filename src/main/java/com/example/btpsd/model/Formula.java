@@ -52,4 +52,8 @@ public class Formula implements Serializable {
 
     private double result;
 
+    /*
+it have no relationships with other entities
+comment made by youssef
+ */
 }

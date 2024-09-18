@@ -31,3 +31,7 @@ public class Currency implements Serializable {
     private String description;
 
 }
+/*
+it have no relationships with other entities
+comment made by youssef
+ */

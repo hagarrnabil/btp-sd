@@ -37,11 +37,9 @@ public class InvoiceSubItem implements Serializable {
 
     private Double total;
 
-
     @ManyToOne
     @JoinColumn(name = "main_item_id")
     private InvoiceMainItem mainItem;
-
 
     @ManyToOne
     private ServiceNumber serviceNumber;

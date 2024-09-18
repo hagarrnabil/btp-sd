@@ -229,4 +229,11 @@ public class ServiceInvoiceMain implements Serializable {
         this.executionOrderMain = executionOrderMain;
         executionOrderMain.setServiceInvoiceMain(this);
     }
+
+/*
+it has Two relationships
+with ServiceNumber (Many to One)
+With ExecutionOrderMain (One to One)
+comment made by youssef
+ */
 }

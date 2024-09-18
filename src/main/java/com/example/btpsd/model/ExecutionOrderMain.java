@@ -134,4 +134,11 @@ public class ExecutionOrderMain implements Serializable {
         this.invoiceMainItem = invoiceMainItem;
         invoiceMainItem.setExecutionOrderMain(this);
     }
+
+    /*
+it have two relationships
+with ServiceNumber (many to one)
+with InvoiceMainItem (one to one)
+comment made by youssef
+ */
 }

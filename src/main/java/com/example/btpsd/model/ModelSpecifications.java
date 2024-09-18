@@ -50,4 +50,9 @@ public class ModelSpecifications implements Serializable {
 
     @ManyToOne
     private ModelSpecificationsDetails modelSpecificationsDetails;
+
+    /*
+it have no relationships with other entities
+comment made by youssef
+ */
 }

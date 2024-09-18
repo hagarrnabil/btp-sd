@@ -5,6 +5,7 @@ import com.sap.cloud.security.spring.config.IdentityServicesPropertySourceFactor
 import com.sap.cloud.security.spring.token.authentication.AuthenticationToken;
 import com.sap.cloud.security.token.TokenClaims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -24,6 +25,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,12 +74,29 @@ public class SecurityConfiguration {
                 "/salesorderpostcloud", "/salesorderpostcloud/*", "/serviceinvoice", "/serviceinvoice/*");
     }
 
+
+//    @Override
+//    protected void configure(HttpSecurity security) throws Exception
+//    {
+//        security.httpBasic().disable();
+//    }
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, Jackson2ObjectMapperBuilderCustomizer customizer) throws Exception {
         // @formatter:off
         http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz ->
-                        authz.requestMatchers("/measurements/*").hasRole("USER")
+                        authz.requestMatchers(
+                                "/v3/api-docs/**",    // OpenAPI 3 Docs
+                                "/swagger-ui/**",      // Swagger UI resources
+                                "/swagger-ui/index.html",    // Main Swagger UI page
+                                "/swagger-resources/**", // Swagger resources
+                                "/webjars/**",
+                                        "/localhost/**"
+                                         ).permitAll()
+                                .requestMatchers( "/measurements/*",
+                                        "/api/v1/auth/**")
+                                .hasRole("USER")
                                 .requestMatchers("/formulas/*").hasRole("USER")
                                 .requestMatchers("/currencies/*").hasRole("USER")
                                 .requestMatchers("/linetypes/*").hasRole("USER")
@@ -88,17 +109,35 @@ public class SecurityConfiguration {
                                 .requestMatchers("/invoices/*").hasRole("USER")
                                 .requestMatchers("/mainitems/*").hasRole("USER")
                                 .requestMatchers("/subitems/*").hasRole("USER")
-                                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-                                .requestMatchers("/*").authenticated()
-                                .anyRequest().denyAll())
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(new MyCustomHybridTokenAuthenticationConverter())));
+                                .requestMatchers(new AntPathRequestMatcher("/h2-console/**"))
+
+                                .permitAll());
+                                //.requestMatchers("/*")
+//                                .authenticated()
+//                                .anyRequest()
+                                //.permitAll());
+                //.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(new MyCustomHybridTokenAuthenticationConverter())));
 
         http.csrf(csrf -> csrf.disable());
+
+//                .cors(cors -> cors.configurationSource(corsConfigurationSource()));  // Enable CORS with custom configuration
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
         return http.build();
     }
 
-
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowCredentials(true);  // Allow credentials like cookies (if needed)
+//        config.addAllowedOrigin("*");  // Allow any origin (you can replace "*" with specific domains)
+//        config.addAllowedHeader("*");  // Allow any headers
+//        config.addAllowedMethod("*");  // Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", config);  // Apply CORS settings to all endpoints
+//
+//        return source;
+//    }
 
     /**
      * Workaround for hybrid use case until Cloud Authorization Service is globally available.
