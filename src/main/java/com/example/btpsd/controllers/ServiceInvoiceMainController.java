@@ -54,7 +54,7 @@ public class ServiceInvoiceMainController {
     @PatchMapping
     @RequestMapping("/serviceinvoice/{serviceInvoiceCode}")
     @Transactional
-    ServiceInvoiceMainCommand updateServiceInvoiceCommand(@RequestBody ServiceInvoiceMain newServiceInvoiceCommand, @PathVariable Long serviceInvoiceCode) {
+    ServiceInvoiceMainCommand updateServiceInvoiceCommand(@RequestBody ServiceInvoiceMain newServiceInvoiceCommand , @PathVariable Long serviceInvoiceCode) {
 
         ServiceInvoiceMainCommand command = serviceInvoiceToServiceInvoiceCommand.convert(serviceInvoiceMainService.updateServiceInvoiceMain(newServiceInvoiceCommand, serviceInvoiceCode));
         return command;

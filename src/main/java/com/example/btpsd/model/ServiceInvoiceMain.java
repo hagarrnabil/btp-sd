@@ -91,7 +91,6 @@ public class ServiceInvoiceMain implements Serializable {
         this.currencyCode = executionOrderMain.getCurrencyCode();
         this.description = executionOrderMain.getDescription();
         this.totalQuantity = executionOrderMain.getTotalQuantity();
-        this.quantity = executionOrderMain.getServiceQuantity();
         this.actualQuantity = executionOrderMain.getActualQuantity();
         this.actualPercentage = executionOrderMain.getActualPercentage();
         this.biddersLine = executionOrderMain.getBiddersLine();
@@ -138,8 +137,6 @@ public class ServiceInvoiceMain implements Serializable {
             this.totalQuantity = executionOrderMain.getTotalQuantity();
         }
 
-        this.quantity = executionOrderMain.getServiceQuantity();
-
         // Check and update actualQuantity
         Integer calculatedActualQuantity = (this.getQuantity() != null) ? this.getQuantity() : 0;
         if (executionOrderMain.getActualQuantity() != null) {
@@ -176,6 +173,7 @@ public class ServiceInvoiceMain implements Serializable {
         if (executionOrderMain.getUnlimitedOverFulfillment() != null) {
             this.unlimitedOverFulfillment = executionOrderMain.getUnlimitedOverFulfillment();
         }
+
 
         if (this.totalQuantity != null && this.actualQuantity != null) {
             this.remainingQuantity = this.totalQuantity - this.actualQuantity;

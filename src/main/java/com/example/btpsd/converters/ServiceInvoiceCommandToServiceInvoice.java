@@ -43,51 +43,45 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         serviceInvoiceMain.setTotalQuantity(source.getTotalQuantity());
         serviceInvoiceMain.setAmountPerUnit(source.getAmountPerUnit());
 
-        // Calculate actualQuantity
+        // Calculate actualQuantity based on the serviceInvoiceMain's quantity and ExecutionOrderMain's actualQuantity
         Integer calculatedActualQuantity = serviceInvoiceMain.getQuantity() +
                 (serviceInvoiceMain.getExecutionOrderMain() != null ? serviceInvoiceMain.getExecutionOrderMain().getActualQuantity() : 0);
         serviceInvoiceMain.setActualQuantity(calculatedActualQuantity);
 
-        // Initialize total quantity
-        Integer totalQuantity = serviceInvoiceMain.getTotalQuantity() != null ? serviceInvoiceMain.getTotalQuantity() : 0;
+        // Enforce overfulfillment logic
+        Integer totalQuantity = source.getTotalQuantity() != null ? source.getTotalQuantity() : 0;
+        if (calculatedActualQuantity > totalQuantity) {
+            boolean canOverFulfill = Boolean.TRUE.equals(source.getUnlimitedOverFulfillment()) ||
+                    (source.getOverFulfillmentPercentage() != null &&
+                            calculatedActualQuantity <= totalQuantity + (totalQuantity * source.getOverFulfillmentPercentage() / 100));
 
-        // Calculate actual percentage
-        if (totalQuantity > 0) {
-            Integer actualPercentage = (calculatedActualQuantity * 100) / totalQuantity;
-            serviceInvoiceMain.setActualPercentage(actualPercentage);
-        } else {
-            serviceInvoiceMain.setActualPercentage(0);  // If totalQuantity is zero, percentage should be 0
+            if (!canOverFulfill) {
+                throw new IllegalArgumentException("Actual quantity exceeds total quantity without allowed overfulfillment.");
+            }
         }
 
-        // Update the remaining quantity
-        serviceInvoiceMain.setRemainingQuantity(totalQuantity - calculatedActualQuantity);
+        serviceInvoiceMain.setActualQuantity(calculatedActualQuantity);
 
-        if (serviceInvoiceMain.getExecutionOrderMain() != null) {
-            ExecutionOrderMain executionOrderMain = serviceInvoiceMain.getExecutionOrderMain();
-            executionOrderMain.setActualQuantity(calculatedActualQuantity); // Reflect back to ExecutionOrderMain
-
-            // Make sure to save the executionOrderMain
-            // This assumes you have access to an ExecutionOrderMain repository or service
-            executionOrderMainService.saveExecutionOrderMainCommand(executionOrderMainToExecutionOrderMainCommand.convert(executionOrderMain));
-        }
-        // Synchronize with ExecutionOrderMain
-        if (serviceInvoiceMain.getExecutionOrderMain() != null) {
-            serviceInvoiceMain.updateFromExecutionOrder(serviceInvoiceMain.getExecutionOrderMain());
-        }
-
+        // Calculate remaining quantity and total
         if (source.getQuantity() != null) {
             serviceInvoiceMain.setTotal(source.getQuantity() * serviceInvoiceMain.getAmountPerUnit());
             serviceInvoiceMain.setRemainingQuantity(serviceInvoiceMain.getTotalQuantity() - serviceInvoiceMain.getActualQuantity());
         }
 
-        serviceInvoiceMain.setActualPercentage(source.getActualPercentage());
+        // Calculate actualPercentage: (Actual Quantity * 100) / Total Quantity
+        if (totalQuantity > 0) {
+            Integer actualPercentage = (calculatedActualQuantity * 100) / totalQuantity;
+            serviceInvoiceMain.setActualPercentage(actualPercentage);
+        } else {
+            serviceInvoiceMain.setActualPercentage(0);
+        }
+
+        // Synchronize with ExecutionOrderMain
+        if (serviceInvoiceMain.getExecutionOrderMain() != null) {
+            serviceInvoiceMain.updateFromExecutionOrder(serviceInvoiceMain.getExecutionOrderMain());
+        }
+
         serviceInvoiceMain.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
-        if(source.getLineTypeCode() != null){
-            serviceInvoiceMain.setLineTypeCode(source.getLineTypeCode());
-        }
-        else {
-            serviceInvoiceMain.setLineTypeCode("Standard line");
-        }
         serviceInvoiceMain.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         serviceInvoiceMain.setExternalServiceNumber(source.getExternalServiceNumber());
         serviceInvoiceMain.setServiceText(source.getServiceText());
@@ -97,9 +91,11 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         serviceInvoiceMain.setSupplementaryLine(source.getSupplementaryLine());
         serviceInvoiceMain.setDoNotPrint(source.getDoNotPrint());
         serviceInvoiceMain.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
+
         if (serviceInvoiceMain.getLotCostOne()) {
             serviceInvoiceMain.setTotal(serviceInvoiceMain.getAmountPerUnit());
         }
+
         if (source.getServiceNumberCode() != null) {
             ServiceNumber serviceNumber = new ServiceNumber();
             serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
@@ -107,14 +103,7 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
             serviceNumber.addServiceInvoiceMain(serviceInvoiceMain);
         }
 
-        serviceInvoiceMainRepository.save(serviceInvoiceMain);
-        // Fetch the saved entity to ensure values are correct
-        ServiceInvoiceMain savedServiceInvoiceMain = serviceInvoiceMainRepository.findById(serviceInvoiceMain.getServiceInvoiceCode())
-                .orElseThrow(() -> new RuntimeException("Service Invoice not found"));
-
-        // Return saved entity (or map to DTO)
-        return savedServiceInvoiceMain;
+        return serviceInvoiceMain;
 
     }
-
 }

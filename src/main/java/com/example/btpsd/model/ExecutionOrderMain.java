@@ -138,4 +138,11 @@ public class ExecutionOrderMain implements Serializable {
         this.invoiceMainItem = invoiceMainItem;
         invoiceMainItem.setExecutionOrderMain(this);
     }
+
+//    public void setServiceInvoiceMain(ServiceInvoiceMain serviceInvoiceMain) {
+//        this.serviceInvoiceMain = serviceInvoiceMain;
+//        if (serviceInvoiceMain != null) {
+//            serviceInvoiceMain.setExecutionOrderMain(this);
+//        }
+//    }
 }

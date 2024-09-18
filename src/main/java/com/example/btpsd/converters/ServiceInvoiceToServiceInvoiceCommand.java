@@ -30,41 +30,24 @@ public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceI
         serviceInvoiceMainCommand.setPersonnelNumberCode(source.getPersonnelNumberCode());
         serviceInvoiceMainCommand.setServiceTypeCode(source.getServiceTypeCode());
         serviceInvoiceMainCommand.setQuantity(source.getQuantity());
-       serviceInvoiceMainCommand.setAlternatives(source.getAlternatives());
+        serviceInvoiceMainCommand.setAlternatives(source.getAlternatives());
         serviceInvoiceMainCommand.setTotalQuantity(source.getTotalQuantity());
         serviceInvoiceMainCommand.setAmountPerUnit(source.getAmountPerUnit());
+
         if (source.getQuantity() != null) {
             serviceInvoiceMainCommand.setTotal(source.getQuantity() * serviceInvoiceMainCommand.getAmountPerUnit());
         } else if (serviceInvoiceMainCommand.getAmountPerUnit() != null) {
             // Calculate total even if quantity is missing, assuming totalQuantity is provided
             serviceInvoiceMainCommand.setTotal(serviceInvoiceMainCommand.getTotalQuantity() * serviceInvoiceMainCommand.getAmountPerUnit());
         }
-        // Calculate actualQuantity
-        Integer calculatedActualQuantity = serviceInvoiceMainCommand.getQuantity() +
-                (serviceInvoiceMainCommand.getExecutionOrderMain() != null ? serviceInvoiceMainCommand.getExecutionOrderMain().getActualQuantity() : 0);
-        serviceInvoiceMainCommand.setActualQuantity(calculatedActualQuantity);
 
-
-        // Initialize total quantity
-        Integer totalQuantity = serviceInvoiceMainCommand.getTotalQuantity() != null ? serviceInvoiceMainCommand.getTotalQuantity() : 0;
-
-        // Calculate actual percentage
-        if (totalQuantity > 0) {
-            Integer actualPercentage = (calculatedActualQuantity * 100) / totalQuantity;
-            serviceInvoiceMainCommand.setActualPercentage(actualPercentage);
-        } else {
-            serviceInvoiceMainCommand.setActualPercentage(0);  // If totalQuantity is zero, percentage should be 0
-        }
-
-        // Update the remaining quantity
-        serviceInvoiceMainCommand.setRemainingQuantity(totalQuantity - calculatedActualQuantity);
+        // Set actualQuantity and remainingQuantity
+        serviceInvoiceMainCommand.setRemainingQuantity(source.getRemainingQuantity());
+        serviceInvoiceMainCommand.setActualQuantity(source.getActualQuantity());
+        serviceInvoiceMainCommand.setActualPercentage(source.getActualPercentage());
         serviceInvoiceMainCommand.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
-        if(source.getLineTypeCode() != null){
-            serviceInvoiceMainCommand.setLineTypeCode(source.getLineTypeCode());
-        }
-        else {
-            serviceInvoiceMainCommand.setLineTypeCode("Standard line");
-        }
+        serviceInvoiceMainCommand.setLineTypeCode(source.getLineTypeCode() != null ? source.getLineTypeCode() : "Standard line");
+
         serviceInvoiceMainCommand.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         serviceInvoiceMainCommand.setExternalServiceNumber(source.getExternalServiceNumber());
         serviceInvoiceMainCommand.setServiceText(source.getServiceText());
@@ -74,12 +57,15 @@ public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceI
         serviceInvoiceMainCommand.setSupplementaryLine(source.getSupplementaryLine());
         serviceInvoiceMainCommand.setDoNotPrint(source.getDoNotPrint());
         serviceInvoiceMainCommand.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
+
         if (serviceInvoiceMainCommand.getLotCostOne()) {
             serviceInvoiceMainCommand.setTotal(serviceInvoiceMainCommand.getAmountPerUnit());
         }
+
         if (source.getServiceNumber() != null) {
             serviceInvoiceMainCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
+
         return serviceInvoiceMainCommand;
     }
 }
