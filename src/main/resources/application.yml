@@ -9,9 +9,7 @@
 #    properties:
 #      hibernate:
 #        format_sql: true
-security:
-  basic:
-    enabled: false
+
 
 
 logging.level:
@@ -22,16 +20,16 @@ logging.level:
   org.hibernate.SQL: DEBUG
   org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
-sap.security.services:
-  identity:
-    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
-    domains:
-      - localhost                 # SecurityTest.DEFAULT_DOMAIN
-  xsuaa:
-    xsappname: xsapp!t0815        # SecurityTest.DEFAULT_APP_ID
-    uaadomain: localhost          # SecurityTest.DEFAULT_DOMAIN
-    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
-    url:       http://localhost   # SecurityTest.DEFAULT_URL
+#sap.security.services:
+#  identity:
+#    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
+#    domains:
+#      - localhost                 # SecurityTest.DEFAULT_DOMAIN
+#  xsuaa:
+#    xsappname: xsapp!t0815        # SecurityTest.DEFAULT_APP_ID
+#    uaadomain: localhost          # SecurityTest.DEFAULT_DOMAIN
+#    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
+#    url:       http://localhost   # SecurityTest.DEFAULT_URL
 
 
 
@@ -85,11 +83,21 @@ spring:
       ddl-auto: update
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
 
 
 
 
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs  # Endpoint for the OpenAPI documentation
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui/index.html  # Custom path for Swagger UI
 
 
 
