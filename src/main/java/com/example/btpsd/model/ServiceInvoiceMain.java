@@ -85,25 +85,25 @@ public class ServiceInvoiceMain implements Serializable {
     @JoinColumn(name = "execution_order_main_id")
     private ExecutionOrderMain executionOrderMain;
 
-    public ServiceInvoiceMain(ExecutionOrderMain executionOrderMain) {
-        this.serviceNumberCode = executionOrderMain.getServiceNumberCode();
-        this.unitOfMeasurementCode = executionOrderMain.getUnitOfMeasurementCode();
-        this.currencyCode = executionOrderMain.getCurrencyCode();
-        this.description = executionOrderMain.getDescription();
-        this.totalQuantity = executionOrderMain.getTotalQuantity();
-        this.actualQuantity = executionOrderMain.getActualQuantity();
-        this.actualPercentage = executionOrderMain.getActualPercentage();
-        this.biddersLine = executionOrderMain.getBiddersLine();
-        this.lineNumber = executionOrderMain.getLineNumber();
-        this.doNotPrint = executionOrderMain.getDoNotPrint();
-        this.supplementaryLine = executionOrderMain.getSupplementaryLine();
-        this.lotCostOne = executionOrderMain.getLotCostOne();
-        this.overFulfillmentPercentage = executionOrderMain.getOverFulfillmentPercentage();
-        this.unlimitedOverFulfillment = executionOrderMain.getUnlimitedOverFulfillment();
-        this.amountPerUnit = new BigDecimal(executionOrderMain.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        this.total = new BigDecimal(executionOrderMain.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        this.executionOrderMain = executionOrderMain;
-    }
+//    public ServiceInvoiceMain(ExecutionOrderMain executionOrderMain) {
+//        this.serviceNumberCode = executionOrderMain.getServiceNumberCode();
+//        this.unitOfMeasurementCode = executionOrderMain.getUnitOfMeasurementCode();
+//        this.currencyCode = executionOrderMain.getCurrencyCode();
+//        this.description = executionOrderMain.getDescription();
+//        this.totalQuantity = executionOrderMain.getTotalQuantity();
+//        this.actualQuantity = executionOrderMain.getActualQuantity();
+//        this.actualPercentage = executionOrderMain.getActualPercentage();
+//        this.biddersLine = executionOrderMain.getBiddersLine();
+//        this.lineNumber = executionOrderMain.getLineNumber();
+//        this.doNotPrint = executionOrderMain.getDoNotPrint();
+//        this.supplementaryLine = executionOrderMain.getSupplementaryLine();
+//        this.lotCostOne = executionOrderMain.getLotCostOne();
+//        this.overFulfillmentPercentage = executionOrderMain.getOverFulfillmentPercentage();
+//        this.unlimitedOverFulfillment = executionOrderMain.getUnlimitedOverFulfillment();
+//        this.amountPerUnit = new BigDecimal(executionOrderMain.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+//        this.total = new BigDecimal(executionOrderMain.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+//        this.executionOrderMain = executionOrderMain;
+//    }
 
     public void updateFromExecutionOrder(ExecutionOrderMain executionOrderMain) {
 

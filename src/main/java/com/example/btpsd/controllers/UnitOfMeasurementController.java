@@ -1,7 +1,7 @@
 package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.UnitOfMeasurementCommand;
-import com.example.btpsd.config.RestTemplateConfig;
+//import com.example.btpsd.config.RestTemplateConfig;
 import com.example.btpsd.converters.UnitOfMeasurementToUnitOfMeasurementCommand;
 import com.example.btpsd.model.UnitOfMeasurement;
 import com.example.btpsd.repositories.UnitOfMeasurementRepository;
