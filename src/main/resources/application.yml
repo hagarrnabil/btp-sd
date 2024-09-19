@@ -85,19 +85,10 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  main:
+    allow-bean-definition-overriding: true
 
 
-
-
-
-
-springdoc:
-  api-docs:
-    enabled: true
-    path: /v3/api-docs  # Endpoint for the OpenAPI documentation
-  swagger-ui:
-    enabled: true
-    path: /swagger-ui/index.html  # Custom path for Swagger UI
 
 
 
