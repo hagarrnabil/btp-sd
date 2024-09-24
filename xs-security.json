@@ -1,5 +1,5 @@
 {
-  "xsappname": "sd-cf",
+  "xsappname": "spring-security-hybrid-usage",
   "tenant-mode": "dedicated",
   "oauth2-configuration": {
     "credential-types": ["x509"]
@@ -10,8 +10,8 @@
       "description": "Read Permissions."
     },
     {
-      "name": "$XSAPPNAME.User",
-      "description": "Does all actions."
+      "name": "$XSAPPNAME.Write",
+      "description": "Write Permissions."
     }
   ],
   "role-templates": [
@@ -23,10 +23,11 @@
       ]
     },
     {
-      "name": "User",
-      "description": "Does all actions",
+      "name": "Admin",
+      "description": "Admin (Read and Write)",
       "scope-references": [
-        "$XSAPPNAME.User"
+        "$XSAPPNAME.Read",
+        "$XSAPPNAME.Write"
       ]
     }
   ],
@@ -39,10 +40,10 @@
       ]
     },
     {
-      "name": "XSUAA-User",
-      "description": "User",
+      "name": "XSUAA-Admin",
+      "description": "Admin (read and write)",
       "role-template-references": [
-        "$XSAPPNAME.User"
+        "$XSAPPNAME.Admin"
       ]
     }
   ]
