@@ -26,14 +26,14 @@ public class BtpSdApplication {
 
 
     }
-    @Bean
-    public FilterRegistrationBean<RequestLoggingFilter> loggingFilter() {
-        FilterRegistrationBean<RequestLoggingFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new RequestLoggingFilter());
-        registrationBean.setName("request-logging");
-        registrationBean.addUrlPatterns("/*");
-        registrationBean.setDispatcherTypes(DispatcherType.REQUEST);
-        registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return registrationBean;
-    }
+//    @Bean
+//    public FilterRegistrationBean<RequestLoggingFilter> loggingFilter() {
+//        FilterRegistrationBean<RequestLoggingFilter> registrationBean = new FilterRegistrationBean<>();
+//        registrationBean.setFilter(new RequestLoggingFilter());
+//        registrationBean.setName("request-logging");
+//        registrationBean.addUrlPatterns("/*");
+//        registrationBean.setDispatcherTypes(DispatcherType.REQUEST);
+//        registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+//        return registrationBean;
+//    }
 }

@@ -87,30 +87,6 @@ spring:
     exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
   main:
     allow-bean-definition-overriding: true
-  cloud:
-    xsuaa:
-      service-name: "xsuaa-authn"            # replace with your XSUAA service name if applicable
-      instance-name: "7e7ca52f-7c13-4ceb-9d3d-89ea49b81979"  # your service instance ID
-      client-id: "sb-na-979d7117-f6cf-436f-b1b6-e29a102bd5d1!i2141"  # client ID
-      client-secret: "T/kd87uzEDSHzyVTIeXviQY7R1Y="      # client secret
-      token:
-        uri: "https://authentication.us10.hana.ondemand.com/oauth/token" # token endpoint
-      verification-key:
-        MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAx2ZOcKplHEIvBx1j0dNK
-        9J/3E8uKrWFnJRBsdrYvSI6gbV2j2vakAobNxGEz0rXVn+Ljz+2XMgFxlv8in7co
-        W7wzLNkOZDXkI6m27hxAdFtihDzoVGRGDhLkxMytvNcz/uVwoa+RSviA3kJ56s7D
-        5h2kXsVEUQVHURvfku6MwDO0+ZnEuY174QY6NiwCn6DiMDyQWFtPwHT3l2b9uQaL
-        h2szCC21Stze788prD142LePX1CdhRLkwrOZOoAlMNrEdlqqNLadO5WX2m71VICI
-        Gjp6iQ4qFHPPJ8tD0d7cRSFnjsBXcbGfzFEhDoYTAF37upXQhhsQywP37AD2q0E9
-        LqRwaMkYOuDEEY5Q/Ph9EVeu8zmWbNRQCoqwJ4CbTJ2CMgYCGPj2cgc+lKkPXQOI
-        AYN8yh2MaLDPybV0P+dBMI9z2jeeT5ODRsgyfa+7ucLQnOXrR8fRUgULbmtLfHNq
-        GZOmhD1cN0MI+S6KxqvPDJmqHOn+nGAQ7uXnW9mjXlNwn3xqZgoXP7+sMRoldDuw
-        GcCIAjRF7DOvNkT0cgyYIJD98tCHMWVm/Q6AxKsEwnvxp55g+wNaVaG20qRyDssR
-        2DTCQW4cpkgZpWk6jKHZh6tsgzcm0EOB2h0LQiN/hM9sF/BX2cd8ihXfxgWuEkbL
-        XWjQAXI68eIOaUJ1LqsoEJsCAwEAAQ==
-      xsappname: "na-979d7117-f6cf-436f-b1b6-e29a102bd5d1!i2141" # your xsappname
-      uaadomain: "authentication.us10.hana.ondemand.com"  # UAA domain
-      credential-type: "instance-secret"   # credential type
 
 
 

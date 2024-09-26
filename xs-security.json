@@ -1,8 +1,16 @@
 {
-  "xsappname": "spring-security-hybrid-usage",
+  "xsappname": "na-979d7117-f6cf-436f-b1b6-e29a102bd5d1!i2141",
   "tenant-mode": "dedicated",
   "oauth2-configuration": {
-    "credential-types": ["x509"]
+    "credential-types": ["x509"],
+    "clientid": "sb-na-979d7117-f6cf-436f-b1b6-e29a102bd5d1!i2141",
+    "clientsecret": "T/kd87uzEDSHzyVTIeXviQY7R1Y=",
+    "url": "https://authentication.us10.hana.ondemand.com",
+    "identityzone": "uaa",
+    "identityzoneid": "uaa",
+    "sburl": "https://internal-xsuaa.authentication.us10.hana.ondemand.com",
+    "apiurl": "https://api.authentication.us10.hana.ondemand.com",
+    "verificationkey": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAx2ZOcKplHEIvBx1j0dNK\n9J/3E8uKrWFnJRBsdrYvSI6gbV2j2vakAobNxGEz0rXVn+Ljz+2XMgFxlv8in7co\nW7wzLNkOZDXkI6m27hxAdFtihDzoVGRGDhLkxMytvNcz/uVwoa+RSviA3kJ56s7D\n5h2kXsVEUQVHURvfku6MwDO0+ZnEuY174QY6NiwCn6DiMDyQWFtPwHT3l2b9uQaL\nh2szCC21Stze788prD142LePX1CdhRLkwrOZOoAlMNrEdlqqNLadO5WX2m71VICI\nGjp6iQ4qFHPPJ8tD0d7cRSFnjsBXcbGfzFEhDoYTAF37upXQhhsQywP37AD2q0E9\nLqRwaMkYOuDEEY5Q/Ph9EVeu8zmWbNRQCoqwJ4CbTJ2CMgYCGPj2cgc+lKkPXQOI\nAYN8yh2MaLDPybV0P+dBMI9z2jeeT5ODRsgyfa+7ucLQnOXrR8fRUgULbmtLfHNq\nGZOmhD1cN0MI+S6KxqvPDJmqHOn+nGAQ7uXnW9mjXlNwn3xqZgoXP7+sMRoldDuw\nGcCIAjRF7DOvNkT0cgyYIJD98tCHMWVm/Q6AxKsEwnvxp55g+wNaVaG20qRyDssR\n2DTCQW4cpkgZpWk6jKHZh6tsgzcm0EOB2h0LQiN/hM9sF/BX2cd8ihXfxgWuEkbL\nXWjQAXI68eIOaUJ1LqsoEJsCAwEAAQ==\n-----END PUBLIC KEY-----"
   },
   "scopes": [
     {
@@ -10,8 +18,8 @@
       "description": "Read Permissions."
     },
     {
-      "name": "$XSAPPNAME.Write",
-      "description": "Write Permissions."
+      "name": "$XSAPPNAME.User",
+      "description": "Does all actions."
     }
   ],
   "role-templates": [
@@ -23,11 +31,10 @@
       ]
     },
     {
-      "name": "Admin",
-      "description": "Admin (Read and Write)",
+      "name": "User",
+      "description": "Does all actions",
       "scope-references": [
-        "$XSAPPNAME.Read",
-        "$XSAPPNAME.Write"
+        "$XSAPPNAME.User"
       ]
     }
   ],
@@ -40,10 +47,10 @@
       ]
     },
     {
-      "name": "XSUAA-Admin",
-      "description": "Admin (read and write)",
+      "name": "XSUAA-User",
+      "description": "User",
       "role-template-references": [
-        "$XSAPPNAME.Admin"
+        "$XSAPPNAME.User"
       ]
     }
   ]

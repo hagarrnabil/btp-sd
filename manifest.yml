@@ -5,12 +5,11 @@
 # configured for EU10. For other landscapes, please adopt LANDSCAPE_APPS_DOMAIN in ../vars.yml
 # If the route is occupied, you might need to change ID in ../vars.yml
 applications:
-  - name: app2
+  - name: app
     instances: 1
     memory: 1G
     health-check-type: process
     routes:
-      - route: app2.cfapps.us10-001.hana.ondemand.com
       - route: spring-security-hybrid-usage-((ID)).((LANDSCAPE_APPS_DOMAIN))
     path: target/BTP-SD-0.0.1-SNAPSHOT.jar
     buildpacks:
