@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                         .requestMatchers( "/measurements/*",
                                 "/api/v1/auth/**")
                         .hasAuthority("XSUAA-User") // Map to XSUAA-User role collection
-                        .requestMatchers("/sayHello").hasAuthority("$XSAPPNAME.User") // Map directly to scope
+                        .requestMatchers("/sayHello").hasAuthority("$XSAPPNAME.User")
                         .requestMatchers("/comp/sayHello").hasAuthority("$XSAPPNAME.User")
                         .requestMatchers("/formulas/*").hasAuthority("$XSAPPNAME.User")
                         .requestMatchers("/currencies/*").hasAuthority("$XSAPPNAME.User")
@@ -58,20 +58,12 @@ public class SecurityConfiguration {
     private JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        grantedAuthoritiesConverter.setAuthorityPrefix(""); // No prefix for roles
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("scope"); // Extract from scope
+        grantedAuthoritiesConverter.setAuthorityPrefix("");
+        grantedAuthoritiesConverter.setAuthoritiesClaimName("scope");
         converter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
         return converter;
     }
 }
 
-    // The MyCustomIasTokenAuthenticationConverter class can be defined similarly if needed
-//    class MyCustomIasTokenAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
-//        public AbstractAuthenticationToken convert(Jwt jwt) {
-//            final List<String> groups = jwt.getClaimAsStringList(TokenClaims.GROUPS);
-//            final List<GrantedAuthority> groupAuthorities = groups == null ? Collections.emptyList()
-//                    : groups.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-//            return new AuthenticationToken(jwt, groupAuthorities);
-//        }
-//    }
+
 
