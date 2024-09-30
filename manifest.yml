@@ -19,3 +19,4 @@ applications:
     services:
       - hana_migration
       - xsuaa-authn
+      - ias_authn
