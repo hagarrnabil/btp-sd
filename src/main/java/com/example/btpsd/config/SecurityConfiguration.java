@@ -13,11 +13,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 @PropertySource(factory = IdentityServicesPropertySourceFactory.class, ignoreResourceNotFound = true, value = { "" })
 @EnableWebSecurity
+@CrossOrigin(origins = "*", allowedHeaders = "*",maxAge = 3600L)
 public class SecurityConfiguration {
 
     @Bean
