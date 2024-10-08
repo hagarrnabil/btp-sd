@@ -2,26 +2,20 @@ package com.example.btpsd.converters;
 
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
 import com.example.btpsd.model.*;
-import com.example.btpsd.repositories.ServiceInvoiceMainRepository;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Component
 public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<ExecutionOrderMainCommand, ExecutionOrderMain> {
-
-    private final ServiceInvoiceMainRepository serviceInvoiceMainRepository;
 
     @Synchronized
     @Nullable
     @Override
     public ExecutionOrderMain convert(ExecutionOrderMainCommand source) {
-
 
         if (source == null) {
             return null;
@@ -66,11 +60,11 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         executionOrderMain.setAmountPerUnit(source.getAmountPerUnit());
         executionOrderMain.setTotal(executionOrderMain.getTotalQuantity() * executionOrderMain.getAmountPerUnit());
 
-//        if (executionOrderMain.getServiceInvoiceMain() == null) {
-//            executionOrderMain.setServiceInvoiceMain(new ServiceInvoiceMain(executionOrderMain));
-//        } else {
-//            executionOrderMain.getServiceInvoiceMain().updateFromExecutionOrder(executionOrderMain);
-//        }
+        if (executionOrderMain.getServiceInvoiceMain() == null) {
+            executionOrderMain.setServiceInvoiceMain(new ServiceInvoiceMain(executionOrderMain));
+        } else {
+            executionOrderMain.getServiceInvoiceMain().updateFromExecutionOrder(executionOrderMain);
+        }
         return executionOrderMain;
 
     }

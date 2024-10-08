@@ -70,15 +70,18 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
     @Transactional
     public InvoiceMainItemCommand saveMainItemCommand(InvoiceMainItemCommand command) {
 
+        // Convert command to entity
         InvoiceMainItem detachedMainItem = invoiceMainItemCommandToInvoiceMainItem.convert(command);
+
         if (detachedMainItem != null) {
+            // Save entity to the database
             InvoiceMainItem savedMainItem = invoiceMainItemRepository.save(detachedMainItem);
+            // Convert the saved entity back to command and return
             return invoiceMainItemToInvoiceMainItemCommand.convert(savedMainItem);
         } else {
-            // Handle conversion error
+            // Handle conversion error (return null or throw an exception)
             return null;
         }
-
     }
 
     @Override

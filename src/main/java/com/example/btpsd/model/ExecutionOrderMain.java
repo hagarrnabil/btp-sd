@@ -1,6 +1,5 @@
 package com.example.btpsd.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -45,7 +44,7 @@ public class ExecutionOrderMain implements Serializable {
     //    @NotNull
     private Integer totalQuantity;
 
-    private Integer serviceQuantity;
+    private Integer remainingQuantity;
 
     //    @NotNull
     private Double amountPerUnit;
@@ -85,7 +84,6 @@ public class ExecutionOrderMain implements Serializable {
     private ServiceNumber serviceNumber;
 
     @OneToOne
-    @JsonIgnore
     @JoinColumn(name = "invoice_main_item_id")
     private InvoiceMainItem invoiceMainItem;
 
@@ -138,11 +136,4 @@ public class ExecutionOrderMain implements Serializable {
         this.invoiceMainItem = invoiceMainItem;
         invoiceMainItem.setExecutionOrderMain(this);
     }
-
-//    public void setServiceInvoiceMain(ServiceInvoiceMain serviceInvoiceMain) {
-//        this.serviceInvoiceMain = serviceInvoiceMain;
-//        if (serviceInvoiceMain != null) {
-//            serviceInvoiceMain.setExecutionOrderMain(this);
-//        }
-//    }
 }

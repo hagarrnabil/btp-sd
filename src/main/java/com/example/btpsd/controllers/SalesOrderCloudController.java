@@ -1,7 +1,13 @@
 package com.example.btpsd.controllers;
 
+import com.example.btpsd.commands.InvoiceMainItemCommand;
+import com.example.btpsd.dto.SalesOrderToMainitemDTO;
+import com.example.btpsd.services.InvoiceMainItemService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +27,8 @@ import java.util.Map;
 public class SalesOrderCloudController {
 
     private static final Logger logger = LoggerFactory.getLogger(SalesOrderCloudController.class);
+    @Autowired
+    private InvoiceMainItemService invoiceMainItemService;
 
     @RequestMapping(value = "/salesordercloud", method = RequestMethod.GET)
     private StringBuilder getAllSalesOrders() throws Exception {
@@ -68,6 +76,7 @@ public class SalesOrderCloudController {
 
         return response;
     }
+
 
     @RequestMapping(value = "/salesorderitemscloud", method = RequestMethod.GET)
     private StringBuilder getAllSalesOrderItems() throws Exception {
@@ -402,7 +411,7 @@ public class SalesOrderCloudController {
 
     @RequestMapping(value = "/salesquotationpricingcloud/{SalesQuotation}/{SalesQuotationItem}", method = RequestMethod.GET)
     public StringBuilder getSalesQuotationPricing(@PathVariable("SalesQuotation") String salesQuotation,
-                                              @PathVariable("SalesQuotationItem") String salesQuotationItem) {
+                                                  @PathVariable("SalesQuotationItem") String salesQuotationItem) {
         logger.debug("Entered getSalesOrderPricing method with SalesQuotation: {} and SalesQuotationItem: {}", salesQuotation, salesQuotationItem);
 
         final int BLOCK_SIZE = 1024;
@@ -466,7 +475,6 @@ public class SalesOrderCloudController {
         logger.debug("Exiting getSalesOrderPricing method");
         return response;
     }
-
 
 
     @RequestMapping(value = "/debitmemocloud", method = RequestMethod.GET)
@@ -797,7 +805,7 @@ public class SalesOrderCloudController {
 
         // The URL where you will post the data after fetching the token
         String postURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata4/sap/api_salesorder/srvd_a2x/sap/salesorder/0001/SalesOrderItem/"
-                + SalesOrder + "/" + SalesOrderItem +  "/_ItemPricingElement";
+                + SalesOrder + "/" + SalesOrderItem + "/_ItemPricingElement";
 
         // Step 1: Fetch CSRF Token with a GET request
         HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenURL).openConnection();

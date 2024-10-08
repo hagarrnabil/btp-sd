@@ -85,25 +85,33 @@ public class ServiceInvoiceMain implements Serializable {
     @JoinColumn(name = "execution_order_main_id")
     private ExecutionOrderMain executionOrderMain;
 
-//    public ServiceInvoiceMain(ExecutionOrderMain executionOrderMain) {
-//        this.serviceNumberCode = executionOrderMain.getServiceNumberCode();
-//        this.unitOfMeasurementCode = executionOrderMain.getUnitOfMeasurementCode();
-//        this.currencyCode = executionOrderMain.getCurrencyCode();
-//        this.description = executionOrderMain.getDescription();
-//        this.totalQuantity = executionOrderMain.getTotalQuantity();
-//        this.actualQuantity = executionOrderMain.getActualQuantity();
-//        this.actualPercentage = executionOrderMain.getActualPercentage();
-//        this.biddersLine = executionOrderMain.getBiddersLine();
-//        this.lineNumber = executionOrderMain.getLineNumber();
-//        this.doNotPrint = executionOrderMain.getDoNotPrint();
-//        this.supplementaryLine = executionOrderMain.getSupplementaryLine();
-//        this.lotCostOne = executionOrderMain.getLotCostOne();
-//        this.overFulfillmentPercentage = executionOrderMain.getOverFulfillmentPercentage();
-//        this.unlimitedOverFulfillment = executionOrderMain.getUnlimitedOverFulfillment();
-//        this.amountPerUnit = new BigDecimal(executionOrderMain.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue();
-//        this.total = new BigDecimal(executionOrderMain.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue();
-//        this.executionOrderMain = executionOrderMain;
-//    }
+    public Integer getRemainingQuantity() {
+        return remainingQuantity;
+    }
+
+    public void setRemainingQuantity(Integer remainingQuantity) {
+        this.remainingQuantity = remainingQuantity;
+    }
+
+    public ServiceInvoiceMain(ExecutionOrderMain executionOrderMain) {
+        this.serviceNumberCode = executionOrderMain.getServiceNumberCode();
+        this.unitOfMeasurementCode = executionOrderMain.getUnitOfMeasurementCode();
+        this.currencyCode = executionOrderMain.getCurrencyCode();
+        this.description = executionOrderMain.getDescription();
+        this.totalQuantity = executionOrderMain.getTotalQuantity();
+        this.actualQuantity = executionOrderMain.getActualQuantity();
+        this.actualPercentage = executionOrderMain.getActualPercentage();
+        this.biddersLine = executionOrderMain.getBiddersLine();
+        this.lineNumber = executionOrderMain.getLineNumber();
+        this.doNotPrint = executionOrderMain.getDoNotPrint();
+        this.supplementaryLine = executionOrderMain.getSupplementaryLine();
+        this.lotCostOne = executionOrderMain.getLotCostOne();
+        this.overFulfillmentPercentage = executionOrderMain.getOverFulfillmentPercentage();
+        this.unlimitedOverFulfillment = executionOrderMain.getUnlimitedOverFulfillment();
+        this.amountPerUnit = new BigDecimal(executionOrderMain.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        this.total = new BigDecimal(executionOrderMain.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        this.executionOrderMain = executionOrderMain;
+    }
 
     public void updateFromExecutionOrder(ExecutionOrderMain executionOrderMain) {
 
@@ -174,7 +182,6 @@ public class ServiceInvoiceMain implements Serializable {
             this.unlimitedOverFulfillment = executionOrderMain.getUnlimitedOverFulfillment();
         }
 
-
         if (this.totalQuantity != null && this.actualQuantity != null) {
             this.remainingQuantity = this.totalQuantity - this.actualQuantity;
         } else {
@@ -222,4 +229,18 @@ public class ServiceInvoiceMain implements Serializable {
         this.executionOrderMain = executionOrderMain;
         executionOrderMain.setServiceInvoiceMain(this);
     }
+
+    public void updateAQAPandRQ(Integer previousExcOrderAQ) {
+        if (this.totalQuantity != null && this.quantity != null) {
+            // Calculate Actual Quantity (AQ)
+            this.actualQuantity = this.quantity + previousExcOrderAQ;
+
+            // Calculate Actual Percentage (AP)
+            this.actualPercentage = (this.actualQuantity / this.totalQuantity) * 100;
+
+            // Calculate Remaining Quantity (RQ)
+            this.remainingQuantity = this.totalQuantity - this.quantity;
+        }
+    }
+
 }
