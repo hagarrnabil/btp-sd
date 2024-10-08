@@ -1,31 +1,16 @@
-spring:
-  h2:
-    console:
-      enabled: true
-  datasource:
-    url: jdbc:h2:mem:testdb
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-  sql:
-    init:
-      mode: always
+#spring:
+#  h2:
+#    console:
+#      enabled: true
 #  datasource:
-#    url: jdbc:postgresql://localhost:5432/btpsd
-#    username: postgres
-#    password: P@ssw0rd
-#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:h2:mem:testdb
 #  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    database: postgresql
-#    database-platform: org.hibernate.dialect.PostgreSQLDialect
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
-  main:
-    allow-bean-definition-overriding: true
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+
+
 
 logging.level:
   com.sap.cloud.security.samples.resecurity: DEBUG
@@ -35,16 +20,18 @@ logging.level:
   org.hibernate.SQL: DEBUG
   org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
-sap.security.services:
-  identity:
-    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
-    domains:
-      - localhost                 # SecurityTest.DEFAULT_DOMAIN
-  xsuaa:
-    xsappname: xsapp!t0815        # SecurityTest.DEFAULT_APP_ID
-    uaadomain: localhost          # SecurityTest.DEFAULT_DOMAIN
-    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
-    url:       http://localhost   # SecurityTest.DEFAULT_URL
+#sap.security.services:
+#  identity:
+#    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
+#    domains:
+#      - localhost                 # SecurityTest.DEFAULT_DOMAIN
+#  xsuaa:
+#    xsappname: xsapp!t0815        # SecurityTest.DEFAULT_APP_ID
+#    uaadomain: localhost          # SecurityTest.DEFAULT_DOMAIN
+#    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
+#    url:       http://localhost   # SecurityTest.DEFAULT_URL
+
+
 
 #spring:
 #  datasource:
@@ -58,7 +45,6 @@ sap.security.services:
 #    database-platform: org.hibernate.dialect.MySQL8Dialect
 #    database: mysql
 #    show-sql: true
-
 
 
 #spring:
@@ -79,3 +65,25 @@ sap.security.services:
 #    url: jdbc:mysql://mysql.security.svc.cluster.local:3306/mysql
 #    username: admin
 #    password: P@ssword
+
+
+
+#Local Db Config
+spring:
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:postgresql://localhost:5432/btpsd
+    username: postgres
+    password: P@ssw0rd
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  main:
+    allow-bean-definition-overriding: true

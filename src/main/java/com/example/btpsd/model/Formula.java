@@ -35,18 +35,22 @@ public class Formula implements Serializable {
     @NotNull
     private Integer numberOfParameters;
 
-    @NotNull
     @ElementCollection
-    private List<Character> parameterIds = new ArrayList<Character>();
+    @CollectionTable(name = "formula_parameter_ids", joinColumns = @JoinColumn(name = "formula_code"))
+    @Column(name = "parameter_id", nullable = false)
+    private List<String> parameterIds;
 
-    @NotNull
     @ElementCollection
-    private List<String> parameterDescriptions = new ArrayList<String>();
+    @CollectionTable(name = "formula_parameter_descriptions", joinColumns = @JoinColumn(name = "formula_code"))
+    @Column(name = "parameter_description", nullable = false)
+    private List<String> parameterDescriptions;
+
+    @ElementCollection
+    @CollectionTable(name = "formula_test_parameters", joinColumns = @JoinColumn(name = "formula_code"))
+    @Column(name = "test_parameter")
+    private List<Double> testParameters;
 
     private String formulaLogic;
-
-    @ElementCollection
-    private List<Double> testParameters = new ArrayList<Double>();
 
     private String expression;
 

@@ -21,10 +21,25 @@ CREATE TABLE formula
     number_of_parameters   INTEGER        NOT NULL,
     formula_logic          TEXT,
     expression             TEXT,
-    result                 DOUBLE PRECISION,
-    parameter_ids          CHAR(1)[]      NOT NULL,
-    parameter_descriptions TEXT[]         NOT NULL,
-    test_parameters        DOUBLE PRECISION[]
+    result                 DOUBLE PRECISION
+);
+CREATE TABLE formula_parameter_ids
+(
+    formula_code    BIGINT NOT NULL,
+    parameter_id    TEXT NOT NULL,
+    CONSTRAINT fk_formula_code FOREIGN KEY (formula_code) REFERENCES formula(formula_code)
+);
+CREATE TABLE formula_parameter_descriptions
+(
+    formula_code           BIGINT NOT NULL,
+    parameter_description  TEXT NOT NULL,
+    CONSTRAINT fk_formula_code FOREIGN KEY (formula_code) REFERENCES formula(formula_code)
+);
+CREATE TABLE formula_test_parameters
+(
+    formula_code   BIGINT NOT NULL,
+    test_parameter DOUBLE PRECISION,
+    CONSTRAINT fk_formula_code FOREIGN KEY (formula_code) REFERENCES formula(formula_code)
 );
 
 -- Create MaterialGroup table

@@ -17,4 +17,7 @@ applications:
     env:
       JBP_CONFIG_OPEN_JDK_JRE: '{jre: { version: 17.0.+ }}'
     services:
-      - postgres
+      - name: postgres
+      - name: xsuaa-authn
+      - name: ias-authn
+        parameters: { "credential-type": "X509_GENERATED" }

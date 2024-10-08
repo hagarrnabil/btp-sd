@@ -24,7 +24,7 @@ public class FormulaCommand implements Serializable {
 
     private Integer numberOfParameters;
 
-    private List<Character> parameterIds = new ArrayList<Character>();
+    private List<String> parameterIds = new ArrayList<>();
 
     private List<String> parameterDescriptions = new ArrayList<String>();
 
