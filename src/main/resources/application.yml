@@ -10,6 +10,11 @@
 #      hibernate:
 #        format_sql: true
 
+scim:
+  api:
+    url: https://aji26ufcs.trial-accounts.ondemand.com/service/scim/Users
+    username: facbddf3-d119-4f36-bb81-0dc8a644a8cb
+    password: nY17h3A5/YsCGx0K3LsDGhzqp]FBJYZ?7o/
 
 
 logging.level:
