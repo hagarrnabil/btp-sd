@@ -3,6 +3,8 @@ import com.example.btpsd.services.AccountsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import com.example.btpsd.model.IasUser;
+import java.io.IOException;
 
 import java.util.Map;
 
@@ -22,7 +24,7 @@ public class AccountsController {
         return accountsService.getAllUsers();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public Map<String, Object> createUser(@RequestBody Map<String, Object> userPayload) {
         return accountsService.createUser(userPayload);

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
@@ -32,6 +33,18 @@ public class SecurityConfiguration {
         return jwtAuthenticationConverter;
     }
 
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers( "/accounts","/accounts/**","/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/swagger-ui/index.html",
+                "/swagger-resources/**",
+                "/webjars/**",
+                "/localhost/**",
+                "/create"
+        );
+    }
+
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -42,7 +55,8 @@ public class SecurityConfiguration {
                                 "/swagger-ui/index.html",
                                 "/swagger-resources/**",
                                 "/webjars/**",
-                                "/localhost/**"
+                                "/localhost/**",
+                                "/accounts","/accounts/**","/create"
                         ).permitAll()
                         .requestMatchers( "/measurements/*",
                                 "/api/v1/auth/**")

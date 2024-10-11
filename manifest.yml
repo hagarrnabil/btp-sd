@@ -20,3 +20,4 @@ applications:
       - hana_migration
       - xsuaa-authn
       - ias_authn
+    parameters: { "credential-type": "X509_GENERATED" }
