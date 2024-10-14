@@ -14,13 +14,16 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 @PropertySource(factory = IdentityServicesPropertySourceFactory.class, ignoreResourceNotFound = true, value = { "" })
 @EnableWebSecurity
-@CrossOrigin(origins = "*", allowedHeaders = "*",maxAge = 3600L)
 public class SecurityConfiguration {
 
     @Bean
@@ -35,18 +38,35 @@ public class SecurityConfiguration {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers( "/accounts","/accounts/**","/v3/api-docs/**",
+        return (web) -> web.ignoring().requestMatchers(
+                "/accounts",
+                "/accounts/**",
+                "/v3/api-docs/**",
                 "/swagger-ui/**",
                 "/swagger-ui/index.html",
                 "/swagger-resources/**",
                 "/webjars/**",
                 "/localhost/**",
-                "/create"
+                "/accounts/create"
         );
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("*");
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        config.setAllowCredentials(true);
+        config.setMaxAge(3600L);
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(
@@ -56,14 +76,14 @@ public class SecurityConfiguration {
                                 "/swagger-resources/**",
                                 "/webjars/**",
                                 "/localhost/**",
-                                "/accounts","/accounts/**","/create"
+                                "/accounts",
+                                "/accounts/**",
+                                "/accounts/create"
                         ).permitAll()
                         .requestMatchers( "/measurements/*",
                                 "/api/v1/auth/**")
                         .hasAuthority("XSUAA-User")
-                        .requestMatchers("/sayHello").hasAuthority("$XSAPPNAME.User")
-                        .requestMatchers("/**").authenticated()
-                        .anyRequest().denyAll())
+                        .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(authConverter())));

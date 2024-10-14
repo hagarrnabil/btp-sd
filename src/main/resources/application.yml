@@ -79,9 +79,9 @@ spring:
     init:
       mode: always
   datasource:
-    url: jdbc:postgresql://localhost:5432/btpsd
-    username: postgres
-    password: P@ssw0rd
+    url: jdbc:postgresql://localhost:63306/RXlSmSjdhOYj
+    username: 4afe5428142c
+    password: b840edce62a20edac29b775
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
