@@ -62,11 +62,7 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         if (source.getServiceNumber() != null) {
             executionOrderMainCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
-//        if (source.getExecutionOrderSubList() != null && source.getExecutionOrderSubList().size() > 0) {
-//            source.getExecutionOrderSubList()
-//                    .forEach(executionOrderSub -> executionOrderMainCommand.getExecutionOrderSub().add(executionOrderSubConverter.convert(executionOrderSub)));
-//        }
-
+        executionOrderMainCommand.setTotalHeader(source.getTotalHeader());
         return executionOrderMainCommand;
     }
 }

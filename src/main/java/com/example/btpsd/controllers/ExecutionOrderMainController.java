@@ -1,6 +1,7 @@
 package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
+import com.example.btpsd.commands.InvoiceMainItemCommand;
 import com.example.btpsd.converters.ExecutionOrderMainToExecutionOrderMainCommand;
 import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.ServiceInvoiceMain;
@@ -39,12 +40,30 @@ ExecutionOrderMainController {
         return Optional.ofNullable(executionOrderMainService.findExecutionOrderMainCommandById(executionOrderMainCode));
     }
 
-    @PostMapping("/executionordermain")
-    ExecutionOrderMainCommand newExecutionOrderMainItemCommand(@RequestBody ExecutionOrderMainCommand newExecutionOrderMainItemCommand) {
+    @PostMapping("/executionordermain/{salesOrder}/{salesOrderItem}")
+    public ExecutionOrderMainCommand newExecutionOrderCommand(
+            @RequestBody ExecutionOrderMainCommand newExecutionOrderCommand,
+            @PathVariable String salesOrder,
+            @PathVariable String salesOrderItem) {
 
-        ExecutionOrderMainCommand savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(newExecutionOrderMainItemCommand);
+        // Step 1: Save the Main Item
+        ExecutionOrderMainCommand savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(newExecutionOrderCommand);
+
+        if (savedCommand == null) {
+            throw new RuntimeException("Failed to save Execution Order.");
+        }
+
+        // Step 2: Extract the totalHeader from the saved Main Item
+        Double totalHeader = savedCommand.getTotalHeader();
+
+        // Step 3: Call the Sales Order Pricing API with salesOrder and salesOrderItem from the URL
+        try {
+            executionOrderMainService.callSalesOrderPricingAPI(salesOrder, salesOrderItem, totalHeader);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while calling Sales Order Pricing API: " + e.getMessage());
+        }
+
         return savedCommand;
-
     }
 
     @DeleteMapping("/executionordermain/{executionOrderMainCode}")

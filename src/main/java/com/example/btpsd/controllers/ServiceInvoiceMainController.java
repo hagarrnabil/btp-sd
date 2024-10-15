@@ -42,6 +42,9 @@ public class ServiceInvoiceMainController {
     ServiceInvoiceMainCommand newServiceInvoiceCommand(@RequestBody ServiceInvoiceMainCommand newServiceInvoiceCommand) {
 
         ServiceInvoiceMainCommand savedCommand = serviceInvoiceMainService.saveServiceInvoiceMainCommand(newServiceInvoiceCommand);
+        // You can access executionOrderMainCode like this:
+        Long executionOrderMainCode = savedCommand.getExecutionOrderMain().getExecutionOrderMainCode();
+
         return savedCommand;
 
     }

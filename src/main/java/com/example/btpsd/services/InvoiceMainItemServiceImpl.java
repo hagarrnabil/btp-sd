@@ -5,7 +5,6 @@ import com.example.btpsd.commands.InvoiceSubItemCommand;
 import com.example.btpsd.converters.InvoiceMainItemCommandToInvoiceMainItem;
 import com.example.btpsd.converters.InvoiceMainItemToInvoiceMainItemCommand;
 import com.example.btpsd.converters.InvoiceSubItemCommandToInvoiceSubItem;
-import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.model.InvoiceSubItem;
 import com.example.btpsd.model.ServiceNumber;
@@ -18,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,6 +29,7 @@ import java.util.stream.StreamSupport;
 public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
 
     private final InvoiceMainItemRepository invoiceMainItemRepository;
+    private InvoiceMainItemService invoiceMainItemService;
     private final ExecutionOrderMainRepository executionOrderMainRepository;
     private final InvoiceMainItemCommandToInvoiceMainItem invoiceMainItemCommandToInvoiceMainItem;
     private final InvoiceMainItemToInvoiceMainItemCommand invoiceMainItemToInvoiceMainItemCommand;
@@ -38,13 +39,32 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
     @Override
     @Transactional
     public Set<InvoiceMainItemCommand> getMainItemCommands() {
-
-        return StreamSupport.stream(invoiceMainItemRepository.findAll()
-                        .spliterator(), false)
-                .map(invoiceMainItemToInvoiceMainItemCommand::convert)
+        Double totalHeader = getTotalHeader();  // Call the method directly
+        return StreamSupport.stream(invoiceMainItemRepository.findAll().spliterator(), false)
+                .map(invoiceMainItem -> {
+                    InvoiceMainItemCommand command = invoiceMainItemToInvoiceMainItemCommand.convert(invoiceMainItem);
+                    command.setTotalHeader(totalHeader);
+                    return command;
+                })
                 .collect(Collectors.toSet());
-
     }
+
+
+    public InvoiceMainItemCommand getInvoiceMainItemWithTotalHeader(Long id) {
+        InvoiceMainItem mainItem = invoiceMainItemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Invoice not found"));
+
+        Double totalHeader = invoiceMainItemService.getTotalHeader();
+        log.debug("Total Header set in command: " + totalHeader);
+
+        InvoiceMainItemCommand command = invoiceMainItemToInvoiceMainItemCommand.convert(mainItem);
+        command.setTotalHeader(totalHeader);
+
+        return command;
+    }
+
+
+
 
     @Override
     public InvoiceMainItem findById(Long l) {
@@ -66,22 +86,42 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
 
     }
 
+
+    public Double getTotalHeader() {
+        List<InvoiceMainItem> allItems = (List<InvoiceMainItem>) invoiceMainItemRepository.findAll();
+        Double totalHeader = 0.0;
+
+        for (InvoiceMainItem item : allItems) {
+            log.debug("Item ID: " + item.getInvoiceMainItemCode() + ", totalWithProfit: " + item.getTotalWithProfit());
+            totalHeader += item.getTotalWithProfit();
+        }
+
+        log.debug("Final Total Header: " + totalHeader);
+
+        return totalHeader;
+    }
+
+
     @Override
     @Transactional
     public InvoiceMainItemCommand saveMainItemCommand(InvoiceMainItemCommand command) {
-
         // Convert command to entity
-        InvoiceMainItem detachedMainItem = invoiceMainItemCommandToInvoiceMainItem.convert(command);
+        InvoiceMainItem invoiceMainItem = invoiceMainItemCommandToInvoiceMainItem.convert(command);
 
-        if (detachedMainItem != null) {
-            // Save entity to the database
-            InvoiceMainItem savedMainItem = invoiceMainItemRepository.save(detachedMainItem);
-            // Convert the saved entity back to command and return
-            return invoiceMainItemToInvoiceMainItemCommand.convert(savedMainItem);
-        } else {
-            // Handle conversion error (return null or throw an exception)
-            return null;
-        }
+        // Save the new invoice item to the repository first
+        InvoiceMainItem savedItem = invoiceMainItemRepository.save(invoiceMainItem);
+
+        // Calculate the totalHeader after the item is saved
+        Double totalHeader = getTotalHeader();
+        savedItem.setTotalHeader(totalHeader); // Update the saved item with the new totalHeader
+
+        log.debug("Total Header after save: " + totalHeader);
+
+        // Save the updated item with the totalHeader
+        savedItem = invoiceMainItemRepository.save(savedItem);
+
+        // Convert back to command for return
+        return invoiceMainItemToInvoiceMainItemCommand.convert(savedItem);
     }
 
     @Override

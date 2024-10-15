@@ -18,6 +18,8 @@ public class ServiceInvoiceMainCommand implements Serializable {
 
     private Long serviceInvoiceCode;
 
+    private Long executionOrderMainCode;
+
     private Long serviceNumberCode;
 
     private String description;

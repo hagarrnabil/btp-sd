@@ -11,4 +11,7 @@ public interface InvoiceMainItemRepository extends CrudRepository<InvoiceMainIte
 
     @Query("select i from InvoiceMainItem i where lower(concat(i.amountPerUnit,' ',i.description,' ',i.profitMargin,' ',i.quantity)) like lower(concat('%', ?1,'%'))")
     public List<InvoiceMainItem> search(String keyword);
+
+    @Query("SELECT SUM(i.total) FROM InvoiceMainItem i")
+    Double sumAllTotals();
 }

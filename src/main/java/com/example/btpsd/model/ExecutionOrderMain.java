@@ -51,7 +51,11 @@ public class ExecutionOrderMain implements Serializable {
 
     private Double total;
 
+    private Double totalHeader;
+
     private Integer actualQuantity;
+
+    private Integer previousQuantity;
 
     private Integer actualPercentage;
 

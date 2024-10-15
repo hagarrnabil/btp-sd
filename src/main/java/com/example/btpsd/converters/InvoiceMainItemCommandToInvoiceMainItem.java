@@ -35,7 +35,15 @@ public class InvoiceMainItemCommandToInvoiceMainItem implements Converter<Invoic
         mainItem.setCurrencyCode(source.getCurrencyCode());
         mainItem.setFormulaCode(source.getFormulaCode());
         mainItem.setDescription(source.getDescription());
-        mainItem.setQuantity(source.getQuantity());
+
+        // Ensure quantity is not null
+        if (source.getQuantity() != null) {
+            mainItem.setQuantity(source.getQuantity());
+        } else {
+            // Handle null quantity appropriately, e.g., set to 0 or throw an exception
+            mainItem.setQuantity(0); // or throw new IllegalArgumentException("Quantity cannot be null");
+        }
+
         mainItem.setProfitMargin(source.getProfitMargin());
         mainItem.setDoNotPrint(source.getDoNotPrint());
 
@@ -64,26 +72,28 @@ public class InvoiceMainItemCommandToInvoiceMainItem implements Converter<Invoic
             mainItem.setAmountPerUnit(source.getAmountPerUnit());
         }
 
-        mainItem.setTotal(mainItem.getQuantity() * mainItem.getAmountPerUnit());
+        // Ensure amountPerUnit is not null
+        double amountPerUnit = mainItem.getAmountPerUnit() != null ? mainItem.getAmountPerUnit() : 0;
+
+        // Calculate total
+        mainItem.setTotal(mainItem.getQuantity() * amountPerUnit);
         mainItem.setTotal(new BigDecimal(mainItem.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue());
-        mainItem.setAmountPerUnit(new BigDecimal(mainItem.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+        mainItem.setAmountPerUnit(new BigDecimal(amountPerUnit).setScale(2, RoundingMode.HALF_UP).doubleValue());
 
-        if(mainItem.getProfitMargin() != null){
+        if (mainItem.getProfitMargin() != null) {
             mainItem.setTotalWithProfit(((mainItem.getProfitMargin() / 100) * mainItem.getTotal()) + mainItem.getTotal());
-            mainItem.setAmountPerUnitWithProfit(((mainItem.getProfitMargin() / 100) * mainItem.getAmountPerUnit()) + mainItem.getAmountPerUnit());
+            mainItem.setAmountPerUnitWithProfit(((mainItem.getProfitMargin() / 100) * amountPerUnit) + amountPerUnit);
             mainItem.setTotalWithProfit(new BigDecimal(mainItem.getTotalWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
             mainItem.setAmountPerUnitWithProfit(new BigDecimal(mainItem.getAmountPerUnitWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
-        }
-        else {
-            mainItem.setTotalWithProfit(((0 / 100) * mainItem.getTotal()) + mainItem.getTotal());
-            mainItem.setAmountPerUnitWithProfit(((0 / 100) * mainItem.getAmountPerUnit()) + mainItem.getAmountPerUnit());
-            mainItem.setTotalWithProfit(new BigDecimal(mainItem.getTotalWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
-            mainItem.setAmountPerUnitWithProfit(new BigDecimal(mainItem.getAmountPerUnitWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
-
+        } else {
+            mainItem.setTotalWithProfit(mainItem.getTotal());
+            mainItem.setAmountPerUnitWithProfit(amountPerUnit);
         }
 
         ExecutionOrderMain executionOrderMain = new ExecutionOrderMain(mainItem);
         mainItem.setExecutionOrderMain(executionOrderMain);
+        // Set total header (this will be recalculated later in the save method)
+        mainItem.setTotalHeader(0.0);
         return mainItem;
-    }
+        }
 }

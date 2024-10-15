@@ -14,8 +14,12 @@ public interface CurrencyService {
     void deleteById(Long idToDelete);
 
     CurrencyCommand saveCurrencyCommand(CurrencyCommand command);
+
     Currency updateCurrency(CurrencyCommand newCurrencyCommand, Long l);
 
     CurrencyCommand findCurrencyCommandById(Long l);
 
+    void setCurrentCurrency(String currency);
+
+    String getCurrentCurrency();
 }

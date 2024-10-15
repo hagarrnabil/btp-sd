@@ -39,6 +39,8 @@ public class InvoiceMainItem implements Serializable {
 
     private Double total;
 
+    private Double totalHeader;
+
     private Double profitMargin;
 
     private Double totalWithProfit;

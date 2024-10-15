@@ -49,6 +49,8 @@ public class ExecutionOrderMainCommand implements Serializable {
 
     private Double total;
 
+    private Double totalHeader;
+
     private Integer actualQuantity;
 
     private Integer actualPercentage;

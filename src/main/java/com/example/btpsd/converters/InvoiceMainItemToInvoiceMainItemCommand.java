@@ -36,9 +36,7 @@ public class InvoiceMainItemToInvoiceMainItemCommand implements Converter<Invoic
         invoiceMainItemCommand.setAmountPerUnit(source.getAmountPerUnit());
         invoiceMainItemCommand.setTotal(source.getQuantity() * source.getAmountPerUnit());
         invoiceMainItemCommand.setProfitMargin(source.getProfitMargin());
-//        invoiceMainItemCommand.setTotalWithProfit( ((invoiceMainItemCommand.getProfitMargin()/100) * invoiceMainItemCommand.getTotal()) + invoiceMainItemCommand.getTotal());
         invoiceMainItemCommand.setDoNotPrint(source.getDoNotPrint());
-//        invoiceMainItemCommand.setAmountPerUnitWithProfit( ((invoiceMainItemCommand.getProfitMargin()/100) * invoiceMainItemCommand.getAmountPerUnit()) + invoiceMainItemCommand.getAmountPerUnit());
         if (source.getServiceNumber() != null) {
             invoiceMainItemCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
@@ -50,19 +48,20 @@ public class InvoiceMainItemToInvoiceMainItemCommand implements Converter<Invoic
         invoiceMainItemCommand.setTotal(new BigDecimal(invoiceMainItemCommand.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue());
         invoiceMainItemCommand.setAmountPerUnit(new BigDecimal(invoiceMainItemCommand.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
 
-        if(invoiceMainItemCommand.getProfitMargin() != null){
+        if (invoiceMainItemCommand.getProfitMargin() != null) {
             invoiceMainItemCommand.setTotalWithProfit(((invoiceMainItemCommand.getProfitMargin() / 100) * invoiceMainItemCommand.getTotal()) + invoiceMainItemCommand.getTotal());
             invoiceMainItemCommand.setAmountPerUnitWithProfit(((invoiceMainItemCommand.getProfitMargin() / 100) * invoiceMainItemCommand.getAmountPerUnit()) + invoiceMainItemCommand.getAmountPerUnit());
             invoiceMainItemCommand.setTotalWithProfit(new BigDecimal(invoiceMainItemCommand.getTotalWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
             invoiceMainItemCommand.setAmountPerUnit(new BigDecimal(invoiceMainItemCommand.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
-        }
-        else {
+        } else {
             invoiceMainItemCommand.setTotalWithProfit(((0 / 100) * invoiceMainItemCommand.getTotal()) + invoiceMainItemCommand.getTotal());
             invoiceMainItemCommand.setAmountPerUnitWithProfit(((0 / 100) * invoiceMainItemCommand.getAmountPerUnit()) + invoiceMainItemCommand.getAmountPerUnit());
             invoiceMainItemCommand.setTotalWithProfit(new BigDecimal(invoiceMainItemCommand.getTotalWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
             invoiceMainItemCommand.setAmountPerUnitWithProfit(new BigDecimal(invoiceMainItemCommand.getAmountPerUnitWithProfit()).setScale(2, RoundingMode.HALF_UP).doubleValue());
         }
 
+        // Include the total header in the conversion
+        invoiceMainItemCommand.setTotalHeader(source.getTotalHeader());
         return invoiceMainItemCommand;
     }
 

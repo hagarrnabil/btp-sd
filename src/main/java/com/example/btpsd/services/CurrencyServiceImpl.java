@@ -23,6 +23,7 @@ public class CurrencyServiceImpl implements CurrencyService{
     private final CurrencyRepository currencyRepository;
     private final CurrencyToCurrencyCommand currencyToCurrencyCommand;
     private final CurrencyCommandToCurrency currencyCommandToCurrency;
+    private String currentCurrency;
 
     @Override
     @Transactional
@@ -86,5 +87,15 @@ public class CurrencyServiceImpl implements CurrencyService{
 
         return currencyToCurrencyCommand.convert(findById(l));
 
+    }
+
+    @Override
+    public void setCurrentCurrency(String currency) {
+        this.currentCurrency = currency;
+    }
+
+    @Override
+    public String getCurrentCurrency() {
+        return currentCurrency;
     }
 }

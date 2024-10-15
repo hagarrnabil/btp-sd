@@ -65,6 +65,7 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         } else {
             executionOrderMain.getServiceInvoiceMain().updateFromExecutionOrder(executionOrderMain);
         }
+        executionOrderMain.setTotalHeader(0.0);
         return executionOrderMain;
 
     }
