@@ -47,8 +47,10 @@ public class SecurityConfiguration {
                 "/swagger-resources/**",
                 "/webjars/**",
                 "/localhost/**",
-                "/accounts/create"
-        );
+                "/accounts/create",
+                "/accounts/{userId}",
+                "/accounts/*"
+                );
     }
 
     @Bean
@@ -66,7 +68,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(
@@ -78,12 +80,15 @@ public class SecurityConfiguration {
                                 "/localhost/**",
                                 "/accounts",
                                 "/accounts/**",
-                                "/accounts/create"
+                                "/accounts/*",
+                                "/accounts/create",
+                                "/accounts/{userId}"
                         ).permitAll()
                         .requestMatchers( "/measurements/*",
                                 "/api/v1/auth/**")
                         .hasAuthority("XSUAA-User")
-                        .anyRequest().permitAll())
+                        .requestMatchers("/**").authenticated()
+                        .anyRequest().denyAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(authConverter())));

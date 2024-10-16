@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -29,45 +30,41 @@ public class AccountsService {
         this.restTemplate = restTemplate;
     }
 
-    public List<UserDto> getAllUsers() {
+    public Map<String, Object> getAllUsers() {
         HttpHeaders headers = createHeaders();
         HttpEntity<String> request = new HttpEntity<>(headers);
 
-        ResponseEntity<List<UserDto>> response = restTemplate.exchange(
+        // Update the response type to Map<String, Object>
+        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                 scimApiUrl,
                 HttpMethod.GET,
                 request,
-                new ParameterizedTypeReference<>() {
+                new ParameterizedTypeReference<Map<String, Object>>() {
                 }
         );
 
-        checkResponse(response);
-        return response.getBody();
+        checkResponse(response); // Check if response is OK
+        return response.getBody(); // Return the body as a Map
     }
 
 
-    public UserDto updateUser(String userId, UserDto userPayload) {
-
-            HttpHeaders headers = createHeaders();
-            headers.setContentType(MediaType.valueOf("application/scim+json"));
-
-            HttpEntity<UserDto> request = new HttpEntity<>(userPayload, headers);
-
-            ResponseEntity<UserDto> response = restTemplate.exchange(
-                    scimApiUrl + "/" + userId,
-                    HttpMethod.PUT,
-                    request,
-                    new ParameterizedTypeReference<>() {
-                    }
-            );
-
-            if (!response.getStatusCode().is2xxSuccessful()) {
-                throw new RuntimeException("Failed to update user: " + response.getStatusCode());
-            }
-
-            return response.getBody();
-
-    }
+//    public Map<String, Object> updateUser(String userId, Map<String, Object> userDto) {
+//        HttpHeaders headers = createHeaders();  // Ensure this contains proper auth
+//        HttpEntity<Map<String, Object>> request = new HttpEntity<>(userDto, headers);
+//
+//        String url = scimApiUrl + "/" + userId;  // Make sure to use the correct user ID in the path
+//
+//        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+//                url,
+//                HttpMethod.PUT,
+//                request,
+//                new ParameterizedTypeReference<>() {
+//                }
+//        );
+//
+//        checkResponse(response);  // Check if the response is successful (200 OK)
+//        return response.getBody();
+//    }
 
     public UserDto getUserById(String userId) {
         HttpHeaders headers = createHeaders();
