@@ -5,8 +5,13 @@ import com.example.btpsd.commands.InvoiceMainItemCommand;
 import com.example.btpsd.converters.ExecutionOrderMainToExecutionOrderMainCommand;
 import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.ServiceInvoiceMain;
+import com.example.btpsd.model.ServiceNumber;
 import com.example.btpsd.repositories.ExecutionOrderMainRepository;
+import com.example.btpsd.repositories.ServiceNumberRepository;
 import com.example.btpsd.services.ExecutionOrderMainService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +32,11 @@ ExecutionOrderMainController {
 
     private final ExecutionOrderMainService executionOrderMainService;
 
+    private final ProductCloudController productCloudController;
+
+    @Autowired
+    private final ServiceNumberRepository serviceNumberRepository;
+
     private final ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand;
 
     @GetMapping("/executionordermain")
@@ -40,30 +50,79 @@ ExecutionOrderMainController {
         return Optional.ofNullable(executionOrderMainService.findExecutionOrderMainCommandById(executionOrderMainCode));
     }
 
+
     @PostMapping("/executionordermain/{salesOrder}/{salesOrderItem}")
     public ExecutionOrderMainCommand newExecutionOrderCommand(
             @RequestBody ExecutionOrderMainCommand newExecutionOrderCommand,
             @PathVariable String salesOrder,
-            @PathVariable String salesOrderItem) {
+            @PathVariable String salesOrderItem) throws Exception {
 
-        // Step 1: Save the Main Item
-        ExecutionOrderMainCommand savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(newExecutionOrderCommand);
+        // Step 1: Fetch product and product description from ProductCloudController
+        String productApiResponse = productCloudController.getAllProducts().toString();
+        String productDescApiResponse = productCloudController.getAllProductsDesc().toString();
 
-        if (savedCommand == null) {
-            throw new RuntimeException("Failed to save Execution Order.");
-        }
-
-        // Step 2: Extract the totalHeader from the saved Main Item
-        Double totalHeader = savedCommand.getTotalHeader();
-
-        // Step 3: Call the Sales Order Pricing API with salesOrder and salesOrderItem from the URL
+        // Step 2: Extract fields from the product API response
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            executionOrderMainService.callSalesOrderPricingAPI(salesOrder, salesOrderItem, totalHeader);
-        } catch (Exception e) {
-            throw new RuntimeException("Error while calling Sales Order Pricing API: " + e.getMessage());
+            JsonNode productJson = objectMapper.readTree(productApiResponse);
+            JsonNode productDescJson = objectMapper.readTree(productDescApiResponse);
+
+            JsonNode productsArray = productJson.path("d").path("results");
+            JsonNode productDescriptionsArray = productDescJson.path("d").path("results");
+
+            for (int i = 0; i < productsArray.size(); i++) {
+                JsonNode product = productsArray.get(i);
+                JsonNode productDesc = productDescriptionsArray.get(i);
+
+                String serviceNumberCode = product.path("Product").asText();
+                String unitOfMeasurementCode = product.path("BaseUnit").asText();
+                String description = productDesc.path("ProductDescription").asText();
+                String materialGroup = product.path("MaterialGroup").asText();  // Assuming material group exists
+
+                // Step 3: Check if serviceNumberCode exists in the ServiceNumber table
+                Optional<ServiceNumber> existingServiceNumber = serviceNumberRepository.findByServiceNumberCode(Long.valueOf(serviceNumberCode));
+
+                ServiceNumber serviceNumber;
+                if (!existingServiceNumber.isPresent()) {
+                    // Step 4: Create and save new ServiceNumber if not exists
+                    serviceNumber = new ServiceNumber();
+                    serviceNumber.setServiceNumberCode(Long.valueOf(serviceNumberCode));
+                    serviceNumber = serviceNumberRepository.save(serviceNumber);
+                } else {
+                    serviceNumber = existingServiceNumber.get();
+                }
+
+                // Step 5: Set the extracted values to the ExecutionOrderMainCommand
+                newExecutionOrderCommand.setServiceNumberCode(serviceNumber.getServiceNumberCode());
+                newExecutionOrderCommand.setUnitOfMeasurementCode(unitOfMeasurementCode);
+                newExecutionOrderCommand.setDescription(description);
+                newExecutionOrderCommand.setMaterialGroupCode(materialGroup);  // Assuming the field exists
+
+                // Step 6: Save the ExecutionOrderMain
+                ExecutionOrderMainCommand savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(newExecutionOrderCommand);
+
+                if (savedCommand == null) {
+                    throw new RuntimeException("Failed to save Execution Order.");
+                }
+
+                // Step 7: Extract the totalHeader from the saved Main Item
+                Double totalHeader = savedCommand.getTotalHeader();
+
+                // Step 8: Call the Sales Order Pricing API with salesOrder and salesOrderItem from the URL
+                try {
+                    executionOrderMainService.callSalesOrderPricingAPI(salesOrder, salesOrderItem, totalHeader);
+                } catch (Exception e) {
+                    throw new RuntimeException("Error while calling Sales Order Pricing API: " + e.getMessage());
+                }
+
+                return savedCommand;
+            }
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error processing product API response", e);
         }
 
-        return savedCommand;
+        return newExecutionOrderCommand;
     }
 
     @DeleteMapping("/executionordermain/{executionOrderMainCode}")

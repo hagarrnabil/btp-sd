@@ -101,14 +101,13 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
         return totalHeader;
     }
 
-
     @Override
     @Transactional
     public InvoiceMainItemCommand saveMainItemCommand(InvoiceMainItemCommand command) {
         // Convert command to entity
         InvoiceMainItem invoiceMainItem = invoiceMainItemCommandToInvoiceMainItem.convert(command);
 
-        // Save the new invoice item to the repository first
+        // Save the new invoice item to the repository
         InvoiceMainItem savedItem = invoiceMainItemRepository.save(invoiceMainItem);
 
         // Calculate the totalHeader after the item is saved

@@ -4,7 +4,9 @@ import com.example.btpsd.commands.InvoiceMainItemCommand;
 import com.example.btpsd.converters.InvoiceMainItemToInvoiceMainItemCommand;
 import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.model.ModelSpecificationsDetails;
+import com.example.btpsd.model.ServiceNumber;
 import com.example.btpsd.repositories.InvoiceMainItemRepository;
+import com.example.btpsd.repositories.ServiceNumberRepository;
 import com.example.btpsd.services.InvoiceMainItemService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,6 +15,7 @@ import jakarta.validation.constraints.NotNull;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +31,9 @@ public class InvoiceMainItemController {
     Logger log = LogManager.getLogger(this.getClass());
 
     private final InvoiceMainItemRepository invoiceMainItemRepository;
+
+    @Autowired
+    private final ServiceNumberRepository serviceNumberRepository;
 
     private final InvoiceMainItemService invoiceMainItemService;
 
@@ -54,33 +60,53 @@ public class InvoiceMainItemController {
         String productApiResponse = productCloudController.getAllProducts().toString();
         String productDescApiResponse = productCloudController.getAllProductsDesc().toString();
 
-        // Step 2: Extract fields from the product API response (assuming a JSON format)
+        // Step 2: Extract fields from the product API response
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             JsonNode productJson = objectMapper.readTree(productApiResponse);
             JsonNode productDescJson = objectMapper.readTree(productDescApiResponse);
 
-            String serviceNumberCode = productJson.path("d").path("results").get(0).path("Product").asText();  // Adjust index as needed
-            String unitOfMeasurementCode = productJson.path("d").path("results").get(0).path("BaseUnit").asText();
-            String description = productDescJson.path("d").path("results").get(0).path("ProductDescription").asText();
+            JsonNode productsArray = productJson.path("d").path("results");
+            JsonNode productDescriptionsArray = productDescJson.path("d").path("results");
 
-            // Step 3: Set these values in the new InvoiceMainItemCommand
-            newInvoiceMainItemCommand.setServiceNumberCode(Long.valueOf(serviceNumberCode));
-            newInvoiceMainItemCommand.setUnitOfMeasurementCode(unitOfMeasurementCode);
-            newInvoiceMainItemCommand.setDescription(description);
+            for (int i = 0; i < productsArray.size(); i++) {
+                JsonNode product = productsArray.get(i);
+                JsonNode productDesc = productDescriptionsArray.get(i);
+
+                String serviceNumberCode = product.path("Product").asText();
+                String unitOfMeasurementCode = product.path("BaseUnit").asText();
+                String description = productDesc.path("ProductDescription").asText();
+
+                // Step 3: Check if serviceNumberCode exists in the ServiceNumber table
+                Optional<ServiceNumber> existingServiceNumber = serviceNumberRepository.findByServiceNumberCode(Long.valueOf(serviceNumberCode));
+
+                ServiceNumber serviceNumber;
+                if (!existingServiceNumber.isPresent()) {
+                    // Step 4: Create and save new ServiceNumber if not exists
+                    serviceNumber = new ServiceNumber();
+                    serviceNumber.setServiceNumberCode(Long.valueOf(serviceNumberCode));
+                    serviceNumber = serviceNumberRepository.save(serviceNumber);
+                } else {
+                    serviceNumber = existingServiceNumber.get();
+                }
+
+                // Step 5: Set the extracted values to the InvoiceMainItemCommand
+                newInvoiceMainItemCommand.setServiceNumberCode(serviceNumber.getServiceNumberCode());
+                newInvoiceMainItemCommand.setUnitOfMeasurementCode(unitOfMeasurementCode);
+                newInvoiceMainItemCommand.setDescription(description);
+
+                // Step 6: Save the InvoiceMainItem
+                InvoiceMainItemCommand savedCommand = invoiceMainItemService.saveMainItemCommand(newInvoiceMainItemCommand);
+                if (savedCommand == null) {
+                    throw new RuntimeException("Failed to save Invoice Main Item.");
+                }
+            }
 
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error processing product API response", e);
         }
 
-        // Step 4: Save the Main Item
-        InvoiceMainItemCommand savedCommand = invoiceMainItemService.saveMainItemCommand(newInvoiceMainItemCommand);
-        if (savedCommand == null) {
-            throw new RuntimeException("Failed to save Invoice Main Item.");
-        }
-
-
-        return savedCommand;
+        return newInvoiceMainItemCommand;
     }
 
     @DeleteMapping("/mainitems/{mainItemCode}")

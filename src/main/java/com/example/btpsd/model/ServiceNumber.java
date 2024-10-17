@@ -26,15 +26,15 @@ public class ServiceNumber implements Serializable {
 
     private Long noServiceNumber;
 
-    @NotNull
+//    @NotNull
     private String searchTerm;
 
-    @NotNull
+//    @NotNull
     private String serviceTypeCode;
 
     private String materialGroupCode;
 
-    @NotNull
+//    @NotNull
     private String description;
 
     private Boolean shortTextChangeAllowed;
