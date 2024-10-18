@@ -1,22 +1,32 @@
 package com.example.btpsd.controllers;
 
+import com.example.btpsd.dtos.LoginDto;
 import com.example.btpsd.dtos.UserDto;
 import com.example.btpsd.services.AccountsService;
-import jakarta.annotation.security.PermitAll;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.nio.charset.StandardCharsets;
+import java.nio.charset.StandardCharsets;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -36,8 +46,27 @@ public class AccountsController {
 
     private final AccountsService accountsService;
 
+    @Value("623a6227-8cde-424a-9d03-ee5fe8f6baba")
+    private String clientId;
+
+    @Value("2LI36vyU3TwvjdXmQ=VtpTpH7qz_espExD")
+    private String clientSecret;
+
+    @Value("https://aji26ufcs.trial-accounts.ondemand.com")
+    private String url;
+
+    @Value("https://aji26ufcs.trial-accounts.ondemand.com/oauth2/authorize")
+    private String authorizationEndpoint;
+
+    @Value("https://aji26ufcs.trial-accounts.ondemand.com/oauth2/logout")
+    private String endSessionEndpoint;
+
+    private final RestTemplate restTemplate;
+
+
     @Autowired
-    public AccountsController(AccountsService accountsService) {
+    public AccountsController(AccountsService accountsService,RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
         this.accountsService = accountsService;
     }
 
@@ -131,19 +160,9 @@ public class AccountsController {
         }
     }
 
-//    @PutMapping("/{userId}")
-//    public ResponseEntity<Map<String, Object>> updateUser(
-//            @PathVariable String userId,
-//            @RequestBody Map<String, Object> userDto
-//    ) {
-//        Map<String, Object> updatedUser = accountsService.updateUser(userId, userDto);
-//        return ResponseEntity.ok(updatedUser);
-//    }
 
     @PutMapping("/{userId}")
-    public String updateUser(
-            @PathVariable String userId,
-            @RequestBody Map<String, Object> userDto
+    public String updateUser(@PathVariable String userId, @RequestBody Map<String, Object> userDto
     ) {
         HttpURLConnection con = null;
         try {
@@ -238,5 +257,35 @@ public class AccountsController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable String userId) {
         accountsService.deleteUser(userId);
+    }
+
+
+
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
+        String tokenUrl = url + "/oauth2/token"; // Adjust based on your OAuth2 token endpoint
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth(clientId, clientSecret);
+        headers.set("Content-Type", "application/x-www-form-urlencoded");
+
+        String body = "grant_type=password&username=" + username + "&password=" + password;
+
+        HttpEntity<String> request = new HttpEntity<>(body, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, request, String.class);
+        return ResponseEntity.ok(response.getBody());
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestParam String refreshToken) {
+        String logoutUrl = endSessionEndpoint + "?token=" + refreshToken; // Modify as per your logout requirements
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth(clientId, clientSecret);
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(logoutUrl, HttpMethod.POST, request, String.class);
+        return ResponseEntity.ok("Logged out successfully");
     }
 }

@@ -49,8 +49,9 @@ public class SecurityConfiguration {
                 "/localhost/**",
                 "/accounts/create",
                 "/accounts/{userId}",
-                "/accounts/*"
-                );
+                "/accounts/*",
+                "/accounts/login"
+        );
     }
 
     @Bean
@@ -82,7 +83,8 @@ public class SecurityConfiguration {
                                 "/accounts/**",
                                 "/accounts/*",
                                 "/accounts/create",
-                                "/accounts/{userId}"
+                                "/accounts/{userId}",
+                                "/accounts/login"
                         ).permitAll()
                         .requestMatchers( "/measurements/*",
                                 "/api/v1/auth/**")
