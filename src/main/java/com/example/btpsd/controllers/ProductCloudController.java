@@ -60,24 +60,6 @@ public class ProductCloudController {
             response.append(String.valueOf(charArray, 0, charsCount));
         }
 
-//        // Parse the JSON response
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        JsonNode jsonResponse = objectMapper.readTree(response.toString());
-//
-//        // Map the fields
-//        JsonNode salesOrders = jsonResponse.get("d").get("results");
-//        for (JsonNode salesOrder : salesOrders) {
-//            String transactionCurrency = salesOrder.get("TransactionCurrency").asText();
-//
-//            // Assuming you have a method to save the InvoiceMainItem
-//            InvoiceMainItemCommand invoiceMainItem = new InvoiceMainItemCommand();
-//            invoiceMainItem.setCurrencyCode(transactionCurrency);
-//
-//            // Save or process the invoiceMainItem as needed
-//            invoiceMainItemService.saveMainItemCommand(invoiceMainItem);
-//        }
-
-        //printing response
         System.out.println(response.toString());
 
 

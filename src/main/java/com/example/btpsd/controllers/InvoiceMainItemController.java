@@ -39,6 +39,8 @@ public class InvoiceMainItemController {
 
     private final ProductCloudController productCloudController;
 
+    private final BusinessPartnerCloudController businessPartnerCloudController;
+
     private final InvoiceMainItemToInvoiceMainItemCommand invoiceMainItemToInvoiceMainItemCommand;
 
     @GetMapping("/mainitems")
@@ -52,9 +54,14 @@ public class InvoiceMainItemController {
         return Optional.ofNullable(invoiceMainItemService.findMainItemCommandById(mainItemCode));
     }
 
-    @PostMapping("/mainitems")
-    public InvoiceMainItemCommand newMainItemCommand(
-            @RequestBody InvoiceMainItemCommand newInvoiceMainItemCommand) throws Exception {
+    @PatchMapping("/mainitems/{salesQuotation}/{salesQuotationItem}/{pricingProcedureStep}/{pricingProcedureCounter}/{customerNumber}")
+    public InvoiceMainItemCommand updateMainItemCommand(
+            @RequestBody InvoiceMainItemCommand updatedInvoiceMainItemCommand,
+            @PathVariable String salesQuotation,
+            @PathVariable String salesQuotationItem,
+            @PathVariable Integer pricingProcedureStep,
+            @PathVariable Integer pricingProcedureCounter,
+            @PathVariable String customerNumber) throws Exception {
 
         // Step 1: Fetch product and product description from ProductCloudController
         String productApiResponse = productCloudController.getAllProducts().toString();
@@ -91,22 +98,53 @@ public class InvoiceMainItemController {
                 }
 
                 // Step 5: Set the extracted values to the InvoiceMainItemCommand
-                newInvoiceMainItemCommand.setServiceNumberCode(serviceNumber.getServiceNumberCode());
-                newInvoiceMainItemCommand.setUnitOfMeasurementCode(unitOfMeasurementCode);
-                newInvoiceMainItemCommand.setDescription(description);
+                updatedInvoiceMainItemCommand.setServiceNumberCode(serviceNumber.getServiceNumberCode());
+                updatedInvoiceMainItemCommand.setUnitOfMeasurementCode(unitOfMeasurementCode);
+                updatedInvoiceMainItemCommand.setDescription(description);
 
-                // Step 6: Save the InvoiceMainItem
-                InvoiceMainItemCommand savedCommand = invoiceMainItemService.saveMainItemCommand(newInvoiceMainItemCommand);
-                if (savedCommand == null) {
-                    throw new RuntimeException("Failed to save Invoice Main Item.");
+                // Step 9: Fetch currency from business partner's sales area based on customer number
+                String businessPartnerApiResponse = businessPartnerCloudController.getBusinessPartnerSalesArea(customerNumber).toString();
+                JsonNode businessPartnerJson = objectMapper.readTree(businessPartnerApiResponse);
+
+                JsonNode salesAreaArray = businessPartnerJson.path("d").path("results");
+                if (salesAreaArray.size() > 0) {
+                    String currency = salesAreaArray.get(0).path("Currency").asText();
+                    updatedInvoiceMainItemCommand.setCurrencyCode(currency);
+                } else {
+                    throw new RuntimeException("Currency not found for customer number: " + customerNumber);
                 }
+
+
+                // Step 6: Save the updated InvoiceMainItem
+                InvoiceMainItemCommand savedCommand = invoiceMainItemService.saveMainItemCommand(updatedInvoiceMainItemCommand);
+                if (savedCommand == null) {
+                    throw new RuntimeException("Failed to update Invoice Main Item.");
+                }
+
+                // Step 7: Extract the totalHeader from the saved Main Item
+                Double totalHeader = savedCommand.getTotalHeader();
+
+                // Step 8: Convert totalHeader to string and call the Sales Quotation Pricing API
+                try {
+//                    String conditionRateAmount = String.valueOf(totalHeader); // Convert totalHeader to a string
+
+                    // Call the Sales Quotation Pricing API, now including conditionRateAmount as a string
+                    invoiceMainItemService.callInvoicePricingAPI(
+                            salesQuotation, salesQuotationItem, pricingProcedureStep, pricingProcedureCounter, totalHeader);
+                } catch (Exception e) {
+                    log.error("Error while calling Sales Quotation Pricing API: " + e.getMessage(), e);
+                    throw new RuntimeException("Failed to update Invoice Pricing Element. Response Code: " + e.getMessage());
+                }
+
+
+                return savedCommand;
             }
 
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error processing product API response", e);
         }
 
-        return newInvoiceMainItemCommand;
+        return updatedInvoiceMainItemCommand;
     }
 
     @DeleteMapping("/mainitems/{mainItemCode}")
@@ -114,14 +152,14 @@ public class InvoiceMainItemController {
         invoiceMainItemService.deleteById(mainItemCode);
     }
 
-    @PatchMapping
-    @RequestMapping("/mainitems/{mainItemCode}")
-    @Transactional
-    InvoiceMainItemCommand updateMainItemCommand(@RequestBody InvoiceMainItemCommand newInvoiceMainItemCommand, @PathVariable Long mainItemCode) {
-
-        InvoiceMainItemCommand command = invoiceMainItemToInvoiceMainItemCommand.convert(invoiceMainItemService.updateMainItem(newInvoiceMainItemCommand, mainItemCode));
-        return command;
-    }
+//    @PatchMapping
+//    @RequestMapping("/mainitems/{mainItemCode}")
+//    @Transactional
+//    InvoiceMainItemCommand updateMainItemCommand(@RequestBody InvoiceMainItemCommand newInvoiceMainItemCommand, @PathVariable Long mainItemCode) {
+//
+//        InvoiceMainItemCommand command = invoiceMainItemToInvoiceMainItemCommand.convert(invoiceMainItemService.updateMainItem(newInvoiceMainItemCommand, mainItemCode));
+//        return command;
+//    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mainitems/search")
     @ResponseBody

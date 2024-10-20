@@ -1,19 +1,16 @@
 package com.example.btpsd.services;
 
 import com.example.btpsd.commands.InvoiceMainItemCommand;
-import com.example.btpsd.dto.SalesOrderToMainitemDTO;
 import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.repositories.InvoiceMainItemRepository;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -38,33 +35,35 @@ public interface InvoiceMainItemService {
 
     InvoiceMainItemCommand findMainItemCommandById(Long l);
 
-    public default void sendToInvoiceMainItem(SalesOrderToMainitemDTO dto) {
-        InvoiceMainItem invoiceMainItemCommand = new InvoiceMainItem();
+//    public default void sendToInvoiceMainItem(SalesOrderToMainitemDTO dto) {
+//        InvoiceMainItem invoiceMainItemCommand = new InvoiceMainItem();
+//
+//        // Map SalesOrder fields to InvoiceMainItem fields
+//        invoiceMainItemCommand.setInvoiceMainItemCode(Long.valueOf(dto.getSalesOrder()));
+//        invoiceMainItemCommand.setCurrencyCode(dto.getTransactionCurrency());
+//
+//        // Save to the database through the repository or another service
+//        invoiceMainItemRepository.save(invoiceMainItemCommand);  // Assuming InvoiceMainItemCommand is the entity
+//
+//    }
 
-        // Map SalesOrder fields to InvoiceMainItem fields
-        invoiceMainItemCommand.setInvoiceMainItemCode(Long.valueOf(dto.getSalesOrder()));
-        invoiceMainItemCommand.setCurrencyCode(dto.getTransactionCurrency());
-
-        // Save to the database through the repository or another service
-        invoiceMainItemRepository.save(invoiceMainItemCommand);  // Assuming InvoiceMainItemCommand is the entity
-
-    }
-
-    default void callSalesOrderPricingAPI(String salesOrder, String salesOrderItem, Double totalHeader) throws Exception {
+    public default ResponseEntity<String> callInvoicePricingAPI(String salesQuotation,
+                                                                String salesQuotationItem, Integer pricingProcedureStep, Integer pricingProcedureCounter,
+                                                                Double totalHeader) throws Exception {
 
         // Initialize the logger
         Logger log = LogManager.getLogger(this.getClass());
 
-        // Step 1: Prepare the request body with totalHeader
+        // Step 1: Prepare the request body with totalHeader as a String
         JSONObject requestBodyJson = new JSONObject();
         requestBodyJson.put("ConditionType", "PPR0"); // Set ConditionType to "PPR0"
-        requestBodyJson.put("ConditionRateAmount", totalHeader); // Set ConditionRateAmount to totalHeader
+        requestBodyJson.put("ConditionRateValue", String.valueOf(totalHeader)); // Convert totalHeader to String
 
         String requestBody = requestBodyJson.toString();
 
         // Step 2: Fetch CSRF token
-        String tokenURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem(SalesOrder='"
-                + salesOrder + "',SalesOrderItem='" + salesOrderItem + "')/to_PricingElement";
+        String tokenURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='"
+                + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem + "')/to_PricingElement?%24inlinecount=allpages&%24top=50";
 
         HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenURL).openConnection();
         String user = "BTP_USER1";
@@ -83,47 +82,55 @@ public interface InvoiceMainItemService {
         String cookies = tokenConn.getHeaderField("Set-Cookie");
 
         if (csrfToken == null || csrfToken.isEmpty()) {
-            log.error("Failed to fetch CSRF token");
-            throw new RuntimeException("Failed to fetch CSRF token");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Failed to fetch CSRF token");
         }
 
         log.debug("Fetched CSRF token successfully: " + csrfToken);
 
-        // Step 3: Make the POST request to update the Sales Order Pricing Element
-        String postURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata4/sap/api_salesorder/srvd_a2x/sap/salesorder/0001/SalesOrderItem/"
-                + salesOrder + "/" + salesOrderItem + "/_ItemPricingElement";
+        // Step 3: Make the PATCH request to update the Sales Quotation Pricing Element
+        String patchURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata4/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItemPrcgElmnt(SalesQuotation='"
+                + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem
+                + "',PricingProcedureStep='" + pricingProcedureStep
+                + "',PricingProcedureCounter='" + pricingProcedureCounter + "')";
 
-        HttpURLConnection postConn = (HttpURLConnection) new URL(postURL).openConnection();
-        postConn.setRequestMethod("POST");
-        postConn.setRequestProperty("Authorization", authHeaderValue);
-        postConn.setRequestProperty("x-csrf-token", csrfToken);
-        postConn.setRequestProperty("Content-Type", "application/json");
+        HttpURLConnection patchConn = (HttpURLConnection) new URL(patchURL).openConnection();
+        patchConn.setRequestMethod("POST"); // Use POST instead of PATCH
+        patchConn.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+        patchConn.setRequestProperty("Authorization", authHeaderValue);
+        patchConn.setRequestProperty("x-csrf-token", csrfToken);
+        patchConn.setRequestProperty("If-Match", "*");
+        patchConn.setRequestProperty("Content-Type", "application/json");
 
         if (cookies != null) {
-            postConn.setRequestProperty("Cookie", cookies);
+            patchConn.setRequestProperty("Cookie", cookies);
         }
 
-        postConn.setDoOutput(true);
-        try (OutputStream os = postConn.getOutputStream()) {
+        patchConn.setDoOutput(true);
+        try (OutputStream os = patchConn.getOutputStream()) {
             byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
             os.write(input, 0, input.length);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending request body: " + e.getMessage());
         }
 
-        int responseCode = postConn.getResponseCode();
+        int responseCode = patchConn.getResponseCode();
         log.debug("Response Code: " + responseCode);
 
-        // Enhanced error handling for various response codes
-        if (responseCode != HttpURLConnection.HTTP_OK && responseCode != HttpURLConnection.HTTP_CREATED) {
-            String errorMessage = "Failed to post Sales Order Pricing Element. Response Code: " + responseCode;
-            String responseBody = new String(postConn.getErrorStream().readAllBytes(), StandardCharsets.UTF_8);
-            log.error("Error Response Body: " + responseBody);
-            throw new RuntimeException(errorMessage);
+        StringBuilder response = new StringBuilder();
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                responseCode >= 200 && responseCode < 300 ? patchConn.getInputStream() : patchConn.getErrorStream(),
+                StandardCharsets.UTF_8))) {
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error reading response: " + e.getMessage());
         }
 
-        // Handle the successful response
-        InputStream responseStream = postConn.getInputStream();
-        String response = new BufferedReader(new InputStreamReader(responseStream)).lines().collect(Collectors.joining("\n"));
-        log.info("Successfully posted Sales Order Pricing Element. Response: " + response);
+        // Return the response along with the response code
+        return ResponseEntity.status(responseCode).body(response.toString());
     }
 
 }

@@ -77,6 +77,8 @@ public class ServiceInvoiceMain implements Serializable {
 
     private String alternatives;
 
+    private Double totalHeader;
+
     @ManyToOne
     private ServiceNumber serviceNumber;
 

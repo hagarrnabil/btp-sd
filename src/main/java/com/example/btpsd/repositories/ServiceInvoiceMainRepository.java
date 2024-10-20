@@ -15,6 +15,8 @@ public interface ServiceInvoiceMainRepository extends CrudRepository<ServiceInvo
 
     Optional<ServiceInvoiceMain> findTopByExecutionOrderMainOrderByServiceInvoiceCodeDesc(ExecutionOrderMain executionOrderMain);
 
+    Optional<ServiceInvoiceMain> findTopByOrderByServiceInvoiceCodeDesc();
+
     ServiceInvoiceMain findTopByExecutionOrderMainExecutionOrderMainCodeOrderByServiceInvoiceCodeDesc(Long executionOrderMainCode);
 
 }

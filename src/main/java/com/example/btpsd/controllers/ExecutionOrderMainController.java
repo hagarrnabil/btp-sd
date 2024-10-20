@@ -34,6 +34,8 @@ ExecutionOrderMainController {
 
     private final ProductCloudController productCloudController;
 
+    private final BusinessPartnerCloudController businessPartnerCloudController;
+
     @Autowired
     private final ServiceNumberRepository serviceNumberRepository;
 
@@ -51,11 +53,12 @@ ExecutionOrderMainController {
     }
 
 
-    @PostMapping("/executionordermain/{salesOrder}/{salesOrderItem}")
+    @PostMapping("/executionordermain/{salesOrder}/{salesOrderItem}/{customerNumber}")
     public ExecutionOrderMainCommand newExecutionOrderCommand(
             @RequestBody ExecutionOrderMainCommand newExecutionOrderCommand,
             @PathVariable String salesOrder,
-            @PathVariable String salesOrderItem) throws Exception {
+            @PathVariable String salesOrderItem,
+            @PathVariable String customerNumber) throws Exception {
 
         // Step 1: Fetch product and product description from ProductCloudController
         String productApiResponse = productCloudController.getAllProducts().toString();
@@ -84,13 +87,25 @@ ExecutionOrderMainController {
 
                 ServiceNumber serviceNumber;
                 if (!existingServiceNumber.isPresent()) {
-                    // Step 4: Create and save new ServiceNumber if not exists
+                    // Step 4: Create and save new ServiceNumber if it doesn't exist
                     serviceNumber = new ServiceNumber();
                     serviceNumber.setServiceNumberCode(Long.valueOf(serviceNumberCode));
                     serviceNumber = serviceNumberRepository.save(serviceNumber);
                 } else {
                     serviceNumber = existingServiceNumber.get();
                 }
+                // Step 9: Fetch currency from business partner's sales area based on customer number
+                String businessPartnerApiResponse = businessPartnerCloudController.getBusinessPartnerSalesArea(customerNumber).toString();
+                JsonNode businessPartnerJson = objectMapper.readTree(businessPartnerApiResponse);
+
+                JsonNode salesAreaArray = businessPartnerJson.path("d").path("results");
+                if (salesAreaArray.size() > 0) {
+                    String currency = salesAreaArray.get(0).path("Currency").asText();
+                    newExecutionOrderCommand.setCurrencyCode(currency);
+                } else {
+                    throw new RuntimeException("Currency not found for customer number: " + customerNumber);
+                }
+
 
                 // Step 5: Set the extracted values to the ExecutionOrderMainCommand
                 newExecutionOrderCommand.setServiceNumberCode(serviceNumber.getServiceNumberCode());
@@ -124,7 +139,6 @@ ExecutionOrderMainController {
 
         return newExecutionOrderCommand;
     }
-
     @DeleteMapping("/executionordermain/{executionOrderMainCode}")
     void deleteExecutionOrderMainItemCommand(@PathVariable Long executionOrderMainCode) {
         executionOrderMainService.deleteById(executionOrderMainCode);

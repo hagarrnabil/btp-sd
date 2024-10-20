@@ -5,7 +5,6 @@ import com.example.btpsd.commands.InvoiceMainItemCommand;
 import com.example.btpsd.converters.CurrencyCommandToCurrency;
 import com.example.btpsd.converters.ExecutionOrderMainToExecutionOrderMainCommand;
 import com.example.btpsd.converters.InvoiceMainItemToInvoiceMainItemCommand;
-import com.example.btpsd.dto.SalesOrderToMainitemDTO;
 import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.repositories.ExecutionOrderMainRepository;
@@ -935,95 +934,95 @@ public class SalesOrderCloudController {
     }
 
 
-//    @RequestMapping(value = "/salesquotationricingcloudpatch/{SalesQuotation}/{SalesQuotationItem}/{PricingProcedureStep}/{PricingProcedureCounter}", method = RequestMethod.PATCH)
-//    public ResponseEntity<String> patchSalesQuotationItemPricing(@PathVariable("SalesQuotation") String SalesQuotation,
-//                                                                 @PathVariable("SalesQuotationItem") String SalesQuotationItem,
-//                                                                 @PathVariable("PricingProcedureStep") String PricingProcedureStep,
-//                                                                 @PathVariable("PricingProcedureCounter") String PricingProcedureCounter,
-//                                                                 @RequestBody String requestBody) throws Exception {
-//
-//        logger.info("Received SalesQuotation: {}, SalesQuotationItem: {}, PricingProcedureStep: {}, PricingProcedureCounter: {}",
-//                SalesQuotation, SalesQuotationItem, PricingProcedureStep, PricingProcedureCounter);
-//
-//        // URL to get the CSRF Token (assuming you use the same for token fetching)
-//        String tokenURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='"
-//                + SalesQuotation + "',SalesQuotationItem='" + SalesQuotationItem + "')/to_PricingElement?%24inlinecount=allpages&%24top=50";
-//
-//        // The URL where you will PATCH the data after fetching the token
-//        String patchURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItemPrcgElmnt(SalesQuotation='"
-//                + SalesQuotation + "',SalesQuotationItem='" + SalesQuotationItem + "',PricingProcedureStep='"
-//                + PricingProcedureStep + "',PricingProcedureCounter='" + PricingProcedureCounter + "')";
-//
-//        // Step 1: Fetch CSRF Token with a GET request
-//        HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenURL).openConnection();
-//        String user = "BTP_USER1";
-//        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
-//        String auth = user + ":" + password;
-//        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
-//        String authHeaderValue = "Basic " + new String(encodedAuth);
-//
-//        tokenConn.setRequestMethod("GET");
-//        tokenConn.setRequestProperty("Authorization", authHeaderValue);
-//        tokenConn.setRequestProperty("x-csrf-token", "Fetch");
-//        tokenConn.setRequestProperty("Accept", "application/json");
-//
-//        // Get session cookies for CSRF validation
-//        String cookies = tokenConn.getHeaderField("Set-Cookie");
-//
-//        // Read the CSRF token from the response headers
-//        String csrfToken = tokenConn.getHeaderField("x-csrf-token");
-//
-//        logger.info("CSRF Token: {}", csrfToken);
-//        logger.info("Cookies: {}", cookies);
-//
-//        if (csrfToken == null || csrfToken.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Failed to fetch CSRF token");
-//        }
-//
-//        // Step 2: Send PATCH request with CSRF token and session cookies
-//        HttpURLConnection patchConn = (HttpURLConnection) new URL(patchURL).openConnection();
-//        patchConn.setRequestMethod("POST"); // Use POST instead of PATCH
-//        patchConn.setRequestProperty("X-HTTP-Method-Override", "PATCH"); // This tells the server to treat it as PATCH
-//        patchConn.setRequestProperty("Authorization", authHeaderValue);
-//        patchConn.setRequestProperty("x-csrf-token", csrfToken);
-//        patchConn.setRequestProperty("Content-Type", "application/json");
-//
-//        // Attach session cookies to maintain the session
-//        if (cookies != null) {
-//            patchConn.setRequestProperty("Cookie", cookies);
-//        }
-//
-//        patchConn.setDoOutput(true);
-//
-//        // Write the request body (quotation details) to the output stream
-//        try (OutputStream os = patchConn.getOutputStream()) {
-//            byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
-//            os.write(input, 0, input.length);
-//        }
-//
-//        int responseCode = patchConn.getResponseCode();
-//        logger.info("Response Code: {}", responseCode);
-//
-//        StringBuilder response = new StringBuilder();
-//
-//        try (BufferedReader br = new BufferedReader(new InputStreamReader(
-//                responseCode >= 200 && responseCode < 300 ? patchConn.getInputStream() : patchConn.getErrorStream(),
-//                StandardCharsets.UTF_8))) {
-//            String responseLine;
-//            while ((responseLine = br.readLine()) != null) {
-//                response.append(responseLine.trim());
-//            }
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error reading response: " + e.getMessage());
-//        }
-//
-//        // Check the response code and return the result
-//        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
-//            return ResponseEntity.ok(response.toString());
-//        } else {
-//            return ResponseEntity.status(responseCode).body("Error: " + response.toString());
-//        }
-//    }
+    @RequestMapping(value = "/salesquotationricingcloudpatch/{SalesQuotation}/{SalesQuotationItem}/{PricingProcedureStep}/{PricingProcedureCounter}", method = RequestMethod.PATCH)
+    public ResponseEntity<String> patchSalesQuotationItemPricing(@PathVariable("SalesQuotation") String SalesQuotation,
+                                                                 @PathVariable("SalesQuotationItem") String SalesQuotationItem,
+                                                                 @PathVariable("PricingProcedureStep") String PricingProcedureStep,
+                                                                 @PathVariable("PricingProcedureCounter") String PricingProcedureCounter,
+                                                                 @RequestBody String requestBody) throws Exception {
+
+        logger.info("Received SalesQuotation: {}, SalesQuotationItem: {}, PricingProcedureStep: {}, PricingProcedureCounter: {}",
+                SalesQuotation, SalesQuotationItem, PricingProcedureStep, PricingProcedureCounter);
+
+        // URL to get the CSRF Token (assuming you use the same for token fetching)
+        String tokenURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='"
+                + SalesQuotation + "',SalesQuotationItem='" + SalesQuotationItem + "')/to_PricingElement?%24inlinecount=allpages&%24top=50";
+
+        // The URL where you will PATCH the data after fetching the token
+        String patchURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItemPrcgElmnt(SalesQuotation='"
+                + SalesQuotation + "',SalesQuotationItem='" + SalesQuotationItem + "',PricingProcedureStep='"
+                + PricingProcedureStep + "',PricingProcedureCounter='" + PricingProcedureCounter + "')";
+
+        // Step 1: Fetch CSRF Token with a GET request
+        HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenURL).openConnection();
+        String user = "BTP_USER1";
+        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String auth = user + ":" + password;
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
+        String authHeaderValue = "Basic " + new String(encodedAuth);
+
+        tokenConn.setRequestMethod("GET");
+        tokenConn.setRequestProperty("Authorization", authHeaderValue);
+        tokenConn.setRequestProperty("x-csrf-token", "Fetch");
+        tokenConn.setRequestProperty("Accept", "application/json");
+
+        // Get session cookies for CSRF validation
+        String cookies = tokenConn.getHeaderField("Set-Cookie");
+
+        // Read the CSRF token from the response headers
+        String csrfToken = tokenConn.getHeaderField("x-csrf-token");
+
+        logger.info("CSRF Token: {}", csrfToken);
+        logger.info("Cookies: {}", cookies);
+
+        if (csrfToken == null || csrfToken.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Failed to fetch CSRF token");
+        }
+
+        // Step 2: Send PATCH request with CSRF token and session cookies
+        HttpURLConnection patchConn = (HttpURLConnection) new URL(patchURL).openConnection();
+        patchConn.setRequestMethod("POST"); // Use POST instead of PATCH
+        patchConn.setRequestProperty("X-HTTP-Method-Override", "PATCH"); // This tells the server to treat it as PATCH
+        patchConn.setRequestProperty("Authorization", authHeaderValue);
+        patchConn.setRequestProperty("x-csrf-token", csrfToken);
+        patchConn.setRequestProperty("Content-Type", "application/json");
+
+        // Attach session cookies to maintain the session
+        if (cookies != null) {
+            patchConn.setRequestProperty("Cookie", cookies);
+        }
+
+        patchConn.setDoOutput(true);
+
+        // Write the request body (quotation details) to the output stream
+        try (OutputStream os = patchConn.getOutputStream()) {
+            byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        }
+
+        int responseCode = patchConn.getResponseCode();
+        logger.info("Response Code: {}", responseCode);
+
+        StringBuilder response = new StringBuilder();
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                responseCode >= 200 && responseCode < 300 ? patchConn.getInputStream() : patchConn.getErrorStream(),
+                StandardCharsets.UTF_8))) {
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error reading response: " + e.getMessage());
+        }
+
+        // Check the response code and return the result
+        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
+            return ResponseEntity.ok(response.toString());
+        } else {
+            return ResponseEntity.status(responseCode).body("Error: " + response.toString());
+        }
+    }
 
 }
 
