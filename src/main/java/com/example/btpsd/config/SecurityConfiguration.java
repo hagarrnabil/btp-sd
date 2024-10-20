@@ -86,9 +86,9 @@ public class SecurityConfiguration {
                                 "/accounts/{userId}",
                                 "/accounts/login"
                         ).permitAll()
-                        .requestMatchers( "/measurements/*",
-                                "/api/v1/auth/**")
-                        .hasAuthority("XSUAA-User")
+//                        .requestMatchers( "/measurements/*",
+//                                "/api/v1/auth/**")
+//                        .hasAuthority("XSUAA-User")
                         .requestMatchers("/**").authenticated()
                         .anyRequest().denyAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
