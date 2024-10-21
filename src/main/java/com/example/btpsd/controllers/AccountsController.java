@@ -1,10 +1,9 @@
 package com.example.btpsd.controllers;
 
-import com.example.btpsd.dtos.LoginDto;
 import com.example.btpsd.dtos.UserDto;
-import com.example.btpsd.services.AccountsService;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +12,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.nio.charset.StandardCharsets;
 import java.nio.charset.StandardCharsets;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +22,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
+import org.springframework.http.MediaType;
 import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -44,7 +40,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RequestMapping("/accounts")
 public class AccountsController {
 
-    private final AccountsService accountsService;
 
     @Value("623a6227-8cde-424a-9d03-ee5fe8f6baba")
     private String clientId;
@@ -65,17 +60,43 @@ public class AccountsController {
 
 
     @Autowired
-    public AccountsController(AccountsService accountsService,RestTemplate restTemplate) {
+    public AccountsController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.accountsService = accountsService;
     }
 
     // Get all users
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAllUsers() {
-        Map<String, Object> users = accountsService.getAllUsers(); // Call the updated service method
-        return ResponseEntity.ok(users); // Return the response entity with the map
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Set Authorization Header
+        String auth = "facbddf3-d119-4f36-bb81-0dc8a644a8cb" + ":" + "nY17h3A5/YsCGx0K3LsDGhzqp]FBJYZ?7o/";
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
+        String authHeader = "Basic " + new String(encodedAuth);
+        headers.set("Authorization", authHeader);
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        // Call SCIM API to get all users
+        RestTemplate restTemplate = new RestTemplate();
+        String scimApiUrl = "https://aji26ufcs.trial-accounts.ondemand.com/service/scim/Users";
+
+        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                scimApiUrl,
+                HttpMethod.GET,
+                request,
+                new ParameterizedTypeReference<>() {}
+        );
+
+        // Check response
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Request failed with status: " + response.getStatusCode());
+        }
+
+        return ResponseEntity.ok(response.getBody());
     }
+
 
     @PostMapping
     public String createUser(@RequestBody UserDto userDto) {
@@ -162,11 +183,9 @@ public class AccountsController {
 
 
     @PutMapping("/{userId}")
-    public String updateUser(@PathVariable String userId, @RequestBody Map<String, Object> userDto
-    ) {
+    public String updateUser(@PathVariable String userId, @RequestBody Map<String, Object> userDto) {
         HttpURLConnection con = null;
         try {
-            // Set up the connection
             URL url = new URL("https://aji26ufcs.trial-accounts.ondemand.com/service/scim/Users/" + userId);
             con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PUT");
@@ -182,9 +201,9 @@ public class AccountsController {
             con.setRequestProperty("Accept", "application/scim+json");
             con.setDoOutput(true);
 
-            // Construct the JSON payload using the userDto map
+            // Construct JSON payload using userDto
             String jsonInputString = "{\n" +
-                    "  \"id\": \"" + userId + "\",\n" +  // Include the id field
+                    "  \"id\": \"" + userId + "\",\n" +
                     "  \"emails\": [\n" +
                     "    {\n" +
                     "      \"primary\": true,\n" +
@@ -210,33 +229,25 @@ public class AccountsController {
             // Handle the response
             int responseCode = con.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
-                // If the response is 200 (OK) or 204 (No Content), read the input stream
-                try (BufferedReader br = new BufferedReader(
-                        new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
                     StringBuilder response = new StringBuilder();
                     String responseLine;
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    return response.toString();  // Return the response content
+                    return response.toString();
                 }
             } else {
-                // If there's an error (not 200), read the error stream
-                try (BufferedReader br = new BufferedReader(
-                        new InputStreamReader(con.getErrorStream(), StandardCharsets.UTF_8))) {
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getErrorStream(), StandardCharsets.UTF_8))) {
                     StringBuilder errorResponse = new StringBuilder();
                     String responseLine;
                     while ((responseLine = br.readLine()) != null) {
                         errorResponse.append(responseLine.trim());
                     }
-                    // Log the error and return a meaningful message
-                    System.err.println("Error: " + errorResponse);
                     return "Error from SCIM API: " + responseCode + " - " + errorResponse.toString();
                 }
             }
-
         } catch (IOException e) {
-            // Log and return the exception details if something goes wrong
             e.printStackTrace();
             return "Internal server error occurred: " + e.getMessage();
         } finally {
@@ -246,20 +257,71 @@ public class AccountsController {
         }
     }
 
+
     // Get a user by ID
     @GetMapping("/{userId}")
-    public UserDto getUserById(@PathVariable String userId) {
-        return accountsService.getUserById(userId);
+    public ResponseEntity<UserDto> getUserById(@PathVariable String userId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Set Authorization Header
+        String auth = "facbddf3-d119-4f36-bb81-0dc8a644a8cb" + ":" + "nY17h3A5/YsCGx0K3LsDGhzqp]FBJYZ?7o/";
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
+        String authHeader = "Basic " + new String(encodedAuth);
+        headers.set("Authorization", authHeader);
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        // Call SCIM API to get user by ID
+        RestTemplate restTemplate = new RestTemplate();
+        String scimApiUrl = "https://aji26ufcs.trial-accounts.ondemand.com/service/scim/Users/" + userId;
+
+        ResponseEntity<UserDto> response = restTemplate.exchange(
+                scimApiUrl,
+                HttpMethod.GET,
+                request,
+                new ParameterizedTypeReference<>() {}
+        );
+
+        // Check response
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Request failed with status: " + response.getStatusCode());
+        }
+
+        return ResponseEntity.ok(response.getBody());
     }
 
     // Delete a user by ID
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable String userId) {
-        accountsService.deleteUser(userId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Set Authorization Header
+        String auth = "facbddf3-d119-4f36-bb81-0dc8a644a8cb" + ":" + "nY17h3A5/YsCGx0K3LsDGhzqp]FBJYZ?7o/";
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
+        String authHeader = "Basic " + new String(encodedAuth);
+        headers.set("Authorization", authHeader);
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        // Call SCIM API to delete user by ID
+        RestTemplate restTemplate = new RestTemplate();
+        String scimApiUrl = "https://aji26ufcs.trial-accounts.ondemand.com/service/scim/Users/" + userId;
+
+        ResponseEntity<Void> response = restTemplate.exchange(
+                scimApiUrl,
+                HttpMethod.DELETE,
+                request,
+                Void.class
+        );
+
+        // Check response
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Request failed with status: " + response.getStatusCode());
+        }
     }
-
-
 
 
     @PostMapping("/login")

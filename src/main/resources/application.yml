@@ -10,12 +10,12 @@
 #      hibernate:
 #        format_sql: true
 
-scim:
-  api:
-    url: https://aji26ufcs.trial-accounts.ondemand.com/service/scim/Users
-    username: facbddf3-d119-4f36-bb81-0dc8a644a8cb
-    password: nY17h3A5/YsCGx0K3LsDGhzqp]FBJYZ?7o/
-
+#scim:
+#  api:
+#    url: https://aji26ufcs.trial-accounts.ondemand.com/service/scim/Users
+#    username: facbddf3-d119-4f36-bb81-0dc8a644a8cb
+#    password: nY17h3A5/YsCGx0K3LsDGhzqp]FBJYZ?7o/
+#
 
 logging.level:
   com.sap.cloud.security.samples.resecurity: DEBUG
@@ -74,26 +74,32 @@ logging.level:
 
 
 #Local Db Config
+#spring:
+#  sql:
+#    init:
+#      mode: always
+#  datasource:
+#    url: jdbc:postgresql://localhost:63306/RXlSmSjdhOYj
+#    username: 4afe5428142c
+#    password: b840edce62a20edac29b775
+#    driver-class-name: org.postgresql.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    database: postgresql
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+#  main:
+#    allow-bean-definition-overriding: true
+#
+
+
 spring:
-  sql:
-    init:
-      mode: always
+  h2:
+    console:
+      enabled: true
   datasource:
-    url: jdbc:postgresql://localhost:63306/RXlSmSjdhOYj
-    username: 4afe5428142c
-    password: b840edce62a20edac29b775
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+    url: jdbc:h2:mem:testdb
   main:
     allow-bean-definition-overriding: true
-
-
-
-
-

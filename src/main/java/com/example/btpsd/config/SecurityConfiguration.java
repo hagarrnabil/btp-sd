@@ -50,7 +50,10 @@ public class SecurityConfiguration {
                 "/accounts/create",
                 "/accounts/{userId}",
                 "/accounts/*",
-                "/accounts/login"
+                "/accounts/login",
+                "/iasusers", "/formulas/*", "/formulas", "/linetypes/*", "/linetypes", "/materialgroups/*", "/materialgroups", "/modelspecs", "/modelspecs/*",
+                "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*", "/personnelnumbers", "/servicenumbers/*", "/servicenumbers", "/servicetypes/*", "/servicetypes",
+                "/invoices/*", "/invoices", "/mainitems/*", "/mainitems", "/subitems/*", "/subitems", "/currencies/*", "/currencies"
         );
     }
 
@@ -86,14 +89,13 @@ public class SecurityConfiguration {
                                 "/accounts/{userId}",
                                 "/accounts/login"
                         ).permitAll()
-//                        .requestMatchers( "/measurements/*",
-//                                "/api/v1/auth/**")
-//                        .hasAuthority("XSUAA-User")
-                        .requestMatchers("/**").authenticated()
-                        .anyRequest().denyAll())
+                       .requestMatchers("/*").authenticated()
+                                .anyRequest().denyAll()
+                )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
-                                .jwtAuthenticationConverter(authConverter())));
+                                .jwtAuthenticationConverter(authConverter())))
+                .csrf(csrf -> csrf.disable());
         return http.build();
     }
 }
