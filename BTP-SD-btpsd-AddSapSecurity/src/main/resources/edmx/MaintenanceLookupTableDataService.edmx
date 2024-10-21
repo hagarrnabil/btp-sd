@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml">
+    <edmx:Include Alias="Measures" Namespace="Org.OData.Measures.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+    <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="MaintenanceLookupTableDataService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="LookupTables" EntityType="MaintenanceLookupTableDataService.LookupTables">
+          <NavigationPropertyBinding Path="inputs" Target="LookupTableInputs"/>
+          <NavigationPropertyBinding Path="outputs" Target="LookupTableOutputs"/>
+        </EntitySet>
+        <EntitySet Name="LookupTableInputs" EntityType="MaintenanceLookupTableDataService.LookupTableInputs">
+          <NavigationPropertyBinding Path="lookupTable" Target="LookupTables"/>
+        </EntitySet>
+        <EntitySet Name="LookupTableOutputs" EntityType="MaintenanceLookupTableDataService.LookupTableOutputs">
+          <NavigationPropertyBinding Path="lookupTable" Target="LookupTables"/>
+        </EntitySet>
+        <EntitySet Name="PriceConditionRanges" EntityType="MaintenanceLookupTableDataService.PriceConditionRanges"/>
+        <EntitySet Name="LookupTableRows" EntityType="MaintenanceLookupTableDataService.LookupTableRowsParameters">
+          <NavigationPropertyBinding Path="Set/priceConditionRanges" Target="PriceConditionRanges"/>
+          <NavigationPropertyBinding Path="Set/Parameters" Target="LookupTableRows"/>
+        </EntitySet>
+        <ActionImport Name="maintainRows" Action="MaintenanceLookupTableDataService.maintainRows"/>
+      </EntityContainer>
+      <EntityType Name="LookupTables">
+        <Key>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="description" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="inputs" Type="Collection(MaintenanceLookupTableDataService.LookupTableInputs)" Partner="lookupTable"/>
+        <NavigationProperty Name="outputs" Type="Collection(MaintenanceLookupTableDataService.LookupTableOutputs)" Partner="lookupTable"/>
+      </EntityType>
+      <EntityType Name="LookupTableInputs">
+        <Key>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="description" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <NavigationProperty Name="lookupTable" Type="MaintenanceLookupTableDataService.LookupTables" Partner="inputs">
+          <ReferentialConstraint Property="lookupTable_code" ReferencedProperty="code"/>
+        </NavigationProperty>
+        <Property Name="lookupTable_code" Type="Edm.String" MaxLength="20"/>
+        <Property Name="index" Type="Edm.Int32"/>
+        <Property Name="type" Type="Edm.String" MaxLength="20"/>
+      </EntityType>
+      <EntityType Name="LookupTableOutputs">
+        <Key>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="description" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <NavigationProperty Name="lookupTable" Type="MaintenanceLookupTableDataService.LookupTables" Partner="outputs">
+          <ReferentialConstraint Property="lookupTable_code" ReferencedProperty="code"/>
+        </NavigationProperty>
+        <Property Name="lookupTable_code" Type="Edm.String" MaxLength="20"/>
+        <Property Name="index" Type="Edm.Int32"/>
+        <Property Name="type" Type="Edm.String" MaxLength="20"/>
+      </EntityType>
+      <EntityType Name="PriceConditionRanges">
+        <Property Name="type" Type="Edm.String" MaxLength="10"/>
+        <Property Name="value" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="rateQuantity" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="rateQuantityUnit" Type="Edm.String" MaxLength="3"/>
+        <Property Name="upToValue" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="upToUnit" Type="Edm.String" MaxLength="3"/>
+        <Property Name="row_ID" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="LookupTableRowsParameters">
+        <Key>
+          <PropertyRef Name="lookupTableCode"/>
+        </Key>
+        <Property Name="lookupTableCode" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <NavigationProperty Name="Set" Type="Collection(MaintenanceLookupTableDataService.LookupTableRowsType)" Partner="Parameters" ContainsTarget="true"/>
+      </EntityType>
+      <EntityType Name="LookupTableRowsType">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="rowTag" Type="Edm.String" MaxLength="32"/>
+        <Property Name="inputString0" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString1" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString2" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString3" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString4" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString5" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString6" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString7" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString8" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString9" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString10" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString11" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString12" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString13" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString14" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="validityStart" Type="Edm.Date"/>
+        <Property Name="validityEnd" Type="Edm.Date"/>
+        <Property Name="outputString0" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString1" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString2" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString3" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString4" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString5" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString6" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString7" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString8" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString9" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputQuantityValue0" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit0" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue1" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit1" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue2" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit2" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue3" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit3" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue4" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit4" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue5" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit5" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue6" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit6" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue7" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit7" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue8" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit8" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue9" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit9" Type="Edm.String" MaxLength="3"/>
+        <Property Name="priceConditionType" Type="Edm.String" MaxLength="6"/>
+        <Property Name="priceConditionMonetaryAmountCurrency" Type="Edm.String" MaxLength="3"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="priceConditionRanges" Type="Collection(MaintenanceLookupTableDataService.PriceConditionRanges)"/>
+        <NavigationProperty Name="Parameters" Type="MaintenanceLookupTableDataService.LookupTableRowsParameters" Partner="Set"/>
+      </EntityType>
+      <ComplexType Name="MaintainRowResult">
+        <Property Name="ID" Type="Edm.Guid"/>
+        <Property Name="result" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="PriceConditionRange">
+        <Property Name="type" Type="Edm.String" MaxLength="10"/>
+        <Property Name="value" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="rateQuantity" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="rateQuantityUnit" Type="Edm.String" MaxLength="3"/>
+        <Property Name="upToValue" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="upToUnit" Type="Edm.String" MaxLength="3"/>
+      </ComplexType>
+      <ComplexType Name="MaintainLookupTableRow">
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="rowTag" Type="Edm.String" MaxLength="32"/>
+        <Property Name="inputString0" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString1" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString2" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString3" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString4" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString5" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString6" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString7" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString8" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString9" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString10" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString11" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString12" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString13" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="inputString14" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="validityStart" Type="Edm.Date"/>
+        <Property Name="validityEnd" Type="Edm.Date"/>
+        <Property Name="outputString0" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString1" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString2" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString3" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString4" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString5" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString6" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString7" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString8" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputString9" Type="Edm.String" MaxLength="2000"/>
+        <Property Name="outputQuantityValue0" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit0" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue1" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit1" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue2" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit2" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue3" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit3" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue4" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit4" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue5" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit5" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue6" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit6" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue7" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit7" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue8" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit8" Type="Edm.String" MaxLength="3"/>
+        <Property Name="outputQuantityValue9" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="outputQuantityUnit9" Type="Edm.String" MaxLength="3"/>
+        <Property Name="priceConditionType" Type="Edm.String" MaxLength="6"/>
+        <Property Name="priceConditionMonetaryAmountCurrency" Type="Edm.String" MaxLength="3"/>
+        <Property Name="lookupTable_code" Type="Edm.String" MaxLength="20"/>
+        <Property Name="operation" Type="Edm.String" MaxLength="6"/>
+        <Property Name="priceConditionRanges" Type="Collection(MaintenanceLookupTableDataService.com_sap_cloud_pricing_calculation_PriceConditionRange)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="com_sap_cloud_pricing_calculation_PriceConditionRange">
+        <Property Name="type" Type="Edm.String" MaxLength="10"/>
+        <Property Name="value" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="rateQuantity" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="rateQuantityUnit" Type="Edm.String" MaxLength="3"/>
+        <Property Name="upToValue" Type="Edm.Decimal" Scale="6" Precision="22"/>
+        <Property Name="upToUnit" Type="Edm.String" MaxLength="3"/>
+      </ComplexType>
+      <Action Name="maintainRows" IsBound="false">
+        <Parameter Name="rows" Type="Collection(MaintenanceLookupTableDataService.MaintainLookupTableRow)" Nullable="false"/>
+        <ReturnType Type="Collection(MaintenanceLookupTableDataService.MaintainRowResult)" Nullable="false"/>
+      </Action>
+      <Annotation Term="Core.SchemaVersion" String="1.0"/>
+      <Annotations Target="MaintenanceLookupTableDataService.EntityContainer">
+        <Annotation Term="Capabilities.BatchSupport">
+          <Record Type="Capabilities.BatchSupportType">
+            <PropertyValue Property="Supported" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.EntityContainer/LookupTables">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTables/description">
+        <Annotation Term="UI.MultiLineText" Bool="true"/>
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTables/code">
+        <Annotation Term="Validation.Pattern" String="^.{1,20}$"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.EntityContainer/LookupTableInputs">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableInputs/description">
+        <Annotation Term="UI.MultiLineText" Bool="true"/>
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableInputs/code">
+        <Annotation Term="Validation.Pattern" String="^.{1,20}$"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableInputs/type">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="String"/>
+              <PropertyValue Property="Value" String="String"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.EntityContainer/LookupTableOutputs">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableOutputs/description">
+        <Annotation Term="UI.MultiLineText" Bool="true"/>
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableOutputs/code">
+        <Annotation Term="Validation.Pattern" String="^.{1,20}$"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableOutputs/type">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="String"/>
+              <PropertyValue Property="Value" String="String"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Quantity"/>
+              <PropertyValue Property="Value" String="Quantity"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="PriceCondition"/>
+              <PropertyValue Property="Value" String="PriceCondition"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.EntityContainer/PriceConditionRanges">
+        <Annotation Term="Capabilities.ReadRestrictions">
+          <Record Type="Capabilities.ReadRestrictionsType">
+            <PropertyValue Property="Readable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.PriceConditionRanges/type">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Fixed"/>
+              <PropertyValue Property="Value" String="Fixed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Linear"/>
+              <PropertyValue Property="Value" String="Linear"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Percentage"/>
+              <PropertyValue Property="Value" String="Percentage"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.PriceConditionRanges/value">
+        <Annotation Term="Measures.Unit" Path="row/currency"/>
+        <Annotation Term="Core.Description" String="The monetary amount value of the price or the multiplier value to apply in case of Percentage pricing"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.PriceConditionRanges/rateQuantity">
+        <Annotation Term="Measures.Unit" Path="quantityUnit"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.PriceConditionRanges/upToValue">
+        <Annotation Term="Measures.Unit" Path="rangeUnit"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.maintainRows()/rows">
+        <Annotation Term="Validation.Minimum" Int="1"/>
+        <Annotation Term="Validation.Maximum" Int="10000"/>
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainRowResult/ID">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainRowResult/result">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="inserted"/>
+              <PropertyValue Property="Value" String="inserted"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="updated"/>
+              <PropertyValue Property="Value" String="updated"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="deleted"/>
+              <PropertyValue Property="Value" String="deleted"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="missing"/>
+              <PropertyValue Property="Value" String="missing"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.PriceConditionRange/type">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Fixed"/>
+              <PropertyValue Property="Value" String="Fixed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Linear"/>
+              <PropertyValue Property="Value" String="Linear"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Percentage"/>
+              <PropertyValue Property="Value" String="Percentage"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.PriceConditionRange/value">
+        <Annotation Term="Measures.Unit" Path="row/currency"/>
+        <Annotation Term="Core.Description" String="The monetary amount value of the price or the multiplier value to apply in case of Percentage pricing"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.PriceConditionRange/rateQuantity">
+        <Annotation Term="Measures.Unit" Path="quantityUnit"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.PriceConditionRange/upToValue">
+        <Annotation Term="Measures.Unit" Path="rangeUnit"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow">
+        <Annotation Term="Core.Description" String="Aspect for entities with canonical universal IDs&#xA;&#xA;See https://cap.cloud.sap/docs/cds/common#aspect-cuid"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/ID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="Common.Label" String="ID"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/outputQuantityValue0">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit0"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/outputQuantityValue1">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit1"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/outputQuantityValue2">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit2"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/outputQuantityValue3">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit3"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/outputQuantityValue4">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit4"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/outputQuantityValue5">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit5"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/outputQuantityValue6">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit6"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/outputQuantityValue7">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit7"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/outputQuantityValue8">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit8"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/outputQuantityValue9">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit9"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/priceConditionType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="None"/>
+              <PropertyValue Property="Value" String="None"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Single"/>
+              <PropertyValue Property="Value" String="Single"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Volume"/>
+              <PropertyValue Property="Value" String="Volume"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Tier"/>
+              <PropertyValue Property="Value" String="Tier"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.MaintainLookupTableRow/lookupTable_code">
+        <Annotation Term="Validation.Pattern" String="^.{1,20}$"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.com_sap_cloud_pricing_calculation_PriceConditionRange/type">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Fixed"/>
+              <PropertyValue Property="Value" String="Fixed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Linear"/>
+              <PropertyValue Property="Value" String="Linear"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Percentage"/>
+              <PropertyValue Property="Value" String="Percentage"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.com_sap_cloud_pricing_calculation_PriceConditionRange/value">
+        <Annotation Term="Measures.Unit" Path="row/currency"/>
+        <Annotation Term="Core.Description" String="The monetary amount value of the price or the multiplier value to apply in case of Percentage pricing"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.com_sap_cloud_pricing_calculation_PriceConditionRange/rateQuantity">
+        <Annotation Term="Measures.Unit" Path="quantityUnit"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.com_sap_cloud_pricing_calculation_PriceConditionRange/upToValue">
+        <Annotation Term="Measures.Unit" Path="rangeUnit"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsParameters/lookupTableCode">
+        <Annotation Term="Validation.Pattern" String="^.{1,20}$"/>
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType">
+        <Annotation Term="Core.Description" String="Aspect to capture changes by user and name&#xA;&#xA;See https://cap.cloud.sap/docs/cds/common#aspect-managed"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/ID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="Common.Label" String="ID"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/outputQuantityValue0">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit0"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/outputQuantityValue1">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit1"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/outputQuantityValue2">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit2"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/outputQuantityValue3">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit3"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/outputQuantityValue4">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit4"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/outputQuantityValue5">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit5"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/outputQuantityValue6">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit6"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/outputQuantityValue7">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit7"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/outputQuantityValue8">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit8"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/outputQuantityValue9">
+        <Annotation Term="Measures.Unit" Path="outputQuantityUnit9"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/priceConditionType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="None"/>
+              <PropertyValue Property="Value" String="None"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Single"/>
+              <PropertyValue Property="Value" String="Single"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Volume"/>
+              <PropertyValue Property="Value" String="Volume"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Tier"/>
+              <PropertyValue Property="Value" String="Tier"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Created On"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="Common.Label" String="Created By"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Changed On"/>
+      </Annotations>
+      <Annotations Target="MaintenanceLookupTableDataService.LookupTableRowsType/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="Common.Label" String="Changed By"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

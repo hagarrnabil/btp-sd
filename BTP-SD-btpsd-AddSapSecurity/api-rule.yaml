@@ -1,0 +1,22 @@
+apiVersion: gateway.kyma-project.io/v1beta1
+kind: APIRule
+metadata:
+  name: 'sd-dev'
+  labels: {}
+  annotations: {}
+  namespace: sd-dev
+spec:
+  gateway: kyma-gateway.kyma-system.svc.cluster.local
+  host: sd-dev.ef8a037.kyma.ondemand.com
+  service:
+    name: sd-dev
+    port: 8080
+  rules:
+    - path: /.*
+      methods:
+        - GET
+        - PUT
+        - POST
+        - DELETE
+      accessStrategies:
+        - handler: allow

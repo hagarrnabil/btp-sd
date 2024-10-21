@@ -1,0 +1,49 @@
+{
+  "xsappname": "youssef",
+  "tenant-mode": "dedicated",
+  "oauth2-configuration": {
+    "credential-types": ["x509"]
+  },
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Read",
+      "description": "Read Permissions."
+    },
+    {
+      "name": "$XSAPPNAME.User",
+      "description": "Does all actions."
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Viewer",
+      "description": "View Data",
+      "scope-references": [
+        "$XSAPPNAME.Read"
+      ]
+    },
+    {
+      "name": "User",
+      "description": "Does all actions",
+      "scope-references": [
+        "$XSAPPNAME.User"
+      ]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "XSUAA-Viewer",
+      "description": "Viewer (read)",
+      "role-template-references": [
+        "$XSAPPNAME.Viewer"
+      ]
+    },
+    {
+      "name": "XSUAA-User",
+      "description": "User",
+      "role-template-references": [
+        "$XSAPPNAME.User"
+      ]
+    }
+  ]
+}

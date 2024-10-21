@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mysql
+          image: hagarrnabil/finalmysql #change it to your image
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: P@ssword
+            - name: MYSQL_DATABASE
+              value: mysql
+            - name: MYSQL_USER
+              value: admin
+            - name: MYSQL_PASSWORD
+              value: P@ssword
+          volumeMounts:
+            - name: mysqldb
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysqldb
+          persistentVolumeClaim:
+            claimName: mysql-sd
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  selector:
+    app: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mysql-sd #original name mysql-data but i changed it to restored-pvc to restore it from snapshot with the other pod mysql2
+  #along with changing mysql names to mysql2
+  labels:
+    app: mysql
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
