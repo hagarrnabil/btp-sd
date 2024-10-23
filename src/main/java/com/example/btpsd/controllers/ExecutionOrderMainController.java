@@ -36,6 +36,8 @@ ExecutionOrderMainController {
 
     private final BusinessPartnerCloudController businessPartnerCloudController;
 
+    private final SalesOrderCloudController salesOrderCloudController;
+
     @Autowired
     private final ServiceNumberRepository serviceNumberRepository;
 
@@ -46,10 +48,13 @@ ExecutionOrderMainController {
         return executionOrderMainService.getExecutionOrderMainCommands();
     }
 
-    @GetMapping("/executionordermain/{executionOrderMainCode}")
-    public Optional<ExecutionOrderMainCommand> findByIds(@PathVariable @NotNull Long executionOrderMainCode) {
+    @GetMapping("/executionordermain/{salesOrder}/{salesOrderItem}")
+    public StringBuilder findBySalesOrderAndItem(
+            @PathVariable("salesOrder") String salesOrder,
+            @PathVariable("salesOrderItem") String salesOrderItem) {
 
-        return Optional.ofNullable(executionOrderMainService.findExecutionOrderMainCommandById(executionOrderMainCode));
+        // Use the method to fetch Sales Order Item based on path variables
+        return salesOrderCloudController.getSalesOrderItem(salesOrder, salesOrderItem);
     }
 
 

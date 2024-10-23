@@ -218,6 +218,70 @@ public class SalesOrderCloudController {
         }
     }
 
+    public StringBuilder getSalesOrderItem(String salesOrder, String salesOrderItem) {
+        logger.debug("Entered getSalesOrderItem method with SalesOrder: {} and SalesOrderItem: {}", salesOrder, salesOrderItem);
+
+        final int BLOCK_SIZE = 1024;
+        final int BUFFER_SIZE = 8 * BLOCK_SIZE;
+
+        // Construct API endpoint with dynamic SalesOrder and SalesOrderItem
+        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem(SalesOrder='"
+                + salesOrder + "',SalesOrderItem='" + salesOrderItem + "')/to_SalesOrder";
+
+        logger.debug("Constructed URL: {}", url);
+
+        HttpURLConnection connection = null;
+        StringBuilder response = new StringBuilder();
+
+        try {
+            URL urlObj = new URL(url);
+            connection = (HttpURLConnection) urlObj.openConnection();
+
+            String user = "BTP_USER1";
+            String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+            String auth = user + ":" + password;
+            byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
+            String authHeaderValue = "Basic " + new String(encodedAuth);
+
+            // Setting request method to GET
+            connection.setRequestMethod("GET");
+
+            // Adding headers
+            connection.setRequestProperty("Authorization", authHeaderValue);
+            connection.setRequestProperty("Accept", "application/json");
+
+            int responseCode = connection.getResponseCode();
+            logger.info("Response code: {}", responseCode);
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // Read the response
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                char[] charArray = new char[BUFFER_SIZE];
+                int charsCount;
+                while ((charsCount = in.read(charArray)) != -1) {
+                    response.append(String.valueOf(charArray, 0, charsCount));
+                }
+                in.close();
+                logger.info("Response received: {}", response);
+            } else {
+                // Handle non-OK response codes
+                logger.error("Failed to fetch data. Response Code: {}", responseCode);
+                return new StringBuilder("Error: " + responseCode);
+            }
+        } catch (IOException e) {
+            logger.error("IOException occurred: ", e);
+            return new StringBuilder("IOException: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("An unexpected error occurred: ", e);
+            return new StringBuilder("Error: " + e.getMessage());
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+        logger.debug("Exiting getSalesOrderItem method");
+        return response;
+    }
 
     @RequestMapping(value = "/salesorderallpricingcloud", method = RequestMethod.GET)
     private StringBuilder getSalesOrderPricingElement() throws Exception {
@@ -452,6 +516,72 @@ public class SalesOrderCloudController {
         return response;
     }
 
+    public StringBuilder getSalesQuotationItemById(String salesQuotation, String salesQuotationItem) {
+        logger.debug("Entered getSalesQuotationItem method with SalesQuotation: {} and SalesQuotationItem: {}", salesQuotation, salesQuotationItem);
+
+        final int BLOCK_SIZE = 1024;
+        final int BUFFER_SIZE = 8 * BLOCK_SIZE;
+
+        // Construct API endpoint with dynamic SalesQuotation and SalesQuotationItem
+        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='"
+                + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem + "')/to_SalesQuotation";
+
+        logger.debug("Constructed URL: {}", url);
+
+        HttpURLConnection connection = null;
+        StringBuilder response = new StringBuilder();
+
+        try {
+            URL urlObj = new URL(url);
+            connection = (HttpURLConnection) urlObj.openConnection();
+
+            String user = "BTP_USER1";
+            String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+            String auth = user + ":" + password;
+            byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
+            String authHeaderValue = "Basic " + new String(encodedAuth);
+
+            // Setting request method to GET
+            connection.setRequestMethod("GET");
+
+            // Adding headers
+            connection.setRequestProperty("Authorization", authHeaderValue);
+            connection.setRequestProperty("Accept", "application/json");
+
+            int responseCode = connection.getResponseCode();
+            logger.info("Response code: {}", responseCode);
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // Read the response
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                char[] charArray = new char[BUFFER_SIZE];
+                int charsCount;
+                while ((charsCount = in.read(charArray)) != -1) {
+                    response.append(String.valueOf(charArray, 0, charsCount));
+                }
+                in.close();
+                logger.info("Response received: {}", response);
+            } else {
+                // Handle non-OK response codes
+                logger.error("Failed to fetch data. Response Code: {}", responseCode);
+                return new StringBuilder("Error: " + responseCode);
+            }
+        } catch (IOException e) {
+            logger.error("IOException occurred: ", e);
+            return new StringBuilder("IOException: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("An unexpected error occurred: ", e);
+            return new StringBuilder("Error: " + e.getMessage());
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+        logger.debug("Exiting getSalesQuotationItem method");
+        return response;
+    }
+
+
     @RequestMapping(value = "/salesquotationpricingcloud/{SalesQuotation}/{SalesQuotationItem}", method = RequestMethod.GET)
     public StringBuilder getSalesQuotationPricing(@PathVariable("SalesQuotation") String salesQuotation,
                                                   @PathVariable("SalesQuotationItem") String salesQuotationItem) {
@@ -611,6 +741,71 @@ public class SalesOrderCloudController {
         System.out.println(response.toString());
 
 
+        return response;
+    }
+
+    public StringBuilder getDebitMemoRequestItem(String debitMemoRequest, String debitMemoRequestItem) {
+        logger.debug("Entered getDebitMemoRequestItem method with DebitMemoRequest: {} and DebitMemoRequestItem: {}", debitMemoRequest, debitMemoRequestItem);
+
+        final int BLOCK_SIZE = 1024;
+        final int BUFFER_SIZE = 8 * BLOCK_SIZE;
+
+        // Construct API endpoint with dynamic DebitMemoRequest and DebitMemoRequestItem
+        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequestItem(DebitMemoRequest='"
+                + debitMemoRequest + "',DebitMemoRequestItem='" + debitMemoRequestItem + "')/to_DebitMemoRequest";
+
+        logger.debug("Constructed URL: {}", url);
+
+        HttpURLConnection connection = null;
+        StringBuilder response = new StringBuilder();
+
+        try {
+            URL urlObj = new URL(url);
+            connection = (HttpURLConnection) urlObj.openConnection();
+
+            String user = "BTP_USER1";
+            String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+            String auth = user + ":" + password;
+            byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
+            String authHeaderValue = "Basic " + new String(encodedAuth);
+
+            // Setting request method to GET
+            connection.setRequestMethod("GET");
+
+            // Adding headers
+            connection.setRequestProperty("Authorization", authHeaderValue);
+            connection.setRequestProperty("Accept", "application/json");
+
+            int responseCode = connection.getResponseCode();
+            logger.info("Response code: {}", responseCode);
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // Read the response
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                char[] charArray = new char[BUFFER_SIZE];
+                int charsCount;
+                while ((charsCount = in.read(charArray)) != -1) {
+                    response.append(String.valueOf(charArray, 0, charsCount));
+                }
+                in.close();
+                logger.info("Response received: {}", response);
+            } else {
+                // Handle non-OK response codes
+                logger.error("Failed to fetch data. Response Code: {}", responseCode);
+                return new StringBuilder("Error: " + responseCode);
+            }
+        } catch (IOException e) {
+            logger.error("IOException occurred: ", e);
+            return new StringBuilder("IOException: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("An unexpected error occurred: ", e);
+            return new StringBuilder("Error: " + e.getMessage());
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+        logger.debug("Exiting getDebitMemoRequestItem method");
         return response;
     }
 

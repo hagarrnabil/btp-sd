@@ -41,6 +41,8 @@ public class InvoiceMainItemController {
 
     private final BusinessPartnerCloudController businessPartnerCloudController;
 
+    private final SalesOrderCloudController salesOrderCloudController;
+
     private final InvoiceMainItemToInvoiceMainItemCommand invoiceMainItemToInvoiceMainItemCommand;
 
     @GetMapping("/mainitems")
@@ -48,11 +50,15 @@ public class InvoiceMainItemController {
         return invoiceMainItemService.getMainItemCommands();
     }
 
-    @GetMapping("/mainitems/{mainItemCode}")
-    public Optional<InvoiceMainItemCommand> findByIds(@PathVariable @NotNull Long mainItemCode) {
+    @GetMapping("/mainitems/{salesQuotation}/{salesQuotationItem}")
+    public StringBuilder findBySalesQuotationAndItem(
+            @PathVariable("salesQuotation") String salesQuotation,
+            @PathVariable("salesQuotationItem") String salesQuotationItem) {
 
-        return Optional.ofNullable(invoiceMainItemService.findMainItemCommandById(mainItemCode));
+        // Use the method to fetch Sales Quotation Item based on path variables
+        return salesOrderCloudController.getSalesQuotationItemById(salesQuotation, salesQuotationItem);
     }
+
 
     @PatchMapping("/mainitems/{salesQuotation}/{salesQuotationItem}/{pricingProcedureStep}/{pricingProcedureCounter}/{customerNumber}")
     public InvoiceMainItemCommand updateMainItemCommand(

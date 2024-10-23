@@ -60,11 +60,10 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         executionOrderMain.setAmountPerUnit(source.getAmountPerUnit());
         executionOrderMain.setTotal(executionOrderMain.getTotalQuantity() * executionOrderMain.getAmountPerUnit());
 
-        if (executionOrderMain.getServiceInvoiceMain() == null) {
-            executionOrderMain.setServiceInvoiceMain(new ServiceInvoiceMain(executionOrderMain));
-        } else {
-            executionOrderMain.getServiceInvoiceMain().updateFromExecutionOrder(executionOrderMain);
+        if (executionOrderMain.getServiceInvoiceMain() != null) {
+            executionOrderMain.setActualQuantity(executionOrderMain.getServiceInvoiceMain().getActualQuantity());
         }
+
         executionOrderMain.setTotalHeader(0.0);
         return executionOrderMain;
 

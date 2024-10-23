@@ -95,13 +95,12 @@ public class ExecutionOrderMainServiceImpl implements ExecutionOrderMainService 
         // Convert command to entity
         ExecutionOrderMain executionOrderMain = executionOrderMainCommandToExecutionOrderMain.convert(command);
 
-        // Save the new invoice item to the repository first
+        // Save the new ExecutionOrderMain entity
         ExecutionOrderMain savedItem = executionOrderMainRepository.save(executionOrderMain);
 
         // Calculate the totalHeader after the item is saved
         Double totalHeader = getTotalHeader();
         savedItem.setTotalHeader(totalHeader); // Update the saved item with the new totalHeader
-
         log.debug("Total Header after save: " + totalHeader);
 
         // Save the updated item with the totalHeader

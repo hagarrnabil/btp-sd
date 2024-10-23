@@ -101,13 +101,13 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
             serviceInvoiceMain.setServiceNumber(serviceNumber);
             serviceNumber.addServiceInvoiceMain(serviceInvoiceMain);
         }
-        if (source.getExecutionOrderMain() != null) {
-            ExecutionOrderMain executionOrderMain = new ExecutionOrderMain();
-            executionOrderMain.setExecutionOrderMainCode(source.getExecutionOrderMain().getExecutionOrderMainCode());
-            executionOrderMain.setDescription(source.getExecutionOrderMain().getDescription());
-            executionOrderMain.setTotalQuantity(source.getExecutionOrderMain().getTotalQuantity());
-            serviceInvoiceMain.setExecutionOrderMain(executionOrderMain);
-        }
+//        if (source.getExecutionOrderMain() != null) {
+//            ExecutionOrderMain executionOrderMain = new ExecutionOrderMain();
+//            executionOrderMain.setExecutionOrderMainCode(source.getExecutionOrderMain().getExecutionOrderMainCode());
+//            executionOrderMain.setDescription(source.getExecutionOrderMain().getDescription());
+//            executionOrderMain.setTotalQuantity(source.getExecutionOrderMain().getTotalQuantity());
+//            serviceInvoiceMain.setExecutionOrderMain(executionOrderMain);
+//        }
         return serviceInvoiceMain;
 
     }

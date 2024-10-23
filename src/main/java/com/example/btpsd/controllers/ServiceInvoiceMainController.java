@@ -38,6 +38,8 @@ public class ServiceInvoiceMainController {
 
     private final BusinessPartnerCloudController businessPartnerCloudController;
 
+    private final SalesOrderCloudController salesOrderCloudController;
+
     private final ServiceInvoiceMainRepository serviceInvoiceMainRepository;
 
     private final ServiceInvoiceMainService serviceInvoiceMainService;
@@ -49,10 +51,13 @@ public class ServiceInvoiceMainController {
         return serviceInvoiceMainService.getServiceInvoiceMainCommands();
     }
 
-    @GetMapping("/serviceinvoice/{serviceInvoiceCode}")
-    public Optional<ServiceInvoiceMainCommand> findByIds(@PathVariable @NotNull Long serviceInvoiceCode) {
+    @GetMapping("/serviceinvoice/{debitMemoRequest}/{debitMemoRequestItem}")
+    public StringBuilder findByDebitMemoRequestAndItem(
+            @PathVariable("debitMemoRequest") String debitMemoRequest,
+            @PathVariable("debitMemoRequestItem") String debitMemoRequestItem) {
 
-        return Optional.ofNullable(serviceInvoiceMainService.findServiceInvoiceMainCommandById(serviceInvoiceCode));
+        // Call the method to fetch Debit Memo Request Item based on path variables
+        return salesOrderCloudController.getDebitMemoRequestItem(debitMemoRequest, debitMemoRequestItem);
     }
 
     @PostMapping("/serviceinvoice")

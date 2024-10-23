@@ -40,8 +40,7 @@ public interface ExecutionOrderMainService {
         if (source.getMaterialGroupCode() != null) target.setMaterialGroupCode(source.getMaterialGroupCode());
         if (source.getLineTypeCode() != null) target.setLineTypeCode(source.getLineTypeCode());
         if (source.getPersonnelNumberCode() != null) target.setPersonnelNumberCode(source.getPersonnelNumberCode());
-        if (source.getUnitOfMeasurementCode() != null)
-            target.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
+        if (source.getUnitOfMeasurementCode() != null) target.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         if (source.getDescription() != null) target.setDescription(source.getDescription());
         if (source.getTotalQuantity() != null) target.setTotalQuantity(source.getTotalQuantity());
         if (source.getAmountPerUnit() != null) target.setAmountPerUnit(source.getAmountPerUnit());
@@ -64,19 +63,19 @@ public interface ExecutionOrderMainService {
         if (source.getLotCostOne() != null) target.setLotCostOne(source.getLotCostOne());
         if (source.getDoNotPrint() != null) target.setDoNotPrint(source.getDoNotPrint());
         if (source.getServiceTypeCode() != null) target.setServiceTypeCode(source.getServiceTypeCode());
+
+        // Handle Service Number separately
         if (source.getServiceNumberCode() != null) {
             ServiceNumber serviceNumber = new ServiceNumber();
             serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
             target.setServiceNumber(serviceNumber);
             serviceNumber.addExecutionOrderMainItem(target);
         }
-        if (source.getAmountPerUnit() != null) target.setAmountPerUnit(source.getAmountPerUnit());
 
-        // Update the corresponding ExecutionOrderMain
+        // Update ServiceInvoiceMain from ExecutionOrderMain
         if (target.getServiceInvoiceMain() != null) {
             target.getServiceInvoiceMain().updateFromExecutionOrder(target);
         }
-
     }
 
     default void callSalesOrderPricingAPI(String salesOrder, String salesOrderItem, Double totalHeader) throws Exception {
