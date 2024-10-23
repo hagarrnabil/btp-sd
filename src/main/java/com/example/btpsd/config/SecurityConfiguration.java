@@ -25,16 +25,28 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @PropertySource(factory = IdentityServicesPropertySourceFactory.class, ignoreResourceNotFound = true, value = { "" })
 @EnableWebSecurity
 public class SecurityConfiguration {
-
     @Bean
     public Converter<Jwt, AbstractAuthenticationToken> authConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        grantedAuthoritiesConverter.setAuthorityPrefix("");
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("scope");
+
+        // Use 'groups' claim instead of 'scope'
+        grantedAuthoritiesConverter.setAuthoritiesClaimName("groups");
+        grantedAuthoritiesConverter.setAuthorityPrefix(""); // No prefix for roles in groups
+
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
         return jwtAuthenticationConverter;
     }
+
+//    @Bean
+//    public Converter<Jwt, AbstractAuthenticationToken> authConverter() {
+//        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+//        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+//        grantedAuthoritiesConverter.setAuthorityPrefix("");
+//        grantedAuthoritiesConverter.setAuthoritiesClaimName("scope");
+//        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+//        return jwtAuthenticationConverter;
+//    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -51,9 +63,31 @@ public class SecurityConfiguration {
                 "/accounts/{userId}",
                 "/accounts/*",
                 "/accounts/login",
-                "/iasusers", "/formulas/*", "/formulas", "/linetypes/*", "/linetypes", "/materialgroups/*", "/materialgroups", "/modelspecs", "/modelspecs/*",
-                "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*", "/personnelnumbers", "/servicenumbers/*", "/servicenumbers", "/servicetypes/*", "/servicetypes",
-                "/invoices/*", "/invoices", "/mainitems/*", "/mainitems", "/subitems/*", "/subitems", "/currencies/*", "/currencies"
+                "/iasusers",
+                "/formulas/*",
+                "/formulas",
+                "/linetypes/*",
+                "/linetypes",
+                "/materialgroups/*",
+                "/materialgroups",
+                "/modelspecs",
+                "/modelspecs/*",
+                "/modelspecdetails/*",
+                "/modelspecdetails",
+                "/personnelnumbers/*",
+                "/personnelnumbers",
+                "/servicenumbers/*",
+                "/servicenumbers",
+                "/servicetypes/*",
+                "/servicetypes",
+                "/invoices/*",
+                "/invoices",
+                "/mainitems/*",
+                //"/mainitems",
+                "/subitems/*",
+                "/subitems",
+                "/currencies/*",
+                "/currencies"
         );
     }
 
@@ -61,7 +95,7 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("http://localhost:56033");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);
@@ -87,8 +121,34 @@ public class SecurityConfiguration {
                                 "/accounts/*",
                                 "/accounts/create",
                                 "/accounts/{userId}",
-                                "/accounts/login"
+                                "/accounts/login",
+                                "/iasusers",
+                                "/formulas/*",
+                                "/formulas",
+                                "/linetypes/*",
+                                "/linetypes",
+                                "/materialgroups/*",
+                                "/materialgroups",
+                                "/modelspecs",
+                                "/modelspecs/*",
+                                "/modelspecdetails/*",
+                                "/modelspecdetails",
+                                "/personnelnumbers/*",
+                                "/personnelnumbers",
+                                "/servicenumbers/*",
+                                "/servicenumbers",
+                                "/servicetypes/*",
+                                "/servicetypes",
+                                "/invoices/*",
+                                "/invoices",
+                                "/mainitems/*",
+//                                "/mainitems",
+                                "/subitems/*",
+                                "/subitems",
+                                "/currencies/*",
+                                "/currencies"
                         ).permitAll()
+                        .requestMatchers("/mainitems").hasAuthority("InvoiceViewer")
                        .requestMatchers("/*").authenticated()
                                 .anyRequest().denyAll()
                 )

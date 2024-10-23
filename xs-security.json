@@ -8,6 +8,14 @@
     {
       "name": "$XSAPPNAME.Read",
       "description": "Read Permissions."
+    },
+    {
+      "name": "$XSAPPNAME.invoice.read",
+      "description": "Read access to invoices."
+    },
+    {
+      "name": "$XSAPPNAME.salesorder.read",
+      "description": "Read access to sales orders."
     }
   ],
   "role-templates": [
@@ -16,6 +24,20 @@
       "description": "View Data",
       "scope-references": [
         "$XSAPPNAME.Read"
+      ]
+    },
+    {
+      "name": "InvoiceViewer",
+      "description": "View Invoice Data",
+      "scope-references": [
+        "$XSAPPNAME.invoice.read"
+      ]
+    },
+    {
+      "name": "SalesOrderViewer",
+      "description": "View Sales Order Data",
+      "scope-references": [
+        "$XSAPPNAME.salesorder.read"
       ]
     }
   ],
@@ -26,6 +48,17 @@
       "role-template-references": [
         "$XSAPPNAME.Read"
       ]
+    },
+    {
+      "name": "Invoice-Read",
+      "description": "Viewer (read access to invoices only)",
+      "role-template-references": [
+        "$XSAPPNAME.InvoiceViewer"
+      ]
     }
   ]
 }
+
+
+
+

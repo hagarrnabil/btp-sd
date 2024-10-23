@@ -8,6 +8,7 @@ import com.example.btpsd.repositories.InvoiceMainItemRepository;
 import com.example.btpsd.services.InvoiceMainItemService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,6 @@ public class InvoiceMainItemController {
     private final InvoiceMainItemService invoiceMainItemService;
 
     private final InvoiceMainItemToInvoiceMainItemCommand invoiceMainItemToInvoiceMainItemCommand;
-
     @GetMapping("/mainitems")
     Set<InvoiceMainItemCommand> all() {
         return invoiceMainItemService.getMainItemCommands();
