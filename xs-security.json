@@ -14,6 +14,10 @@
       "description": "Read access to invoices."
     },
     {
+      "name": "$XSAPPNAME.invoice.read.exceptTotal",
+      "description": "Read access to invoices except total amount."
+    },
+    {
       "name": "$XSAPPNAME.salesorder.read",
       "description": "Read access to sales orders."
     }
@@ -31,6 +35,13 @@
       "description": "View Invoice Data",
       "scope-references": [
         "$XSAPPNAME.invoice.read"
+      ]
+    },
+    {
+      "name": "InvoiceViewerExceptTotal",
+      "description": "View Invoice Data except total amount",
+      "scope-references": [
+        "$XSAPPNAME.invoice.read.exceptTotal"
       ]
     },
     {
@@ -55,10 +66,13 @@
       "role-template-references": [
         "$XSAPPNAME.InvoiceViewer"
       ]
+    },
+    {
+      "name": "Invoice-Read-ExceptTotal",
+      "description": "Viewer (read access to invoices except total amount)",
+      "role-template-references": [
+        "$XSAPPNAME.InvoiceViewerExceptTotal"
+      ]
     }
   ]
 }
-
-
-
-

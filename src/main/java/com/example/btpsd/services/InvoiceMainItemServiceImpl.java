@@ -4,7 +4,9 @@ import com.example.btpsd.commands.InvoiceMainItemCommand;
 import com.example.btpsd.commands.InvoiceSubItemCommand;
 import com.example.btpsd.converters.InvoiceMainItemCommandToInvoiceMainItem;
 import com.example.btpsd.converters.InvoiceMainItemToInvoiceMainItemCommand;
+import com.example.btpsd.converters.InvoiceMainItemToInvoiceMainItemDtoExceptTotalAmountDto;
 import com.example.btpsd.converters.InvoiceSubItemCommandToInvoiceSubItem;
+import com.example.btpsd.dtos.InvoiceMainItemDtoExceptTotalAmountDto;
 import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.model.InvoiceSubItem;
@@ -33,6 +35,7 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
     private final InvoiceMainItemCommandToInvoiceMainItem invoiceMainItemCommandToInvoiceMainItem;
     private final InvoiceMainItemToInvoiceMainItemCommand invoiceMainItemToInvoiceMainItemCommand;
     private final InvoiceSubItemCommandToInvoiceSubItem subItemConverter;
+    private final InvoiceMainItemToInvoiceMainItemDtoExceptTotalAmountDto invoiceMainItemToInvoiceMainItemDtoExceptTotalAmountDto;
 
 
     @Override
@@ -45,6 +48,18 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
                 .collect(Collectors.toSet());
 
     }
+
+    @Override
+    @Transactional
+    public Set<InvoiceMainItemDtoExceptTotalAmountDto> getMainItemsExceptTotal() {
+
+        return StreamSupport.stream(invoiceMainItemRepository.findAll()
+                        .spliterator(), false)
+                .map(invoiceMainItemToInvoiceMainItemDtoExceptTotalAmountDto::convert)
+                .collect(Collectors.toSet());
+
+    }
+
 
     @Override
     public InvoiceMainItem findById(Long l) {

@@ -148,7 +148,7 @@ public class SecurityConfiguration {
                                 "/currencies/*",
                                 "/currencies"
                         ).permitAll()
-                        .requestMatchers("/mainitems").hasAuthority("InvoiceViewer")
+                        .requestMatchers("/mainitems").hasAnyAuthority("InvoiceViewer", "InvoiceViewerExceptTotal")
                        .requestMatchers("/*").authenticated()
                                 .anyRequest().denyAll()
                 )

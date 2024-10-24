@@ -8,7 +8,9 @@ import com.example.btpsd.repositories.InvoiceMainItemRepository;
 import com.example.btpsd.services.InvoiceMainItemService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +28,19 @@ public class InvoiceMainItemController {
 
     private final InvoiceMainItemToInvoiceMainItemCommand invoiceMainItemToInvoiceMainItemCommand;
     @GetMapping("/mainitems")
-    Set<InvoiceMainItemCommand> all() {
-        return invoiceMainItemService.getMainItemCommands();
+    Set<?> all(Authentication authentication) {
+
+        if (authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("InvoiceViewer"))) {
+            // Return full invoice items for Admin role
+            return invoiceMainItemService.getMainItemCommands();
+        } else if (authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("InvoiceViewerExceptTotal"))) {
+            // Return restricted invoice items for InvoiceViewer role
+            return invoiceMainItemService.getMainItemsExceptTotal();
+        } else {
+            throw new AccessDeniedException("You do not have permission to access this resource.");
+        }
     }
 
     @GetMapping("/mainitems/{mainItemCode}")
