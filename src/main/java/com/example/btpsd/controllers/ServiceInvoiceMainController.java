@@ -97,40 +97,40 @@ public class ServiceInvoiceMainController {
             JsonNode productDescriptionsArray = productDescJson.path("d").path("results");
 
             for (int i = 0; i < productsArray.size(); i++) {
-                JsonNode product = productsArray.get(i);
-                JsonNode productDesc = productDescriptionsArray.get(i);
-
-                String serviceNumberCode = product.path("Product").asText();
-                String unitOfMeasurementCode = product.path("BaseUnit").asText();
-                String description = productDesc.path("ProductDescription").asText();
-
-                // Check if serviceNumberCode exists in ServiceNumber table
-                Optional<ServiceNumber> existingServiceNumber = serviceNumberRepository.findByServiceNumberCode(Long.valueOf(serviceNumberCode));
-
-                ServiceNumber serviceNumber;
-                if (!existingServiceNumber.isPresent()) {
-                    serviceNumber = new ServiceNumber();
-                    serviceNumber.setServiceNumberCode(Long.valueOf(serviceNumberCode));
-                    serviceNumber = serviceNumberRepository.save(serviceNumber);
-                } else {
-                    serviceNumber = existingServiceNumber.get();
-                }
-
-                updatedServiceInvoiceMainCommand.setServiceNumberCode(serviceNumber.getServiceNumberCode());
-                updatedServiceInvoiceMainCommand.setUnitOfMeasurementCode(unitOfMeasurementCode);
-                updatedServiceInvoiceMainCommand.setDescription(description);
-
-                // Step 9: Fetch currency from business partner's sales area based on customer number
-                String businessPartnerApiResponse = businessPartnerCloudController.getBusinessPartnerSalesArea(customerNumber).toString();
-                JsonNode businessPartnerJson = objectMapper.readTree(businessPartnerApiResponse);
-
-                JsonNode salesAreaArray = businessPartnerJson.path("d").path("results");
-                if (salesAreaArray.size() > 0) {
-                    String currency = salesAreaArray.get(0).path("Currency").asText();
-                    updatedServiceInvoiceMainCommand.setCurrencyCode(currency);
-                } else {
-                    throw new RuntimeException("Currency not found for customer number: " + customerNumber);
-                }
+//                JsonNode product = productsArray.get(i);
+//                JsonNode productDesc = productDescriptionsArray.get(i);
+//
+//                String serviceNumberCode = product.path("Product").asText();
+//                String unitOfMeasurementCode = product.path("BaseUnit").asText();
+//                String description = productDesc.path("ProductDescription").asText();
+//
+//                // Check if serviceNumberCode exists in ServiceNumber table
+//                Optional<ServiceNumber> existingServiceNumber = serviceNumberRepository.findByServiceNumberCode(Long.valueOf(serviceNumberCode));
+//
+//                ServiceNumber serviceNumber;
+//                if (!existingServiceNumber.isPresent()) {
+//                    serviceNumber = new ServiceNumber();
+//                    serviceNumber.setServiceNumberCode(Long.valueOf(serviceNumberCode));
+//                    serviceNumber = serviceNumberRepository.save(serviceNumber);
+//                } else {
+//                    serviceNumber = existingServiceNumber.get();
+//                }
+//
+//                updatedServiceInvoiceMainCommand.setServiceNumberCode(serviceNumber.getServiceNumberCode());
+//                updatedServiceInvoiceMainCommand.setUnitOfMeasurementCode(unitOfMeasurementCode);
+//                updatedServiceInvoiceMainCommand.setDescription(description);
+//
+//                // Step 9: Fetch currency from business partner's sales area based on customer number
+//                String businessPartnerApiResponse = businessPartnerCloudController.getBusinessPartnerSalesArea(customerNumber).toString();
+//                JsonNode businessPartnerJson = objectMapper.readTree(businessPartnerApiResponse);
+//
+//                JsonNode salesAreaArray = businessPartnerJson.path("d").path("results");
+//                if (salesAreaArray.size() > 0) {
+//                    String currency = salesAreaArray.get(0).path("Currency").asText();
+//                    updatedServiceInvoiceMainCommand.setCurrencyCode(currency);
+//                } else {
+//                    throw new RuntimeException("Currency not found for customer number: " + customerNumber);
+//                }
 
                 ServiceInvoiceMainCommand savedCommand = serviceInvoiceMainService.saveServiceInvoiceMainCommand(updatedServiceInvoiceMainCommand);
                 if (savedCommand == null) {

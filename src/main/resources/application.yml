@@ -1,9 +1,9 @@
-spring:
-  h2:
-    console:
-      enabled: true
-  datasource:
-    url: jdbc:h2:mem:testdb
+#spring:
+#  h2:
+#    console:
+#      enabled: true
+#  datasource:
+#    url: jdbc:h2:mem:testdb
 #  jpa:
 #    show-sql: true
 #    properties:
@@ -68,22 +68,22 @@ logging.level:
 
 
 
-##Local Db Config
-#spring:
-#  sql:
-#    init:
-#      mode: always
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/btpsd
-#    username: postgres
-#    password: P@ssw0rd
-#    driver-class-name: org.postgresql.Driver
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    database: postgresql
-#    database-platform: org.hibernate.dialect.PostgreSQLDialect
-#  autoconfigure:
-#    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
-#  main:
-#    allow-bean-definition-overriding: true
+#Local Db Config
+spring:
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:postgresql://localhost:5432/btpsd
+    username: postgres
+    password: P@ssw0rd
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  main:
+    allow-bean-definition-overriding: true

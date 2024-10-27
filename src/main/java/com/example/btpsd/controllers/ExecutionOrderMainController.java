@@ -79,44 +79,44 @@ ExecutionOrderMainController {
             JsonNode productDescriptionsArray = productDescJson.path("d").path("results");
 
             for (int i = 0; i < productsArray.size(); i++) {
-                JsonNode product = productsArray.get(i);
-                JsonNode productDesc = productDescriptionsArray.get(i);
-
-                String serviceNumberCode = product.path("Product").asText();
-                String unitOfMeasurementCode = product.path("BaseUnit").asText();
-                String description = productDesc.path("ProductDescription").asText();
-                String materialGroup = product.path("MaterialGroup").asText();  // Assuming material group exists
-
-                // Step 3: Check if serviceNumberCode exists in the ServiceNumber table
-                Optional<ServiceNumber> existingServiceNumber = serviceNumberRepository.findByServiceNumberCode(Long.valueOf(serviceNumberCode));
-
-                ServiceNumber serviceNumber;
-                if (!existingServiceNumber.isPresent()) {
-                    // Step 4: Create and save new ServiceNumber if it doesn't exist
-                    serviceNumber = new ServiceNumber();
-                    serviceNumber.setServiceNumberCode(Long.valueOf(serviceNumberCode));
-                    serviceNumber = serviceNumberRepository.save(serviceNumber);
-                } else {
-                    serviceNumber = existingServiceNumber.get();
-                }
-                // Step 9: Fetch currency from business partner's sales area based on customer number
-                String businessPartnerApiResponse = businessPartnerCloudController.getBusinessPartnerSalesArea(customerNumber).toString();
-                JsonNode businessPartnerJson = objectMapper.readTree(businessPartnerApiResponse);
-
-                JsonNode salesAreaArray = businessPartnerJson.path("d").path("results");
-                if (salesAreaArray.size() > 0) {
-                    String currency = salesAreaArray.get(0).path("Currency").asText();
-                    newExecutionOrderCommand.setCurrencyCode(currency);
-                } else {
-                    throw new RuntimeException("Currency not found for customer number: " + customerNumber);
-                }
-
-
-                // Step 5: Set the extracted values to the ExecutionOrderMainCommand
-                newExecutionOrderCommand.setServiceNumberCode(serviceNumber.getServiceNumberCode());
-                newExecutionOrderCommand.setUnitOfMeasurementCode(unitOfMeasurementCode);
-                newExecutionOrderCommand.setDescription(description);
-                newExecutionOrderCommand.setMaterialGroupCode(materialGroup);  // Assuming the field exists
+//                JsonNode product = productsArray.get(i);
+//                JsonNode productDesc = productDescriptionsArray.get(i);
+//
+//                String serviceNumberCode = product.path("Product").asText();
+//                String unitOfMeasurementCode = product.path("BaseUnit").asText();
+//                String description = productDesc.path("ProductDescription").asText();
+//                String materialGroup = product.path("MaterialGroup").asText();  // Assuming material group exists
+//
+//                // Step 3: Check if serviceNumberCode exists in the ServiceNumber table
+//                Optional<ServiceNumber> existingServiceNumber = serviceNumberRepository.findByServiceNumberCode(Long.valueOf(serviceNumberCode));
+//
+//                ServiceNumber serviceNumber;
+//                if (!existingServiceNumber.isPresent()) {
+//                    // Step 4: Create and save new ServiceNumber if it doesn't exist
+//                    serviceNumber = new ServiceNumber();
+//                    serviceNumber.setServiceNumberCode(Long.valueOf(serviceNumberCode));
+//                    serviceNumber = serviceNumberRepository.save(serviceNumber);
+//                } else {
+//                    serviceNumber = existingServiceNumber.get();
+//                }
+//                // Step 9: Fetch currency from business partner's sales area based on customer number
+//                String businessPartnerApiResponse = businessPartnerCloudController.getBusinessPartnerSalesArea(customerNumber).toString();
+//                JsonNode businessPartnerJson = objectMapper.readTree(businessPartnerApiResponse);
+//
+//                JsonNode salesAreaArray = businessPartnerJson.path("d").path("results");
+//                if (salesAreaArray.size() > 0) {
+//                    String currency = salesAreaArray.get(0).path("Currency").asText();
+//                    newExecutionOrderCommand.setCurrencyCode(currency);
+//                } else {
+//                    throw new RuntimeException("Currency not found for customer number: " + customerNumber);
+//                }
+//
+//
+//                // Step 5: Set the extracted values to the ExecutionOrderMainCommand
+//                newExecutionOrderCommand.setServiceNumberCode(serviceNumber.getServiceNumberCode());
+//                newExecutionOrderCommand.setUnitOfMeasurementCode(unitOfMeasurementCode);
+//                newExecutionOrderCommand.setDescription(description);
+//                newExecutionOrderCommand.setMaterialGroupCode(materialGroup);  // Assuming the field exists
 
                 // Step 6: Save the ExecutionOrderMain
                 ExecutionOrderMainCommand savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(newExecutionOrderCommand);

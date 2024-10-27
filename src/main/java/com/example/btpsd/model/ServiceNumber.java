@@ -34,6 +34,8 @@ public class ServiceNumber implements Serializable {
 
     private String materialGroupCode;
 
+    private String unitOfMeasurementCode;
+
 //    @NotNull
     private String description;
 

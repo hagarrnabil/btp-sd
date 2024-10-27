@@ -3,19 +3,19 @@ package com.example.btpsd.services;
 import com.example.btpsd.commands.InvoiceMainItemCommand;
 import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.repositories.InvoiceMainItemRepository;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public interface InvoiceMainItemService {
 
@@ -47,90 +47,67 @@ public interface InvoiceMainItemService {
 //
 //    }
 
-    public default ResponseEntity<String> callInvoicePricingAPI(String salesQuotation,
-                                                                String salesQuotationItem, Integer pricingProcedureStep, Integer pricingProcedureCounter,
-                                                                Double totalHeader) throws Exception {
-
-        // Initialize the logger
+    public default ResponseEntity<String> callInvoicePricingAPI(String salesQuotation, String salesQuotationItem, Integer pricingProcedureStep, Integer pricingProcedureCounter, Double totalHeader) throws Exception {
         Logger log = LogManager.getLogger(this.getClass());
+        try {
+            // Step 1: Prepare the request body with totalHeader as a String
+            String requestBody = "{\n \"ConditionType\": \"PPR0\",\n \"ConditionRateValue\": \"" + totalHeader + "\"\n}";
 
-        // Step 1: Prepare the request body with totalHeader as a String
-        JSONObject requestBodyJson = new JSONObject();
-        requestBodyJson.put("ConditionType", "PPR0"); // Set ConditionType to "PPR0"
-        requestBodyJson.put("ConditionRateValue", String.valueOf(totalHeader)); // Convert totalHeader to String
+            // Step 2: Fetch CSRF token
+            OkHttpClient client = new OkHttpClient().newBuilder().build();
+            MediaType mediaType = MediaType.parse("application/json");
 
-        String requestBody = requestBodyJson.toString();
+            // Encode authorization using Base64 from Apache Commons Codec
+            String credentials = "BTP_USER1:Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+            String encodedCredentials = new String(Base64.encodeBase64(credentials.getBytes(StandardCharsets.UTF_8)));
 
-        // Step 2: Fetch CSRF token
-        String tokenURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='"
-                + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem + "')/to_PricingElement?%24inlinecount=allpages&%24top=50";
+            // First, we fetch the CSRF token by sending a GET request
+            Request tokenRequest = new Request.Builder()
+                    .url("https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='" + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem + "')/to_PricingElement?%24inlinecount=allpages&%24top=50")
+                    .method("GET", null)
+                    .addHeader("x-csrf-token", "Fetch")
+                    .addHeader("Authorization", "Basic " + encodedCredentials)
+                    .addHeader("Accept", "application/json")
+                    .build();
 
-        HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenURL).openConnection();
-        String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt"; // Keep this secure
-        String auth = user + ":" + password;
-        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
-        String authHeaderValue = "Basic " + new String(encodedAuth);
+            Response tokenResponse = client.newCall(tokenRequest).execute();
+            String csrfToken = tokenResponse.header("x-csrf-token");
+            String cookies = tokenResponse.header("Set-Cookie");
 
-        tokenConn.setRequestMethod("GET");
-        tokenConn.setRequestProperty("Authorization", authHeaderValue);
-        tokenConn.setRequestProperty("x-csrf-token", "Fetch");
-        tokenConn.setRequestProperty("Accept", "application/json");
+            if (csrfToken == null || csrfToken.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Failed to fetch CSRF token");
+            }
 
-        // Fetch CSRF Token and cookies
-        String csrfToken = tokenConn.getHeaderField("x-csrf-token");
-        String cookies = tokenConn.getHeaderField("Set-Cookie");
+            log.debug("Fetched CSRF token successfully: " + csrfToken);
 
-        if (csrfToken == null || csrfToken.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Failed to fetch CSRF token");
-        }
+            // Step 3: Make the PATCH request to update the Sales Quotation Pricing Element
+            String patchURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItemPrcgElmnt(SalesQuotation='" + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem + "',PricingProcedureStep='" + pricingProcedureStep + "',PricingProcedureCounter='" + pricingProcedureCounter + "')";
 
-        log.debug("Fetched CSRF token successfully: " + csrfToken);
+            // Now, we make the PATCH request
+            Request patchRequest = new Request.Builder()
+                    .url(patchURL)
+                    .method("PATCH", RequestBody.create(mediaType, requestBody))
+                    .addHeader("Authorization", "Basic " + encodedCredentials)
+                    .addHeader("x-csrf-token", csrfToken)
+                    .addHeader("If-Match", "*")
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Cookie", cookies)
+                    .build();
 
-        // Step 3: Make the PATCH request to update the Sales Quotation Pricing Element
-        String patchURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata4/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItemPrcgElmnt(SalesQuotation='"
-                + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem
-                + "',PricingProcedureStep='" + pricingProcedureStep
-                + "',PricingProcedureCounter='" + pricingProcedureCounter + "')";
+            Response patchResponse = client.newCall(patchRequest).execute();
+            int responseCode = patchResponse.code();
+            String responseString = patchResponse.body().string();
 
-        HttpURLConnection patchConn = (HttpURLConnection) new URL(patchURL).openConnection();
-        patchConn.setRequestMethod("POST"); // Use POST instead of PATCH
-        patchConn.setRequestProperty("X-HTTP-Method-Override", "PATCH");
-        patchConn.setRequestProperty("Authorization", authHeaderValue);
-        patchConn.setRequestProperty("x-csrf-token", csrfToken);
-        patchConn.setRequestProperty("If-Match", "*");
-        patchConn.setRequestProperty("Content-Type", "application/json");
+            log.debug("Response Code: " + responseCode);
 
-        if (cookies != null) {
-            patchConn.setRequestProperty("Cookie", cookies);
-        }
-
-        patchConn.setDoOutput(true);
-        try (OutputStream os = patchConn.getOutputStream()) {
-            byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
-            os.write(input, 0, input.length);
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending request body: " + e.getMessage());
-        }
-
-        int responseCode = patchConn.getResponseCode();
-        log.debug("Response Code: " + responseCode);
-
-        StringBuilder response = new StringBuilder();
-
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                responseCode >= 200 && responseCode < 300 ? patchConn.getInputStream() : patchConn.getErrorStream(),
-                StandardCharsets.UTF_8))) {
-            String responseLine;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
+            if (responseCode >= 200 && responseCode < 300) {
+                return ResponseEntity.status(responseCode).body(responseString);
+            } else {
+                return ResponseEntity.status(responseCode).body("Failed to update Invoice Pricing Element. Response: " + responseString);
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error reading response: " + e.getMessage());
+            log.error("Error while calling Sales Quotation Pricing API: " + e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
         }
-
-        // Return the response along with the response code
-        return ResponseEntity.status(responseCode).body(response.toString());
     }
-
 }

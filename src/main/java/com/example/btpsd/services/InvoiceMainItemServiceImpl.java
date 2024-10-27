@@ -39,15 +39,20 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
     @Override
     @Transactional
     public Set<InvoiceMainItemCommand> getMainItemCommands() {
-        Double totalHeader = getTotalHeader();  // Call the method directly
+        Double totalHeader = getTotalHeader();
+        if (totalHeader == null) {
+            totalHeader = 0.0;
+        }
+        Double finalTotalHeader = totalHeader;
         return StreamSupport.stream(invoiceMainItemRepository.findAll().spliterator(), false)
                 .map(invoiceMainItem -> {
                     InvoiceMainItemCommand command = invoiceMainItemToInvoiceMainItemCommand.convert(invoiceMainItem);
-                    command.setTotalHeader(totalHeader);
+                    command.setTotalHeader(finalTotalHeader);
                     return command;
                 })
                 .collect(Collectors.toSet());
     }
+
 
 
     public InvoiceMainItemCommand getInvoiceMainItemWithTotalHeader(Long id) {

@@ -26,6 +26,8 @@ public class ServiceNumberCommand implements Serializable {
 
     private String materialGroupCode;
 
+    private String unitOfMeasurementCode;
+
     private String description;
 
     private Boolean shortTextChangeAllowed;
