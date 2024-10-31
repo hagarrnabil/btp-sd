@@ -19,7 +19,7 @@ public class ExecutionOrderMainCommand implements Serializable {
 
     private Long executionOrderMainCode;
 
-//    private Long invoiceMainItemCode;
+    private String referenceId;
 
     private Long serviceNumberCode;
 

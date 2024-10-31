@@ -64,6 +64,7 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
             executionOrderMain.setActualQuantity(executionOrderMain.getServiceInvoiceMain().getActualQuantity());
         }
 
+        executionOrderMain.setReferenceId(source.getReferenceId());
         executionOrderMain.setTotalHeader(0.0);
         return executionOrderMain;
 

@@ -64,6 +64,7 @@ public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceI
         if (source.getServiceNumber() != null) {
             serviceInvoiceMainCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
+        serviceInvoiceMainCommand.setReferenceId(source.getReferenceId());
         serviceInvoiceMainCommand.setTotalHeader(source.getTotalHeader());
         return serviceInvoiceMainCommand;
     }

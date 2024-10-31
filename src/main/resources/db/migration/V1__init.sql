@@ -1,3 +1,15 @@
+-- Clear records from tables using CASCADE to handle dependencies
+TRUNCATE TABLE formula_parameter_ids, formula_parameter_descriptions, formula_test_parameters CASCADE;
+TRUNCATE TABLE invoiceSubItem, invoiceMainItem, serviceInvoice, executionOrderMain, "serviceNumber" CASCADE;
+TRUNCATE TABLE model_specifications_details, model_specifications CASCADE;
+TRUNCATE TABLE currency, material_group, service_type, line_type CASCADE;
+TRUNCATE TABLE formula CASCADE;
+-- Drop all tables, handling dependencies with CASCADE
+DROP TABLE IF EXISTS formula_parameter_ids, formula_parameter_descriptions, formula_test_parameters CASCADE;
+DROP TABLE IF EXISTS invoiceSubItem, invoiceMainItem, serviceInvoice, executionOrderMain, "serviceNumber" CASCADE;
+DROP TABLE IF EXISTS model_specifications_details, model_specifications CASCADE;
+DROP TABLE IF EXISTS currency, material_group, service_type, line_type CASCADE;
+DROP TABLE IF EXISTS formula CASCADE;
 -- Create table for LineType
 CREATE TABLE line_type
 (
@@ -63,10 +75,10 @@ CREATE TABLE "serviceNumber"
 (
     service_number_code                 SERIAL PRIMARY KEY,
     no_service_number                   BIGINT,
-    search_term                         VARCHAR(255) NOT NULL,
-    service_type_code                   VARCHAR(255) NOT NULL,
+    search_term                         VARCHAR(255),
+    service_type_code                   VARCHAR(255),
     material_group_code                 VARCHAR(255),
-    description                         VARCHAR(255) NOT NULL,
+    description                         VARCHAR(255),
     short_text_change_allowed           BOOLEAN,
     deletion_indicator                  BOOLEAN,
     main_item                           BOOLEAN,

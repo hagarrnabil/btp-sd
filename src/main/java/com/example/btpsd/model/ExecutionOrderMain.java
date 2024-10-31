@@ -25,6 +25,8 @@ public class ExecutionOrderMain implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long executionOrderMainCode;
 
+    private String referenceId;
+
     private Long serviceNumberCode;
 
     private String description;

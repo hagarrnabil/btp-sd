@@ -1,6 +1,7 @@
 package com.example.btpsd.repositories;
 
 import com.example.btpsd.model.ExecutionOrderMain;
+import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.model.ServiceInvoiceMain;
 import org.springframework.data.repository.CrudRepository;
 
@@ -12,4 +13,6 @@ public interface ExecutionOrderMainRepository extends CrudRepository<ExecutionOr
     List<ExecutionOrderMain> findByLineNumber(String lineNumber);
 
     Optional<ExecutionOrderMain> findByServiceNumberCode(Long serviceNumberCode);
+
+    List<ExecutionOrderMain> findByReferenceId(String referenceId);
 }

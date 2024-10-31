@@ -101,6 +101,7 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
             serviceInvoiceMain.setServiceNumber(serviceNumber);
             serviceNumber.addServiceInvoiceMain(serviceInvoiceMain);
         }
+        serviceInvoiceMain.setReferenceId(source.getReferenceId());
         serviceInvoiceMain.setTotalHeader(0.0);
         return serviceInvoiceMain;
 

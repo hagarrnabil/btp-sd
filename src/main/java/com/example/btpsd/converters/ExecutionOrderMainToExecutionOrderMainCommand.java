@@ -62,6 +62,7 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         if (source.getServiceNumber() != null) {
             executionOrderMainCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
+        executionOrderMainCommand.setReferenceId(source.getReferenceId());
         executionOrderMainCommand.setTotalHeader(source.getTotalHeader());
         return executionOrderMainCommand;
     }

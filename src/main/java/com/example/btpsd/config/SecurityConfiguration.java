@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
@@ -35,18 +36,18 @@ public class SecurityConfiguration {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/iasusers");
-//        return (web) -> web.ignoring().requestMatchers("/iasusers", "/formulas/*", "/formulas", "/linetypes/*", "/linetypes", "/materialgroups/*", "/materialgroups", "/modelspecs", "/modelspecs/*",
-//                "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*", "/personnelnumbers", "/servicenumbers/*", "/servicenumbers", "/servicetypes/*", "/servicetypes",
-//                "/invoices/*", "/invoices", "/mainitems/*/*/*/*/*", "/mainitems/*/*", "/subitems/*", "/subitems", "/currencies/*", "/currencies", "/salesorder", "/salesorder/*", "/salesorderitems", "/salesorderitems/*," ,
-//                "/salesorderpricing", "/salesorderpricing/*", "/executionordersub", "/executionordersub/*", "/executionordermain/*/*", "/executionordermain/*/*/*", "/salesordercloud", "/salesordercloud/*",
-//                "/salesorderpostcloud", "/salesorderpostcloud/*", "/serviceinvoice/*/*/*/*/*", "/serviceinvoice/*/*", "/salesorderitemcloud/*", "/salesorderitemcloud",
-//                "/salesorderitemscloud/*", "/salesorderitemscloud", "/salesorderpricingcloud/*/*", "/salesorderpricingcloud", "/salesquotationcloud", "/salesquotationcloud/*",
-//                "/salesquotationpostcloud/*", "/salesquotationpostcloud", "/salesquotationitemcloud/*", "/salesquotationitemcloud", "/salesquotationitemscloud", "/salesquotationitemscloud/*",
-//                "/salesquotationpricingcloud/*/*", "/salesquotationpricingcloud", "/debitmemocloud/*" , "/debitmemocloud", "/debitmemopostcloud/*", "/debitmemopostcloud",
-//                "/debitmemoitemscloud", "/debitmemoitemscloud/*","/salesorderallpricingcloud", "/salesorderallpricingcloud/*", "/salesorderitempricingcloudpost/*/*",
-//                "/salesquotationricingcloudpatch/*/*/*/*", "/productcloud", "/productdescriptioncloud", "/businesspartner", "/salesquotationitem/*/*",
-//                "/salesorderitem/*/*", "/debitmemoitems/*/*", "/allproductscloud");
+//        return (web) -> web.ignoring().requestMatchers("/iasusers");
+        return (web) -> web.ignoring().requestMatchers("/iasusers", "/formulas/*", "/formulas", "/linetypes/*", "/linetypes", "/materialgroups/*", "/materialgroups", "/modelspecs", "/modelspecs/*",
+                "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*", "/personnelnumbers", "/servicenumbers/*", "/servicenumbers", "/servicetypes/*", "/servicetypes",
+                "/invoices/*", "/invoices", "/mainitems/*/*/*/*/*", "/mainitems/*/*", "/mainitems","/mainitems/*", "/subitems/*", "/subitems", "/currencies/*", "/currencies", "/salesorder", "/salesorder/*", "/salesorderitems", "/salesorderitems/*," ,
+                "/salesorderpricing", "/salesorderpricing/*", "/executionordersub", "/executionordersub/*", "/executionordermain/*/*", "/executionordermain/*/*/*", "/executionordermain", "/executionordermain/*","/salesordercloud", "/salesordercloud/*",
+                "/salesorderpostcloud", "/salesorderpostcloud/*", "/serviceinvoice/*/*/*/*/*", "/serviceinvoice/*/*", "/serviceinvoice", "/serviceinvoice/*", "/salesorderitemcloud/*", "/salesorderitemcloud",
+                "/salesorderitemscloud/*", "/salesorderitemscloud", "/salesorderpricingcloud/*/*", "/salesorderpricingcloud", "/salesquotationcloud", "/salesquotationcloud/*",
+                "/salesquotationpostcloud/*", "/salesquotationpostcloud", "/salesquotationitemcloud/*", "/salesquotationitemcloud", "/salesquotationitemscloud", "/salesquotationitemscloud/*",
+                "/salesquotationpricingcloud/*/*", "/salesquotationpricingcloud", "/debitmemocloud/*" , "/debitmemocloud", "/debitmemopostcloud/*", "/debitmemopostcloud",
+                "/debitmemoitemscloud", "/debitmemoitemscloud/*","/salesorderallpricingcloud", "/salesorderallpricingcloud/*", "/salesorderitempricingcloudpost/*/*",
+                "/salesquotationricingcloudpatch/*/*/*/*", "/productcloud", "/productdescriptioncloud", "/businesspartner", "/salesquotationitem/*/*",
+                "/salesorderitem/*/*", "/debitmemoitems/*/*", "/allproductscloud");
     }
 
     @Bean
@@ -66,12 +67,14 @@ public class SecurityConfiguration {
                                 "/api/v1/auth/**")
                         .hasAuthority("XSUAA-User")
                         .requestMatchers("/sayHello").hasAuthority("$XSAPPNAME.User")
+                        .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                         .requestMatchers("/**").authenticated()
                         .anyRequest().denyAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(authConverter())))
-                .csrf(csrf -> csrf.disable());
+                .csrf(csrf -> csrf.disable())
+        .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
         return http.build();
     }
 }

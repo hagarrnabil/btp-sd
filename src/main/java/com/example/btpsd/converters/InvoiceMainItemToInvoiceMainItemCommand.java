@@ -62,6 +62,7 @@ public class InvoiceMainItemToInvoiceMainItemCommand implements Converter<Invoic
 
         // Include the total header in the conversion
         invoiceMainItemCommand.setTotalHeader(source.getTotalHeader());
+        invoiceMainItemCommand.setReferenceId(source.getReferenceId());
         return invoiceMainItemCommand;
     }
 

@@ -1,6 +1,7 @@
 package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.InvoiceMainItemCommand;
+import com.example.btpsd.converters.InvoiceMainItemCommandToInvoiceMainItem;
 import com.example.btpsd.converters.InvoiceMainItemToInvoiceMainItemCommand;
 import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.model.ModelSpecificationsDetails;
@@ -16,12 +17,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -32,8 +35,7 @@ public class InvoiceMainItemController {
 
     private final InvoiceMainItemRepository invoiceMainItemRepository;
 
-    @Autowired
-    private final ServiceNumberRepository serviceNumberRepository;
+    private final InvoiceMainItemCommandToInvoiceMainItem invoiceMainItemCommandToInvoiceMainItem;
 
     private final InvoiceMainItemService invoiceMainItemService;
 
@@ -59,6 +61,22 @@ public class InvoiceMainItemController {
         return salesOrderCloudController.getSalesQuotationItemById(salesQuotation, salesQuotationItem);
     }
 
+    @GetMapping("/mainitems/{referenceId}")
+    public ResponseEntity<List<InvoiceMainItemCommand>> getInvoiceMainItemsByReferenceId(@PathVariable String referenceId) {
+        Optional<InvoiceMainItem> invoiceMainItems = invoiceMainItemRepository.findByReferenceId(referenceId);
+
+        if (invoiceMainItems.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Return 404 if no items found
+        }
+
+        // Convert the list of InvoiceMainItem to InvoiceMainItemCommand for the response
+        List<InvoiceMainItemCommand> responseItems = invoiceMainItems.stream()
+                .map(invoiceMainItemToInvoiceMainItemCommand::convert)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(responseItems);
+    }
+
 
     @PatchMapping("/mainitems/{salesQuotation}/{salesQuotationItem}/{pricingProcedureStep}/{pricingProcedureCounter}/{customerNumber}")
     public InvoiceMainItemCommand updateMainItemCommand(
@@ -69,88 +87,38 @@ public class InvoiceMainItemController {
             @PathVariable Integer pricingProcedureCounter,
             @PathVariable String customerNumber) throws Exception {
 
-        // Step 1: Fetch product and product description from ProductCloudController
-        String productApiResponse = productCloudController.getAllProducts().toString();
-        String productDescApiResponse = productCloudController.getAllProductsDesc().toString();
+        // Step 1: Set the referenceId for the command
+        updatedInvoiceMainItemCommand.setReferenceId(salesQuotation);
 
-        // Step 2: Extract fields from the product API response
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            JsonNode productJson = objectMapper.readTree(productApiResponse);
-            JsonNode productDescJson = objectMapper.readTree(productDescApiResponse);
+        // Step 2: Check if an InvoiceMainItem with the same referenceId exists
+        Optional<InvoiceMainItem> existingInvoiceOpt = invoiceMainItemRepository.findByReferenceId(updatedInvoiceMainItemCommand.getReferenceId());
+        InvoiceMainItem savedInvoiceMainItem;
 
-            JsonNode productsArray = productJson.path("d").path("results");
-            JsonNode productDescriptionsArray = productDescJson.path("d").path("results");
-
-            for (int i = 0; i < productsArray.size(); i++) {
-//                JsonNode product = productsArray.get(i);
-//                JsonNode productDesc = productDescriptionsArray.get(i);
-//
-//                String serviceNumberCode = product.path("Product").asText();
-//                String unitOfMeasurementCode = product.path("BaseUnit").asText();
-//                String description = productDesc.path("ProductDescription").asText();
-//
-//                // Step 3: Check if serviceNumberCode exists in the ServiceNumber table
-//                Optional<ServiceNumber> existingServiceNumber = serviceNumberRepository.findByServiceNumberCode(Long.valueOf(serviceNumberCode));
-//
-//                ServiceNumber serviceNumber;
-//                if (!existingServiceNumber.isPresent()) {
-//                    // Step 4: Create and save new ServiceNumber if not exists
-//                    serviceNumber = new ServiceNumber();
-//                    serviceNumber.setServiceNumberCode(Long.valueOf(serviceNumberCode));
-//                    serviceNumber = serviceNumberRepository.save(serviceNumber);
-//                } else {
-//                    serviceNumber = existingServiceNumber.get();
-//                }
-//
-//                // Step 5: Set the extracted values to the InvoiceMainItemCommand
-//                updatedInvoiceMainItemCommand.setServiceNumberCode(serviceNumber.getServiceNumberCode());
-//                updatedInvoiceMainItemCommand.setUnitOfMeasurementCode(unitOfMeasurementCode);
-//                updatedInvoiceMainItemCommand.setDescription(description);
-//
-//                // Step 9: Fetch currency from business partner's sales area based on customer number
-//                String businessPartnerApiResponse = businessPartnerCloudController.getBusinessPartnerSalesArea(customerNumber).toString();
-//                JsonNode businessPartnerJson = objectMapper.readTree(businessPartnerApiResponse);
-//
-//                JsonNode salesAreaArray = businessPartnerJson.path("d").path("results");
-//                if (salesAreaArray.size() > 0) {
-//                    String currency = salesAreaArray.get(0).path("Currency").asText();
-//                    updatedInvoiceMainItemCommand.setCurrencyCode(currency);
-//                } else {
-//                    throw new RuntimeException("Currency not found for customer number: " + customerNumber);
-//                }
-
-
-                // Step 6: Save the updated InvoiceMainItem
-                InvoiceMainItemCommand savedCommand = invoiceMainItemService.saveMainItemCommand(updatedInvoiceMainItemCommand);
-                if (savedCommand == null) {
-                    throw new RuntimeException("Failed to update Invoice Main Item.");
-                }
-
-                // Step 7: Extract the totalHeader from the saved Main Item
-                Double totalHeader = savedCommand.getTotalHeader();
-
-                // Step 8: Convert totalHeader to string and call the Sales Quotation Pricing API
-                try {
-//                    String conditionRateAmount = String.valueOf(totalHeader); // Convert totalHeader to a string
-
-                    // Call the Sales Quotation Pricing API
-                    invoiceMainItemService.callInvoicePricingAPI(
-                            salesQuotation, salesQuotationItem, pricingProcedureStep, pricingProcedureCounter, totalHeader);
-                } catch (Exception e) {
-                    log.error("Error while calling Sales Quotation Pricing API: " + e.getMessage(), e);
-                    throw new RuntimeException("Failed to update Invoice Pricing Element. Response Code: " + e.getMessage());
-                }
-
-
-                return savedCommand;
-            }
-
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error processing product API response", e);
+        if (existingInvoiceOpt.isPresent()) {
+            // Update existing InvoiceMainItem using the update method
+            savedInvoiceMainItem = invoiceMainItemService.updateMainItem(updatedInvoiceMainItemCommand, existingInvoiceOpt.get().getInvoiceMainItemCode());
+        } else {
+            // Create a new InvoiceMainItem
+            savedInvoiceMainItem = invoiceMainItemCommandToInvoiceMainItem.convert(updatedInvoiceMainItemCommand);
+            savedInvoiceMainItem = invoiceMainItemRepository.save(savedInvoiceMainItem);
         }
 
-        return updatedInvoiceMainItemCommand;
+        // Step 3: Calculate the totalHeader
+        Double totalHeader = invoiceMainItemService.getTotalHeader();
+        savedInvoiceMainItem.setTotalHeader(totalHeader);
+        invoiceMainItemRepository.save(savedInvoiceMainItem);
+
+        // Step 4: Call the Sales Quotation Pricing API with the updated total header
+        try {
+            invoiceMainItemService.callInvoicePricingAPI(
+                    salesQuotation, salesQuotationItem, pricingProcedureStep, pricingProcedureCounter, totalHeader);
+        } catch (Exception e) {
+            log.error("Error while calling Sales Quotation Pricing API: " + e.getMessage(), e);
+            throw new RuntimeException("Failed to update Invoice Pricing Element. Response Code: " + e.getMessage());
+        }
+
+        // Convert back to command for return
+        return invoiceMainItemToInvoiceMainItemCommand.convert(savedInvoiceMainItem);
     }
 
     @DeleteMapping("/mainitems/{mainItemCode}")
@@ -158,14 +126,6 @@ public class InvoiceMainItemController {
         invoiceMainItemService.deleteById(mainItemCode);
     }
 
-//    @PatchMapping
-//    @RequestMapping("/mainitems/{mainItemCode}")
-//    @Transactional
-//    InvoiceMainItemCommand updateMainItemCommand(@RequestBody InvoiceMainItemCommand newInvoiceMainItemCommand, @PathVariable Long mainItemCode) {
-//
-//        InvoiceMainItemCommand command = invoiceMainItemToInvoiceMainItemCommand.convert(invoiceMainItemService.updateMainItem(newInvoiceMainItemCommand, mainItemCode));
-//        return command;
-//    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mainitems/search")
     @ResponseBody

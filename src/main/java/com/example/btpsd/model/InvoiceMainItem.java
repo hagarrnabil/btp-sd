@@ -23,6 +23,8 @@ public class InvoiceMainItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long invoiceMainItemCode;
 
+    private String referenceId;
+
     private Long serviceNumberCode;
 
     private String unitOfMeasurementCode;

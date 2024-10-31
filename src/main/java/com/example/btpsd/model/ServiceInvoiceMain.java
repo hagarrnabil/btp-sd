@@ -23,6 +23,8 @@ public class ServiceInvoiceMain implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long serviceInvoiceCode;
 
+    private String referenceId;
+
     private Long serviceNumberCode;
 
     private String description;

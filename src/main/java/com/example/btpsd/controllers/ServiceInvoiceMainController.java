@@ -1,9 +1,12 @@
 package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
+import com.example.btpsd.commands.InvoiceMainItemCommand;
 import com.example.btpsd.commands.ServiceInvoiceMainCommand;
 import com.example.btpsd.converters.ExecutionOrderMainToExecutionOrderMainCommand;
+import com.example.btpsd.converters.ServiceInvoiceCommandToServiceInvoice;
 import com.example.btpsd.converters.ServiceInvoiceToServiceInvoiceCommand;
+import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.model.ServiceInvoiceMain;
 import com.example.btpsd.model.ServiceNumber;
 import com.example.btpsd.repositories.ServiceInvoiceMainRepository;
@@ -18,25 +21,20 @@ import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
 public class ServiceInvoiceMainController {
 
     Logger log = LogManager.getLogger(this.getClass());
-
-    @Autowired
-    private final ServiceNumberRepository serviceNumberRepository;
-
-    private final ProductCloudController productCloudController;
-
-    private final BusinessPartnerCloudController businessPartnerCloudController;
 
     private final SalesOrderCloudController salesOrderCloudController;
 
@@ -45,6 +43,8 @@ public class ServiceInvoiceMainController {
     private final ServiceInvoiceMainService serviceInvoiceMainService;
 
     private final ServiceInvoiceToServiceInvoiceCommand serviceInvoiceToServiceInvoiceCommand;
+
+    private final ServiceInvoiceCommandToServiceInvoice serviceInvoiceCommandToServiceInvoice;
 
     @GetMapping("/serviceinvoice")
     Set<ServiceInvoiceMainCommand> all() {
@@ -60,21 +60,27 @@ public class ServiceInvoiceMainController {
         return salesOrderCloudController.getDebitMemoRequestItem(debitMemoRequest, debitMemoRequestItem);
     }
 
-    @PostMapping("/serviceinvoice")
-    ServiceInvoiceMainCommand newServiceInvoiceCommand(@RequestBody ServiceInvoiceMainCommand newServiceInvoiceCommand) {
+    @GetMapping("/serviceinvoice/{referenceId}")
+    public ResponseEntity<List<ServiceInvoiceMainCommand>> getInvoiceMainItemsByReferenceId(@PathVariable String referenceId) {
+        Optional<ServiceInvoiceMain> serviceInvoiceMain = serviceInvoiceMainRepository.findByReferenceId(referenceId);
 
-        ServiceInvoiceMainCommand savedCommand = serviceInvoiceMainService.saveServiceInvoiceMainCommand(newServiceInvoiceCommand);
-        // You can access executionOrderMainCode like this:
-        Long executionOrderMainCode = savedCommand.getExecutionOrderMain().getExecutionOrderMainCode();
+        if (serviceInvoiceMain.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Return 404 if no items found
+        }
 
-        return savedCommand;
+        // Convert the list of InvoiceMainItem to InvoiceMainItemCommand for the response
+        List<ServiceInvoiceMainCommand> responseItems = serviceInvoiceMain.stream()
+                .map(serviceInvoiceToServiceInvoiceCommand::convert)
+                .collect(Collectors.toList());
 
+        return ResponseEntity.ok(responseItems);
     }
 
     @DeleteMapping("/serviceinvoice/{serviceInvoiceCode}")
     void deleteServiceInvoiceCommand(@PathVariable Long serviceInvoiceCode) {
         serviceInvoiceMainService.deleteById(serviceInvoiceCode);
     }
+
 
     @PatchMapping("/serviceinvoice/{debitMemoRequest}/{debitMemoRequestItem}/{pricingProcedureStep}/{pricingProcedureCounter}/{customerNumber}")
     public ServiceInvoiceMainCommand updateServiceInvoiceCommand(
@@ -84,93 +90,38 @@ public class ServiceInvoiceMainController {
             @PathVariable Integer pricingProcedureStep,
             @PathVariable Integer pricingProcedureCounter, @PathVariable String customerNumber) throws Exception {
 
-        // Fetch data from the required controller (similar to productCloudController)
-        String productApiResponse = productCloudController.getAllProducts().toString();
-        String productDescApiResponse = productCloudController.getAllProductsDesc().toString();
+        updatedServiceInvoiceMainCommand.setReferenceId(debitMemoRequest);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            JsonNode productJson = objectMapper.readTree(productApiResponse);
-            JsonNode productDescJson = objectMapper.readTree(productDescApiResponse);
+        Optional<ServiceInvoiceMain> optionalServiceInvoiceMain = serviceInvoiceMainRepository.findByReferenceId(updatedServiceInvoiceMainCommand.getReferenceId());
+        ServiceInvoiceMain savedServiceInvoice;
 
-            JsonNode productsArray = productJson.path("d").path("results");
-            JsonNode productDescriptionsArray = productDescJson.path("d").path("results");
-
-            for (int i = 0; i < productsArray.size(); i++) {
-//                JsonNode product = productsArray.get(i);
-//                JsonNode productDesc = productDescriptionsArray.get(i);
-//
-//                String serviceNumberCode = product.path("Product").asText();
-//                String unitOfMeasurementCode = product.path("BaseUnit").asText();
-//                String description = productDesc.path("ProductDescription").asText();
-//
-//                // Check if serviceNumberCode exists in ServiceNumber table
-//                Optional<ServiceNumber> existingServiceNumber = serviceNumberRepository.findByServiceNumberCode(Long.valueOf(serviceNumberCode));
-//
-//                ServiceNumber serviceNumber;
-//                if (!existingServiceNumber.isPresent()) {
-//                    serviceNumber = new ServiceNumber();
-//                    serviceNumber.setServiceNumberCode(Long.valueOf(serviceNumberCode));
-//                    serviceNumber = serviceNumberRepository.save(serviceNumber);
-//                } else {
-//                    serviceNumber = existingServiceNumber.get();
-//                }
-//
-//                updatedServiceInvoiceMainCommand.setServiceNumberCode(serviceNumber.getServiceNumberCode());
-//                updatedServiceInvoiceMainCommand.setUnitOfMeasurementCode(unitOfMeasurementCode);
-//                updatedServiceInvoiceMainCommand.setDescription(description);
-//
-//                // Step 9: Fetch currency from business partner's sales area based on customer number
-//                String businessPartnerApiResponse = businessPartnerCloudController.getBusinessPartnerSalesArea(customerNumber).toString();
-//                JsonNode businessPartnerJson = objectMapper.readTree(businessPartnerApiResponse);
-//
-//                JsonNode salesAreaArray = businessPartnerJson.path("d").path("results");
-//                if (salesAreaArray.size() > 0) {
-//                    String currency = salesAreaArray.get(0).path("Currency").asText();
-//                    updatedServiceInvoiceMainCommand.setCurrencyCode(currency);
-//                } else {
-//                    throw new RuntimeException("Currency not found for customer number: " + customerNumber);
-//                }
-
-                ServiceInvoiceMainCommand savedCommand = serviceInvoiceMainService.saveServiceInvoiceMainCommand(updatedServiceInvoiceMainCommand);
-                if (savedCommand == null) {
-                    throw new RuntimeException("Failed to update Service Invoice Main.");
-                }
-
-                Double totalHeader = savedCommand.getTotalHeader();
-
-                log.debug("Calling Debit Memo Pricing API with data: ");
-                log.debug("Debit Memo Request: " + debitMemoRequest);
-                log.debug("Debit Memo Request Item: " + debitMemoRequestItem);
-                log.debug("Pricing Procedure Step: " + pricingProcedureStep);
-                log.debug("Pricing Procedure Counter: " + pricingProcedureCounter);
-
-                try {
-                    serviceInvoiceMainService.callDebitMemoPricingAPI(
-                            debitMemoRequest, debitMemoRequestItem, pricingProcedureStep, pricingProcedureCounter, totalHeader);
-                } catch (Exception e) {
-                    log.error("Error while calling Debit Memo Pricing API: " + e.getMessage(), e);
-                    throw new RuntimeException("Failed to update Debit Memo Pricing Element. Response Code: " + e.getMessage());
-                }
-
-                return savedCommand;
-            }
-
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error processing product API response", e);
+        if (optionalServiceInvoiceMain.isPresent()) {
+            savedServiceInvoice = serviceInvoiceCommandToServiceInvoice.convert(updatedServiceInvoiceMainCommand);
+            savedServiceInvoice = serviceInvoiceMainService.updateServiceInvoiceMain(savedServiceInvoice, optionalServiceInvoiceMain.get().getServiceInvoiceCode());
+        } else {
+            // Create a new InvoiceMainItem
+            savedServiceInvoice = serviceInvoiceCommandToServiceInvoice.convert(updatedServiceInvoiceMainCommand);
+            savedServiceInvoice = serviceInvoiceMainRepository.save(savedServiceInvoice);
         }
 
-        return updatedServiceInvoiceMainCommand;
+        Double totalHeader = serviceInvoiceMainService.getTotalHeader();
+        savedServiceInvoice.setTotalHeader(totalHeader);
+        serviceInvoiceMainRepository.save(savedServiceInvoice);
+
+        // Step 4: Call the Sales Quotation Pricing API with the updated total header
+        try {
+            serviceInvoiceMainService.callDebitMemoPricingAPI(
+                    debitMemoRequest, debitMemoRequestItem, pricingProcedureStep, pricingProcedureCounter, totalHeader);
+        } catch (Exception e) {
+            log.error("Error while calling Debit Mmo Pricing API: " + e.getMessage(), e);
+            throw new RuntimeException("Failed to update Invoice Pricing Element. Response Code: " + e.getMessage());
+        }
+
+        // Convert back to command for return
+        return serviceInvoiceToServiceInvoiceCommand.convert(savedServiceInvoice);
+
     }
 
-//    @PatchMapping
-//    @RequestMapping("/serviceinvoice/{serviceInvoiceCode}")
-//    @Transactional
-//    ServiceInvoiceMainCommand updateServiceInvoiceCommand(@RequestBody ServiceInvoiceMain newServiceInvoiceCommand , @PathVariable Long serviceInvoiceCode) {
-//
-//        ServiceInvoiceMainCommand command = serviceInvoiceToServiceInvoiceCommand.convert(serviceInvoiceMainService.updateServiceInvoiceMain(newServiceInvoiceCommand, serviceInvoiceCode));
-//        return command;
-//    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/serviceinvoice/linenumber")
     @ResponseBody
