@@ -12,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.nio.charset.StandardCharsets;
@@ -27,19 +26,9 @@ import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*" , methods = {  GET,
-        HEAD,
-        POST,
-        PUT,
-        PATCH,
-        DELETE,
-        OPTIONS,
-        TRACE}
-        , maxAge = 3600L)
 @RestController
 @RequestMapping("/accounts")
 public class AccountsController {
-
 
     @Value("623a6227-8cde-424a-9d03-ee5fe8f6baba")
     private String clientId;
@@ -57,7 +46,6 @@ public class AccountsController {
     private String endSessionEndpoint;
 
     private final RestTemplate restTemplate;
-
 
     @Autowired
     public AccountsController(RestTemplate restTemplate) {
@@ -96,7 +84,6 @@ public class AccountsController {
 
         return ResponseEntity.ok(response.getBody());
     }
-
 
     @PostMapping
     public String createUser(@RequestBody UserDto userDto) {
@@ -180,7 +167,6 @@ public class AccountsController {
             }
         }
     }
-
 
     @PutMapping("/{userId}")
     public String updateUser(@PathVariable String userId, @RequestBody Map<String, Object> userDto) {

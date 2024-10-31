@@ -7,12 +7,10 @@
 
 
 applications:
-  - name: app5
+  - name: app15
     instances: 1
     memory: 1G
     health-check-type: process
-    routes:
-      - route: spring-security-hybrid-usage-((ID)).((LANDSCAPE_APPS_DOMAIN))
     path: target/BTP-SD-0.0.1-SNAPSHOT.jar
     buildpacks:
       - https://github.com/cloudfoundry/java-buildpack.git  # Use the valid Git URI for the buildpack

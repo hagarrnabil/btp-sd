@@ -25,16 +25,15 @@ logging.level:
   org.hibernate.SQL: DEBUG
   org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
-#sap.security.services:
-#  identity:
-#    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
-#    domains:
-#      - localhost                 # SecurityTest.DEFAULT_DOMAIN
-#  xsuaa:
-#    xsappname: xsapp!t0815        # SecurityTest.DEFAULT_APP_ID
-#    uaadomain: localhost          # SecurityTest.DEFAULT_DOMAIN
-#    clientid:  sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
-#    url:       http://localhost   # SecurityTest.DEFAULT_URL
+sap:
+  security:
+    services:
+      xsuaa:
+        xsappname: spring-security-hybrid-usage       # SecurityTest.DEFAULT_APP_ID
+        uaadomain: localhost          # SecurityTest.DEFAULT_DOMAIN
+        clientid: sb-clientId!t0815  # SecurityTest.DEFAULT_CLIENT_ID
+        url: https://aji26ufcs.trial-accounts.ondemand.com   # SecurityTest.DEFAULT_URL
+
 
 
 
