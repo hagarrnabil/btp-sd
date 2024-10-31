@@ -7,7 +7,7 @@
 
 
 applications:
-  - name: app5
+  - name: SD-App
     instances: 1
     memory: 1G
     health-check-type: process

@@ -41,10 +41,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 public class AccountsController {
 
 
-    @Value("623a6227-8cde-424a-9d03-ee5fe8f6baba")
+    @Value("2baac931-307f-42e6-b71b-cdc13cbceae6")
     private String clientId;
 
-    @Value("2LI36vyU3TwvjdXmQ=VtpTpH7qz_espExD")
+    @Value("VUkW2OxneB3:wq9z4W-9vJf1u-.KrHMUU")
     private String clientSecret;
 
     @Value("https://aji26ufcs.trial-accounts.ondemand.com")
