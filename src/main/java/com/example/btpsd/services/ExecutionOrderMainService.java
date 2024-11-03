@@ -47,14 +47,10 @@ public interface ExecutionOrderMainService {
         if (source.getTotal() != null) target.setTotal(source.getTotal());
         if (source.getActualQuantity() != null) target.setActualQuantity(source.getActualQuantity());
         if (source.getActualPercentage() != null) target.setActualPercentage(source.getActualPercentage());
-        if (source.getOverFulfillmentPercentage() != null)
-            target.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
-        if (source.getUnlimitedOverFulfillment() != null)
-            target.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
-        if (source.getManualPriceEntryAllowed() != null)
-            target.setManualPriceEntryAllowed(source.getManualPriceEntryAllowed());
-        if (source.getExternalServiceNumber() != null)
-            target.setExternalServiceNumber(source.getExternalServiceNumber());
+        if (source.getOverFulfillmentPercentage() != null) target.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
+        if (source.getUnlimitedOverFulfillment() != null) target.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
+        if (source.getManualPriceEntryAllowed() != null) target.setManualPriceEntryAllowed(source.getManualPriceEntryAllowed());
+        if (source.getExternalServiceNumber() != null) target.setExternalServiceNumber(source.getExternalServiceNumber());
         if (source.getServiceText() != null) target.setServiceText(source.getServiceText());
         if (source.getLineText() != null) target.setLineText(source.getLineText());
         if (source.getLineNumber() != null) target.setLineNumber(source.getLineNumber());
@@ -72,7 +68,7 @@ public interface ExecutionOrderMainService {
             serviceNumber.addExecutionOrderMainItem(target);
         }
 
-        // Update ServiceInvoiceMain from ExecutionOrderMain
+        // Update ServiceInvoiceMain from ExecutionOrderMain if available
         if (target.getServiceInvoiceMain() != null) {
             target.getServiceInvoiceMain().updateFromExecutionOrder(target);
         }

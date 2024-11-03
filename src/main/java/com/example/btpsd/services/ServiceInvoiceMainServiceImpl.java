@@ -105,46 +105,54 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
     @Override
     @Transactional
     public ServiceInvoiceMainCommand saveServiceInvoiceMainCommand(ServiceInvoiceMainCommand command) {
-        // Convert the command to the ServiceInvoiceMain entity
         ServiceInvoiceMain newServiceInvoice = serviceInvoiceCommandToServiceInvoice.convert(command);
 
-        // Handle logic based on existence of execution order
         if (newServiceInvoice.getExecutionOrderMain() == null) {
+            // Initialize with default values for a new execution order
             newServiceInvoice.setActualQuantity(newServiceInvoice.getQuantity());
             newServiceInvoice.setRemainingQuantity(newServiceInvoice.getTotalQuantity() - newServiceInvoice.getQuantity());
             newServiceInvoice.setActualPercentage(
                     (int) ((newServiceInvoice.getActualQuantity() / (float) newServiceInvoice.getTotalQuantity()) * 100)
             );
         } else {
+            // Check for the last invoice for the same execution order
             Optional<ServiceInvoiceMain> lastInvoiceOpt = serviceInvoiceMainRepository
                     .findTopByExecutionOrderMainOrderByServiceInvoiceCodeDesc(newServiceInvoice.getExecutionOrderMain());
 
             if (lastInvoiceOpt.isPresent()) {
                 ServiceInvoiceMain lastInvoice = lastInvoiceOpt.get();
                 if (!lastInvoice.getServiceInvoiceCode().equals(newServiceInvoice.getServiceInvoiceCode())) {
-                    newServiceInvoice.setActualQuantity(lastInvoice.getActualQuantity() + newServiceInvoice.getQuantity());
-                    newServiceInvoice.setRemainingQuantity(lastInvoice.getRemainingQuantity() - newServiceInvoice.getQuantity());
+                    // Accumulate values from the previous invoice
+                    newServiceInvoice.setActualQuantity(
+                            lastInvoice.getActualQuantity() + newServiceInvoice.getQuantity()
+                    );
+                    newServiceInvoice.setRemainingQuantity(
+                            lastInvoice.getRemainingQuantity() - newServiceInvoice.getQuantity()
+                    );
                 } else {
+                    // If the same service invoice code, set initial values
                     newServiceInvoice.setActualQuantity(newServiceInvoice.getQuantity());
                     newServiceInvoice.setRemainingQuantity(newServiceInvoice.getTotalQuantity() - newServiceInvoice.getQuantity());
                 }
             } else {
+                // If there are no previous invoices, set initial values
                 newServiceInvoice.setActualQuantity(newServiceInvoice.getQuantity());
                 newServiceInvoice.setRemainingQuantity(newServiceInvoice.getTotalQuantity() - newServiceInvoice.getQuantity());
             }
+
+            // Calculate the actual percentage
             newServiceInvoice.setActualPercentage(
                     (int) ((newServiceInvoice.getActualQuantity() / (float) newServiceInvoice.getTotalQuantity()) * 100)
             );
         }
 
-        // Save the ServiceInvoiceMain entity
+        // Save the new service invoice
         ServiceInvoiceMain savedServiceInvoice = serviceInvoiceMainRepository.save(newServiceInvoice);
 
-        // Recalculate totalHeader and update the saved item
+        // Calculate and set the total header value
         Double totalHeader = getTotalHeader();
         savedServiceInvoice.setTotalHeader(totalHeader);
         savedServiceInvoice = serviceInvoiceMainRepository.save(savedServiceInvoice);
-
         log.debug("Total Header after save: " + totalHeader);
 
         return serviceInvoiceToServiceInvoiceCommand.convert(savedServiceInvoice);
@@ -153,48 +161,70 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
     @Override
     @Transactional
     public ServiceInvoiceMain updateServiceInvoiceMain(ServiceInvoiceMain updatedInvoice, Long id) {
-        // Fetch the existing ServiceInvoiceMain entity
+        // Retrieve the existing invoice from the database
         ServiceInvoiceMain existingInvoice = serviceInvoiceMainRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ServiceInvoiceMain not found with ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Service Invoice not found"));
 
-        // Update non-null fields in the existing entity
-        updateNonNullFields(updatedInvoice, existingInvoice);
-
-        // Handle execution order logic and recalculate AQ, AP, and RQ
-        if (existingInvoice.getExecutionOrderMain() != null) {
-            Optional<ServiceInvoiceMain> lastInvoiceOpt = serviceInvoiceMainRepository
-                    .findTopByExecutionOrderMainOrderByServiceInvoiceCodeDesc(existingInvoice.getExecutionOrderMain());
-
-            if (lastInvoiceOpt.isPresent()) {
-                ServiceInvoiceMain lastInvoice = lastInvoiceOpt.get();
-                if (lastInvoice.getServiceInvoiceCode().equals(existingInvoice.getServiceInvoiceCode())) {
-                    Integer lastActualQuantity = lastInvoice.getActualQuantity() != null ? lastInvoice.getActualQuantity() : 0;
-                    existingInvoice.setActualQuantity(lastActualQuantity + existingInvoice.getQuantity());
-
-                    Integer lastRemainingQuantity = lastInvoice.getRemainingQuantity() != null ?
-                            lastInvoice.getRemainingQuantity() : lastInvoice.getTotalQuantity();
-                    existingInvoice.setRemainingQuantity(lastRemainingQuantity - existingInvoice.getQuantity());
-
-                    existingInvoice.setActualPercentage((int) ((existingInvoice.getActualQuantity() /
-                            (float) lastInvoice.getTotalQuantity()) * 100));
-                } else {
-                    existingInvoice.setActualQuantity(existingInvoice.getQuantity());
-                    existingInvoice.setRemainingQuantity(existingInvoice.getTotalQuantity() - existingInvoice.getQuantity());
-                    existingInvoice.setActualPercentage(
-                            (int) ((existingInvoice.getActualQuantity() / (float) existingInvoice.getTotalQuantity()) * 100)
-                    );
-                }
-            } else {
-                existingInvoice.setActualQuantity(existingInvoice.getQuantity());
-                existingInvoice.setRemainingQuantity(existingInvoice.getTotalQuantity() - existingInvoice.getQuantity());
-                existingInvoice.setActualPercentage(
-                        (int) ((existingInvoice.getActualQuantity() / (float) existingInvoice.getTotalQuantity()) * 100)
-                );
-            }
+        // Check and load ExecutionOrderMain if it's not set
+        if (existingInvoice.getExecutionOrderMain() == null) {
+            throw new IllegalStateException("ExecutionOrderMain must not be null for the existing invoice");
         }
 
-        // Save the updated entity and return
-        return serviceInvoiceMainRepository.save(existingInvoice);
+        // If updatedInvoice does not have ExecutionOrderMain, use the one from existingInvoice
+        if (updatedInvoice.getExecutionOrderMain() == null) {
+            updatedInvoice.setExecutionOrderMain(existingInvoice.getExecutionOrderMain());
+        }
+
+        // Proceed with the logic to check if it's a new execution order
+        if (isNewExecutionOrder(
+                existingInvoice.getExecutionOrderMain().getExecutionOrderMainCode(),
+                updatedInvoice.getExecutionOrderMain().getExecutionOrderMainCode())) {
+            // New service invoice for a new execution order
+            updatedInvoice.setActualQuantity(
+                    (int) (updatedInvoice.getQuantity() + getPreviousActualQuantity(updatedInvoice.getExecutionOrderMain().getExecutionOrderMainCode()))
+            );
+            updatedInvoice.setActualPercentage(
+                    (int) ((updatedInvoice.getActualQuantity() / (double) updatedInvoice.getTotalQuantity()) * 100)
+            );
+            updatedInvoice.setRemainingQuantity(
+                    updatedInvoice.getTotalQuantity() - updatedInvoice.getQuantity()
+            );
+        } else {
+            // New service invoice for the same execution order
+            double previousActualQuantity = getPreviousActualQuantity(updatedInvoice.getExecutionOrderMain().getExecutionOrderMainCode());
+            double previousRemainingQuantity = getPreviousRemainingQuantity(updatedInvoice.getExecutionOrderMain().getExecutionOrderMainCode());
+
+            updatedInvoice.setActualQuantity(
+                    (int) (updatedInvoice.getQuantity() + previousActualQuantity)
+            );
+            updatedInvoice.setActualPercentage(
+                    (int) ((updatedInvoice.getActualQuantity() / (double) updatedInvoice.getTotalQuantity()) * 100)
+            );
+            updatedInvoice.setRemainingQuantity(
+                    (int) (updatedInvoice.getTotalQuantity() - (updatedInvoice.getQuantity() + previousRemainingQuantity))
+            );
+        }
+
+        // Update only non-null fields in the existing invoice
+        updateNonNullFields(existingInvoice, updatedInvoice);
+
+        // Save the updated invoice
+        existingInvoice = serviceInvoiceMainRepository.save(existingInvoice);
+        return existingInvoice;
+    }
+
+    private boolean isNewExecutionOrder(Long existingOrderId, Long updatedOrderId) {
+        return !existingOrderId.equals(updatedOrderId);
+    }
+
+    private double getPreviousActualQuantity(Long executionOrderId) {
+        // Fetch the previous actual quantity from the repository based on the execution order ID
+        return serviceInvoiceMainRepository.findPreviousActualQuantityByExecutionOrderMainCode(executionOrderId);
+    }
+
+    private double getPreviousRemainingQuantity(Long executionOrderId) {
+        // Fetch the previous remaining quantity from the repository based on the execution order ID
+        return serviceInvoiceMainRepository.findPreviousRemainingQuantityByExecutionOrderMainCode(executionOrderId);
     }
 
     @Override

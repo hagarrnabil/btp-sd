@@ -92,35 +92,23 @@ public class ExecutionOrderMainServiceImpl implements ExecutionOrderMainService 
     @Override
     @Transactional
     public ExecutionOrderMainCommand saveExecutionOrderMainCommand(ExecutionOrderMainCommand command) {
-        // Convert command to entity
         ExecutionOrderMain executionOrderMain = executionOrderMainCommandToExecutionOrderMain.convert(command);
-
-        // Save the new ExecutionOrderMain entity
         ExecutionOrderMain savedItem = executionOrderMainRepository.save(executionOrderMain);
-
-        // Calculate the totalHeader after the item is saved
         Double totalHeader = getTotalHeader();
-        savedItem.setTotalHeader(totalHeader); // Update the saved item with the new totalHeader
-        log.debug("Total Header after save: " + totalHeader);
-
-        // Save the updated item with the totalHeader
+        savedItem.setTotalHeader(totalHeader);
         savedItem = executionOrderMainRepository.save(savedItem);
-
-        // Convert back to command for return
+        log.debug("Total Header after save: " + totalHeader);
         return executionOrderMainToExecutionOrderMainCommand.convert(savedItem);
     }
 
     @Override
     @Transactional
-    public ExecutionOrderMain updateExecutionOrderMain(ExecutionOrderMainCommand newExecutionOrderMainCommand, Long l) {
-
-        return executionOrderMainRepository.findById(l).map(oldExecutionOrderMain -> {
+    public ExecutionOrderMain updateExecutionOrderMain(ExecutionOrderMainCommand newExecutionOrderMainCommand, Long id) {
+        return executionOrderMainRepository.findById(id).map(oldExecutionOrderMain -> {
             updateNonNullFields(newExecutionOrderMainCommand, oldExecutionOrderMain);
             oldExecutionOrderMain.setLineTypeCode(lineTypeRepository.findLineTypeCodeByCode(newExecutionOrderMainCommand.getLineTypeCode()));
-
             return executionOrderMainRepository.save(oldExecutionOrderMain);
         }).orElseThrow(() -> new RuntimeException("Execution Order Main not found"));
-
     }
 
     @Override

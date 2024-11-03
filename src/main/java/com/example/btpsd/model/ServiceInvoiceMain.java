@@ -85,7 +85,7 @@ public class ServiceInvoiceMain implements Serializable {
     private ServiceNumber serviceNumber;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "execution_order_main_id")
     private ExecutionOrderMain executionOrderMain;
 
