@@ -20,6 +20,8 @@ public class ServiceInvoiceMainCommand implements Serializable {
 
     private String referenceId;
 
+    private String referenceSDDocument;
+
     private Long executionOrderMainCode;
 
     private Long serviceNumberCode;

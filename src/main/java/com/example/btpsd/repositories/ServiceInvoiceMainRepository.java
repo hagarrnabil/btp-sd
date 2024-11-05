@@ -24,11 +24,10 @@ public interface ServiceInvoiceMainRepository extends CrudRepository<ServiceInvo
 
     Optional<ServiceInvoiceMain> findByReferenceId(String referenceId);
 
-    @Query("SELECT COALESCE(SUM(s.actualQuantity), 0) FROM ServiceInvoiceMain s WHERE s.executionOrderMain.executionOrderMainCode = :executionOrderMainCode")
-    double findPreviousActualQuantityByExecutionOrderMainCode(@Param("executionOrderMainCode") Long executionOrderMainCode);
+    List<ServiceInvoiceMain> findAllByExecutionOrderMainIsNull();
 
-    @Query("SELECT COALESCE(SUM(s.remainingQuantity), 0) FROM ServiceInvoiceMain s WHERE s.executionOrderMain.executionOrderMainCode = :executionOrderMainCode")
-    double findPreviousRemainingQuantityByExecutionOrderMainCode(@Param("executionOrderMainCode") Long executionOrderMainCode);
+    List<ServiceInvoiceMain> findAllByExecutionOrderMain_ExecutionOrderMainCode(Long executionOrderMainCode);
 
-
+    @Query("SELECT i FROM ServiceInvoiceMain i WHERE LOWER(i.temporaryDeletion) = LOWER(:temporaryDeletion)")
+    List<ServiceInvoiceMain> findByTemporaryDeletion(@Param("temporaryDeletion") String temporaryDeletion);
 }

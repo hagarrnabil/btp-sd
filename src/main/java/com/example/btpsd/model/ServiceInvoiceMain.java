@@ -23,6 +23,8 @@ public class ServiceInvoiceMain implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long serviceInvoiceCode;
 
+    private String referenceSDDocument;
+
     private String referenceId;
 
     private Long serviceNumberCode;
@@ -81,6 +83,10 @@ public class ServiceInvoiceMain implements Serializable {
 
     private Double totalHeader;
 
+    @Column(columnDefinition = "char(9)")
+    @Length(max = 9)
+    private String temporaryDeletion;
+
     @ManyToOne
     private ServiceNumber serviceNumber;
 
@@ -97,65 +103,54 @@ public class ServiceInvoiceMain implements Serializable {
         this.remainingQuantity = remainingQuantity;
     }
 
-    public ServiceInvoiceMain(ExecutionOrderMain executionOrderMain) {
-        this.serviceNumberCode = executionOrderMain.getServiceNumberCode();
-        this.unitOfMeasurementCode = executionOrderMain.getUnitOfMeasurementCode();
-        this.currencyCode = executionOrderMain.getCurrencyCode();
-        this.description = executionOrderMain.getDescription();
-        this.totalQuantity = executionOrderMain.getTotalQuantity();
-
-        // Initialize with executionOrderMain but don't accumulate AQ here
-        this.actualQuantity = executionOrderMain.getActualQuantity();
-        this.actualPercentage = executionOrderMain.getActualPercentage();
-        this.biddersLine = executionOrderMain.getBiddersLine();
-        this.lineNumber = executionOrderMain.getLineNumber();
-        this.doNotPrint = executionOrderMain.getDoNotPrint();
-        this.supplementaryLine = executionOrderMain.getSupplementaryLine();
-        this.lotCostOne = executionOrderMain.getLotCostOne();
-        this.overFulfillmentPercentage = executionOrderMain.getOverFulfillmentPercentage();
-        this.unlimitedOverFulfillment = executionOrderMain.getUnlimitedOverFulfillment();
-        this.amountPerUnit = new BigDecimal(executionOrderMain.getAmountPerUnit()).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        this.total = new BigDecimal(executionOrderMain.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        this.executionOrderMain = executionOrderMain;
-    }
 
     public void updateFromExecutionOrder(ExecutionOrderMain executionOrderMain) {
+
 
         if (executionOrderMain == null) return;
 
         this.setExecutionOrderMain(executionOrderMain);
 
-        // Check if this is the same execution order as the previous service invoice
-        if (executionOrderMain.getActualQuantity() != null) {
-            Integer calculatedActualQuantity = (this.getQuantity() != null) ? this.getQuantity() : 0;
-
-            // Accumulate AQ only if it's the same execution order
-            if (this.executionOrderMain != null && this.executionOrderMain.getExecutionOrderMainCode().equals(executionOrderMain.getExecutionOrderMainCode())) {
-                calculatedActualQuantity += executionOrderMain.getActualQuantity();
-            }
-
-            this.setActualQuantity(calculatedActualQuantity);
-        }
+        // Check and update serviceNumberCode
         if (executionOrderMain.getServiceNumberCode() != null) {
             this.serviceNumberCode = executionOrderMain.getServiceNumberCode();
         }
+
+        // Check and update unitOfMeasurementCode
         if (executionOrderMain.getUnitOfMeasurementCode() != null) {
             this.unitOfMeasurementCode = executionOrderMain.getUnitOfMeasurementCode();
         }
+
+        // Check and update currencyCode
         if (executionOrderMain.getCurrencyCode() != null) {
             this.currencyCode = executionOrderMain.getCurrencyCode();
         }
+
+        // Check and update description
         if (executionOrderMain.getDescription() != null) {
             this.description = executionOrderMain.getDescription();
         }
+
+        // Check and update totalQuantity
         if (executionOrderMain.getTotalQuantity() != null) {
             this.totalQuantity = executionOrderMain.getTotalQuantity();
         }
+
+        // Check and update actualQuantity
+        Integer calculatedActualQuantity = (this.getQuantity() != null) ? this.getQuantity() : 0;
+        if (executionOrderMain.getActualQuantity() != null) {
+            calculatedActualQuantity += executionOrderMain.getActualQuantity();
+        }
+        this.setActualQuantity(calculatedActualQuantity);
+
+
         if (this.totalQuantity != null && this.actualQuantity != null) {
             this.remainingQuantity = this.totalQuantity - this.actualQuantity;
         } else {
             this.remainingQuantity = null; // Or some other fallback
         }
+
+
         if (executionOrderMain.getBiddersLine() != null) {
             this.biddersLine = executionOrderMain.getBiddersLine();
         }
@@ -177,16 +172,22 @@ public class ServiceInvoiceMain implements Serializable {
         if (executionOrderMain.getUnlimitedOverFulfillment() != null) {
             this.unlimitedOverFulfillment = executionOrderMain.getUnlimitedOverFulfillment();
         }
+
+
         if (this.totalQuantity != null && this.actualQuantity != null) {
             this.remainingQuantity = this.totalQuantity - this.actualQuantity;
         } else {
             this.remainingQuantity = null; // Or some other fallback
         }
+
+        // Check and update amountPerUnit
         if (executionOrderMain.getAmountPerUnit() != null) {
             this.amountPerUnit = new BigDecimal(executionOrderMain.getAmountPerUnit())
                     .setScale(2, RoundingMode.HALF_UP)
                     .doubleValue();
         }
+
+        // Handle overfulfillment logic
         if (this.unlimitedOverFulfillment != null && this.unlimitedOverFulfillment) {
             // Unlimited overfulfillment, no restriction
         } else if (this.overFulfillmentPercentage != null) {
@@ -220,25 +221,5 @@ public class ServiceInvoiceMain implements Serializable {
         this.executionOrderMain = executionOrderMain;
         executionOrderMain.setServiceInvoiceMain(this);
     }
-
-    public void updateAQAPandRQ(Integer previousExcOrderAQ) {
-        // Apply logic only if the execution order hasn't changed
-        if (this.executionOrderMain != null && previousExcOrderAQ != null) {
-            if (this.executionOrderMain.getExecutionOrderMainCode().equals(previousExcOrderAQ)) {
-                // Calculate Actual Quantity (AQ) by accumulating previous AQ
-                this.actualQuantity = this.quantity + previousExcOrderAQ;
-            } else {
-                // Handle new execution order; reset AQ accumulation
-                this.actualQuantity = this.quantity;
-            }
-
-            // Calculate Actual Percentage (AP) and Remaining Quantity (RQ)
-            if (this.totalQuantity != null && this.actualQuantity != null) {
-                this.actualPercentage = (this.actualQuantity * 100) / this.totalQuantity;
-                this.remainingQuantity = this.totalQuantity - this.actualQuantity;
-            }
-        }
-    }
-
 
 }

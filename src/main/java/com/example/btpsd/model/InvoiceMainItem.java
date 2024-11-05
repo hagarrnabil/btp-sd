@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class InvoiceMainItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long invoiceMainItemCode;
+
+    private String referenceSDDocument;
 
     private String referenceId;
 
@@ -51,6 +54,9 @@ public class InvoiceMainItem implements Serializable {
 
     private Double amountPerUnitWithProfit;
 
+    @Column(columnDefinition = "char(9)")
+    @Length(max = 9)
+    private String temporaryDeletion;
 
     @OneToMany(mappedBy = "mainItem", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonProperty("subItemList")

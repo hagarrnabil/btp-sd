@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Set;
@@ -26,6 +27,13 @@ public interface InvoiceMainItemService {
     InvoiceMainItem findById(Long l);
 
     void deleteById(Long idToDelete);
+
+    @Transactional
+    void deleteByTemporaryStatus();
+
+
+    @Transactional
+    void updateAllTemporaryToPermanent();
 
     Double getTotalHeader();
 

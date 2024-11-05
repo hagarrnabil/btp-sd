@@ -4,7 +4,9 @@ import com.example.btpsd.commands.ServiceInvoiceMainCommand;
 import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.ServiceInvoiceMain;
 import com.example.btpsd.model.ServiceNumber;
+import com.example.btpsd.repositories.ServiceInvoiceMainRepository;
 import com.example.btpsd.services.ExecutionOrderMainService;
+import com.example.btpsd.services.ServiceInvoiceMainService;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceInvoiceMainCommand, ServiceInvoiceMain> {
 
     private final ExecutionOrderMainService executionOrderMainService;
+    private final ServiceInvoiceMainRepository serviceInvoiceMainRepository;
     private final ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand;
 
     @Synchronized
@@ -29,6 +32,7 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
 
         final ServiceInvoiceMain serviceInvoiceMain = new ServiceInvoiceMain();
         serviceInvoiceMain.setServiceInvoiceCode(source.getServiceInvoiceCode());
+        serviceInvoiceMain.setReferenceId(source.getReferenceId());
         serviceInvoiceMain.setDescription(source.getDescription());
         serviceInvoiceMain.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         serviceInvoiceMain.setCurrencyCode(source.getCurrencyCode());
@@ -40,9 +44,21 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         serviceInvoiceMain.setTotalQuantity(source.getTotalQuantity());
         serviceInvoiceMain.setAmountPerUnit(source.getAmountPerUnit());
 
-        // Calculate actualQuantity
-        Integer calculatedActualQuantity = serviceInvoiceMain.getQuantity() +
-                (serviceInvoiceMain.getExecutionOrderMain() != null ? serviceInvoiceMain.getExecutionOrderMain().getActualQuantity() : 0);
+        serviceInvoiceMain.setReferenceSDDocument(source.getReferenceSDDocument());
+        // Initialize actualQuantity
+        Integer calculatedActualQuantity = source.getQuantity();
+
+        // Fetch the existing ExecutionOrderMain if it exists
+        if (source.getExecutionOrderMainCode() != null) {
+            ExecutionOrderMain existingExecutionOrder = executionOrderMainService
+                    .findById(source.getExecutionOrderMainCode());
+
+            if (existingExecutionOrder != null) {
+                // Accumulate AQ if the ExecutionOrderMain code matches
+                calculatedActualQuantity += existingExecutionOrder.getActualQuantity();
+            }
+        }
+
         serviceInvoiceMain.setActualQuantity(calculatedActualQuantity);
 
         // Enforce overfulfillment logic
@@ -59,30 +75,19 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
 
         serviceInvoiceMain.setActualQuantity(calculatedActualQuantity);
 
-        if (source.getQuantity() != null) {
-            serviceInvoiceMain.setTotal(source.getQuantity() * serviceInvoiceMain.getAmountPerUnit());
-            serviceInvoiceMain.setRemainingQuantity(serviceInvoiceMain.getTotalQuantity() - serviceInvoiceMain.getActualQuantity());
-        }
-        if (serviceInvoiceMain.getExecutionOrderMain() != null) {
-            ExecutionOrderMain executionOrderMain = serviceInvoiceMain.getExecutionOrderMain();
-            executionOrderMain.setActualQuantity(calculatedActualQuantity); // Reflect back to ExecutionOrderMain
+        // Calculate remaining quantity and total
+        serviceInvoiceMain.setTotal(source.getQuantity() * serviceInvoiceMain.getAmountPerUnit());
+        serviceInvoiceMain.setRemainingQuantity(totalQuantity - calculatedActualQuantity);
 
-            // Make sure to save the executionOrderMain
-            // This assumes you have access to an ExecutionOrderMain repository or service
-            executionOrderMainService.saveExecutionOrderMainCommand(executionOrderMainToExecutionOrderMainCommand.convert(executionOrderMain));
+        // Calculate actualPercentage: (Actual Quantity * 100) / Total Quantity
+        if (totalQuantity > 0) {
+            Integer actualPercentage = (calculatedActualQuantity * 100) / totalQuantity;
+            serviceInvoiceMain.setActualPercentage(actualPercentage);
+        } else {
+            serviceInvoiceMain.setActualPercentage(0);
         }
-        // Synchronize with ExecutionOrderMain
-        if (serviceInvoiceMain.getExecutionOrderMain() != null) {
-            serviceInvoiceMain.updateFromExecutionOrder(serviceInvoiceMain.getExecutionOrderMain());
-        }
-        serviceInvoiceMain.setActualPercentage(source.getActualPercentage());
+
         serviceInvoiceMain.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
-        if(source.getLineTypeCode() != null){
-            serviceInvoiceMain.setLineTypeCode(source.getLineTypeCode());
-        }
-        else {
-            serviceInvoiceMain.setLineTypeCode("Standard line");
-        }
         serviceInvoiceMain.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         serviceInvoiceMain.setExternalServiceNumber(source.getExternalServiceNumber());
         serviceInvoiceMain.setServiceText(source.getServiceText());
@@ -92,19 +97,19 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         serviceInvoiceMain.setSupplementaryLine(source.getSupplementaryLine());
         serviceInvoiceMain.setDoNotPrint(source.getDoNotPrint());
         serviceInvoiceMain.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
+        serviceInvoiceMain.setTotalHeader((double) 0);
         if (serviceInvoiceMain.getLotCostOne()) {
             serviceInvoiceMain.setTotal(serviceInvoiceMain.getAmountPerUnit());
         }
+
         if (source.getServiceNumberCode() != null) {
             ServiceNumber serviceNumber = new ServiceNumber();
             serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
             serviceInvoiceMain.setServiceNumber(serviceNumber);
             serviceNumber.addServiceInvoiceMain(serviceInvoiceMain);
         }
-        serviceInvoiceMain.setReferenceId(source.getReferenceId());
-        serviceInvoiceMain.setTotalHeader(0.0);
+
         return serviceInvoiceMain;
 
     }
-
 }

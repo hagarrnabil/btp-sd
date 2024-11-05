@@ -80,6 +80,7 @@ public class InvoiceMainItemCommandToInvoiceMainItem implements Converter<Invoic
         mainItem.setTotal(new BigDecimal(mainItem.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue());
         mainItem.setAmountPerUnit(new BigDecimal(amountPerUnit).setScale(2, RoundingMode.HALF_UP).doubleValue());
 
+        mainItem.setReferenceSDDocument(source.getReferenceSDDocument());
         if (mainItem.getProfitMargin() != null) {
             mainItem.setTotalWithProfit(((mainItem.getProfitMargin() / 100) * mainItem.getTotal()) + mainItem.getTotal());
             mainItem.setAmountPerUnitWithProfit(((mainItem.getProfitMargin() / 100) * amountPerUnit) + amountPerUnit);

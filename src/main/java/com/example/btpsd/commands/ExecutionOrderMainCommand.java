@@ -19,6 +19,8 @@ public class ExecutionOrderMainCommand implements Serializable {
 
     private Long executionOrderMainCode;
 
+    private String referenceSDDocument;
+
     private String referenceId;
 
     private Long serviceNumberCode;

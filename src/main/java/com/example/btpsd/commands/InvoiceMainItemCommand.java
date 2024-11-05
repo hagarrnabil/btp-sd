@@ -16,6 +16,8 @@ public class InvoiceMainItemCommand implements Serializable {
 
     private Long invoiceMainItemCode;
 
+    private String referenceSDDocument;
+
     private String referenceId;
 
     private Long serviceNumberCode;

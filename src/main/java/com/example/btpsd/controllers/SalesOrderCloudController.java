@@ -57,7 +57,7 @@ public class SalesOrderCloudController {
 
 
     @RequestMapping(value = "/salesordercloud", method = RequestMethod.GET)
-    private StringBuilder getAllSalesOrders() throws Exception {
+    public StringBuilder getAllSalesOrders() throws Exception {
 
         final int BLOCK_SIZE = 1024;
         final int BUFFER_SIZE = 8 * BLOCK_SIZE;
@@ -374,7 +374,7 @@ public class SalesOrderCloudController {
     }
 
     @RequestMapping(value = "/salesquotationcloud", method = RequestMethod.GET)
-    private StringBuilder getSalesQuotation() throws Exception {
+    public StringBuilder getSalesQuotation() throws Exception {
 
         final int BLOCK_SIZE = 1024;
         final int BUFFER_SIZE = 8 * BLOCK_SIZE;
@@ -651,7 +651,7 @@ public class SalesOrderCloudController {
 
 
     @RequestMapping(value = "/debitmemocloud", method = RequestMethod.GET)
-    private StringBuilder getDebitMemo() throws Exception {
+    public StringBuilder getDebitMemo() throws Exception {
 
         final int BLOCK_SIZE = 1024;
         final int BUFFER_SIZE = 8 * BLOCK_SIZE;

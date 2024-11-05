@@ -91,6 +91,33 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
 
     }
 
+    @Transactional
+    @Override
+    public void deleteByTemporaryStatus() {
+        // Fetch all records with temporary deletion status
+        List<InvoiceMainItem> temporaryItems = invoiceMainItemRepository.findByTemporaryDeletion("temporary");
+
+        // Loop through and delete each temporary item
+        for (InvoiceMainItem item : temporaryItems) {
+            invoiceMainItemRepository.delete(item);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void updateAllTemporaryToPermanent() {
+        // Fetch all items with 'temporary' status
+        List<InvoiceMainItem> itemsToUpdate = invoiceMainItemRepository.findByTemporaryDeletion("temporary");
+
+        // Loop over each item and update the status
+        for (InvoiceMainItem item : itemsToUpdate) {
+            item.setTemporaryDeletion("permanent");
+        }
+
+        // Save all updated items
+        invoiceMainItemRepository.saveAll(itemsToUpdate);
+    }
+
 
     public Double getTotalHeader() {
         List<InvoiceMainItem> allItems = (List<InvoiceMainItem>) invoiceMainItemRepository.findAll();

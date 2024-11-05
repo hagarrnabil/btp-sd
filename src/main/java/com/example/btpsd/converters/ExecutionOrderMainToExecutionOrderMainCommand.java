@@ -55,6 +55,7 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         executionOrderMainCommand.setSupplementaryLine(source.getSupplementaryLine());
         executionOrderMainCommand.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
 
+        executionOrderMainCommand.setReferenceSDDocument(source.getReferenceSDDocument());
         if (executionOrderMainCommand.getLotCostOne()) {
             executionOrderMainCommand.setTotal(executionOrderMainCommand.getAmountPerUnit());
         }

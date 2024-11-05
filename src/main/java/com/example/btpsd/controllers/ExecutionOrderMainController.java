@@ -85,18 +85,40 @@ ExecutionOrderMainController {
         // Step 1: Set the reference ID to the sales order number
         newExecutionOrderCommand.setReferenceId(salesOrder);
 
-        // Step 2: Check if a new ExecutionOrderMainCommand should be created
+        // Step 2: Fetch sales order details using SalesOrderCloudController
+        String salesOrderApiResponse = salesOrderCloudController.getAllSalesOrders().toString();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            // Parse the API response
+            JsonNode salesOrderJson = objectMapper.readTree(salesOrderApiResponse);
+            JsonNode salesOrderArray = salesOrderJson.path("d").path("results");
+
+            // Step 3: Find the matching sales order and extract ReferenceSDDocument
+            for (JsonNode salesOrderNode : salesOrderArray) {
+                String salesOrderId = salesOrderNode.path("SalesOrder").asText();
+                if (salesOrderId.equals(salesOrder)) {
+                    String referenceSDDocument = salesOrderNode.path("ReferenceSDDocument").asText();
+                    newExecutionOrderCommand.setReferenceSDDocument(referenceSDDocument);
+                    break;
+                }
+            }
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error processing sales order API response", e);
+        }
+
+        // Step 4: Save the ExecutionOrderMain
         ExecutionOrderMainCommand savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(newExecutionOrderCommand);
 
-        // Step 3: Ensure the command was saved successfully
         if (savedCommand == null) {
             throw new RuntimeException("Failed to save Execution Order.");
         }
 
-        // Step 4: Extract the totalHeader from the saved Main Item
+        // Step 5: Extract the totalHeader from the saved Main Item
         Double totalHeader = savedCommand.getTotalHeader();
 
-        // Step 5: Call the Sales Order Pricing API with salesOrder and salesOrderItem from the URL
+        // Step 6: Call the Sales Order Pricing API with salesOrder and salesOrderItem from the URL
         try {
             executionOrderMainService.callSalesOrderPricingAPI(salesOrder, salesOrderItem, totalHeader);
         } catch (Exception e) {
