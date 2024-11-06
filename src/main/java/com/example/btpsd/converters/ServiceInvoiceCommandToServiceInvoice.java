@@ -43,7 +43,7 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         serviceInvoiceMain.setAlternatives(source.getAlternatives());
         serviceInvoiceMain.setTotalQuantity(source.getTotalQuantity());
         serviceInvoiceMain.setAmountPerUnit(source.getAmountPerUnit());
-
+        serviceInvoiceMain.setTemporaryDeletion(source.getTemporaryDeletion());
         serviceInvoiceMain.setReferenceSDDocument(source.getReferenceSDDocument());
         // Initialize actualQuantity
         Integer calculatedActualQuantity = source.getQuantity();

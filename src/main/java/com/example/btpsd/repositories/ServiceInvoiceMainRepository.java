@@ -22,7 +22,7 @@ public interface ServiceInvoiceMainRepository extends CrudRepository<ServiceInvo
 
     ServiceInvoiceMain findTopByExecutionOrderMainExecutionOrderMainCodeOrderByServiceInvoiceCodeDesc(Long executionOrderMainCode);
 
-    Optional<ServiceInvoiceMain> findByReferenceId(String referenceId);
+    List<ServiceInvoiceMain> findByReferenceId(String referenceId);
 
     List<ServiceInvoiceMain> findAllByExecutionOrderMainIsNull();
 

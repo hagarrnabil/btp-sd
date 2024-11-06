@@ -78,6 +78,8 @@ public class ServiceInvoiceMainCommand implements Serializable {
 
     private Double totalHeader;
 
+    private String temporaryDeletion;
+
     @JsonIgnore
     private InvoiceMainItem invoiceMainItem;
 

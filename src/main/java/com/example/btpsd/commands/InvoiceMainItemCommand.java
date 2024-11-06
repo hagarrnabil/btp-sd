@@ -46,6 +46,8 @@ public class InvoiceMainItemCommand implements Serializable {
 
     private Double amountPerUnitWithProfit;
 
+    private String temporaryDeletion;
+
 //    private IntermediateMainItemCommand intermediateMainItemCommand;
 
     @JsonProperty("subItems")

@@ -18,7 +18,7 @@ public interface InvoiceMainItemRepository extends CrudRepository<InvoiceMainIte
     @Query("SELECT SUM(i.total) FROM InvoiceMainItem i")
     Double sumAllTotals();
 
-    Optional<InvoiceMainItem> findByReferenceId(String referenceId);
+    List<InvoiceMainItem> findByReferenceId(String referenceId);
 
     @Query("SELECT i FROM InvoiceMainItem i WHERE LOWER(i.temporaryDeletion) = LOWER(:temporaryDeletion)")
     List<InvoiceMainItem> findByTemporaryDeletion(@Param("temporaryDeletion") String temporaryDeletion);

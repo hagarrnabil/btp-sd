@@ -63,8 +63,10 @@ public class InvoiceMainItemController {
 
     @GetMapping("/mainitems/{referenceId}")
     public ResponseEntity<List<InvoiceMainItemCommand>> getInvoiceMainItemsByReferenceId(@PathVariable String referenceId) {
-        Optional<InvoiceMainItem> invoiceMainItems = invoiceMainItemRepository.findByReferenceId(referenceId);
+        // Fetch all InvoiceMainItem items with the given referenceId
+        List<InvoiceMainItem> invoiceMainItems = invoiceMainItemRepository.findByReferenceId(referenceId);
 
+        // Check if the list is empty and return 404 if no items are found
         if (invoiceMainItems.isEmpty()) {
             return ResponseEntity.notFound().build(); // Return 404 if no items found
         }
@@ -131,14 +133,14 @@ public class InvoiceMainItemController {
         }
 
         // Step 4: Check if an InvoiceMainItem with the same referenceId already exists
-        Optional<InvoiceMainItem> existingInvoiceOpt =
+        List<InvoiceMainItem> existingInvoiceOpt =
                 invoiceMainItemRepository.findByReferenceId(updatedInvoiceMainItemCommand.getReferenceId());
         InvoiceMainItem savedInvoiceMainItem;
 
-        if (existingInvoiceOpt.isPresent()) {
+        if (!existingInvoiceOpt.isEmpty()) {
             // If it exists, update the existing InvoiceMainItem
             savedInvoiceMainItem = invoiceMainItemService.updateMainItem(
-                    updatedInvoiceMainItemCommand, existingInvoiceOpt.get().getInvoiceMainItemCode());
+                    updatedInvoiceMainItemCommand, existingInvoiceOpt.get(0).getInvoiceMainItemCode());
         } else {
             // If not, create and save a new InvoiceMainItem
             savedInvoiceMainItem = invoiceMainItemCommandToInvoiceMainItem.convert(updatedInvoiceMainItemCommand);

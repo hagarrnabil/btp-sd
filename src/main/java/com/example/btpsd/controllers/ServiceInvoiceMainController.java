@@ -62,19 +62,22 @@ public class ServiceInvoiceMainController {
 
     @GetMapping("/serviceinvoice/{referenceId}")
     public ResponseEntity<List<ServiceInvoiceMainCommand>> getInvoiceMainItemsByReferenceId(@PathVariable String referenceId) {
-        Optional<ServiceInvoiceMain> serviceInvoiceMain = serviceInvoiceMainRepository.findByReferenceId(referenceId);
+        // Fetch all ServiceInvoiceMain items with the given referenceId
+        List<ServiceInvoiceMain> serviceInvoiceMains = serviceInvoiceMainRepository.findByReferenceId(referenceId);
 
-        if (serviceInvoiceMain.isEmpty()) {
+        // Check if the list is empty and return 404 if no items are found
+        if (serviceInvoiceMains.isEmpty()) {
             return ResponseEntity.notFound().build(); // Return 404 if no items found
         }
 
-        // Convert the list of InvoiceMainItem to InvoiceMainItemCommand for the response
-        List<ServiceInvoiceMainCommand> responseItems = serviceInvoiceMain.stream()
+        // Convert the list of ServiceInvoiceMain to ServiceInvoiceMainCommand for the response
+        List<ServiceInvoiceMainCommand> responseItems = serviceInvoiceMains.stream()
                 .map(serviceInvoiceToServiceInvoiceCommand::convert)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(responseItems);
     }
+
 
     @DeleteMapping("/serviceinvoice/{serviceInvoiceCode}")
     void deleteServiceInvoiceCommand(@PathVariable Long serviceInvoiceCode) {
@@ -92,6 +95,16 @@ public class ServiceInvoiceMainController {
         ServiceInvoiceMainCommand savedCommand = serviceInvoiceMainService.saveServiceInvoiceMainCommand(newServiceInvoiceCommand);
         return savedCommand;
 
+    }
+
+
+    @PatchMapping
+    @RequestMapping("/serviceinvoice/{serviceInvoiceCode}")
+    @Transactional
+    ServiceInvoiceMainCommand updateServiceInvoiceCommand(@RequestBody ServiceInvoiceMain newServiceInvoiceCommand, @PathVariable Long serviceInvoiceCode) {
+
+        ServiceInvoiceMainCommand command = serviceInvoiceToServiceInvoiceCommand.convert(serviceInvoiceMainService.updateServiceInvoiceMain(newServiceInvoiceCommand, serviceInvoiceCode));
+        return command;
     }
 
     @PatchMapping("/serviceinvoice")
@@ -137,13 +150,13 @@ public class ServiceInvoiceMainController {
         }
 
         // Step 4: Check if a ServiceInvoiceMain with the same referenceId exists
-        Optional<ServiceInvoiceMain> optionalServiceInvoiceMain = serviceInvoiceMainRepository.findByReferenceId(updatedServiceInvoiceMainCommand.getReferenceId());
+        List<ServiceInvoiceMain> optionalServiceInvoiceMain = serviceInvoiceMainRepository.findByReferenceId(updatedServiceInvoiceMainCommand.getReferenceId());
         ServiceInvoiceMain savedServiceInvoice;
 
-        if (optionalServiceInvoiceMain.isPresent()) {
+        if (!optionalServiceInvoiceMain.isEmpty()) {
             // Update existing ServiceInvoiceMain using the update method
             savedServiceInvoice = serviceInvoiceCommandToServiceInvoice.convert(updatedServiceInvoiceMainCommand);
-            savedServiceInvoice = serviceInvoiceMainService.updateServiceInvoiceMain(savedServiceInvoice, optionalServiceInvoiceMain.get().getServiceInvoiceCode());
+            savedServiceInvoice = serviceInvoiceMainService.updateServiceInvoiceMain(savedServiceInvoice, optionalServiceInvoiceMain.get(0).getServiceInvoiceCode());
         } else {
             // Create a new ServiceInvoiceMain
             savedServiceInvoice = serviceInvoiceCommandToServiceInvoice.convert(updatedServiceInvoiceMainCommand);
