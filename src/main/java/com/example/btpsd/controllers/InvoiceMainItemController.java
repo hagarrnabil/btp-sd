@@ -32,11 +32,11 @@ public class InvoiceMainItemController {
 
         if (authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("InvoiceViewer"))) {
-            // Return full invoice items for Admin role
+            // Return full invoice items for InvoiceViewer role
             return invoiceMainItemService.getMainItemCommands();
         } else if (authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("InvoiceViewerExceptTotal"))) {
-            // Return restricted invoice items for InvoiceViewer role
+            // Return restricted invoice items for InvoiceViewerExceptTotal role
             return invoiceMainItemService.getMainItemsExceptTotal();
         } else {
             throw new AccessDeniedException("You do not have permission to access this resource.");
