@@ -79,13 +79,82 @@ public class InvoiceMainItemController {
         return ResponseEntity.ok(responseItems);
     }
 
+//    @GetMapping("/total")
+//    public Double getTotal(){
+//        return InvoiceMainItem.calculateTotal();
+//    }
+//
+//    @GetMapping("/totalheader")
+//    public Double getTotalHeader(List<InvoiceMainItem> items){
+//        return InvoiceMainItem.calculateTotalHeader(items);
+//    }
+
     @PostMapping("/mainitems")
-    InvoiceMainItemCommand newMainItemCommand(@RequestBody InvoiceMainItemCommand newInvoiceMainItemCommand) {
+    public InvoiceMainItemCommand saveOrUpdateMainItemCommand(
+            @RequestBody InvoiceMainItemCommand invoiceMainItemCommand,
+            @RequestParam(required = false) String salesQuotation,
+            @RequestParam(required = false) String salesQuotationItem,
+            @RequestParam(required = false) Integer pricingProcedureStep,
+            @RequestParam(required = false) Integer pricingProcedureCounter,
+            @RequestParam(required = false) String customerNumber) throws Exception {
 
-        InvoiceMainItemCommand savedCommand = invoiceMainItemService.saveMainItemCommand(newInvoiceMainItemCommand);
-        return savedCommand;
+        // Step 1: If `salesQuotation` is provided, set it as the reference ID
+        if (salesQuotation != null) {
+            invoiceMainItemCommand.setReferenceId(salesQuotation);
 
+            // Fetch Sales Quotation details from SalesOrderCloudController and set `ReferenceSDDocument`
+            String salesQuotationApiResponse = salesOrderCloudController.getSalesQuotation().toString();
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            try {
+                JsonNode responseJson = objectMapper.readTree(salesQuotationApiResponse);
+                JsonNode salesQuotationResults = responseJson.path("d").path("results");
+
+                for (JsonNode quotation : salesQuotationResults) {
+                    String quotationID = quotation.path("SalesQuotation").asText();
+                    if (quotationID.equals(salesQuotation)) {
+                        String referenceSDDocument = quotation.path("ReferenceSDDocument").asText();
+                        invoiceMainItemCommand.setReferenceSDDocument(referenceSDDocument);
+                        break;
+                    }
+                }
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("Error processing Sales Quotation API response", e);
+            }
+        }
+
+        // Step 2: Check if an `InvoiceMainItem` with the same `referenceId` exists
+        List<InvoiceMainItem> existingInvoiceOpt = invoiceMainItemRepository.findByReferenceId(invoiceMainItemCommand.getReferenceId());
+        InvoiceMainItem savedInvoiceMainItem;
+
+        if (!existingInvoiceOpt.isEmpty()) {
+            // Update the existing `InvoiceMainItem`
+            savedInvoiceMainItem = invoiceMainItemService.updateMainItem(
+                    invoiceMainItemCommand, existingInvoiceOpt.get(0).getInvoiceMainItemCode());
+        } else {
+            // Create a new `InvoiceMainItem`
+            savedInvoiceMainItem = invoiceMainItemCommandToInvoiceMainItem.convert(invoiceMainItemCommand);
+            savedInvoiceMainItem = invoiceMainItemRepository.save(savedInvoiceMainItem);
+        }
+
+        // Step 3: Calculate `totalHeader` and update the saved item
+        Double totalHeader = invoiceMainItemService.getTotalHeader();
+        savedInvoiceMainItem.setTotalHeader(totalHeader);
+        invoiceMainItemRepository.save(savedInvoiceMainItem);
+
+        // Step 4: Make the API call to update the Sales Quotation Pricing with `totalHeader`
+        try {
+            invoiceMainItemService.callInvoicePricingAPI(
+                    salesQuotation, salesQuotationItem, pricingProcedureStep, pricingProcedureCounter, totalHeader);
+        } catch (Exception e) {
+            log.error("Error while calling Sales Quotation Pricing API: " + e.getMessage(), e);
+            throw new RuntimeException("Failed to update Invoice Pricing Element. Response Code: " + e.getMessage());
+        }
+
+        // Step 5: Convert and return the saved `InvoiceMainItem` as a command object for the response
+        return invoiceMainItemToInvoiceMainItemCommand.convert(savedInvoiceMainItem);
     }
+
 
     @PatchMapping
     @RequestMapping("/mainitems/{mainItemCode}")
@@ -165,22 +234,12 @@ public class InvoiceMainItemController {
         return invoiceMainItemToInvoiceMainItemCommand.convert(savedInvoiceMainItem);
     }
 
-    @PatchMapping("/mainitems")
-    public ResponseEntity<String> updateTemporaryToPermanent() {
-        invoiceMainItemService.updateAllTemporaryToPermanent();
-        return ResponseEntity.ok("All temporary statuses updated to permanent.");
-    }
 
     @DeleteMapping("/mainitems/{mainItemCode}")
     void deleteMainItemCommand(@PathVariable Long mainItemCode) {
         invoiceMainItemService.deleteById(mainItemCode);
     }
 
-
-    @DeleteMapping("/mainitems")
-    public void deleteTemporaryItems() {
-        invoiceMainItemService.deleteByTemporaryStatus();
-    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mainitems/search")
     @ResponseBody

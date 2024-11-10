@@ -90,9 +90,13 @@ public class ServiceInvoiceMain implements Serializable {
     @ManyToOne
     private ServiceNumber serviceNumber;
 
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "execution_order_main_id")
+//    @JsonIgnore
+//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+//    @JoinColumn(name = "execution_order_main_id")
+//    private ExecutionOrderMain executionOrderMain;
+
+    @ManyToOne
+    @JoinColumn(name = "execution_order_id", nullable = false)
     private ExecutionOrderMain executionOrderMain;
 
     public Integer getRemainingQuantity() {
@@ -217,9 +221,5 @@ public class ServiceInvoiceMain implements Serializable {
         }
     }
 
-    public void setExecutionOrderMain(ExecutionOrderMain executionOrderMain) {
-        this.executionOrderMain = executionOrderMain;
-        executionOrderMain.setServiceInvoiceMain(this);
-    }
 
 }

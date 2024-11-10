@@ -36,18 +36,18 @@ public class SecurityConfiguration {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/iasusers");
-//        return (web) -> web.ignoring().requestMatchers("/iasusers", "/formulas/*", "/formulas", "/linetypes/*", "/linetypes", "/materialgroups/*", "/materialgroups", "/modelspecs", "/modelspecs/*",
-//                "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*", "/personnelnumbers", "/servicenumbers/*", "/servicenumbers", "/servicetypes/*", "/servicetypes",
-//                "/invoices/*", "/invoices", "/mainitems/*/*/*/*/*", "/mainitems/*/*", "/mainitems","/mainitems/*", "/subitems/*", "/subitems", "/currencies/*", "/currencies", "/salesorder", "/salesorder/*", "/salesorderitems", "/salesorderitems/*," ,
-//                "/salesorderpricing", "/salesorderpricing/*", "/executionordersub", "/executionordersub/*", "/executionordermain/*/*", "/executionordermain/*/*/*", "/executionordermain", "/executionordermain/*","/salesordercloud", "/salesordercloud/*",
-//                "/salesorderpostcloud", "/salesorderpostcloud/*", "/serviceinvoice/*/*/*/*/*", "/serviceinvoice/*/*", "/serviceinvoice", "/serviceinvoice/*", "/salesorderitemcloud/*", "/salesorderitemcloud",
-//                "/salesorderitemscloud/*", "/salesorderitemscloud", "/salesorderpricingcloud/*/*", "/salesorderpricingcloud", "/salesquotationcloud", "/salesquotationcloud/*",
-//                "/salesquotationpostcloud/*", "/salesquotationpostcloud", "/salesquotationitemcloud/*", "/salesquotationitemcloud", "/salesquotationitemscloud", "/salesquotationitemscloud/*",
-//                "/salesquotationpricingcloud/*/*", "/salesquotationpricingcloud", "/debitmemocloud/*" , "/debitmemocloud", "/debitmemopostcloud/*", "/debitmemopostcloud",
-//                "/debitmemoitemscloud", "/debitmemoitemscloud/*","/salesorderallpricingcloud", "/salesorderallpricingcloud/*", "/salesorderitempricingcloudpost/*/*",
-//                "/salesquotationricingcloudpatch/*/*/*/*", "/productcloud", "/productdescriptioncloud", "/businesspartner", "/salesquotationitem/*/*",
-//                "/salesorderitem/*/*", "/debitmemoitems/*/*", "/allproductscloud");
+//        return (web) -> web.ignoring().requestMatchers("/iasusers");
+        return (web) -> web.ignoring().requestMatchers("/iasusers", "/formulas/*", "/formulas", "/linetypes/*", "/linetypes", "/materialgroups/*", "/materialgroups", "/modelspecs", "/modelspecs/*",
+                "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*", "/personnelnumbers", "/servicenumbers/*", "/servicenumbers", "/servicetypes/*", "/servicetypes",
+                "/invoices/*", "/invoices", "/mainitems/*/*/*/*/*", "/mainitems/*/*", "/mainitems","/mainitems/*", "/subitems/*", "/subitems", "/currencies/*", "/currencies", "/salesorder", "/salesorder/*", "/salesorderitems", "/salesorderitems/*," ,
+                "/salesorderpricing", "/salesorderpricing/*", "/executionordersub", "/executionordersub/*", "/executionordermain/*/*", "/executionordermain/*/*/*", "/executionordermain", "/executionordermain/*","/salesordercloud", "/salesordercloud/*",
+                "/salesorderpostcloud", "/salesorderpostcloud/*", "/serviceinvoice/*/*/*/*/*", "/serviceinvoice/*/*", "/serviceinvoice", "/serviceinvoice/*", "/salesorderitemcloud/*", "/salesorderitemcloud",
+                "/salesorderitemscloud/*", "/salesorderitemscloud", "/salesorderpricingcloud/*/*", "/salesorderpricingcloud", "/salesquotationcloud", "/salesquotationcloud/*",
+                "/salesquotationpostcloud/*", "/salesquotationpostcloud", "/salesquotationitemcloud/*", "/salesquotationitemcloud", "/salesquotationitemscloud", "/salesquotationitemscloud/*",
+                "/salesquotationpricingcloud/*/*", "/salesquotationpricingcloud", "/debitmemocloud/*" , "/debitmemocloud", "/debitmemopostcloud/*", "/debitmemopostcloud",
+                "/debitmemoitemscloud", "/debitmemoitemscloud/*","/salesorderallpricingcloud", "/salesorderallpricingcloud/*", "/salesorderitempricingcloudpost/*/*",
+                "/salesquotationricingcloudpatch/*/*/*/*", "/productcloud", "/productdescriptioncloud", "/businesspartner", "/salesquotationitem/*/*",
+                "/salesorderitem/*/*", "/debitmemoitems/*/*", "/allproductscloud");
     }
 
     @Bean

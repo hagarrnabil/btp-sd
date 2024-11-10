@@ -35,22 +35,28 @@ public interface ExecutionOrderMainService {
     ExecutionOrderMainCommand findExecutionOrderMainCommandById(Long l);
 
     @Transactional
-    default void updateNonNullFields(ExecutionOrderMainCommand source, ExecutionOrderMain target) {
+    public default void updateNonNullFields(ExecutionOrderMainCommand source, ExecutionOrderMain target) {
+        // Update all fields as provided
         if (source.getCurrencyCode() != null) target.setCurrencyCode(source.getCurrencyCode());
         if (source.getMaterialGroupCode() != null) target.setMaterialGroupCode(source.getMaterialGroupCode());
         if (source.getLineTypeCode() != null) target.setLineTypeCode(source.getLineTypeCode());
         if (source.getPersonnelNumberCode() != null) target.setPersonnelNumberCode(source.getPersonnelNumberCode());
-        if (source.getUnitOfMeasurementCode() != null) target.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
+        if (source.getUnitOfMeasurementCode() != null)
+            target.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         if (source.getDescription() != null) target.setDescription(source.getDescription());
         if (source.getTotalQuantity() != null) target.setTotalQuantity(source.getTotalQuantity());
         if (source.getAmountPerUnit() != null) target.setAmountPerUnit(source.getAmountPerUnit());
         if (source.getTotal() != null) target.setTotal(source.getTotal());
         if (source.getActualQuantity() != null) target.setActualQuantity(source.getActualQuantity());
         if (source.getActualPercentage() != null) target.setActualPercentage(source.getActualPercentage());
-        if (source.getOverFulfillmentPercentage() != null) target.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
-        if (source.getUnlimitedOverFulfillment() != null) target.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
-        if (source.getManualPriceEntryAllowed() != null) target.setManualPriceEntryAllowed(source.getManualPriceEntryAllowed());
-        if (source.getExternalServiceNumber() != null) target.setExternalServiceNumber(source.getExternalServiceNumber());
+        if (source.getOverFulfillmentPercentage() != null)
+            target.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
+        if (source.getUnlimitedOverFulfillment() != null)
+            target.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
+        if (source.getManualPriceEntryAllowed() != null)
+            target.setManualPriceEntryAllowed(source.getManualPriceEntryAllowed());
+        if (source.getExternalServiceNumber() != null)
+            target.setExternalServiceNumber(source.getExternalServiceNumber());
         if (source.getServiceText() != null) target.setServiceText(source.getServiceText());
         if (source.getLineText() != null) target.setLineText(source.getLineText());
         if (source.getLineNumber() != null) target.setLineNumber(source.getLineNumber());
@@ -60,7 +66,6 @@ public interface ExecutionOrderMainService {
         if (source.getDoNotPrint() != null) target.setDoNotPrint(source.getDoNotPrint());
         if (source.getServiceTypeCode() != null) target.setServiceTypeCode(source.getServiceTypeCode());
 
-        // Handle Service Number separately
         if (source.getServiceNumberCode() != null) {
             ServiceNumber serviceNumber = new ServiceNumber();
             serviceNumber.setServiceNumberCode(source.getServiceNumberCode());
@@ -68,12 +73,10 @@ public interface ExecutionOrderMainService {
             serviceNumber.addExecutionOrderMainItem(target);
         }
 
-        // Update ServiceInvoiceMain from ExecutionOrderMain if available
-        if (target.getServiceInvoiceMain() != null) {
-            target.getServiceInvoiceMain().updateFromExecutionOrder(target);
+        if (target.getServiceInvoices() != null) {
+            target.getServiceInvoices().forEach(invoice -> invoice.updateFromExecutionOrder(target));
         }
     }
-
     default void callSalesOrderPricingAPI(String salesOrder, String salesOrderItem, Double totalHeader) throws Exception {
 
         // Initialize the logger

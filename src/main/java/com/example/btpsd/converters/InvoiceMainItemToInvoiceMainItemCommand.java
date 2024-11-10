@@ -64,7 +64,6 @@ public class InvoiceMainItemToInvoiceMainItemCommand implements Converter<Invoic
         invoiceMainItemCommand.setTotalHeader(source.getTotalHeader());
         invoiceMainItemCommand.setReferenceId(source.getReferenceId());
         invoiceMainItemCommand.setReferenceSDDocument(source.getReferenceSDDocument());
-        invoiceMainItemCommand.setTemporaryDeletion(source.getTemporaryDeletion());
         return invoiceMainItemCommand;
     }
 

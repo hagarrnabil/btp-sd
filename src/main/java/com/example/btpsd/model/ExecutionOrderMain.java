@@ -57,7 +57,8 @@ public class ExecutionOrderMain implements Serializable {
 
     private Double totalHeader;
 
-    private Integer actualQuantity;
+    private Integer actualQuantity = 0;
+
 
     private Integer previousQuantity;
 
@@ -95,9 +96,12 @@ public class ExecutionOrderMain implements Serializable {
     @JoinColumn(name = "invoice_main_item_id")
     private InvoiceMainItem invoiceMainItem;
 
-    @OneToOne(mappedBy = "executionOrderMain", cascade = CascadeType.PERSIST)
-    private ServiceInvoiceMain serviceInvoiceMain;
+//    @OneToOne(mappedBy = "executionOrderMain", cascade = CascadeType.PERSIST)
+//    private ServiceInvoiceMain serviceInvoiceMain;
 
+
+    @OneToMany(mappedBy = "executionOrderMain", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ServiceInvoiceMain> serviceInvoices = new ArrayList<>();
 
     public ExecutionOrderMain(InvoiceMainItem invoiceMainItem) {
         this.serviceNumberCode = invoiceMainItem.getServiceNumberCode();

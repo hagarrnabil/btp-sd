@@ -61,9 +61,9 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         executionOrderMain.setTotal(executionOrderMain.getTotalQuantity() * executionOrderMain.getAmountPerUnit());
 
         executionOrderMain.setReferenceSDDocument(source.getReferenceSDDocument());
-        if (executionOrderMain.getServiceInvoiceMain() != null) {
-            executionOrderMain.setActualQuantity(executionOrderMain.getServiceInvoiceMain().getActualQuantity());
-        }
+//        if (executionOrderMain.getServiceInvoiceMain() != null) {
+//            executionOrderMain.setActualQuantity(executionOrderMain.getServiceInvoiceMain().getActualQuantity());
+//        }
 
         executionOrderMain.setReferenceId(source.getReferenceId());
         executionOrderMain.setTotalHeader(0.0);

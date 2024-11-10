@@ -96,7 +96,6 @@ public class InvoiceMainItemCommandToInvoiceMainItem implements Converter<Invoic
         // Set total header (this will be recalculated later in the save method)
         mainItem.setTotalHeader(0.0);
         mainItem.setReferenceId(source.getReferenceId());
-        mainItem.setTemporaryDeletion(source.getTemporaryDeletion());
         return mainItem;
         }
 }

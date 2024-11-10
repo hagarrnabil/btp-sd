@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Setter
 @Getter
@@ -54,10 +55,6 @@ public class InvoiceMainItem implements Serializable {
 
     private Double amountPerUnitWithProfit;
 
-    @Column(columnDefinition = "char(9)")
-    @Length(max = 9)
-    private String temporaryDeletion;
-
     @OneToMany(mappedBy = "mainItem", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonProperty("subItemList")
     private List<InvoiceSubItem> subItemList = new ArrayList<>();
@@ -77,4 +74,23 @@ public class InvoiceMainItem implements Serializable {
         return this;
     }
 
+    public Double calculateTotal() {
+        if (this.quantity != null && this.amountPerUnit != null) {
+            this.total = this.quantity * this.amountPerUnit;
+            // Calculate total with profit margin if it's set
+            if (this.profitMargin != null) {
+                this.totalWithProfit = this.total + (this.total * (this.profitMargin / 100));
+            } else {
+                this.totalWithProfit = this.total; // No profit margin, so totalWithProfit is just the total
+            }
+        }
+        return this.totalWithProfit;
+    }
+
+    public static Double calculateTotalHeader(List<InvoiceMainItem> items) {
+        return items.stream()
+                .map(InvoiceMainItem::calculateTotal)
+                .filter(Objects::nonNull)
+                .reduce(0.0, Double::sum);
+    }
 }

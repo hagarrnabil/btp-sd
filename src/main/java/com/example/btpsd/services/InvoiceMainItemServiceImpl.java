@@ -54,7 +54,6 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
     }
 
 
-
     public InvoiceMainItemCommand getInvoiceMainItemWithTotalHeader(Long id) {
         InvoiceMainItem mainItem = invoiceMainItemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Invoice not found"));
@@ -89,33 +88,6 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
 
         invoiceMainItemRepository.deleteById(idToDelete);
 
-    }
-
-    @Transactional
-    @Override
-    public void deleteByTemporaryStatus() {
-        // Fetch all records with temporary deletion status
-        List<InvoiceMainItem> temporaryItems = invoiceMainItemRepository.findByTemporaryDeletion("temporary");
-
-        // Loop through and delete each temporary item
-        for (InvoiceMainItem item : temporaryItems) {
-            invoiceMainItemRepository.delete(item);
-        }
-    }
-
-    @Transactional
-    @Override
-    public void updateAllTemporaryToPermanent() {
-        // Fetch all items with 'temporary' status
-        List<InvoiceMainItem> itemsToUpdate = invoiceMainItemRepository.findByTemporaryDeletion("temporary");
-
-        // Loop over each item and update the status
-        for (InvoiceMainItem item : itemsToUpdate) {
-            item.setTemporaryDeletion("permanent");
-        }
-
-        // Save all updated items
-        invoiceMainItemRepository.saveAll(itemsToUpdate);
     }
 
 

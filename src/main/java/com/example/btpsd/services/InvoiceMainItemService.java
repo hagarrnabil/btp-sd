@@ -28,13 +28,6 @@ public interface InvoiceMainItemService {
 
     void deleteById(Long idToDelete);
 
-    @Transactional
-    void deleteByTemporaryStatus();
-
-
-    @Transactional
-    void updateAllTemporaryToPermanent();
-
     Double getTotalHeader();
 
     InvoiceMainItemCommand saveMainItemCommand(InvoiceMainItemCommand command);
@@ -43,17 +36,6 @@ public interface InvoiceMainItemService {
 
     InvoiceMainItemCommand findMainItemCommandById(Long l);
 
-//    public default void sendToInvoiceMainItem(SalesOrderToMainitemDTO dto) {
-//        InvoiceMainItem invoiceMainItemCommand = new InvoiceMainItem();
-//
-//        // Map SalesOrder fields to InvoiceMainItem fields
-//        invoiceMainItemCommand.setInvoiceMainItemCode(Long.valueOf(dto.getSalesOrder()));
-//        invoiceMainItemCommand.setCurrencyCode(dto.getTransactionCurrency());
-//
-//        // Save to the database through the repository or another service
-//        invoiceMainItemRepository.save(invoiceMainItemCommand);  // Assuming InvoiceMainItemCommand is the entity
-//
-//    }
 
     public default ResponseEntity<String> callInvoicePricingAPI(String salesQuotation, String salesQuotationItem, Integer pricingProcedureStep, Integer pricingProcedureCounter, Double totalHeader) throws Exception {
         Logger log = LogManager.getLogger(this.getClass());

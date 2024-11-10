@@ -95,8 +95,10 @@ public class ExecutionOrderMainServiceImpl implements ExecutionOrderMainService 
         ExecutionOrderMain executionOrderMain = executionOrderMainCommandToExecutionOrderMain.convert(command);
         ExecutionOrderMain savedItem = executionOrderMainRepository.save(executionOrderMain);
         Double totalHeader = getTotalHeader();
+
         savedItem.setTotalHeader(totalHeader);
         savedItem = executionOrderMainRepository.save(savedItem);
+
         log.debug("Total Header after save: " + totalHeader);
         return executionOrderMainToExecutionOrderMainCommand.convert(savedItem);
     }
