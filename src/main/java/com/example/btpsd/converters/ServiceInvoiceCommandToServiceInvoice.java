@@ -32,6 +32,7 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
 
         final ServiceInvoiceMain serviceInvoiceMain = new ServiceInvoiceMain();
         serviceInvoiceMain.setServiceInvoiceCode(source.getServiceInvoiceCode());
+        serviceInvoiceMain.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
         serviceInvoiceMain.setReferenceId(source.getReferenceId());
         serviceInvoiceMain.setDescription(source.getDescription());
         serviceInvoiceMain.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
@@ -48,18 +49,17 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         // Initialize actualQuantity
         Integer calculatedActualQuantity = source.getQuantity();
 
-        // Fetch the existing ExecutionOrderMain if it exists
+
         if (source.getExecutionOrderMainCode() != null) {
             ExecutionOrderMain existingExecutionOrder = executionOrderMainService
                     .findById(source.getExecutionOrderMainCode());
 
             if (existingExecutionOrder != null) {
-                // Accumulate AQ if the ExecutionOrderMain code matches
-                calculatedActualQuantity += existingExecutionOrder.getActualQuantity();
+                // Handle null ActualQuantity with a default value of 0
+                Integer existingActualQuantity = existingExecutionOrder.getActualQuantity();
+                calculatedActualQuantity += (existingActualQuantity != null ? existingActualQuantity : 0);
             }
         }
-
-        serviceInvoiceMain.setActualQuantity(calculatedActualQuantity);
 
         // Enforce overfulfillment logic
         Integer totalQuantity = source.getTotalQuantity() != null ? source.getTotalQuantity() : 0;
@@ -85,6 +85,19 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
             serviceInvoiceMain.setActualPercentage(actualPercentage);
         } else {
             serviceInvoiceMain.setActualPercentage(0);
+        }
+
+        // Ensure actualQuantity is not null before invoking intValue()
+        Integer actualQuantity = serviceInvoiceMain.getExecutionOrderMain() != null
+                ? serviceInvoiceMain.getExecutionOrderMain().getActualQuantity()
+                : null;
+
+        if (actualQuantity != null) {
+            // Proceed with conversion using actualQuantity
+            // Example: serviceInvoiceMain.setQuantity(actualQuantity.intValue());
+        } else {
+            // Handle case when actualQuantity is null, e.g., log or set a default value
+            serviceInvoiceMain.setQuantity(0); // Set a default or log an error
         }
 
         serviceInvoiceMain.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());

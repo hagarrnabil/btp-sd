@@ -23,6 +23,7 @@ public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceI
 
         final ServiceInvoiceMainCommand serviceInvoiceMainCommand = new ServiceInvoiceMainCommand();
         serviceInvoiceMainCommand.setServiceInvoiceCode(source.getServiceInvoiceCode());
+        serviceInvoiceMainCommand.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
         serviceInvoiceMainCommand.setDescription(source.getDescription());
         serviceInvoiceMainCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         serviceInvoiceMainCommand.setCurrencyCode(source.getCurrencyCode());

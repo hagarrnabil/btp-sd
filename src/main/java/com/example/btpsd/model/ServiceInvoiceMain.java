@@ -9,6 +9,8 @@ import org.hibernate.validator.constraints.Length;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import java.util.Objects;
 
 @Setter
 @Getter
@@ -22,6 +24,8 @@ public class ServiceInvoiceMain implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long serviceInvoiceCode;
+
+    private Long executionOrderMainCode;
 
     private String referenceSDDocument;
 
@@ -90,13 +94,8 @@ public class ServiceInvoiceMain implements Serializable {
     @ManyToOne
     private ServiceNumber serviceNumber;
 
-//    @JsonIgnore
-//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-//    @JoinColumn(name = "execution_order_main_id")
-//    private ExecutionOrderMain executionOrderMain;
-
     @ManyToOne
-    @JoinColumn(name = "execution_order_id", nullable = false)
+    @JoinColumn(name = "execution_order_id", referencedColumnName = "executionOrderMainCode")
     private ExecutionOrderMain executionOrderMain;
 
     public Integer getRemainingQuantity() {
@@ -221,5 +220,18 @@ public class ServiceInvoiceMain implements Serializable {
         }
     }
 
+    public Double calculateTotal() {
+        if (this.quantity != null && this.amountPerUnit != null) {
+            this.total = this.quantity * this.amountPerUnit;
+        }
+        return this.total;
+    }
+
+    public static Double calculateTotalHeader(List<ServiceInvoiceMain> items) {
+        return items.stream()
+                .map(ServiceInvoiceMain::calculateTotal)
+                .filter(Objects::nonNull)
+                .reduce(0.0, Double::sum);
+    }
 
 }

@@ -17,6 +17,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -46,9 +47,14 @@ ExecutionOrderMainController {
 
     private final ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand;
 
-    @GetMapping("/executionordermain")
+    @GetMapping("/executionordermain/all")
     Set<ExecutionOrderMainCommand> all() {
         return executionOrderMainService.getExecutionOrderMainCommands();
+    }
+
+    @GetMapping("/executionordermain/id")
+    public Optional<ExecutionOrderMainCommand> getExecutionOrderMainById(@RequestParam Long executionOrderMainCode) {
+        return Optional.ofNullable(executionOrderMainService.findExecutionOrderMainCommandById(executionOrderMainCode));
     }
 
     @GetMapping("/executionordermain/{salesOrder}/{salesOrderItem}")
@@ -60,8 +66,8 @@ ExecutionOrderMainController {
         return salesOrderCloudController.getSalesOrderItem(salesOrder, salesOrderItem);
     }
 
-    @GetMapping("/executionordermain/{referenceId}")
-    public ResponseEntity<List<ExecutionOrderMainCommand>> getInvoiceMainItemsByReferenceId(@PathVariable String referenceId) {
+    @GetMapping("/executionordermain/referenceid")
+    public ResponseEntity<List<ExecutionOrderMainCommand>> getInvoiceMainItemsByReferenceId(@RequestParam String referenceId) {
         List<ExecutionOrderMain> executionOrderMain = executionOrderMainRepository.findByReferenceId(referenceId);
 
         if (executionOrderMain.isEmpty()) {
@@ -125,8 +131,12 @@ ExecutionOrderMainController {
             throw new RuntimeException("Error while calling Sales Order Pricing API: " + e.getMessage());
         }
 
-        // Return the saved command
-        return savedCommand;
+        savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(newExecutionOrderCommand);
+        if (savedCommand == null) {
+            throw new RuntimeException("Failed to save Execution Order.");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCommand).getBody();
+
     }
 
     @DeleteMapping("/executionordermain/{executionOrderMainCode}")
