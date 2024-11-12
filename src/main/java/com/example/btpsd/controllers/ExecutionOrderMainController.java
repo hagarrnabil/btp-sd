@@ -109,14 +109,12 @@ ExecutionOrderMainController {
                     break;
                 }
             }
-
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error processing sales order API response", e);
         }
 
         // Step 4: Save the ExecutionOrderMain
         ExecutionOrderMainCommand savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(newExecutionOrderCommand);
-
         if (savedCommand == null) {
             throw new RuntimeException("Failed to save Execution Order.");
         }
@@ -131,12 +129,9 @@ ExecutionOrderMainController {
             throw new RuntimeException("Error while calling Sales Order Pricing API: " + e.getMessage());
         }
 
-        savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(newExecutionOrderCommand);
-        if (savedCommand == null) {
-            throw new RuntimeException("Failed to save Execution Order.");
-        }
+        // Final save to ensure all updates are applied
+        savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(savedCommand);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCommand).getBody();
-
     }
 
     @DeleteMapping("/executionordermain/{executionOrderMainCode}")

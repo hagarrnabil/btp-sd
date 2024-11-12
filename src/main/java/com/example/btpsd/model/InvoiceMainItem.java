@@ -7,9 +7,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Setter
 @Getter
@@ -74,23 +72,35 @@ public class InvoiceMainItem implements Serializable {
         return this;
     }
 
-    public Double calculateTotal() {
+    public Map<String, Double> calculateTotal() {
         if (this.quantity != null && this.amountPerUnit != null) {
+            // Basic total calculation
             this.total = this.quantity * this.amountPerUnit;
-            // Calculate total with profit margin if it's set
+
+            // Calculate total with profit margin if set
             if (this.profitMargin != null) {
                 this.totalWithProfit = this.total + (this.total * (this.profitMargin / 100));
+                this.amountPerUnitWithProfit = this.amountPerUnit + (this.amountPerUnit * (this.profitMargin / 100));
             } else {
-                this.totalWithProfit = this.total; // No profit margin, so totalWithProfit is just the total
+                this.totalWithProfit = this.total;
+                this.amountPerUnitWithProfit = this.amountPerUnit;
             }
         }
-        return this.totalWithProfit;
+
+        // Return all values in a map
+        Map<String, Double> result = new HashMap<>();
+        result.put("totalWithProfit", this.totalWithProfit);
+        result.put("amountPerUnit", this.amountPerUnit);
+        result.put("amountPerUnitWithProfit", this.amountPerUnitWithProfit); // New field added
+        return result;
     }
+
 
     public static Double calculateTotalHeader(List<InvoiceMainItem> items) {
         return items.stream()
-                .map(InvoiceMainItem::calculateTotal)
+                .map(item -> item.calculateTotal().get("totalWithProfit"))  // Get the "totalWithProfit" from the map
                 .filter(Objects::nonNull)
                 .reduce(0.0, Double::sum);
     }
+
 }

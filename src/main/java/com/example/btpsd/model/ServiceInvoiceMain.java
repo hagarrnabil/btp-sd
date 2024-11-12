@@ -9,7 +9,9 @@ import org.hibernate.validator.constraints.Length;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Setter
@@ -94,7 +96,7 @@ public class ServiceInvoiceMain implements Serializable {
     @ManyToOne
     private ServiceNumber serviceNumber;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "execution_order_id", referencedColumnName = "executionOrderMainCode")
     private ExecutionOrderMain executionOrderMain;
 
@@ -220,18 +222,28 @@ public class ServiceInvoiceMain implements Serializable {
         }
     }
 
-    public Double calculateTotal() {
+    public Map<String, Double> calculateTotal() {
+        Map<String, Double> resultMap = new HashMap<>();
+
         if (this.quantity != null && this.amountPerUnit != null) {
             this.total = this.quantity * this.amountPerUnit;
+            resultMap.put("total", this.total);
+            resultMap.put("amountPerUnit", this.amountPerUnit);
+        } else {
+            resultMap.put("total", 0.0);
+            resultMap.put("amountPerUnit", 0.0);
         }
-        return this.total;
+
+        return resultMap;
     }
+
 
     public static Double calculateTotalHeader(List<ServiceInvoiceMain> items) {
         return items.stream()
-                .map(ServiceInvoiceMain::calculateTotal)
+                .map(item -> item.calculateTotal().get("total"))  // Access only the "total" value
                 .filter(Objects::nonNull)
                 .reduce(0.0, Double::sum);
     }
+
 
 }

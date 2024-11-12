@@ -100,7 +100,7 @@ public class ExecutionOrderMain implements Serializable {
 //    private ServiceInvoiceMain serviceInvoiceMain;
 
 
-    @OneToMany(mappedBy = "executionOrderMain", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "executionOrderMain", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ServiceInvoiceMain> serviceInvoices = new ArrayList<>();
 
     public ExecutionOrderMain(InvoiceMainItem invoiceMainItem) {

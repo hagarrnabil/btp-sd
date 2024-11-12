@@ -28,6 +28,7 @@ public interface ServiceInvoiceMainRepository extends CrudRepository<ServiceInvo
 
     List<ServiceInvoiceMain> findAllByExecutionOrderMain_ExecutionOrderMainCode(Long executionOrderMainCode);
 
+
     @Query("SELECT i FROM ServiceInvoiceMain i WHERE LOWER(i.temporaryDeletion) = LOWER(:temporaryDeletion)")
     List<ServiceInvoiceMain> findByTemporaryDeletion(@Param("temporaryDeletion") String temporaryDeletion);
 }

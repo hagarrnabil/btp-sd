@@ -83,6 +83,5 @@ public class ServiceInvoiceMainCommand implements Serializable {
     @JsonIgnore
     private InvoiceMainItem invoiceMainItem;
 
-    @JsonIgnore
     private ExecutionOrderMain executionOrderMain;
 }

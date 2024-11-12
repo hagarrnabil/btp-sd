@@ -11,7 +11,9 @@ import com.example.btpsd.services.ServiceInvoiceMainService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,10 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -94,13 +93,17 @@ public class ServiceInvoiceMainController {
     }
 
     @PostMapping("/totalsrv")
-    public ResponseEntity<Double> calculateTotal(@RequestBody ServiceInvoiceMainCommand serviceInvoiceMainCommand) {
+    public ResponseEntity<Map<String, Double>> calculateTotal(@RequestBody ServiceInvoiceMainCommand serviceInvoiceMainCommand) {
         ServiceInvoiceMain serviceInvoiceMain = new ServiceInvoiceMain();
         serviceInvoiceMain.setQuantity(serviceInvoiceMainCommand.getQuantity());
         serviceInvoiceMain.setAmountPerUnit(serviceInvoiceMainCommand.getAmountPerUnit());
-        Double total = serviceInvoiceMain.calculateTotal();
-        return ResponseEntity.ok(total);
+
+        // Get total and amount per unit from the calculation
+        Map<String, Double> resultMap = serviceInvoiceMain.calculateTotal();
+
+        return ResponseEntity.ok(resultMap);
     }
+
 
 
 //    @PostMapping("/serviceinvoice")
@@ -111,7 +114,11 @@ public class ServiceInvoiceMainController {
 //
 //    }
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @PostMapping("/serviceinvoice")
+    @Transactional
     public List<ServiceInvoiceMainCommand> saveOrUpdateServiceInvoiceCommands(
             @RequestBody List<ServiceInvoiceMainCommand> serviceInvoiceMainCommands,
             @RequestParam(required = false) String debitMemoRequest,
@@ -119,6 +126,7 @@ public class ServiceInvoiceMainController {
             @RequestParam(required = false) Integer pricingProcedureStep,
             @RequestParam(required = false) Integer pricingProcedureCounter,
             @RequestParam(required = false) String customerNumber) throws Exception {
+
 
         List<ServiceInvoiceMainCommand> savedCommands = new ArrayList<>();
 
@@ -131,7 +139,11 @@ public class ServiceInvoiceMainController {
                         .orElseThrow(() -> new EntityNotFoundException("ExecutionOrderMain not found with code: "
                                 + serviceInvoiceMainCommand.getExecutionOrderMainCode()));
 
-                // Link ExecutionOrderMain to ServiceInvoiceMainCommand
+                // Ensure executionOrderMain is attached to persistence context
+                entityManager.refresh(executionOrderMain);
+                log.info("ExecutionOrderMain refreshed and linked to ServiceInvoiceMainCommand with code: " +
+                        serviceInvoiceMainCommand.getExecutionOrderMainCode());
+
                 serviceInvoiceMainCommand.setExecutionOrderMain(executionOrderMain);
             } else {
                 throw new RuntimeException("ExecutionOrderMainCode is required.");

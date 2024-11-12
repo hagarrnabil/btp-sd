@@ -177,6 +177,11 @@ CREATE TABLE invoiceSubItem
     CONSTRAINT fk_service_number_subitem FOREIGN KEY (service_number_id) REFERENCES "serviceNumber" (service_number_code)
 );
 
+-- Drop constraints if they exist (only run this if you have previous constraints)
+ALTER TABLE serviceInvoice DROP CONSTRAINT IF EXISTS fk_execution_order;
+ALTER TABLE executionOrderMain DROP CONSTRAINT IF EXISTS fk_service_invoice_main;
+
+-- Create executionOrderMain table with updates
 CREATE TABLE executionOrderMain
 (
     executionOrderMainCode    BIGSERIAL PRIMARY KEY,
@@ -195,11 +200,10 @@ CREATE TABLE executionOrderMain
     lotCostOne                BOOLEAN,
     doNotPrint                BOOLEAN,
     overFulfillmentPercentage INT,
-    unlimitedOverFulfillment  BOOLEAN,
-    service_invoice_main_id   BIGINT,
-    CONSTRAINT fk_service_invoice_main FOREIGN KEY (service_invoice_main_id) REFERENCES "serviceNumber" (service_number_code) ON DELETE CASCADE
+    unlimitedOverFulfillment  BOOLEAN
 );
 
+-- Create serviceInvoice table with updates
 CREATE TABLE serviceInvoice
 (
     serviceInvoiceCode        BIGSERIAL PRIMARY KEY,
@@ -229,10 +233,16 @@ CREATE TABLE serviceInvoice
     lotCostOne                BOOLEAN,
     doNotPrint                BOOLEAN,
     alternatives              VARCHAR(255),
+
+    -- Foreign key to serviceNumber
     service_number_id         BIGINT,
+    CONSTRAINT fk_service_number_invoice FOREIGN KEY (service_number_id)
+        REFERENCES "serviceNumber" (service_number_code) ON DELETE CASCADE,
+
+    -- Foreign key to executionOrderMain
     execution_order_main_id   BIGINT,
-    CONSTRAINT fk_service_number_invoice FOREIGN KEY (service_number_id) REFERENCES "serviceNumber" (service_number_code),
-    CONSTRAINT fk_execution_order FOREIGN KEY (execution_order_main_id) REFERENCES executionOrderMain (executionOrderMainCode) ON DELETE CASCADE
+    CONSTRAINT fk_execution_order FOREIGN KEY (execution_order_main_id)
+        REFERENCES executionOrderMain (executionOrderMainCode) ON DELETE CASCADE
 );
 -- Insert predefined LineType records
 INSERT INTO line_type (line_type_code, code, description)

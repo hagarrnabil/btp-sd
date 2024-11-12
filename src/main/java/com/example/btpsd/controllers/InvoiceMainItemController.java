@@ -21,10 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -87,15 +84,18 @@ public class InvoiceMainItemController {
     }
 
     @PostMapping("/total")
-    public ResponseEntity<Double> calculateTotal(@RequestBody InvoiceMainItemCommand invoiceMainItemCommand) {
+    public ResponseEntity<Map<String, Double>> calculateTotal(@RequestBody InvoiceMainItemCommand invoiceMainItemCommand) {
         InvoiceMainItem invoiceMainItem = new InvoiceMainItem();
         invoiceMainItem.setQuantity(invoiceMainItemCommand.getQuantity());
         invoiceMainItem.setAmountPerUnit(invoiceMainItemCommand.getAmountPerUnit());
         invoiceMainItem.setProfitMargin(invoiceMainItemCommand.getProfitMargin());
 
-        Double totalWithProfit = invoiceMainItem.calculateTotal();
-        return ResponseEntity.ok(totalWithProfit);
+        // Get the total and amount per unit with profit
+        Map<String, Double> resultMap = invoiceMainItem.calculateTotal();
+
+        return ResponseEntity.ok(resultMap);
     }
+
 
     @GetMapping("/totalheader")
     public ResponseEntity<Double> calculateTotalHeader() {
