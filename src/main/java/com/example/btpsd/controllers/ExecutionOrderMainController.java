@@ -57,6 +57,61 @@ ExecutionOrderMainController {
         return Optional.ofNullable(executionOrderMainService.findExecutionOrderMainCommandById(executionOrderMainCode));
     }
 
+    @PostMapping("/executionordermain")
+    public ExecutionOrderMainCommand newExecutionOrderCommand(
+            @RequestBody ExecutionOrderMainCommand newCommand,
+            @RequestParam(required = false) String salesOrder,
+            @RequestParam(required = false) String salesOrderItem,
+            @RequestParam(required = false) String customerNumber) throws Exception {
+
+        // Step 1: Set the salesOrder as the reference ID for the new execution order
+        newCommand.setReferenceId(salesOrder);
+
+        // Step 2: Fetch Sales Order details and set ReferenceSDDocument if applicable
+        String salesOrderApiResponse = salesOrderCloudController.getAllSalesOrders().toString();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            JsonNode responseJson = objectMapper.readTree(salesOrderApiResponse);
+            JsonNode salesOrderResults = responseJson.path("d").path("results");
+
+            for (JsonNode order : salesOrderResults) {
+                String orderID = order.path("SalesOrder").asText();
+                if (orderID.equals(salesOrder)) {
+                    String referenceSDDocument = order.path("ReferenceSDDocument").asText();
+                    newCommand.setReferenceSDDocument(referenceSDDocument);
+                    break;  // Exit loop once ReferenceSDDocument is found
+                }
+            }
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error processing Sales Order API response", e);
+        }
+
+        // Step 3: Call Sales Order Pricing API to set Total Header in newCommand
+        executionOrderMainService.callSalesOrderPricingAPI(salesOrder, salesOrderItem, newCommand.getTotalHeader());
+
+        // Step 4: Save and return the new ExecutionOrderMainCommand once
+        return executionOrderMainService.saveExecutionOrderMainCommand(newCommand);
+    }
+
+
+//    private String fetchReferenceSDDocumentFromS4(String salesOrder) throws Exception {
+//        String salesOrderApiResponse = salesOrderCloudController.getAllSalesOrders().toString();
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        // Parse the API response and search for the sales order's ReferenceSDDocument
+//        JsonNode salesOrderJson = objectMapper.readTree(salesOrderApiResponse);
+//        JsonNode salesOrderArray = salesOrderJson.path("d").path("results");
+//
+//        for (JsonNode salesOrderNode : salesOrderArray) {
+//            String salesOrderId = salesOrderNode.path("SalesOrder").asText();
+//            if (salesOrderId.equals(salesOrder)) {
+//                return salesOrderNode.path("ReferenceSDDocument").asText();
+//            }
+//        }
+//        return null; // Return null if not found
+//    }
+
     @GetMapping("/executionordermain/{salesOrder}/{salesOrderItem}")
     public StringBuilder findBySalesOrderAndItem(
             @PathVariable("salesOrder") String salesOrder,
@@ -81,58 +136,6 @@ ExecutionOrderMainController {
         return ResponseEntity.ok(responseItems);
     }
 
-    @PostMapping("/executionordermain/{salesOrder}/{salesOrderItem}/{customerNumber}")
-    public ExecutionOrderMainCommand newExecutionOrderCommand(
-            @RequestBody ExecutionOrderMainCommand newExecutionOrderCommand,
-            @PathVariable String salesOrder,
-            @PathVariable String salesOrderItem,
-            @PathVariable String customerNumber) throws Exception {
-
-        // Step 1: Set the reference ID to the sales order number
-        newExecutionOrderCommand.setReferenceId(salesOrder);
-
-        // Step 2: Fetch sales order details using SalesOrderCloudController
-        String salesOrderApiResponse = salesOrderCloudController.getAllSalesOrders().toString();
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        try {
-            // Parse the API response
-            JsonNode salesOrderJson = objectMapper.readTree(salesOrderApiResponse);
-            JsonNode salesOrderArray = salesOrderJson.path("d").path("results");
-
-            // Step 3: Find the matching sales order and extract ReferenceSDDocument
-            for (JsonNode salesOrderNode : salesOrderArray) {
-                String salesOrderId = salesOrderNode.path("SalesOrder").asText();
-                if (salesOrderId.equals(salesOrder)) {
-                    String referenceSDDocument = salesOrderNode.path("ReferenceSDDocument").asText();
-                    newExecutionOrderCommand.setReferenceSDDocument(referenceSDDocument);
-                    break;
-                }
-            }
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error processing sales order API response", e);
-        }
-
-        // Step 4: Save the ExecutionOrderMain
-        ExecutionOrderMainCommand savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(newExecutionOrderCommand);
-        if (savedCommand == null) {
-            throw new RuntimeException("Failed to save Execution Order.");
-        }
-
-        // Step 5: Extract the totalHeader from the saved Main Item
-        Double totalHeader = savedCommand.getTotalHeader();
-
-        // Step 6: Call the Sales Order Pricing API with salesOrder and salesOrderItem from the URL
-        try {
-            executionOrderMainService.callSalesOrderPricingAPI(salesOrder, salesOrderItem, totalHeader);
-        } catch (Exception e) {
-            throw new RuntimeException("Error while calling Sales Order Pricing API: " + e.getMessage());
-        }
-
-        // Final save to ensure all updates are applied
-        savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(savedCommand);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedCommand).getBody();
-    }
 
     @DeleteMapping("/executionordermain/{executionOrderMainCode}")
     void deleteExecutionOrderMainItemCommand(@PathVariable Long executionOrderMainCode) {

@@ -13,6 +13,9 @@ import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @RequiredArgsConstructor
 @Component
 public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceInvoiceMainCommand, ServiceInvoiceMain> {
@@ -25,7 +28,6 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
     @Nullable
     @Override
     public ServiceInvoiceMain convert(ServiceInvoiceMainCommand source) {
-
         if (source == null) {
             return null;
         }
@@ -44,62 +46,31 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         serviceInvoiceMain.setAlternatives(source.getAlternatives());
         serviceInvoiceMain.setTotalQuantity(source.getTotalQuantity());
         serviceInvoiceMain.setAmountPerUnit(source.getAmountPerUnit());
-        serviceInvoiceMain.setTemporaryDeletion(source.getTemporaryDeletion());
-        serviceInvoiceMain.setReferenceSDDocument(source.getReferenceSDDocument());
-        // Initialize actualQuantity
-        Integer calculatedActualQuantity = source.getQuantity();
 
+        // Set quantity, defaulting to 0 if null
+        Integer quantity = source.getQuantity() != null ? source.getQuantity() : 0;
+        serviceInvoiceMain.setQuantity(quantity);
 
-        if (source.getExecutionOrderMainCode() != null) {
-            ExecutionOrderMain existingExecutionOrder = executionOrderMainService
-                    .findById(source.getExecutionOrderMainCode());
+        // Set amountPerUnit, defaulting to 0.0 if null
+        double amountPerUnit = source.getAmountPerUnit() != null ? source.getAmountPerUnit() : 0.0;
+        serviceInvoiceMain.setAmountPerUnit(amountPerUnit);
 
-            if (existingExecutionOrder != null) {
-                // Handle null ActualQuantity with a default value of 0
-                Integer existingActualQuantity = existingExecutionOrder.getActualQuantity();
-                calculatedActualQuantity += (existingActualQuantity != null ? existingActualQuantity : 0);
-            }
-        }
+        // Calculate total as quantity * amountPerUnit
+        double total = quantity * amountPerUnit;
+        serviceInvoiceMain.setTotal(new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue());
 
-        // Enforce overfulfillment logic
-        Integer totalQuantity = source.getTotalQuantity() != null ? source.getTotalQuantity() : 0;
-        if (calculatedActualQuantity > totalQuantity) {
-            boolean canOverFulfill = Boolean.TRUE.equals(source.getUnlimitedOverFulfillment()) ||
-                    (source.getOverFulfillmentPercentage() != null &&
-                            calculatedActualQuantity <= totalQuantity + (totalQuantity * source.getOverFulfillmentPercentage() / 100));
+        // Set remaining and actual quantities
+        serviceInvoiceMain.setTotalQuantity(source.getTotalQuantity());
+        serviceInvoiceMain.setRemainingQuantity(source.getTotalQuantity() - quantity);
+        serviceInvoiceMain.setActualQuantity(quantity);
 
-            if (!canOverFulfill) {
-                throw new IllegalArgumentException("Actual quantity exceeds total quantity without allowed overfulfillment.");
-            }
-        }
-
-        serviceInvoiceMain.setActualQuantity(calculatedActualQuantity);
-
-        // Calculate remaining quantity and total
-        serviceInvoiceMain.setTotal(source.getQuantity() * serviceInvoiceMain.getAmountPerUnit());
-        serviceInvoiceMain.setRemainingQuantity(totalQuantity - calculatedActualQuantity);
-
-        // Calculate actualPercentage: (Actual Quantity * 100) / Total Quantity
-        if (totalQuantity > 0) {
-            Integer actualPercentage = (calculatedActualQuantity * 100) / totalQuantity;
+        // Calculate actualPercentage if totalQuantity is set
+        if (source.getTotalQuantity() != null && source.getTotalQuantity() > 0) {
+            int actualPercentage = (quantity * 100) / source.getTotalQuantity();
             serviceInvoiceMain.setActualPercentage(actualPercentage);
         } else {
             serviceInvoiceMain.setActualPercentage(0);
         }
-
-        // Ensure actualQuantity is not null before invoking intValue()
-        Integer actualQuantity = serviceInvoiceMain.getExecutionOrderMain() != null
-                ? serviceInvoiceMain.getExecutionOrderMain().getActualQuantity()
-                : null;
-
-        if (actualQuantity != null) {
-            // Proceed with conversion using actualQuantity
-            // Example: serviceInvoiceMain.setQuantity(actualQuantity.intValue());
-        } else {
-            // Handle case when actualQuantity is null, e.g., log or set a default value
-            serviceInvoiceMain.setQuantity(0); // Set a default or log an error
-        }
-
         serviceInvoiceMain.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
         serviceInvoiceMain.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         serviceInvoiceMain.setExternalServiceNumber(source.getExternalServiceNumber());
@@ -110,7 +81,7 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         serviceInvoiceMain.setSupplementaryLine(source.getSupplementaryLine());
         serviceInvoiceMain.setDoNotPrint(source.getDoNotPrint());
         serviceInvoiceMain.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
-        serviceInvoiceMain.setTotalHeader((double) 0);
+
         if (serviceInvoiceMain.getLotCostOne()) {
             serviceInvoiceMain.setTotal(serviceInvoiceMain.getAmountPerUnit());
         }
@@ -122,7 +93,8 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
             serviceNumber.addServiceInvoiceMain(serviceInvoiceMain);
         }
 
+        serviceInvoiceMain.setReferenceSDDocument(source.getReferenceSDDocument());
+        serviceInvoiceMain.setTotalHeader(0.0); // TotalHeader will be recalculated during save
         return serviceInvoiceMain;
-
     }
 }

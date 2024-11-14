@@ -33,12 +33,6 @@ public interface ServiceInvoiceMainService {
 
     void deleteById(Long idToDelete);
 
-    @Transactional
-    void deleteByTemporaryStatus();
-
-    @Transactional
-    void updateAllTemporaryToPermanent();
-
     ServiceInvoiceMainCommand saveServiceInvoiceMainCommand(ServiceInvoiceMainCommand command);
 
     ServiceInvoiceMain updateServiceInvoiceMain(ServiceInvoiceMain updatedInvoice, Long l);

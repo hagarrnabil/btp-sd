@@ -177,9 +177,9 @@ CREATE TABLE invoiceSubItem
     CONSTRAINT fk_service_number_subitem FOREIGN KEY (service_number_id) REFERENCES "serviceNumber" (service_number_code)
 );
 
--- Drop constraints if they exist (only run this if you have previous constraints)
-ALTER TABLE serviceInvoice DROP CONSTRAINT IF EXISTS fk_execution_order;
-ALTER TABLE executionOrderMain DROP CONSTRAINT IF EXISTS fk_service_invoice_main;
+-- -- Drop constraints if they exist (only run this if you have previous constraints)
+-- ALTER TABLE serviceInvoice DROP CONSTRAINT IF EXISTS fk_execution_order;
+-- ALTER TABLE executionOrderMain DROP CONSTRAINT IF EXISTS fk_service_invoice_main;
 
 -- Create executionOrderMain table with updates
 CREATE TABLE executionOrderMain

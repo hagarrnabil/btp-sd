@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -100,157 +101,69 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
 
     }
 
-    @Transactional
     @Override
-    public void deleteByTemporaryStatus() {
-        // Fetch all records with temporary deletion status
-        List<ServiceInvoiceMain> temporaryItems = serviceInvoiceMainRepository.findByTemporaryDeletion("temporary");
-
-        // Loop through and delete each temporary item
-        for (ServiceInvoiceMain item : temporaryItems) {
-            serviceInvoiceMainRepository.delete(item);
-        }
-    }
-
     @Transactional
-    @Override
-    public void updateAllTemporaryToPermanent() {
-        // Fetch all items with 'temporary' status
-        List<ServiceInvoiceMain> itemsToUpdate = serviceInvoiceMainRepository.findByTemporaryDeletion("temporary");
-
-        // Loop over each item and update the status
-        for (ServiceInvoiceMain item : itemsToUpdate) {
-            item.setTemporaryDeletion("permanent");
-        }
-
-        // Save all updated items
-        serviceInvoiceMainRepository.saveAll(itemsToUpdate);
-    }
-
-    @Transactional
-    @Override
     public ServiceInvoiceMainCommand saveServiceInvoiceMainCommand(ServiceInvoiceMainCommand command) {
-        // Convert the command object to the entity
-        ServiceInvoiceMain detachedServiceInvoiceMain = serviceInvoiceCommandToServiceInvoice.convert(command);
+        // Convert the command to an entity
+        ServiceInvoiceMain serviceInvoiceMain = serviceInvoiceCommandToServiceInvoice.convert(command);
 
-        // Ensure that ExecutionOrderMain is loaded based on the executionOrderMainCode in the command
-        ExecutionOrderMain executionOrderMain = executionOrderMainRepository
-                .findById(command.getExecutionOrderMainCode())
-                .orElseThrow(() -> new RuntimeException("Execution Order Main not found"));
+        // Save the new ServiceInvoiceMain to the repository (initial save)
+        ServiceInvoiceMain savedInvoice = serviceInvoiceMainRepository.save(serviceInvoiceMain);
 
-        // Associate the executionOrderMain with the ServiceInvoiceMain entity
-        detachedServiceInvoiceMain.setExecutionOrderMain(executionOrderMain);
+        Double totalHeader = getTotalHeader();
+        savedInvoice.setTotalHeader(totalHeader);
 
-        // Fetch all existing service invoices associated with the same execution order
-        List<ServiceInvoiceMain> existingInvoices = serviceInvoiceMainRepository
-                .findAllByExecutionOrderMain_ExecutionOrderMainCode(executionOrderMain.getExecutionOrderMainCode());
-
-        double accumulatedAQ = existingInvoices.stream().mapToDouble(ServiceInvoiceMain::getActualQuantity).sum();
-        double accumulatedRQ = existingInvoices.stream().mapToDouble(ServiceInvoiceMain::getRemainingQuantity).sum();
-
-        // Update AQ, RQ, and AP of the new invoice based on previous invoices
-        double currentQuantity = detachedServiceInvoiceMain.getQuantity();
-        double totalQuantity = executionOrderMain.getTotalQuantity();
-
-        if (!existingInvoices.isEmpty()) {
-            detachedServiceInvoiceMain.setActualQuantity((int) (accumulatedAQ + currentQuantity));
-            detachedServiceInvoiceMain.setRemainingQuantity((int) Math.max(0, accumulatedRQ - currentQuantity));
-        } else {
-            detachedServiceInvoiceMain.setActualQuantity((int) currentQuantity);
-            detachedServiceInvoiceMain.setRemainingQuantity((int) Math.max(0, totalQuantity - currentQuantity));
+        // Calculate the totalHeader after the invoice is saved
+        ExecutionOrderMain executionOrderMain = savedInvoice.getExecutionOrderMain();
+        if (executionOrderMain != null) {
+            executionOrderMain.setTotalHeader(
+                    executionOrderMain.getServiceInvoices().stream().mapToDouble(ServiceInvoiceMain::getTotal).sum()
+            );
+            executionOrderMainRepository.save(executionOrderMain); // Save the updated ExecutionOrderMain
         }
 
-        double actualPercentage = (totalQuantity > 0) ? (detachedServiceInvoiceMain.getActualQuantity() / totalQuantity) * 100 : 0.0;
-        detachedServiceInvoiceMain.setActualPercentage((int) actualPercentage);
+        serviceInvoiceMainRepository.save(savedInvoice);
 
-        // Update the execution order's AQ, AP, and RQ fields based on new calculations
-        executionOrderMain.setActualQuantity(detachedServiceInvoiceMain.getActualQuantity());
-        executionOrderMain.setActualPercentage(detachedServiceInvoiceMain.getActualPercentage());
-        executionOrderMain.setRemainingQuantity(detachedServiceInvoiceMain.getRemainingQuantity());
-
-        // Save the Service Invoice Main
-        ServiceInvoiceMain savedServiceInvoiceMain = serviceInvoiceMainRepository.save(detachedServiceInvoiceMain);
-        executionOrderMainRepository.save(executionOrderMain);  // Ensure ExecutionOrderMain is updated
-
-        return serviceInvoiceToServiceInvoiceCommand.convert(savedServiceInvoiceMain);
+        // Convert back to command for return
+        return serviceInvoiceToServiceInvoiceCommand.convert(savedInvoice);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public ServiceInvoiceMain updateServiceInvoiceMain(ServiceInvoiceMain updatedInvoice, Long id) {
-        ServiceInvoiceMain existingInvoice = serviceInvoiceMainRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ServiceInvoiceMain not found with ID: " + id));
+        return serviceInvoiceMainRepository.findById(id).map(existingInvoice -> {
+            // Update non-null fields
+            if (updatedInvoice.getCurrencyCode() != null) existingInvoice.setCurrencyCode(updatedInvoice.getCurrencyCode());
+            if (updatedInvoice.getMaterialGroupCode() != null) existingInvoice.setMaterialGroupCode(updatedInvoice.getMaterialGroupCode());
+            if (updatedInvoice.getLineTypeCode() != null) existingInvoice.setLineTypeCode(updatedInvoice.getLineTypeCode());
+            if (updatedInvoice.getPersonnelNumberCode() != null) existingInvoice.setPersonnelNumberCode(updatedInvoice.getPersonnelNumberCode());
+            if (updatedInvoice.getUnitOfMeasurementCode() != null) existingInvoice.setUnitOfMeasurementCode(updatedInvoice.getUnitOfMeasurementCode());
+            if (updatedInvoice.getDescription() != null) existingInvoice.setDescription(updatedInvoice.getDescription());
+            if (updatedInvoice.getQuantity() != null) existingInvoice.setQuantity(updatedInvoice.getQuantity());
+            if (updatedInvoice.getAmountPerUnit() != null) existingInvoice.setAmountPerUnit(updatedInvoice.getAmountPerUnit());
+            if (updatedInvoice.getReferenceId() != null) existingInvoice.setReferenceId(updatedInvoice.getReferenceId());
+            if (updatedInvoice.getReferenceSDDocument() != null) existingInvoice.setReferenceSDDocument(updatedInvoice.getReferenceSDDocument());
 
-        if (updatedInvoice.getCurrencyCode() != null) existingInvoice.setCurrencyCode(updatedInvoice.getCurrencyCode());
-        if (updatedInvoice.getMaterialGroupCode() != null) existingInvoice.setMaterialGroupCode(updatedInvoice.getMaterialGroupCode());
-        if (updatedInvoice.getLineTypeCode() != null) existingInvoice.setLineTypeCode(updatedInvoice.getLineTypeCode());
-        if (updatedInvoice.getPersonnelNumberCode() != null) existingInvoice.setPersonnelNumberCode(updatedInvoice.getPersonnelNumberCode());
-        if (updatedInvoice.getUnitOfMeasurementCode() != null) existingInvoice.setUnitOfMeasurementCode(updatedInvoice.getUnitOfMeasurementCode());
-        if (updatedInvoice.getDescription() != null) existingInvoice.setDescription(updatedInvoice.getDescription());
-        if (updatedInvoice.getTotalQuantity() != null) existingInvoice.setTotalQuantity(updatedInvoice.getTotalQuantity());
-
-        // Handle quantity update
-        if (updatedInvoice.getQuantity() != null) {
-            existingInvoice.setQuantity(updatedInvoice.getQuantity());
-            if (updatedInvoice.getAmountPerUnit() != null) {
-                existingInvoice.setTotal(updatedInvoice.getQuantity() * updatedInvoice.getAmountPerUnit());
+            // Handle ServiceNumber association
+            if (updatedInvoice.getServiceNumber() != null) {
+                existingInvoice.setServiceNumber(updatedInvoice.getServiceNumber());
             }
-        }
 
-        if (updatedInvoice.getAmountPerUnit() != null) existingInvoice.setAmountPerUnit(updatedInvoice.getAmountPerUnit());
-        if (updatedInvoice.getReferenceId() != null) existingInvoice.setReferenceId(updatedInvoice.getReferenceId());
-        if (updatedInvoice.getReferenceSDDocument() != null) existingInvoice.setReferenceSDDocument(updatedInvoice.getReferenceSDDocument());
-        if (updatedInvoice.getTotal() != null) existingInvoice.setTotal(updatedInvoice.getTotal());
-        if (updatedInvoice.getActualPercentage() != null) existingInvoice.setActualPercentage(updatedInvoice.getActualPercentage());
-        if (updatedInvoice.getOverFulfillmentPercentage() != null) existingInvoice.setOverFulfillmentPercentage(updatedInvoice.getOverFulfillmentPercentage());
-        if (updatedInvoice.getUnlimitedOverFulfillment() != null) existingInvoice.setUnlimitedOverFulfillment(updatedInvoice.getUnlimitedOverFulfillment());
-        if (updatedInvoice.getExternalServiceNumber() != null) existingInvoice.setExternalServiceNumber(updatedInvoice.getExternalServiceNumber());
-        if (updatedInvoice.getServiceText() != null) existingInvoice.setServiceText(updatedInvoice.getServiceText());
-        if (updatedInvoice.getLineText() != null) existingInvoice.setLineText(updatedInvoice.getLineText());
-        if (updatedInvoice.getLineNumber() != null) existingInvoice.setLineNumber(updatedInvoice.getLineNumber());
-        if (updatedInvoice.getBiddersLine() != null) existingInvoice.setBiddersLine(updatedInvoice.getBiddersLine());
-        if (updatedInvoice.getSupplementaryLine() != null) existingInvoice.setSupplementaryLine(updatedInvoice.getSupplementaryLine());
-        if (updatedInvoice.getLotCostOne() != null) existingInvoice.setLotCostOne(updatedInvoice.getLotCostOne());
-        if (updatedInvoice.getDoNotPrint() != null) existingInvoice.setDoNotPrint(updatedInvoice.getDoNotPrint());
-        if (updatedInvoice.getServiceTypeCode() != null) existingInvoice.setServiceTypeCode(updatedInvoice.getServiceTypeCode());
+            // Calculate total and total with profit
+            existingInvoice.setTotal(existingInvoice.getQuantity() * existingInvoice.getAmountPerUnit());
 
-        // Handle ServiceNumber association
-        if (updatedInvoice.getServiceNumberCode() != null) {
-            ServiceNumber serviceNumber = existingInvoice.getServiceNumber();
-            if (serviceNumber == null) {
-                serviceNumber = new ServiceNumber();
+
+            // Update ExecutionOrderMain totals if necessary
+            ExecutionOrderMain executionOrderMain = existingInvoice.getExecutionOrderMain();
+            if (executionOrderMain != null) {
+                executionOrderMain.setTotalHeader(
+                        executionOrderMain.getServiceInvoices().stream().mapToDouble(ServiceInvoiceMain::getTotal).sum()
+                );
+                executionOrderMainRepository.save(executionOrderMain);
             }
-            serviceNumber.setServiceNumberCode(updatedInvoice.getServiceNumberCode());
-            existingInvoice.setServiceNumber(serviceNumber);
-            serviceNumber.addServiceInvoiceMain(existingInvoice);
-        }
 
-        // Ensure ExecutionOrderMain is loaded
-        ExecutionOrderMain executionOrderMain = existingInvoice.getExecutionOrderMain();
-        if (executionOrderMain == null) {
-            throw new RuntimeException("Execution Order Main is null");
-        }
-
-        // Handle quantity update with ExecutionOrderMain calculations
-        if (updatedInvoice.getQuantity() != null) {
-            existingInvoice.setQuantity(updatedInvoice.getQuantity());
-
-            double accumulatedAQ = executionOrderMain.getServiceInvoices().stream()
-                    .filter(inv -> !inv.getServiceInvoiceCode().equals(id))
-                    .mapToDouble(ServiceInvoiceMain::getActualQuantity)
-                    .sum() + existingInvoice.getQuantity();
-
-            double totalQuantity = executionOrderMain.getTotalQuantity();
-            existingInvoice.setActualQuantity((int) accumulatedAQ);
-            existingInvoice.setRemainingQuantity((int) Math.max(0, totalQuantity - accumulatedAQ));
-            existingInvoice.setActualPercentage((int) ((accumulatedAQ / totalQuantity) * 100));
-
-            executionOrderMain.setActualQuantity(existingInvoice.getActualQuantity());
-            executionOrderMain.setRemainingQuantity(existingInvoice.getRemainingQuantity());
-            executionOrderMain.setActualPercentage(existingInvoice.getActualPercentage());
-        }
-
-        return serviceInvoiceMainRepository.save(existingInvoice);
+            return serviceInvoiceMainRepository.save(existingInvoice);
+        }).orElseThrow(() -> new EntityNotFoundException("ServiceInvoiceMain not found with ID: " + id));
     }
 
     @Override

@@ -16,5 +16,7 @@ public interface ExecutionOrderMainRepository extends CrudRepository<ExecutionOr
 
     List<ExecutionOrderMain> findByReferenceId(String referenceId);
 
+    Optional<ExecutionOrderMain> findByExecutionOrderMainCode(Long executionOrderMainCode);
+
 
 }

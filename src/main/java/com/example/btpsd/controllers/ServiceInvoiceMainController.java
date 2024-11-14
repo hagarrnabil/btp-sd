@@ -11,9 +11,7 @@ import com.example.btpsd.services.ServiceInvoiceMainService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -114,11 +112,8 @@ public class ServiceInvoiceMainController {
 //
 //    }
 
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @PostMapping("/serviceinvoice")
-    @Transactional
     public List<ServiceInvoiceMainCommand> saveOrUpdateServiceInvoiceCommands(
             @RequestBody List<ServiceInvoiceMainCommand> serviceInvoiceMainCommands,
             @RequestParam(required = false) String debitMemoRequest,
@@ -127,88 +122,73 @@ public class ServiceInvoiceMainController {
             @RequestParam(required = false) Integer pricingProcedureCounter,
             @RequestParam(required = false) String customerNumber) throws Exception {
 
-
         List<ServiceInvoiceMainCommand> savedCommands = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        for (ServiceInvoiceMainCommand serviceInvoiceMainCommand : serviceInvoiceMainCommands) {
+        // Step 1: If `debitMemoRequest` is provided, fetch details once for all commands
+        String referenceSDDocument = null;
+        if (debitMemoRequest != null) {
+            try {
+                String salesQuotationApiResponse = salesOrderCloudController.getDebitMemo().toString();
+                JsonNode responseJson = objectMapper.readTree(salesQuotationApiResponse);
+                JsonNode salesQuotationResults = responseJson.path("d").path("results");
 
-            // Step 1: Fetch ExecutionOrderMain and validate its existence
-            if (serviceInvoiceMainCommand.getExecutionOrderMainCode() != null) {
-                ExecutionOrderMain executionOrderMain = executionOrderMainRepository
-                        .findById(serviceInvoiceMainCommand.getExecutionOrderMainCode())
-                        .orElseThrow(() -> new EntityNotFoundException("ExecutionOrderMain not found with code: "
-                                + serviceInvoiceMainCommand.getExecutionOrderMainCode()));
-
-                // Ensure executionOrderMain is attached to persistence context
-                entityManager.refresh(executionOrderMain);
-                log.info("ExecutionOrderMain refreshed and linked to ServiceInvoiceMainCommand with code: " +
-                        serviceInvoiceMainCommand.getExecutionOrderMainCode());
-
-                serviceInvoiceMainCommand.setExecutionOrderMain(executionOrderMain);
-            } else {
-                throw new RuntimeException("ExecutionOrderMainCode is required.");
-            }
-
-            // Step 2: Process debit memo if provided
-            if (debitMemoRequest != null) {
-                serviceInvoiceMainCommand.setReferenceId(debitMemoRequest);
-                String serviceQuotationApiResponse = salesOrderCloudController.getDebitMemo().toString();
-                ObjectMapper objectMapper = new ObjectMapper();
-
-                try {
-                    JsonNode responseJson = objectMapper.readTree(serviceQuotationApiResponse);
-                    JsonNode serviceQuotationResults = responseJson.path("d").path("results");
-
-                    for (JsonNode quotation : serviceQuotationResults) {
-                        String quotationID = quotation.path("DebitMemoRequest").asText();
-                        if (quotationID.equals(debitMemoRequest)) {
-                            String referenceSDDocument = quotation.path("ReferenceSDDocument").asText();
-                            serviceInvoiceMainCommand.setReferenceSDDocument(referenceSDDocument);
-                            break;
-                        }
+                for (JsonNode quotation : salesQuotationResults) {
+                    String quotationID = quotation.path("DebitMemoRequest").asText();
+                    if (quotationID.equals(debitMemoRequest)) {
+                        referenceSDDocument = quotation.path("ReferenceSDDocument").asText();
+                        break;
                     }
-                } catch (JsonProcessingException e) {
-                    throw new RuntimeException("Error processing Service Debit Memo API response", e);
                 }
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("Error processing Debit Memo API response", e);
             }
+        }
 
-            // Step 3: Save or update ServiceInvoiceMain
-            List<ServiceInvoiceMain> existingServiceInvoices = serviceInvoiceMainRepository
-                    .findByReferenceId(serviceInvoiceMainCommand.getReferenceId());
-            ServiceInvoiceMain savedServiceInvoiceMain;
+        // Step 2: Process each ServiceInvoiceMainCommand individually
+        for (ServiceInvoiceMainCommand command : serviceInvoiceMainCommands) {
+            ExecutionOrderMain executionOrderMain = executionOrderMainRepository
+                    .findById(command.getExecutionOrderMainCode())
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            "ExecutionOrderMain not found with code: " + command.getExecutionOrderMainCode()));
 
-            if (!existingServiceInvoices.isEmpty()) {
-                // Update the existing ServiceInvoiceMain
-                savedServiceInvoiceMain = serviceInvoiceCommandToServiceInvoice.convert(serviceInvoiceMainCommand);
-                savedServiceInvoiceMain = serviceInvoiceMainService.updateServiceInvoiceMain(
-                        savedServiceInvoiceMain, existingServiceInvoices.get(0).getServiceInvoiceCode());
+            command.setExecutionOrderMain(executionOrderMain);
+            command.setReferenceId(debitMemoRequest);
+            command.setReferenceSDDocument(referenceSDDocument);  // Set fetched ReferenceSDDocument
+
+            ServiceInvoiceMain savedServiceInvoice;
+            if (command.getServiceInvoiceCode() == null) {
+                // Create new ServiceInvoiceMain
+                savedServiceInvoice = serviceInvoiceCommandToServiceInvoice.convert(command);
+                savedServiceInvoice = serviceInvoiceMainRepository.save(savedServiceInvoice);
             } else {
-                // Save a new ServiceInvoiceMain
-                savedServiceInvoiceMain = serviceInvoiceCommandToServiceInvoice.convert(serviceInvoiceMainCommand);
-                savedServiceInvoiceMain = serviceInvoiceMainRepository.save(savedServiceInvoiceMain);
+                // Update existing ServiceInvoiceMain
+                savedServiceInvoice = serviceInvoiceCommandToServiceInvoice.convert(command);
+                savedServiceInvoice = serviceInvoiceMainService.updateServiceInvoiceMain(
+                        savedServiceInvoice, command.getServiceInvoiceCode());
             }
 
-            // Step 4: Calculate `totalHeader` and update the saved invoice
+            // Step 3: Calculate total header and apply it to the saved invoice
             Double totalHeader = serviceInvoiceMainService.getTotalHeader();
-            savedServiceInvoiceMain.setTotalHeader(totalHeader);
-            serviceInvoiceMainRepository.save(savedServiceInvoiceMain);
+            savedServiceInvoice.setTotalHeader(totalHeader);
+            savedServiceInvoice = serviceInvoiceMainRepository.save(savedServiceInvoice);  // Save with updated total header
 
-            // Step 5: Call the Service Quotation Pricing API if needed
+            // Step 4: Call Debit Memo Pricing API with total header
             try {
                 serviceInvoiceMainService.callDebitMemoPricingAPI(
                         debitMemoRequest, debitMemoRequestItem, pricingProcedureStep, pricingProcedureCounter, totalHeader);
             } catch (Exception e) {
-                log.error("Error while calling Service Quotation Pricing API: " + e.getMessage(), e);
-                throw new RuntimeException("Failed to update Service Invoice Pricing Element. Response Code: " + e.getMessage());
+                log.error("Error while calling Debit Memo Pricing API: " + e.getMessage(), e);
+                throw new RuntimeException("Failed to update Invoice Pricing Element. Response Code: " + e.getMessage());
             }
 
-            // Convert and add the saved ServiceInvoiceMain to the response list
-            ServiceInvoiceMainCommand savedCommand = serviceInvoiceToServiceInvoiceCommand.convert(savedServiceInvoiceMain);
-            savedCommands.add(savedCommand);
+            // Step 5: Convert back to command object and add to response list
+            savedCommands.add(serviceInvoiceToServiceInvoiceCommand.convert(savedServiceInvoice));
         }
 
         return savedCommands;
     }
+
 
     @PatchMapping
     @RequestMapping("/serviceinvoice/{serviceInvoiceCode}")

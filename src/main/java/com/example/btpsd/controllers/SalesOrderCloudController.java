@@ -61,13 +61,10 @@ public class SalesOrderCloudController {
 
         final int BLOCK_SIZE = 1024;
         final int BUFFER_SIZE = 8 * BLOCK_SIZE;
-        DataOutputStream dataOut = null;
         BufferedReader in = null;
 
-
-        //API endpoint
+        // API endpoint
         String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder?%24inlinecount=allpages&%24top=50";
-
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
@@ -77,45 +74,27 @@ public class SalesOrderCloudController {
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
 
-        //setting request method
+        // Setting request method and headers
         connection.setRequestMethod("GET");
-
-        //adding headers
         connection.setRequestProperty("Authorization", authHeaderValue);
         connection.setRequestProperty("Accept", "application/json");
 
-
-        connection.setDoInput(true);
-
+        // Reading response
         int responseCode = connection.getResponseCode();
+        if (responseCode != HttpURLConnection.HTTP_OK) {
+            throw new RuntimeException("Failed to get sales orders: HTTP code " + responseCode);
+        }
+
         in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder response = new StringBuilder();
         char[] charArray = new char[BUFFER_SIZE];
-        int charsCount = 0;
+        int charsCount;
         while ((charsCount = in.read(charArray)) != -1) {
-            response.append(String.valueOf(charArray, 0, charsCount));
+            response.append(charArray, 0, charsCount);
         }
 
-        // Parse the JSON response
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonResponse = objectMapper.readTree(response.toString());
-
-        // Map the fields
-        JsonNode salesOrders = jsonResponse.get("d").get("results");
-        for (JsonNode salesOrder : salesOrders) {
-            String transactionCurrency = salesOrder.get("TransactionCurrency").asText();
-
-            // Assuming you have a method to save the InvoiceMainItem
-            InvoiceMainItemCommand invoiceMainItem = new InvoiceMainItemCommand();
-            invoiceMainItem.setCurrencyCode(transactionCurrency);
-
-            // Save or process the invoiceMainItem as needed
-            invoiceMainItemService.saveMainItemCommand(invoiceMainItem);
-        }
-
-        //printing response
+        // Printing response for debugging
         System.out.println(response.toString());
-
 
         return response;
     }

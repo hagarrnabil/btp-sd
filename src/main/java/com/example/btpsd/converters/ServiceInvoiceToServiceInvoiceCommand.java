@@ -9,6 +9,9 @@ import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @RequiredArgsConstructor
 @Component
 public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceInvoiceMain, ServiceInvoiceMainCommand> {
@@ -16,59 +19,56 @@ public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceI
     @Synchronized
     @Override
     public ServiceInvoiceMainCommand convert(ServiceInvoiceMain source) {
-
         if (source == null) {
             return null;
         }
 
-        final ServiceInvoiceMainCommand serviceInvoiceMainCommand = new ServiceInvoiceMainCommand();
-        serviceInvoiceMainCommand.setServiceInvoiceCode(source.getServiceInvoiceCode());
-        serviceInvoiceMainCommand.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
-        serviceInvoiceMainCommand.setDescription(source.getDescription());
-        serviceInvoiceMainCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
-        serviceInvoiceMainCommand.setCurrencyCode(source.getCurrencyCode());
-        serviceInvoiceMainCommand.setMaterialGroupCode(source.getMaterialGroupCode());
-        serviceInvoiceMainCommand.setPersonnelNumberCode(source.getPersonnelNumberCode());
-        serviceInvoiceMainCommand.setServiceTypeCode(source.getServiceTypeCode());
-        serviceInvoiceMainCommand.setQuantity(source.getQuantity());
-        serviceInvoiceMainCommand.setAlternatives(source.getAlternatives());
-        serviceInvoiceMainCommand.setTotalQuantity(source.getTotalQuantity());
-        serviceInvoiceMainCommand.setAmountPerUnit(source.getAmountPerUnit());
-        if (source.getQuantity() != null) {
-            serviceInvoiceMainCommand.setTotal(source.getQuantity() * serviceInvoiceMainCommand.getAmountPerUnit());
-        } else if (serviceInvoiceMainCommand.getAmountPerUnit() != null) {
-            // Calculate total even if quantity is missing, assuming totalQuantity is provided
-            serviceInvoiceMainCommand.setTotal(serviceInvoiceMainCommand.getTotalQuantity() * serviceInvoiceMainCommand.getAmountPerUnit());
+        final ServiceInvoiceMainCommand command = new ServiceInvoiceMainCommand();
+        command.setServiceInvoiceCode(source.getServiceInvoiceCode());
+        command.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
+        command.setDescription(source.getDescription());
+        command.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
+        command.setCurrencyCode(source.getCurrencyCode());
+        command.setMaterialGroupCode(source.getMaterialGroupCode());
+        command.setPersonnelNumberCode(source.getPersonnelNumberCode());
+        command.setServiceTypeCode(source.getServiceTypeCode());
+        command.setTotalQuantity(source.getTotalQuantity());
+        command.setAlternatives(source.getAlternatives());
+
+        // Set quantity and amountPerUnit with null checks
+        command.setQuantity(source.getQuantity() != null ? source.getQuantity() : 0);
+        command.setAmountPerUnit(source.getAmountPerUnit() != null ? source.getAmountPerUnit() : 0.0);
+
+        // Calculate and set total as quantity * amountPerUnit
+        double total = command.getQuantity() * command.getAmountPerUnit();
+        command.setTotal(new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue());
+
+        command.setRemainingQuantity(source.getRemainingQuantity());
+        command.setActualQuantity(source.getActualQuantity());
+        command.setActualPercentage(source.getActualPercentage());
+        command.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
+        command.setLineTypeCode(source.getLineTypeCode() != null ? source.getLineTypeCode() : "Standard line");
+        command.setTotalHeader(source.getTotalHeader());
+        command.setReferenceId(source.getReferenceId());
+        command.setReferenceSDDocument(source.getReferenceSDDocument());
+        command.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
+        command.setExternalServiceNumber(source.getExternalServiceNumber());
+        command.setServiceText(source.getServiceText());
+        command.setLineText(source.getLineText());
+        command.setLineNumber(source.getLineNumber());
+        command.setBiddersLine(source.getBiddersLine());
+        command.setSupplementaryLine(source.getSupplementaryLine());
+        command.setDoNotPrint(source.getDoNotPrint());
+        command.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
+
+        if (command.getLotCostOne()) {
+            command.setTotal(command.getAmountPerUnit());
         }
-        serviceInvoiceMainCommand.setRemainingQuantity(source.getRemainingQuantity());
-        serviceInvoiceMainCommand.setActualQuantity(source.getActualQuantity());
-        serviceInvoiceMainCommand.setActualPercentage(source.getActualPercentage());
-        serviceInvoiceMainCommand.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
-        if(source.getLineTypeCode() != null){
-            serviceInvoiceMainCommand.setLineTypeCode(source.getLineTypeCode());
-        }
-        else {
-            serviceInvoiceMainCommand.setLineTypeCode("Standard line");
-        }
-        serviceInvoiceMainCommand.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
-        serviceInvoiceMainCommand.setExternalServiceNumber(source.getExternalServiceNumber());
-        serviceInvoiceMainCommand.setServiceText(source.getServiceText());
-        serviceInvoiceMainCommand.setLineText(source.getLineText());
-        serviceInvoiceMainCommand.setLineNumber(source.getLineNumber());
-        serviceInvoiceMainCommand.setBiddersLine(source.getBiddersLine());
-        serviceInvoiceMainCommand.setSupplementaryLine(source.getSupplementaryLine());
-        serviceInvoiceMainCommand.setDoNotPrint(source.getDoNotPrint());
-        serviceInvoiceMainCommand.setLotCostOne(source.getLotCostOne() != null ? source.getLotCostOne() : false);
-        if (serviceInvoiceMainCommand.getLotCostOne()) {
-            serviceInvoiceMainCommand.setTotal(serviceInvoiceMainCommand.getAmountPerUnit());
-        }
+
         if (source.getServiceNumber() != null) {
-            serviceInvoiceMainCommand.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
+            command.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
-        serviceInvoiceMainCommand.setReferenceId(source.getReferenceId());
-        serviceInvoiceMainCommand.setTotalHeader(source.getTotalHeader());
-        serviceInvoiceMainCommand.setReferenceSDDocument(source.getReferenceSDDocument());
-        serviceInvoiceMainCommand.setTemporaryDeletion(source.getTemporaryDeletion());
-        return serviceInvoiceMainCommand;
+
+        return command;
     }
 }
