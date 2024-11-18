@@ -96,12 +96,9 @@ public class ExecutionOrderMain implements Serializable {
     @JoinColumn(name = "invoice_main_item_id")
     private InvoiceMainItem invoiceMainItem;
 
-//    @OneToOne(mappedBy = "executionOrderMain", cascade = CascadeType.PERSIST)
-//    private ServiceInvoiceMain serviceInvoiceMain;
 
-
-    @OneToMany(mappedBy = "executionOrderMain", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ServiceInvoiceMain> serviceInvoices = new ArrayList<>();
+    @OneToOne(mappedBy = "executionOrderMain", cascade = CascadeType.PERSIST)
+    private ServiceInvoiceMain serviceInvoiceMain;
 
     public ExecutionOrderMain(InvoiceMainItem invoiceMainItem) {
         this.serviceNumberCode = invoiceMainItem.getServiceNumberCode();
@@ -148,4 +145,10 @@ public class ExecutionOrderMain implements Serializable {
         this.invoiceMainItem = invoiceMainItem;
         invoiceMainItem.setExecutionOrderMain(this);
     }
+
+//    public ExecutionOrderMain addServiceInvoiceMain(ServiceInvoiceMain serviceInvoiceMain){
+//        serviceInvoiceMain.setExecutionOrderMain(this);
+//        this.serviceInvoices.add(serviceInvoiceMain);
+//        return this;
+//    }
 }

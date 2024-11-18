@@ -4,9 +4,6 @@ import com.example.btpsd.commands.ExecutionOrderMainCommand;
 import com.example.btpsd.commands.InvoiceMainItemCommand;
 import com.example.btpsd.converters.ExecutionOrderMainToExecutionOrderMainCommand;
 import com.example.btpsd.model.ExecutionOrderMain;
-import com.example.btpsd.model.InvoiceMainItem;
-import com.example.btpsd.model.ServiceInvoiceMain;
-import com.example.btpsd.model.ServiceNumber;
 import com.example.btpsd.repositories.ExecutionOrderMainRepository;
 import com.example.btpsd.repositories.ServiceNumberRepository;
 import com.example.btpsd.services.ExecutionOrderMainService;
@@ -93,24 +90,6 @@ ExecutionOrderMainController {
         // Step 4: Save and return the new ExecutionOrderMainCommand once
         return executionOrderMainService.saveExecutionOrderMainCommand(newCommand);
     }
-
-
-//    private String fetchReferenceSDDocumentFromS4(String salesOrder) throws Exception {
-//        String salesOrderApiResponse = salesOrderCloudController.getAllSalesOrders().toString();
-//        ObjectMapper objectMapper = new ObjectMapper();
-//
-//        // Parse the API response and search for the sales order's ReferenceSDDocument
-//        JsonNode salesOrderJson = objectMapper.readTree(salesOrderApiResponse);
-//        JsonNode salesOrderArray = salesOrderJson.path("d").path("results");
-//
-//        for (JsonNode salesOrderNode : salesOrderArray) {
-//            String salesOrderId = salesOrderNode.path("SalesOrder").asText();
-//            if (salesOrderId.equals(salesOrder)) {
-//                return salesOrderNode.path("ReferenceSDDocument").asText();
-//            }
-//        }
-//        return null; // Return null if not found
-//    }
 
     @GetMapping("/executionordermain/{salesOrder}/{salesOrderItem}")
     public StringBuilder findBySalesOrderAndItem(

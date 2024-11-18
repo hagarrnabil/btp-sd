@@ -7,12 +7,18 @@ import com.example.btpsd.repositories.LineTypeRepository;
 import com.example.btpsd.services.ExecutionOrderMainService;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
 public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<ExecutionOrderMain, ExecutionOrderMainCommand> {
+
+//    @Lazy
+//    @Autowired
+//    private ServiceInvoiceToServiceInvoiceCommand serviceInvoiceConverter;
 
     @Synchronized
     @Override
@@ -42,9 +48,6 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         else {
             executionOrderMainCommand.setLineTypeCode("Standard line");
         }
-//        if (executionOrderMainCommand.getActualQuantity() != null) {
-//            executionOrderMainCommand.setActualQuantity(executionOrderMainCommand.getActualQuantity() + executionOrderMainCommand.getOverFulfillmentPercentage() / 100);
-//        }
         executionOrderMainCommand.setUnlimitedOverFulfillment(source.getUnlimitedOverFulfillment());
         executionOrderMainCommand.setManualPriceEntryAllowed(source.getManualPriceEntryAllowed());
         executionOrderMainCommand.setExternalServiceNumber(source.getExternalServiceNumber());
@@ -65,6 +68,10 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         }
         executionOrderMainCommand.setReferenceId(source.getReferenceId());
         executionOrderMainCommand.setTotalHeader(source.getTotalHeader());
+//        if (source.getServiceInvoices() != null && !source.getServiceInvoices().isEmpty()) {
+//            source.getServiceInvoices()
+//                    .forEach(invoice -> executionOrderMainCommand.getServiceInvoiceMain().add(serviceInvoiceConverter.convert(invoice)));
+//        }
         return executionOrderMainCommand;
     }
 }

@@ -4,10 +4,12 @@ import com.example.btpsd.commands.ServiceInvoiceMainCommand;
 import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.ServiceInvoiceMain;
 import com.example.btpsd.model.ServiceNumber;
+import com.example.btpsd.repositories.ExecutionOrderMainRepository;
 import com.example.btpsd.repositories.ServiceInvoiceMainRepository;
 import com.example.btpsd.services.ExecutionOrderMainService;
 import com.example.btpsd.services.ServiceInvoiceMainService;
 import io.micrometer.common.lang.Nullable;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
@@ -20,9 +22,9 @@ import java.math.RoundingMode;
 @Component
 public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceInvoiceMainCommand, ServiceInvoiceMain> {
 
-    private final ExecutionOrderMainService executionOrderMainService;
+    private final ExecutionOrderMainRepository executionOrderMainRepository;
     private final ServiceInvoiceMainRepository serviceInvoiceMainRepository;
-    private final ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand;
+//    private final ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand;
 
     @Synchronized
     @Nullable
@@ -46,6 +48,11 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         serviceInvoiceMain.setAlternatives(source.getAlternatives());
         serviceInvoiceMain.setTotalQuantity(source.getTotalQuantity());
         serviceInvoiceMain.setAmountPerUnit(source.getAmountPerUnit());
+
+        // Calculate actualQuantity based on the serviceInvoiceMain's quantity and ExecutionOrderMain's actualQuantity
+        Integer calculatedActualQuantity = serviceInvoiceMain.getQuantity() +
+                (serviceInvoiceMain.getExecutionOrderMain() != null ? serviceInvoiceMain.getExecutionOrderMain().getActualQuantity() : 0);
+        serviceInvoiceMain.setActualQuantity(calculatedActualQuantity);
 
         // Set quantity, defaulting to 0 if null
         Integer quantity = source.getQuantity() != null ? source.getQuantity() : 0;
@@ -92,6 +99,11 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
             serviceInvoiceMain.setServiceNumber(serviceNumber);
             serviceNumber.addServiceInvoiceMain(serviceInvoiceMain);
         }
+
+        if (serviceInvoiceMain.getExecutionOrderMain() != null) {
+            serviceInvoiceMain.updateFromExecutionOrder(serviceInvoiceMain.getExecutionOrderMain());
+        }
+
 
         serviceInvoiceMain.setReferenceSDDocument(source.getReferenceSDDocument());
         serviceInvoiceMain.setTotalHeader(0.0); // TotalHeader will be recalculated during save

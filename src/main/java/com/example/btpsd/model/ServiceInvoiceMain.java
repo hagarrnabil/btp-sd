@@ -96,8 +96,9 @@ public class ServiceInvoiceMain implements Serializable {
     @ManyToOne
     private ServiceNumber serviceNumber;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "execution_order_id", referencedColumnName = "executionOrderMainCode")
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "execution_order_main_id")
     private ExecutionOrderMain executionOrderMain;
 
     public Integer getRemainingQuantity() {
@@ -236,7 +237,6 @@ public class ServiceInvoiceMain implements Serializable {
 
         return resultMap;
     }
-
 
     public static Double calculateTotalHeader(List<ServiceInvoiceMain> items) {
         return items.stream()

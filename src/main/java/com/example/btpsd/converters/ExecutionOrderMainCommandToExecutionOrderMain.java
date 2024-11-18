@@ -5,12 +5,18 @@ import com.example.btpsd.model.*;
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
 public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<ExecutionOrderMainCommand, ExecutionOrderMain> {
+
+//    @Lazy
+//    @Autowired
+//    private final ServiceInvoiceCommandToServiceInvoice serviceInvoiceConverter;
 
     @Synchronized
     @Nullable
@@ -61,10 +67,11 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         executionOrderMain.setTotal(executionOrderMain.getTotalQuantity() * executionOrderMain.getAmountPerUnit());
 
         executionOrderMain.setReferenceSDDocument(source.getReferenceSDDocument());
-//        if (executionOrderMain.getServiceInvoiceMain() != null) {
-//            executionOrderMain.setActualQuantity(executionOrderMain.getServiceInvoiceMain().getActualQuantity());
+//        if (executionOrderMain.getServiceInvoiceMain() == null) {
+//            executionOrderMain.setServiceInvoiceMain(new ServiceInvoiceMain(executionOrderMain));
+//        } else {
+//            executionOrderMain.getServiceInvoiceMain().updateFromExecutionOrder(executionOrderMain);
 //        }
-
         executionOrderMain.setReferenceId(source.getReferenceId());
         executionOrderMain.setTotalHeader(0.0);
         return executionOrderMain;

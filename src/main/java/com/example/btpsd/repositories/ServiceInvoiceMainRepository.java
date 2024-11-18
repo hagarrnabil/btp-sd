@@ -16,19 +16,8 @@ public interface ServiceInvoiceMainRepository extends CrudRepository<ServiceInvo
 
     List<ServiceInvoiceMain> findByLineNumber(String lineNumber);
 
-    Optional<ServiceInvoiceMain> findTopByExecutionOrderMainOrderByServiceInvoiceCodeDesc(ExecutionOrderMain executionOrderMain);
-
-    Optional<ServiceInvoiceMain> findTopByOrderByServiceInvoiceCodeDesc();
-
-    ServiceInvoiceMain findTopByExecutionOrderMainExecutionOrderMainCodeOrderByServiceInvoiceCodeDesc(Long executionOrderMainCode);
-
     List<ServiceInvoiceMain> findByReferenceId(String referenceId);
 
-    List<ServiceInvoiceMain> findAllByExecutionOrderMainIsNull();
+    List<ServiceInvoiceMain> findByExecutionOrderMainCode(Long executionOrderMainCode);
 
-    List<ServiceInvoiceMain> findAllByExecutionOrderMain_ExecutionOrderMainCode(Long executionOrderMainCode);
-
-
-    @Query("SELECT i FROM ServiceInvoiceMain i WHERE LOWER(i.temporaryDeletion) = LOWER(:temporaryDeletion)")
-    List<ServiceInvoiceMain> findByTemporaryDeletion(@Param("temporaryDeletion") String temporaryDeletion);
 }

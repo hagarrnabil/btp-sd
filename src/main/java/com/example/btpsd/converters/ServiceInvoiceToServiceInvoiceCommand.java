@@ -6,6 +6,8 @@ import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.ServiceInvoiceMain;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,10 @@ import java.math.RoundingMode;
 @RequiredArgsConstructor
 @Component
 public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceInvoiceMain, ServiceInvoiceMainCommand> {
+
+    @Lazy
+    @Autowired
+    private final ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand;
 
     @Synchronized
     @Override
@@ -68,6 +74,11 @@ public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceI
         if (source.getServiceNumber() != null) {
             command.setServiceNumberCode(source.getServiceNumber().getServiceNumberCode());
         }
+
+        if (source.getExecutionOrderMain() != null) {
+            command.setExecutionOrderMainCode(source.getExecutionOrderMain().getExecutionOrderMainCode());
+        }
+
 
         return command;
     }

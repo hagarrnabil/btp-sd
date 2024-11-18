@@ -2,6 +2,7 @@ package com.example.btpsd.services;
 
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
 import com.example.btpsd.model.*;
+import com.example.btpsd.repositories.ExecutionOrderMainRepository;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,10 +16,13 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public interface ExecutionOrderMainService {
+    
+    ExecutionOrderMainRepository executionOrderMainRepository = null;
 
     Set<ExecutionOrderMainCommand> getExecutionOrderMainCommands();
 
@@ -33,6 +37,12 @@ public interface ExecutionOrderMainService {
     ExecutionOrderMain updateExecutionOrderMain(ExecutionOrderMainCommand newExecutionOrderMainCommand, Long l);
 
     ExecutionOrderMainCommand findExecutionOrderMainCommandById(Long l);
+
+
+    public default Optional<ExecutionOrderMain> findByCode(Long executionOrderMainCode) {
+        return executionOrderMainRepository.findByExecutionOrderMainCode(executionOrderMainCode);
+    }
+
 
     @Transactional
     public default void updateNonNullFields(ExecutionOrderMainCommand source, ExecutionOrderMain target) {
@@ -72,9 +82,8 @@ public interface ExecutionOrderMainService {
             target.setServiceNumber(serviceNumber);
             serviceNumber.addExecutionOrderMainItem(target);
         }
-
-        if (target.getServiceInvoices() != null) {
-            target.getServiceInvoices().forEach(invoice -> invoice.updateFromExecutionOrder(target));
+        if (target.getServiceInvoiceMain() != null) {
+            target.getServiceInvoiceMain().updateFromExecutionOrder(target);
         }
     }
     default void callSalesOrderPricingAPI(String salesOrder, String salesOrderItem, Double totalHeader) throws Exception {
