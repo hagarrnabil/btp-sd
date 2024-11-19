@@ -46,7 +46,7 @@ public class ModelSpecDetailsToModelSpecDetailsCommand implements Converter<Mode
         }
         modelSpecificationsDetailsCommand.setSelectionCheckBox(source.getSelectionCheckBox());
         modelSpecificationsDetailsCommand.setLineIndex(source.getLineIndex());
-        modelSpecificationsDetailsCommand.setDeletionIndicator(source.getDeletionIndicator());
+//        modelSpecificationsDetailsCommand.setDeletionIndicator(source.getDeletionIndicator());
         modelSpecificationsDetailsCommand.setShortText(source.getShortText());
         modelSpecificationsDetailsCommand.setGrossPrice(source.getGrossPrice());
         modelSpecificationsDetailsCommand.setOverFulfilmentPercentage(source.getOverFulfilmentPercentage());

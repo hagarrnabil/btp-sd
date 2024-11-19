@@ -14,9 +14,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<ExecutionOrderMainCommand, ExecutionOrderMain> {
 
-//    @Lazy
-//    @Autowired
-//    private final ServiceInvoiceCommandToServiceInvoice serviceInvoiceConverter;
 
     @Synchronized
     @Nullable
@@ -45,6 +42,7 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
         executionOrderMain.setActualQuantity(source.getActualQuantity());
         executionOrderMain.setActualPercentage(source.getActualPercentage());
         executionOrderMain.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
+        executionOrderMain.setDeletionIndicator(source.getDeletionIndicator());
         if (source.getLineTypeCode() != null) {
             executionOrderMain.setLineTypeCode(source.getLineTypeCode());
         } else {

@@ -88,6 +88,8 @@ public class ExecutionOrderMain implements Serializable {
 
     private Boolean doNotPrint;
 
+    private Boolean deletionIndicator;
+
 
     @ManyToOne
     private ServiceNumber serviceNumber;
@@ -146,9 +148,4 @@ public class ExecutionOrderMain implements Serializable {
         invoiceMainItem.setExecutionOrderMain(this);
     }
 
-//    public ExecutionOrderMain addServiceInvoiceMain(ServiceInvoiceMain serviceInvoiceMain){
-//        serviceInvoiceMain.setExecutionOrderMain(this);
-//        this.serviceInvoices.add(serviceInvoiceMain);
-//        return this;
-//    }
 }

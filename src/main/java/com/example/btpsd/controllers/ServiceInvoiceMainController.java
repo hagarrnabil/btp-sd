@@ -111,24 +111,24 @@ public class ServiceInvoiceMainController {
         List<ServiceInvoiceMain> previousServiceInvoices = serviceInvoiceMainRepository
                 .findByExecutionOrderMainCode(invoice.getExecutionOrderMain().getExecutionOrderMainCode());
 
-        // Calculate the accumulated actualQuantity
+        // Calculate the accumulated actualQuantity (excluding the current invoice's quantity)
         int accumulatedActualQuantity = previousServiceInvoices.stream()
                 .mapToInt(ServiceInvoiceMain::getActualQuantity)
                 .sum();
 
-        // Calculate remainingQuantity
-        int remainingQuantity = invoice.getTotalQuantity() - accumulatedActualQuantity - invoice.getQuantity();
-        invoice.setRemainingQuantity(remainingQuantity);
-
-        // Accumulate actualQuantity
+        // Update actualQuantity to include the current invoice's quantity
         int newActualQuantity = accumulatedActualQuantity + invoice.getQuantity();
         invoice.setActualQuantity(newActualQuantity);
+
+        // Calculate remaining quantity
+        int remainingQuantity = invoice.getTotalQuantity() - newActualQuantity;
+        invoice.setRemainingQuantity(remainingQuantity);
 
         // Calculate total (amountPerUnit * actualQuantity)
         double total = newActualQuantity * invoice.getAmountPerUnit();
         invoice.setTotal(new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue());
 
-        // Calculate actual percentage based on the latest actualQuantity and totalQuantity
+        // Calculate actual percentage
         double actualPercentage = (double) newActualQuantity / invoice.getTotalQuantity() * 100;
         invoice.setActualPercentage((int) new BigDecimal(actualPercentage).setScale(2, RoundingMode.HALF_UP).doubleValue());
 
@@ -141,65 +141,47 @@ public class ServiceInvoiceMainController {
 
     @PostMapping("/quantities")
     public ResponseEntity<CalculatedQuantitiesResponse> calculateQuantities(@RequestBody ServiceInvoiceMainCommand command) {
-        // Convert the ServiceInvoiceMainCommand to a ServiceInvoiceMain entity
-        ServiceInvoiceMain detachedServiceInvoiceMain = serviceInvoiceCommandToServiceInvoice.convert(command);
-        log.debug("Converted ServiceInvoiceMain with quantity: " + detachedServiceInvoiceMain.getQuantity() + ", executionOrderMainCode: " + detachedServiceInvoiceMain.getExecutionOrderMainCode());
+        // Fetch the ExecutionOrderMain entity
+        ExecutionOrderMain executionOrderMain = executionOrderMainRepository
+                .findByExecutionOrderMainCode(command.getExecutionOrderMainCode())
+                .orElseThrow(() -> new IllegalArgumentException("ExecutionOrderMain not found for code: " + command.getExecutionOrderMainCode()));
 
         // Fetch all service invoices with the same ExecutionOrderMain code
         List<ServiceInvoiceMain> previousServiceInvoices = serviceInvoiceMainRepository
-                .findByExecutionOrderMainCode(detachedServiceInvoiceMain.getExecutionOrderMainCode());
+                .findByExecutionOrderMainCode(executionOrderMain.getExecutionOrderMainCode());
 
-        // Log the previous service invoices to see their state
-        log.debug("Previous Service Invoices: " + previousServiceInvoices.stream()
-                .map(invoice -> "ID: " + invoice.getServiceInvoiceCode() + ", Quantity: " + invoice.getQuantity() + ", Total: " + invoice.getTotal())
-                .collect(Collectors.joining(", ")));
-
-        // Calculate the accumulated actualQuantity from previous invoices
+        // Calculate accumulated actualQuantity from previous invoices (excluding the current one)
         int accumulatedActualQuantity = previousServiceInvoices.stream()
                 .mapToInt(ServiceInvoiceMain::getActualQuantity)
                 .sum();
 
-        // Log the accumulated actualQuantity
-        log.debug("Accumulated Actual Quantity: " + accumulatedActualQuantity);
+        // Calculate remaining quantity
+        int remainingQuantity = command.getTotalQuantity() - accumulatedActualQuantity - command.getQuantity();
 
-        // Accumulate actualQuantity for the new request
-        int newActualQuantity = accumulatedActualQuantity + detachedServiceInvoiceMain.getQuantity();
-        detachedServiceInvoiceMain.setActualQuantity(newActualQuantity);
-        log.debug("New Actual Quantity: " + newActualQuantity);
+        // Calculate actualQuantity (accumulated + current)
+        int newActualQuantity = accumulatedActualQuantity + command.getQuantity();
 
-        // Correct calculation of remaining quantity (subtract accumulated actual quantity from totalQuantity)
-        int remainingQuantity = detachedServiceInvoiceMain.getTotalQuantity() - accumulatedActualQuantity;
-        detachedServiceInvoiceMain.setRemainingQuantity(remainingQuantity);
-        log.debug("Remaining Quantity: " + remainingQuantity);
+        // Calculate total (amountPerUnit * actualQuantity)
+        double total = newActualQuantity * command.getAmountPerUnit();
 
-        // Calculate total (amountPerUnit * accumulatedActualQuantity)
-        double total = newActualQuantity * detachedServiceInvoiceMain.getAmountPerUnit();
-        detachedServiceInvoiceMain.setTotal(new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue());
-        log.debug("Total: " + detachedServiceInvoiceMain.getTotal());
+        // Calculate actual percentage
+        double actualPercentage = (double) newActualQuantity / command.getTotalQuantity() * 100;
 
-        // Calculate actual percentage based on the accumulated actualQuantity and totalQuantity
-        double actualPercentage = (double) newActualQuantity / detachedServiceInvoiceMain.getTotalQuantity() * 100;
-        detachedServiceInvoiceMain.setActualPercentage((int) new BigDecimal(actualPercentage).setScale(2, RoundingMode.HALF_UP).doubleValue());
-        log.debug("Actual Percentage: " + detachedServiceInvoiceMain.getActualPercentage());
-
-        // Calculate totalHeader (sum of the total for all service invoices, including the new one)
+        // Calculate totalHeader (sum of the total for all service invoices)
         double totalHeader = previousServiceInvoices.stream()
                 .mapToDouble(ServiceInvoiceMain::getTotal)
-                .sum() + detachedServiceInvoiceMain.getTotal();
-        detachedServiceInvoiceMain.setTotalHeader(new BigDecimal(totalHeader).setScale(2, RoundingMode.HALF_UP).doubleValue());
-        log.debug("Total Header: " + detachedServiceInvoiceMain.getTotalHeader());
+                .sum() + total;
 
-        // Create a response object to return the calculated values
+        // Prepare response
         CalculatedQuantitiesResponse response = new CalculatedQuantitiesResponse(
-                detachedServiceInvoiceMain.getActualQuantity(),
-                detachedServiceInvoiceMain.getRemainingQuantity(),
-                detachedServiceInvoiceMain.getTotal(),
-                detachedServiceInvoiceMain.getActualPercentage(),
-                detachedServiceInvoiceMain.getTotalHeader()
+                newActualQuantity,   // actualQuantity
+                remainingQuantity,   // remainingQuantity
+                total,               // total
+                (int) new BigDecimal(actualPercentage).setScale(2, RoundingMode.HALF_UP).doubleValue(), // actualPercentage
+                totalHeader          // totalHeader
         );
 
-        // Return the calculated quantities in the response
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
 
 
@@ -213,7 +195,7 @@ public class ServiceInvoiceMainController {
             @RequestParam(required = false) Integer pricingProcedureCounter,
             @RequestParam(required = false) String customerNumber) throws Exception {
 
-        List<ServiceInvoiceMainCommand> savedCommands = new ArrayList<>();
+        List<ServiceInvoiceMain> savedItems = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
 
         // Step 1: Fetch ReferenceSDDocument if debitMemoRequest is provided
@@ -236,7 +218,7 @@ public class ServiceInvoiceMainController {
             }
         }
 
-        // Step 2: Process each ServiceInvoiceMainCommand
+        // Step 2: Save each new service invoice and ensure unique IDs
         for (ServiceInvoiceMainCommand command : serviceInvoiceMainCommands) {
             // Step 2.1: Retrieve ExecutionOrderMain by its code
             ExecutionOrderMain executionOrderMain = executionOrderMainRepository
@@ -248,24 +230,35 @@ public class ServiceInvoiceMainController {
             command.setReferenceId(debitMemoRequest);
             command.setReferenceSDDocument(referenceSDDocument);
 
-            // Step 2.3: Save or update using your service layer method
-            ServiceInvoiceMainCommand savedCommand = serviceInvoiceMainService.saveServiceInvoiceMainCommand(command);
-
-            // Step 2.4: Call Debit Memo Pricing API
-            try {
-                serviceInvoiceMainService.callDebitMemoPricingAPI(
-                        debitMemoRequest, debitMemoRequestItem, pricingProcedureStep, pricingProcedureCounter,
-                        savedCommand.getTotalHeader());
-            } catch (Exception e) {
-                log.error("Error while calling Debit Memo Pricing API: " + e.getMessage(), e);
-                throw new RuntimeException("Failed to update Invoice Pricing Element. Response Code: " + e.getMessage());
-            }
-
-            // Step 2.5: Add saved command to the response list
-            savedCommands.add(savedCommand);
+            // Step 2.3: Convert the command to entity and save
+            ServiceInvoiceMain item = serviceInvoiceCommandToServiceInvoice.convert(command);
+            item.setExecutionOrderMain(executionOrderMain);
+            savedItems.add(serviceInvoiceMainRepository.save(item));
         }
 
-        return savedCommands;
+        // Step 3: Calculate totalHeader and update each saved item
+        Double totalHeader = serviceInvoiceMainService.getTotalHeader();
+        for (ServiceInvoiceMain savedItem : savedItems) {
+            savedItem.setTotalHeader(totalHeader);
+            serviceInvoiceMainRepository.save(savedItem);  // Re-save after updating totalHeader
+        }
+
+        // Step 4: Call Debit Memo Pricing API
+        try {
+            serviceInvoiceMainService.callDebitMemoPricingAPI(
+                    debitMemoRequest, debitMemoRequestItem, pricingProcedureStep, pricingProcedureCounter, totalHeader);
+        } catch (Exception e) {
+            log.error("Error while calling Debit Memo Pricing API: " + e.getMessage(), e);
+            throw new RuntimeException("Failed to update Debit Memo Pricing Element. Response Code: " + e.getMessage());
+        }
+
+        // Step 5: Convert and return the saved items as a list of command objects
+        List<ServiceInvoiceMainCommand> response = new ArrayList<>();
+        for (ServiceInvoiceMain savedItem : savedItems) {
+            response.add(serviceInvoiceToServiceInvoiceCommand.convert(savedItem));
+        }
+
+        return response;
     }
 
 

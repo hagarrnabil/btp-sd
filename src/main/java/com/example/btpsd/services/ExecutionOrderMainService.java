@@ -49,6 +49,7 @@ public interface ExecutionOrderMainService {
         // Update all fields as provided
         if (source.getCurrencyCode() != null) target.setCurrencyCode(source.getCurrencyCode());
         if (source.getMaterialGroupCode() != null) target.setMaterialGroupCode(source.getMaterialGroupCode());
+        if (source.getDeletionIndicator() != null) target.setDeletionIndicator(source.getDeletionIndicator());
         if (source.getLineTypeCode() != null) target.setLineTypeCode(source.getLineTypeCode());
         if (source.getPersonnelNumberCode() != null) target.setPersonnelNumberCode(source.getPersonnelNumberCode());
         if (source.getUnitOfMeasurementCode() != null)

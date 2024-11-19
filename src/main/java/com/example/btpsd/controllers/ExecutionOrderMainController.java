@@ -2,6 +2,7 @@ package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.ExecutionOrderMainCommand;
 import com.example.btpsd.commands.InvoiceMainItemCommand;
+import com.example.btpsd.converters.ExecutionOrderMainCommandToExecutionOrderMain;
 import com.example.btpsd.converters.ExecutionOrderMainToExecutionOrderMainCommand;
 import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.repositories.ExecutionOrderMainRepository;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -44,6 +46,8 @@ ExecutionOrderMainController {
 
     private final ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand;
 
+    private final ExecutionOrderMainCommandToExecutionOrderMain executionOrderMainCommandToExecutionOrderMain;
+
     @GetMapping("/executionordermain/all")
     Set<ExecutionOrderMainCommand> all() {
         return executionOrderMainService.getExecutionOrderMainCommands();
@@ -55,40 +59,73 @@ ExecutionOrderMainController {
     }
 
     @PostMapping("/executionordermain")
-    public ExecutionOrderMainCommand newExecutionOrderCommand(
-            @RequestBody ExecutionOrderMainCommand newCommand,
+    public List<ExecutionOrderMainCommand> saveOrUpdateExecutionOrders(
+            @RequestBody List<ExecutionOrderMainCommand> executionOrderCommands,
             @RequestParam(required = false) String salesOrder,
             @RequestParam(required = false) String salesOrderItem,
             @RequestParam(required = false) String customerNumber) throws Exception {
 
-        // Step 1: Set the salesOrder as the reference ID for the new execution order
-        newCommand.setReferenceId(salesOrder);
+        List<ExecutionOrderMain> savedExecutionOrders = new ArrayList<>();
 
-        // Step 2: Fetch Sales Order details and set ReferenceSDDocument if applicable
-        String salesOrderApiResponse = salesOrderCloudController.getAllSalesOrders().toString();
-        ObjectMapper objectMapper = new ObjectMapper();
+        // Step 1: If salesOrder is provided, set it as the reference ID for each execution order
+        if (salesOrder != null) {
+            for (ExecutionOrderMainCommand command : executionOrderCommands) {
+                command.setReferenceId(salesOrder);
 
-        try {
-            JsonNode responseJson = objectMapper.readTree(salesOrderApiResponse);
-            JsonNode salesOrderResults = responseJson.path("d").path("results");
+                // Fetch Sales Order details and set ReferenceSDDocument
+                String salesOrderApiResponse = salesOrderCloudController.getAllSalesOrders().toString();
+                ObjectMapper objectMapper = new ObjectMapper();
 
-            for (JsonNode order : salesOrderResults) {
-                String orderID = order.path("SalesOrder").asText();
-                if (orderID.equals(salesOrder)) {
-                    String referenceSDDocument = order.path("ReferenceSDDocument").asText();
-                    newCommand.setReferenceSDDocument(referenceSDDocument);
-                    break;  // Exit loop once ReferenceSDDocument is found
+                try {
+                    JsonNode responseJson = objectMapper.readTree(salesOrderApiResponse);
+                    JsonNode salesOrderResults = responseJson.path("d").path("results");
+
+                    for (JsonNode order : salesOrderResults) {
+                        String orderID = order.path("SalesOrder").asText();
+                        if (orderID.equals(salesOrder)) {
+                            String referenceSDDocument = order.path("ReferenceSDDocument").asText();
+                            command.setReferenceSDDocument(referenceSDDocument);
+                            break; // Exit loop once ReferenceSDDocument is found
+                        }
+                    }
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException("Error processing Sales Order API response", e);
                 }
             }
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error processing Sales Order API response", e);
         }
 
-        // Step 3: Call Sales Order Pricing API to set Total Header in newCommand
-        executionOrderMainService.callSalesOrderPricingAPI(salesOrder, salesOrderItem, newCommand.getTotalHeader());
+        // Step 2: Save each execution order and ensure they all get unique IDs
+        for (ExecutionOrderMainCommand command : executionOrderCommands) {
+            ExecutionOrderMain executionOrder = executionOrderMainCommandToExecutionOrderMain.convert(command);
 
-        // Step 4: Save and return the new ExecutionOrderMainCommand once
-        return executionOrderMainService.saveExecutionOrderMainCommand(newCommand);
+            // Save each execution order individually, which will trigger the auto-generation of unique IDs
+            savedExecutionOrders.add(executionOrderMainRepository.save(executionOrder));
+        }
+
+        // Step 3: Calculate totalHeader and update each saved execution order
+        Double totalHeader = executionOrderMainService.getTotalHeader();
+        for (ExecutionOrderMain savedOrder : savedExecutionOrders) {
+            savedOrder.setTotalHeader(totalHeader);
+            executionOrderMainRepository.save(savedOrder); // Re-save after updating totalHeader
+        }
+
+        // Step 4: Call Sales Order Pricing API for each saved execution order
+        try {
+            for (ExecutionOrderMain savedOrder : savedExecutionOrders) {
+                executionOrderMainService.callSalesOrderPricingAPI(
+                        savedOrder.getReferenceId(), salesOrderItem, savedOrder.getTotalHeader());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to update Sales Order Pricing. Response Code: " + e.getMessage());
+        }
+
+        // Step 5: Convert and return the saved execution orders as a list of command objects
+        List<ExecutionOrderMainCommand> response = new ArrayList<>();
+        for (ExecutionOrderMain savedOrder : savedExecutionOrders) {
+            response.add(executionOrderMainToExecutionOrderMainCommand.convert(savedOrder));
+        }
+
+        return response;
     }
 
     @GetMapping("/executionordermain/{salesOrder}/{salesOrderItem}")

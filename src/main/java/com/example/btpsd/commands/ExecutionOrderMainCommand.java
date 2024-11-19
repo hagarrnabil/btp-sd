@@ -81,6 +81,8 @@ public class ExecutionOrderMainCommand implements Serializable {
 
     private Boolean doNotPrint;
 
+    private Boolean deletionIndicator;
+
     @JsonIgnore
     private InvoiceMainItem invoiceMainItem;
 

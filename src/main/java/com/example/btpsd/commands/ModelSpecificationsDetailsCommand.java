@@ -40,7 +40,7 @@ public class ModelSpecificationsDetailsCommand implements Serializable {
 
     private String lineIndex;
 
-    private Boolean deletionIndicator;
+//    private Boolean deletionIndicator;
 
     private String shortText;
 

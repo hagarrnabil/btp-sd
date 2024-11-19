@@ -42,6 +42,7 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
         executionOrderMainCommand.setActualQuantity(source.getActualQuantity());
         executionOrderMainCommand.setActualPercentage(source.getActualPercentage());
         executionOrderMainCommand.setOverFulfillmentPercentage(source.getOverFulfillmentPercentage());
+        executionOrderMainCommand.setDeletionIndicator(source.getDeletionIndicator());
         if(source.getLineTypeCode() != null){
             executionOrderMainCommand.setLineTypeCode(source.getLineTypeCode());
         }

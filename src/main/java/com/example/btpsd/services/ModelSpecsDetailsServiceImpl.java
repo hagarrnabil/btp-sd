@@ -75,8 +75,8 @@ public class ModelSpecsDetailsServiceImpl implements ModelSpecsDetailsService{
                 oldModelSpecDetails.setSelectionCheckBox(newModelSpecDetails.getSelectionCheckBox());
             if (newModelSpecDetails.getLineIndex() != oldModelSpecDetails.getLineIndex())
                 oldModelSpecDetails.setLineIndex(newModelSpecDetails.getLineIndex());
-            if (newModelSpecDetails.getDeletionIndicator() != oldModelSpecDetails.getDeletionIndicator())
-                oldModelSpecDetails.setDeletionIndicator(newModelSpecDetails.getDeletionIndicator());
+//            if (newModelSpecDetails.getDeletionIndicator() != oldModelSpecDetails.getDeletionIndicator())
+//                oldModelSpecDetails.setDeletionIndicator(newModelSpecDetails.getDeletionIndicator());
             if (newModelSpecDetails.getShortText() != oldModelSpecDetails.getShortText())
                 oldModelSpecDetails.setShortText(newModelSpecDetails.getShortText());
             if (newModelSpecDetails.getQuantity() != oldModelSpecDetails.getQuantity())

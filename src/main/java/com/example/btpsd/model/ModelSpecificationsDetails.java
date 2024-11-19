@@ -52,7 +52,7 @@ public class ModelSpecificationsDetails implements Serializable {
     @Length(max = 225)
     private String lineIndex;
 
-    private Boolean deletionIndicator;
+//    private Boolean deletionIndicator;
 
     private String shortText;
 
