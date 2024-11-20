@@ -96,6 +96,32 @@ public class InvoiceMainItemController {
         return ResponseEntity.ok(resultMap);
     }
 
+    @GetMapping("/mainitems")
+    public List<InvoiceMainItemCommand> fetchInvoiceMainItemsByReferenceSDDocumentAndItemNumber(
+            @RequestParam String referenceId,
+            @RequestParam String salesQuotationItem) {
+
+        System.out.println("Fetching with referenceId: " + referenceId + " and salesQuotationItem: " + salesQuotationItem);
+
+        // Fetch the InvoiceMainItem by ReferenceID and SalesQuotationItem
+        List<InvoiceMainItem> invoiceItems = invoiceMainItemRepository.findByReferenceIdAndSalesQuotationItem(referenceId, salesQuotationItem);
+
+        if (invoiceItems.isEmpty()) {
+            throw new RuntimeException("No Invoice Main Item found with ReferenceSDDocument: " + referenceId + " and SalesQuotationItem: " + salesQuotationItem);
+        }
+
+        System.out.println("Fetched Items: " + invoiceItems);
+
+        // Convert InvoiceMainItem entities to command objects to return in response
+        List<InvoiceMainItemCommand> response = new ArrayList<>();
+        for (InvoiceMainItem item : invoiceItems) {
+            response.add(invoiceMainItemToInvoiceMainItemCommand.convert(item));
+        }
+
+        return response;
+    }
+
+
 
     @GetMapping("/totalheader")
     public ResponseEntity<Double> calculateTotalHeader() {
@@ -115,8 +141,8 @@ public class InvoiceMainItemController {
 
         List<InvoiceMainItem> savedItems = new ArrayList<>();
 
-        // Step 1: If salesQuotation is provided, set it as the reference ID for each item
-        if (salesQuotation != null) {
+        // Step 1: Set reference ID and unique ID
+        if (salesQuotation != null && salesQuotationItem != null) {
             for (InvoiceMainItemCommand item : invoiceMainItemCommands) {
                 item.setReferenceId(salesQuotation);
 
@@ -141,15 +167,18 @@ public class InvoiceMainItemController {
             }
         }
 
-        // Step 2: Save each new item and ensure they all get unique IDs (no deleteAll)
+        // Step 2: Save each item with generated uniqueId
         for (InvoiceMainItemCommand itemCommand : invoiceMainItemCommands) {
             InvoiceMainItem item = invoiceMainItemCommandToInvoiceMainItem.convert(itemCommand);
 
-            // Save each item individually, which will trigger the auto-generation of unique IDs
+            // Generate uniqueId
+            item.generateUniqueId(salesQuotation, salesQuotationItem);
+
+            // Save each item individually
             savedItems.add(invoiceMainItemRepository.save(item));
         }
 
-        // Step 3: Calculate totalHeader and update each saved item
+        // Step 3: Calculate totalHeader
         Double totalHeader = invoiceMainItemService.getTotalHeader();
         for (InvoiceMainItem savedItem : savedItems) {
             savedItem.setTotalHeader(totalHeader);

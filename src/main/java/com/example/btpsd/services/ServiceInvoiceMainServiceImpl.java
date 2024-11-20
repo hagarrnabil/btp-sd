@@ -106,44 +106,41 @@ public class ServiceInvoiceMainServiceImpl implements ServiceInvoiceMainService 
     @Override
     @Transactional
     public ServiceInvoiceMainCommand saveServiceInvoiceMainCommand(ServiceInvoiceMainCommand command) {
-
         // Convert the ServiceInvoiceMainCommand to a ServiceInvoiceMain entity
         ServiceInvoiceMain detachedServiceInvoiceMain = serviceInvoiceCommandToServiceInvoice.convert(command);
         log.debug("Converted ServiceInvoiceMain: " + detachedServiceInvoiceMain.getQuantity());
 
-        // Fetch all service invoices with the same ExecutionOrderMain code
+        // Fetch all service invoices for the given ExecutionOrderMain code
         List<ServiceInvoiceMain> previousServiceInvoices = serviceInvoiceMainRepository
                 .findByExecutionOrderMainCode(detachedServiceInvoiceMain.getExecutionOrderMainCode());
 
-        // Calculate the accumulated quantities (actualQuantity and remainingQuantity)
-        int accumulatedActualQuantity = previousServiceInvoices.stream()
+        // Calculate accumulated actual quantity
+        int latestActualQuantity = previousServiceInvoices.stream()
                 .mapToInt(ServiceInvoiceMain::getActualQuantity)
-                .sum();
+                .max()
+                .orElse(0); // Default to 0 if no previous invoices exist
 
-        // Calculate remaining quantity
-        int remainingQuantity = detachedServiceInvoiceMain.getTotalQuantity() - accumulatedActualQuantity - detachedServiceInvoiceMain.getQuantity();
-
-        detachedServiceInvoiceMain.setRemainingQuantity(remainingQuantity);
-
-        // Accumulate actualQuantity
-        int newActualQuantity = accumulatedActualQuantity + detachedServiceInvoiceMain.getQuantity();
+        // Update actualQuantity and remainingQuantity
+        int newActualQuantity = latestActualQuantity + detachedServiceInvoiceMain.getQuantity();
         detachedServiceInvoiceMain.setActualQuantity(newActualQuantity);
 
-        // Calculate total (amountPerUnit * actualQuantity)
-        double total = newActualQuantity * detachedServiceInvoiceMain.getAmountPerUnit();
-        detachedServiceInvoiceMain.setTotal(new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue());
+        int remainingQuantity = detachedServiceInvoiceMain.getTotalQuantity() - newActualQuantity;
+        detachedServiceInvoiceMain.setRemainingQuantity(Math.max(remainingQuantity, 0));
 
-        // Calculate actual percentage based on the latest actualQuantity and totalQuantity
-        double actualPercentage = (double) newActualQuantity / detachedServiceInvoiceMain.getTotalQuantity() * 100;
-        detachedServiceInvoiceMain.setActualPercentage((int) new BigDecimal(actualPercentage).setScale(2, RoundingMode.HALF_UP).doubleValue());
+        // Calculate the current total and add it to the totalHeader
+        double currentTotal = detachedServiceInvoiceMain.getQuantity() * detachedServiceInvoiceMain.getAmountPerUnit();
+        detachedServiceInvoiceMain.setTotal(currentTotal);
 
-        // Calculate totalHeader (sum of the total for all service invoices)
         double totalHeader = previousServiceInvoices.stream()
                 .mapToDouble(ServiceInvoiceMain::getTotal)
-                .sum() + detachedServiceInvoiceMain.getTotal();
+                .sum() + currentTotal;
         detachedServiceInvoiceMain.setTotalHeader(new BigDecimal(totalHeader).setScale(2, RoundingMode.HALF_UP).doubleValue());
 
-        // Save the service invoice
+        // Update the actual percentage
+        double actualPercentage = ((double) newActualQuantity / detachedServiceInvoiceMain.getTotalQuantity()) * 100;
+        detachedServiceInvoiceMain.setActualPercentage((int) Math.min(actualPercentage, 100));
+
+        // Save the updated ServiceInvoiceMain
         ServiceInvoiceMain savedServiceInvoiceMain = serviceInvoiceMainRepository.save(detachedServiceInvoiceMain);
         log.debug("Saved ServiceInvoiceMain with code: " + savedServiceInvoiceMain.getServiceInvoiceCode());
 

@@ -23,7 +23,12 @@ public class InvoiceMainItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long invoiceMainItemCode;
 
+    @Column(nullable = false, unique = true)
+    private String uniqueId;
+
     private String referenceSDDocument;
+
+    private String salesQuotationItem;
 
     private String referenceId;
 
@@ -101,6 +106,10 @@ public class InvoiceMainItem implements Serializable {
                 .map(item -> item.calculateTotal().get("totalWithProfit"))  // Get the "totalWithProfit" from the map
                 .filter(Objects::nonNull)
                 .reduce(0.0, Double::sum);
+    }
+
+    public void generateUniqueId(String referenceSDDocument, String itemNumber) {
+        this.uniqueId = referenceSDDocument + "-" + itemNumber;
     }
 
 }
