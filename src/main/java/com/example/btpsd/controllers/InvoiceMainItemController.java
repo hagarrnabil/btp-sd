@@ -145,6 +145,7 @@ public class InvoiceMainItemController {
         if (salesQuotation != null && salesQuotationItem != null) {
             for (InvoiceMainItemCommand item : invoiceMainItemCommands) {
                 item.setReferenceId(salesQuotation);
+                item.setSalesQuotationItem(salesQuotationItem);
 
                 // Fetch Sales Quotation details and set ReferenceSDDocument
                 String salesQuotationApiResponse = salesOrderCloudController.getSalesQuotation().toString();

@@ -23,7 +23,7 @@ public class InvoiceMainItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long invoiceMainItemCode;
 
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String uniqueId;
 
     private String referenceSDDocument;
