@@ -17,13 +17,6 @@
 #    password: nY17h3A5/YsCGx0K3LsDGhzqp]FBJYZ?7o/
 #
 
-logging.level:
-  com.sap.cloud.security.samples.resecurity: DEBUG
-  org.springframework: ERROR
-  org.springframework.security: DEBUG
-  org.springframework.web: DEBUG
-  org.hibernate.SQL: DEBUG
-  org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 #sap.security.services:
 #  identity:
