@@ -97,6 +97,7 @@ public class InvoiceMainItem implements Serializable {
         result.put("totalWithProfit", this.totalWithProfit);
         result.put("amountPerUnit", this.amountPerUnit);
         result.put("amountPerUnitWithProfit", this.amountPerUnitWithProfit); // New field added
+        result.put("total", this.total);
         return result;
     }
 

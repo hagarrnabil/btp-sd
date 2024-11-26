@@ -23,14 +23,19 @@ public class UnitOfMeasurement implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long unitOfMeasurementCode;
 
+    @Column(unique = true, length = 8, columnDefinition = "char(8)")
+    @Length(max = 8)
+    private String code;
 
-//    @Column(unique = true, columnDefinition = "char(225)", nullable = false)
-//    @Length(max = 225)
-    private String UnitOfMeasureSAPCode;
-
-//    @NotNull
-    private String UnitOfMeasureLongName;
-
-    private String UnitOfMeasureName;
+    private String description;
+//
+////    @Column(unique = true, columnDefinition = "char(225)", nullable = false)
+////    @Length(max = 225)
+//    private String UnitOfMeasureSAPCode;
+//
+////    @NotNull
+//    private String UnitOfMeasureLongName;
+//
+//    private String UnitOfMeasureName;
 
 }

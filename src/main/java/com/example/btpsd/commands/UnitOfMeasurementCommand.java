@@ -17,11 +17,17 @@ import java.util.Set;
 @NoArgsConstructor
 public class UnitOfMeasurementCommand implements Serializable {
 
+
     private Long unitOfMeasurementCode;
 
-    private String UnitOfMeasureSAPCode;
+    private String code;
 
-    private String UnitOfMeasureLongName;
-
-    private String UnitOfMeasureName;
+    private String description;
+//    private Long unitOfMeasurementCode;
+//
+//    private String UnitOfMeasureSAPCode;
+//
+//    private String UnitOfMeasureLongName;
+//
+//    private String UnitOfMeasureName;
 }

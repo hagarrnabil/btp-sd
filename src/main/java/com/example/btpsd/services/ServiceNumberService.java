@@ -16,7 +16,6 @@ public interface ServiceNumberService {
     ServiceNumberCommand saveServiceNumberCommand(ServiceNumberCommand command);
 
     ServiceNumber updateServiceNumber(ServiceNumberCommand newServiceNumberCommand, Long l);
-
-    ServiceNumberCommand findServiceNumberCommandById(Long l);
-
+//
+//    ServiceNumberCommand findServiceNumberCommandById(Long id, ServiceControl serviceControl);
 }

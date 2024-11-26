@@ -2,13 +2,11 @@ package com.example.btpsd.controllers;
 
 import com.example.btpsd.commands.ServiceNumberCommand;
 import com.example.btpsd.converters.ServiceNumberToServiceNumberCommand;
-import com.example.btpsd.model.Currency;
 import com.example.btpsd.model.ServiceNumber;
 import com.example.btpsd.repositories.ServiceNumberRepository;
 import com.example.btpsd.services.ServiceNumberService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -88,11 +85,12 @@ public class ServiceNumberController {
     }
 
 
-    @GetMapping("/servicenumbers/{serviceNumberCode}")
-    public Optional<ServiceNumberCommand> findByIds(@PathVariable @NotNull Long serviceNumberCode) {
-
-        return Optional.ofNullable(serviceNumberService.findServiceNumberCommandById(serviceNumberCode));
-    }
+//    @GetMapping("/servicenumbers/{serviceNumberCode}")
+//    public Optional<ServiceNumberCommand> findByIds(@PathVariable @NotNull Long serviceNumberCode, @AuthenticationPrincipal UserDetails userDetails) {
+//
+//        ServiceControl serviceControl = getServiceControlForUser(userDetails);
+//        return Optional.ofNullable(serviceNumberService.findServiceNumberCommandById(serviceNumberCode, serviceControl));
+//    }
 
     @PostMapping("/servicenumbers")
     ServiceNumberCommand newServiceNumberCommand(@RequestBody ServiceNumberCommand newServiceNumberCommand) {

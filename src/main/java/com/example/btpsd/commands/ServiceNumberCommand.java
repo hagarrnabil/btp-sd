@@ -62,5 +62,5 @@ public class ServiceNumberCommand implements Serializable {
 
     @JsonIgnore
     private Set<ExecutionOrderMainCommand> executionOrderMainCommands = new HashSet<>();
-
+    
 }

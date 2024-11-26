@@ -3,9 +3,11 @@ package com.example.btpsd.controllers;
 import com.example.btpsd.commands.InvoiceMainItemCommand;
 import com.example.btpsd.converters.InvoiceMainItemCommandToInvoiceMainItem;
 import com.example.btpsd.converters.InvoiceMainItemToInvoiceMainItemCommand;
+import com.example.btpsd.model.ExecutionOrderMain;
 import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.model.ModelSpecificationsDetails;
 import com.example.btpsd.model.ServiceNumber;
+import com.example.btpsd.repositories.ExecutionOrderMainRepository;
 import com.example.btpsd.repositories.InvoiceMainItemRepository;
 import com.example.btpsd.repositories.ServiceNumberRepository;
 import com.example.btpsd.services.InvoiceMainItemService;
@@ -32,6 +34,8 @@ public class InvoiceMainItemController {
     Logger log = LogManager.getLogger(this.getClass());
 
     private final InvoiceMainItemRepository invoiceMainItemRepository;
+
+    private final ExecutionOrderMainRepository executionOrderMainRepository;
 
     private final InvoiceMainItemCommandToInvoiceMainItem invoiceMainItemCommandToInvoiceMainItem;
 
@@ -97,22 +101,61 @@ public class InvoiceMainItemController {
     }
 
     @GetMapping("/mainitems")
-    public List<InvoiceMainItemCommand> fetchInvoiceMainItemsByReferenceSDDocumentAndItemNumber(
-            @RequestParam String referenceId,
-            @RequestParam String salesQuotationItem) {
+    public List<InvoiceMainItemCommand> fetchInvoiceMainItemsBySalesOrder(
+            @RequestParam String salesOrder) {
 
-        System.out.println("Fetching with referenceId: " + referenceId + " and salesQuotationItem: " + salesQuotationItem);
+        System.out.println("Fetching Invoice using Sales Order: " + salesOrder);
 
-        // Fetch the InvoiceMainItem by ReferenceID and SalesQuotationItem
-        List<InvoiceMainItem> invoiceItems = invoiceMainItemRepository.findByReferenceIdAndSalesQuotationItem(referenceId, salesQuotationItem);
-
-        if (invoiceItems.isEmpty()) {
-            throw new RuntimeException("No Invoice Main Item found with ReferenceSDDocument: " + referenceId + " and SalesQuotationItem: " + salesQuotationItem);
+        // Step 1: Fetch sales order details from S4
+        String salesOrderApiResponse;
+        try {
+            salesOrderApiResponse = salesOrderCloudController.getAllSalesOrders().toString();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to fetch sales orders from S4", e);
         }
 
-        System.out.println("Fetched Items: " + invoiceItems);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String referenceSDDocument = null;
 
-        // Convert InvoiceMainItem entities to command objects to return in response
+        try {
+            JsonNode responseJson = objectMapper.readTree(salesOrderApiResponse);
+            JsonNode salesOrderResults = responseJson.path("d").path("results");
+
+            if (!salesOrderResults.isArray() || salesOrderResults.isEmpty()) {
+                throw new RuntimeException("No sales order results found in the API response.");
+            }
+
+            // Step 2: Find the ReferenceSDDocument for the given sales order
+            for (JsonNode order : salesOrderResults) {
+                String orderID = order.path("SalesOrder").asText();
+
+                System.out.println("Checking Sales Order: " + orderID);
+
+                if (orderID.equals(salesOrder)) {
+                    referenceSDDocument = order.path("ReferenceSDDocument").asText();
+                    System.out.println("Match found: ReferenceSDDocument = " + referenceSDDocument);
+                    break;
+                }
+            }
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error processing Sales Order API response", e);
+        }
+
+        if (referenceSDDocument == null || referenceSDDocument.isEmpty()) {
+            throw new RuntimeException("No ReferenceSDDocument found for Sales Order: " + salesOrder +
+                    ". Ensure the SalesOrder is correct.");
+        }
+
+        List<InvoiceMainItem> invoiceItems = invoiceMainItemRepository.findByReferenceId(referenceSDDocument);
+
+        if (invoiceItems.isEmpty()) {
+            throw new RuntimeException("No Invoice Main Item found with ReferenceSDDocument: " +
+                    referenceSDDocument);
+        }
+
+        System.out.println("Fetched Invoice Items: " + invoiceItems);
+
+        // Step 5: Convert InvoiceMainItem entities to command objects to return in response
         List<InvoiceMainItemCommand> response = new ArrayList<>();
         for (InvoiceMainItem item : invoiceItems) {
             response.add(invoiceMainItemToInvoiceMainItemCommand.convert(item));
@@ -120,8 +163,6 @@ public class InvoiceMainItemController {
 
         return response;
     }
-
-
 
     @GetMapping("/totalheader")
     public ResponseEntity<Double> calculateTotalHeader() {

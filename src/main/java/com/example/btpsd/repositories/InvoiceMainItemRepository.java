@@ -18,7 +18,7 @@ public interface InvoiceMainItemRepository extends CrudRepository<InvoiceMainIte
 
     List<InvoiceMainItem> findByReferenceId(String referenceId);
 
-    @Query("SELECT i FROM InvoiceMainItem i WHERE i.referenceId = :referenceId AND i.salesQuotationItem = :salesQuotationItem")
-    List<InvoiceMainItem> findByReferenceIdAndSalesQuotationItem(@Param("referenceId") String referenceId,
-                                                                 @Param("salesQuotationItem") String salesQuotationItem);
+    List<InvoiceMainItem> findByReferenceIdAndSalesQuotationItem(String referenceId, String salesQuotationItem);
+
+
 }

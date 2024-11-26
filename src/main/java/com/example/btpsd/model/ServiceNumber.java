@@ -3,8 +3,9 @@ package com.example.btpsd.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -26,17 +27,14 @@ public class ServiceNumber implements Serializable {
 
     private Long noServiceNumber;
 
-//    @NotNull
     private String searchTerm;
 
-//    @NotNull
     private String serviceTypeCode;
 
     private String materialGroupCode;
 
     private String unitOfMeasurementCode;
 
-//    @NotNull
     private String description;
 
     private Boolean shortTextChangeAllowed;
@@ -81,13 +79,11 @@ public class ServiceNumber implements Serializable {
     @JsonIgnore
     private Set<ExecutionOrderMain> executionOrderMainSet = new HashSet<>();
 
-
     public ServiceNumber addModelSpecDetails(ModelSpecificationsDetails modelSpecificationsDetails){
         modelSpecificationsDetails.setServiceNumber(this);
         this.modelSpecificationsDetails.add(modelSpecificationsDetails);
         return this;
     }
-
 
     public ServiceNumber addMainItem(InvoiceMainItem mainItem){
         mainItem.setServiceNumber(this);
@@ -113,5 +109,33 @@ public class ServiceNumber implements Serializable {
         return this;
     }
 
+    public Long getServiceNumberCode() {
+        if (hasRole("ROLE_ADMIN")) {
+            return serviceNumberCode;
+        } else {
+            throw new SecurityException("Access denied to description field");
+        }
+    }
 
+    public String getUnitOfMeasurementCode() {
+        if (hasRole("ROLE_ADMIN")) {
+            return unitOfMeasurementCode;
+        } else {
+            throw new SecurityException("Access denied to description field");
+        }
+    }
+
+    public String getDescription() {
+        if (hasRole("ROLE_ADMIN")) {
+            return description;
+        } else {
+            throw new SecurityException("Access denied to description field");
+        }
+    }
+
+    private boolean hasRole(String role) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth != null && auth.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(role));
+    }
 }

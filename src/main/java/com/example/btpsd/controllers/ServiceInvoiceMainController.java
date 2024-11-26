@@ -106,42 +106,10 @@ public class ServiceInvoiceMainController {
         return ResponseEntity.ok(resultMap);
     }
 
-//    private void calculateQuantities(ServiceInvoiceMain invoice) {
-//        // Fetch all service invoices with the same ExecutionOrderMain code
-//        List<ServiceInvoiceMain> previousServiceInvoices = serviceInvoiceMainRepository
-//                .findByExecutionOrderMainCode(invoice.getExecutionOrderMain().getExecutionOrderMainCode());
-//
-//        // Calculate the accumulated actualQuantity (excluding the current invoice's quantity)
-//        int accumulatedActualQuantity = previousServiceInvoices.stream()
-//                .mapToInt(ServiceInvoiceMain::getActualQuantity)
-//                .sum();
-//
-//        // Update actualQuantity to include the current invoice's quantity
-//        int newActualQuantity = accumulatedActualQuantity + invoice.getQuantity();
-//        invoice.setActualQuantity(newActualQuantity);
-//
-//        // Calculate remaining quantity
-//        int remainingQuantity = invoice.getTotalQuantity() - newActualQuantity;
-//        invoice.setRemainingQuantity(remainingQuantity);
-//
-//        // Calculate total (amountPerUnit * actualQuantity)
-//        double total = newActualQuantity * invoice.getAmountPerUnit();
-//        invoice.setTotal(new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue());
-//
-//        // Calculate actual percentage
-//        double actualPercentage = (double) newActualQuantity / invoice.getTotalQuantity() * 100;
-//        invoice.setActualPercentage((int) new BigDecimal(actualPercentage).setScale(2, RoundingMode.HALF_UP).doubleValue());
-//
-//        // Calculate totalHeader (sum of the total for all service invoices)
-//        double totalHeader = previousServiceInvoices.stream()
-//                .mapToDouble(ServiceInvoiceMain::getTotal)
-//                .sum() + invoice.getTotal();
-//        invoice.setTotalHeader(new BigDecimal(totalHeader).setScale(2, RoundingMode.HALF_UP).doubleValue());
-//    }
 
     @PostMapping("/quantities")
     @Transactional
-    public ResponseEntity<CalculatedQuantitiesResponse> calculateQuantities(@RequestBody ServiceInvoiceMainCommand command) {
+    public ResponseEntity<?> calculateQuantities(@RequestBody ServiceInvoiceMainCommand command) {
         // Convert the command to an entity
         ServiceInvoiceMain newServiceInvoice = serviceInvoiceCommandToServiceInvoice.convert(command);
 
@@ -149,23 +117,42 @@ public class ServiceInvoiceMainController {
         List<ServiceInvoiceMain> previousServiceInvoices = serviceInvoiceMainRepository
                 .findByExecutionOrderMainCode(newServiceInvoice.getExecutionOrderMainCode());
 
-        // Determine the latest actualQuantity and totalHeader from previous records
+        // Determine the latest actualQuantity from previous records
         int latestActualQuantity = previousServiceInvoices.stream()
                 .mapToInt(ServiceInvoiceMain::getActualQuantity)
                 .max()
                 .orElse(0); // Default to 0 if no previous records exist
 
-        double latestTotalHeader = previousServiceInvoices.stream()
-                .mapToDouble(ServiceInvoiceMain::getTotalHeader)
-                .max()
-                .orElse(0.0); // Default to 0 if no previous records exist
+        // Fetch over-fulfillment logic parameters from the command
+        boolean unlimitedOverFulfillment = command.getUnlimitedOverFulfillment(); // Assuming a getter method exists
+        Integer overFulfillmentLimit = command.getOverFulfillmentPercentage();       // Assuming a getter method exists
 
-        // Update actualQuantity by adding the current quantity
+        // Calculate the new actual quantity
         int newActualQuantity = latestActualQuantity + newServiceInvoice.getQuantity();
+
+        // Validation logic
+        if (!unlimitedOverFulfillment) {
+            // If over-fulfillment is disabled, check limits
+            if (overFulfillmentLimit != null && overFulfillmentLimit > 0) {
+                int maxAllowedQuantity = newServiceInvoice.getTotalQuantity() + overFulfillmentLimit;
+                if (newActualQuantity > maxAllowedQuantity) {
+                    return ResponseEntity.badRequest()
+                            .body("Error: Quantity exceeds the allowed over-fulfillment limit of " + overFulfillmentLimit);
+                }
+            } else {
+                // No over-fulfillment allowed
+                if (newActualQuantity > newServiceInvoice.getTotalQuantity()) {
+                    return ResponseEntity.badRequest()
+                            .body("Error: Quantity exceeds the total allowed quantity.");
+                }
+            }
+        }
+
+        // Recalculate actualQuantity after validation
         newServiceInvoice.setActualQuantity(newActualQuantity);
 
         // Calculate remaining quantity
-        int remainingQuantity = newServiceInvoice.getTotalQuantity() - newActualQuantity;
+        int remainingQuantity = newServiceInvoice.getTotalQuantity() - newServiceInvoice.getActualQuantity();
         newServiceInvoice.setRemainingQuantity(Math.max(remainingQuantity, 0)); // Ensure non-negative remaining quantity
 
         // Calculate the total for the current transaction
@@ -173,12 +160,16 @@ public class ServiceInvoiceMainController {
         newServiceInvoice.setTotal(currentTotal);
 
         // Update the total header by adding the current total to the latest total header
+        double latestTotalHeader = previousServiceInvoices.stream()
+                .mapToDouble(ServiceInvoiceMain::getTotalHeader)
+                .max()
+                .orElse(0.0); // Default to 0 if no previous records exist
         double totalHeader = latestTotalHeader + currentTotal;
         newServiceInvoice.setTotalHeader(totalHeader);
 
-        // Calculate the actual percentage of total quantity fulfilled
-        double actualPercentage = ((double) newActualQuantity / newServiceInvoice.getTotalQuantity()) * 100;
-        newServiceInvoice.setActualPercentage((int) Math.min(actualPercentage, 100)); // Cap at 100%
+        // Calculate the actual percentage of total quantity fulfilled (no cap at 100%)
+        double actualPercentage = ((double) newServiceInvoice.getActualQuantity() / newServiceInvoice.getTotalQuantity()) * 100;
+        newServiceInvoice.setActualPercentage((int) actualPercentage); // Removed the cap
 
         // Save the new service invoice record
         serviceInvoiceMainRepository.save(newServiceInvoice);
