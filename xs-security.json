@@ -1,5 +1,6 @@
 {
-  "xsappname": "sd-cf",
+  "xsappname": "sd-v0",
+  "description": "SAP BTP Spring Security Client Library Hybrid sample application",
   "tenant-mode": "dedicated",
   "oauth2-configuration": {
     "credential-types": ["x509"]
@@ -7,42 +8,24 @@
   "scopes": [
     {
       "name": "$XSAPPNAME.Read",
-      "description": "Read Permissions."
-    },
-    {
-      "name": "$XSAPPNAME.User",
-      "description": "Does all actions."
+      "description": "Scope for spring-security-hybrid-usage sample application"
     }
   ],
   "role-templates": [
     {
       "name": "Viewer",
-      "description": "View Data",
+      "description": "Role for spring-security-hybrid-usage sample application",
       "scope-references": [
         "$XSAPPNAME.Read"
-      ]
-    },
-    {
-      "name": "User",
-      "description": "Does all actions",
-      "scope-references": [
-        "$XSAPPNAME.User"
       ]
     }
   ],
   "role-collections": [
     {
-      "name": "XSUAA-Viewer",
-      "description": "Viewer (read)",
+      "name": "Sample Viewer (spring-security-hybrid-usage)",
+      "description": "Role collection for spring-security-hybrid-usage sample application",
       "role-template-references": [
         "$XSAPPNAME.Viewer"
-      ]
-    },
-    {
-      "name": "XSUAA-User",
-      "description": "User",
-      "role-template-references": [
-        "$XSAPPNAME.User"
       ]
     }
   ]
