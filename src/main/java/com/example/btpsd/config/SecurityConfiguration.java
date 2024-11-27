@@ -1,26 +1,26 @@
 package com.example.btpsd.config;
-import com.sap.cloud.security.spring.config.IdentityServicesPropertySourceFactory;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-
+import com.sap.cloud.security.spring.config.IdentityServicesPropertySourceFactory;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
@@ -39,16 +39,6 @@ public class SecurityConfiguration {
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
         return jwtAuthenticationConverter;
     }
-
-//    @Bean
-//    public Converter<Jwt, AbstractAuthenticationToken> authConverter() {
-//        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-//        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-//        grantedAuthoritiesConverter.setAuthorityPrefix("");
-//        grantedAuthoritiesConverter.setAuthoritiesClaimName("scope");
-//        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-//        return jwtAuthenticationConverter;
-//    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -85,12 +75,11 @@ public class SecurityConfiguration {
                 "/invoices/*",
                 "/invoices",
                 "/mainitems/*",
-                //"/mainitems",
+                // "/mainitems",
                 "/subitems/*",
                 "/subitems",
                 "/currencies/*",
-                "/currencies"
-        );
+                "/currencies");
     }
 
     @Bean
@@ -105,6 +94,7 @@ public class SecurityConfiguration {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -144,25 +134,26 @@ public class SecurityConfiguration {
                                 "/invoices/*",
                                 "/invoices",
                                 "/mainitems/*",
-//                                "/mainitems",
+                                // "/mainitems",
                                 "/subitems/*",
                                 "/subitems",
                                 "/currencies/*",
-                                "/currencies"
-                        ).permitAll()
+                                "/currencies")
+                        .permitAll()
                         .requestMatchers("/mainitems").hasAnyAuthority("InvoiceViewer", "InvoiceViewerExceptTotal")
-                       .requestMatchers("/*").authenticated()
-                                .anyRequest().denyAll()
-                )
+                        .requestMatchers("/*").authenticated()
+                        .anyRequest().denyAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(authConverter())))
                 .csrf(csrf -> csrf.disable());
         return http.build();
     }
-      @Bean
+
+    @Bean
     public JwtDecoder jwtDecoder() {
-        String jwkSetUri = "https://your-authorization-server.com/.well-known/jwks.json";  // Update this with your JWK Set URL
+        String jwkSetUri = "https://your-authorization-server.com/.well-known/jwks.json"; // Update this with your JWK
+                                                                                          // Set URL
         return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
     }
 }
