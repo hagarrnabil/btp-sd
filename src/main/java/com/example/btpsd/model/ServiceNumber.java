@@ -110,26 +110,43 @@ public class ServiceNumber implements Serializable {
     }
 
     public Long getServiceNumberCode() {
-        if (hasRole("ROLE_ADMIN")) {
+        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL")) {
             return serviceNumberCode;
         } else {
-            throw new SecurityException("Access denied to description field");
+            throw new SecurityException("Access denied to service number code field");
         }
     }
 
     public String getUnitOfMeasurementCode() {
-        if (hasRole("ROLE_ADMIN")) {
-            return unitOfMeasurementCode;
+        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL")) {
+            return description;
+        } else {
+            throw new SecurityException("Access denied to unit of measurement code field");
+        }
+    }
+
+    public String getDescription() {
+        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL")) {
+            return description;
         } else {
             throw new SecurityException("Access denied to description field");
         }
     }
 
-    public String getDescription() {
-        if (hasRole("ROLE_ADMIN")) {
-            return description;
+
+    public void setUnitOfMeasurementCode(String unitOfMeasurementCode) {
+        if (hasRole("ROLE_FULL")) {
+            this.unitOfMeasurementCode = unitOfMeasurementCode;
         } else {
-            throw new SecurityException("Access denied to description field");
+            throw new SecurityException("Access denied to set UOM field");
+        }
+    }
+
+    public void setDescription(String description) {
+        if (hasRole("ROLE_FULL")) {
+            this.description = description;
+        } else {
+            throw new SecurityException("Access denied to set description field");
         }
     }
 

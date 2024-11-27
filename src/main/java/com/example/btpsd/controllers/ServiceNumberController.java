@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class ServiceNumberController {
     private final ServiceNumberToServiceNumberCommand serviceNumberToServiceNumberCommand;
 
 
+    @PreAuthorize("hasAnyAuthority('ROLE_VIEW', 'ROLE_FULL')")
     @GetMapping("/servicenumbers")
     public ResponseEntity<List<ServiceNumber>> fetchAndUpdateServiceNumbers() throws Exception {
         // Fetch all existing service numbers
@@ -92,6 +94,7 @@ public class ServiceNumberController {
 //        return Optional.ofNullable(serviceNumberService.findServiceNumberCommandById(serviceNumberCode, serviceControl));
 //    }
 
+    @PreAuthorize("hasAuthority('ROLE_FULL')")
     @PostMapping("/servicenumbers")
     ServiceNumberCommand newServiceNumberCommand(@RequestBody ServiceNumberCommand newServiceNumberCommand) {
 
@@ -100,11 +103,13 @@ public class ServiceNumberController {
 
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_MODIFY', 'ROLE_FULL')")
     @DeleteMapping("/servicenumbers/{serviceNumberCode}")
     void deleteServiceNumberCommand(@PathVariable Long serviceNumberCode) {
         serviceNumberService.deleteById(serviceNumberCode);
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_MODIFY', 'ROLE_FULL')")
     @PatchMapping
     @RequestMapping("/servicenumbers/{serviceNumberCode}")
     @Transactional

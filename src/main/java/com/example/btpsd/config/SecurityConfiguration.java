@@ -25,30 +25,33 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class SecurityConfiguration {
 
     @Bean
-    public Converter<Jwt, AbstractAuthenticationToken> authConverter() {
+    public JwtAuthenticationConverter authConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        grantedAuthoritiesConverter.setAuthorityPrefix("");
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("scope");
+
+        // Map "groups" claim to Spring Security authorities
+        grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+        grantedAuthoritiesConverter.setAuthoritiesClaimName("groups");
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+
         return jwtAuthenticationConverter;
     }
-
+    
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().requestMatchers("/iasusers");
-        return (web) -> web.ignoring().requestMatchers("/iasusers", "/formulas/*", "/formulas", "/linetypes/*", "/linetypes", "/materialgroups/*", "/materialgroups", "/modelspecs", "/modelspecs/*",
-                "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*", "/personnelnumbers", "/servicenumbers/*", "/servicenumbers", "/servicetypes/*", "/servicetypes",
-                "/invoices/*", "/invoices", "/mainitems/*/*/*/*/*", "/mainitems/*/*", "/mainitems","/mainitems/*", "/subitems/*", "/subitems", "/currencies/*", "/currencies", "/salesorder", "/salesorder/*", "/salesorderitems", "/salesorderitems/*," ,
-                "/salesorderpricing", "/salesorderpricing/*", "/executionordersub", "/executionordersub/*", "/executionordermain/*/*", "/executionordermain/*/*/*", "/executionordermain", "/executionordermain/*","/salesordercloud", "/salesordercloud/*",
-                "/salesorderpostcloud", "/salesorderpostcloud/*", "/serviceinvoice/*/*/*/*/*", "/serviceinvoice/*/*", "/serviceinvoice", "/serviceinvoice/*", "/salesorderitemcloud/*", "/salesorderitemcloud",
-                "/salesorderitemscloud/*", "/salesorderitemscloud", "/salesorderpricingcloud/*/*", "/salesorderpricingcloud", "/salesquotationcloud", "/salesquotationcloud/*",
-                "/salesquotationpostcloud/*", "/salesquotationpostcloud", "/salesquotationitemcloud/*", "/salesquotationitemcloud", "/salesquotationitemscloud", "/salesquotationitemscloud/*",
-                "/salesquotationpricingcloud/*/*", "/salesquotationpricingcloud", "/debitmemocloud/*" , "/debitmemocloud", "/debitmemopostcloud/*", "/debitmemopostcloud",
-                "/debitmemoitemscloud", "/debitmemoitemscloud/*","/salesorderallpricingcloud", "/salesorderallpricingcloud/*", "/salesorderitempricingcloudpost/*/*",
-                "/salesquotationricingcloudpatch/*/*/*/*", "/productcloud", "/productdescriptioncloud", "/businesspartner", "/salesquotationitem/*/*",
-                "/salesorderitem/*/*", "/debitmemoitems/*/*", "/allproductscloud", "/quantities", "/total", "/totalheader", "/totalsrv", "/totalheadersrv",
-                "/fetchSalesOrderDetails", "/measurements", "/measurements/*");
+        return (web) -> web.ignoring().requestMatchers("/iasusers");
+//        return (web) -> web.ignoring().requestMatchers("/iasusers", "/formulas/*", "/formulas", "/linetypes/*", "/linetypes", "/materialgroups/*", "/materialgroups", "/modelspecs", "/modelspecs/*",
+//                "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*", "/personnelnumbers", "/servicenumbers/*", "/servicenumbers", "/servicetypes/*", "/servicetypes",
+//                "/invoices/*", "/invoices", "/mainitems/*/*/*/*/*", "/mainitems/*/*", "/mainitems","/mainitems/*", "/subitems/*", "/subitems", "/currencies/*", "/currencies", "/salesorder", "/salesorder/*", "/salesorderitems", "/salesorderitems/*," ,
+//                "/salesorderpricing", "/salesorderpricing/*", "/executionordersub", "/executionordersub/*", "/executionordermain/*/*", "/executionordermain/*/*/*", "/executionordermain", "/executionordermain/*","/salesordercloud", "/salesordercloud/*",
+//                "/salesorderpostcloud", "/salesorderpostcloud/*", "/serviceinvoice/*/*/*/*/*", "/serviceinvoice/*/*", "/serviceinvoice", "/serviceinvoice/*", "/salesorderitemcloud/*", "/salesorderitemcloud",
+//                "/salesorderitemscloud/*", "/salesorderitemscloud", "/salesorderpricingcloud/*/*", "/salesorderpricingcloud", "/salesquotationcloud", "/salesquotationcloud/*",
+//                "/salesquotationpostcloud/*", "/salesquotationpostcloud", "/salesquotationitemcloud/*", "/salesquotationitemcloud", "/salesquotationitemscloud", "/salesquotationitemscloud/*",
+//                "/salesquotationpricingcloud/*/*", "/salesquotationpricingcloud", "/debitmemocloud/*" , "/debitmemocloud", "/debitmemopostcloud/*", "/debitmemopostcloud",
+//                "/debitmemoitemscloud", "/debitmemoitemscloud/*","/salesorderallpricingcloud", "/salesorderallpricingcloud/*", "/salesorderitempricingcloudpost/*/*",
+//                "/salesquotationricingcloudpatch/*/*/*/*", "/productcloud", "/productdescriptioncloud", "/businesspartner", "/salesquotationitem/*/*",
+//                "/salesorderitem/*/*", "/debitmemoitems/*/*", "/allproductscloud", "/quantities", "/total", "/totalheader", "/totalsrv", "/totalheadersrv",
+//                "/fetchSalesOrderDetails", "/measurements", "/measurements/*");
     }
 
     @Bean
@@ -70,12 +73,16 @@ public class SecurityConfiguration {
                         .requestMatchers("/sayHello").hasAuthority("$XSAPPNAME.User")
                         .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                         .requestMatchers("/**").authenticated()
-                        .anyRequest().denyAll())
+                        .requestMatchers("/servicenumbers/**").hasAnyAuthority(
+                                "ROLE_FULL",
+                                "ROLE_MODIFY",
+                                "ROLE_VIEW")
+                        .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(authConverter())))
                 .csrf(csrf -> csrf.disable())
-        .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
         return http.build();
     }
 }

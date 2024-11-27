@@ -107,13 +107,11 @@ public class ServiceNumberServiceImpl implements ServiceNumberService{
 
     }
 
-//    @Override
-//    @Transactional
-//    public ServiceNumberCommand findServiceNumberCommandById(Long id, ServiceControl serviceControl) {
-//        ServiceNumber serviceNumber = findById(id);
-//        if (!serviceControl.isCanDisplay()) {
-//            throw new UnauthorizedException("You do not have permission to view this service number.");
-//        }
-//        return new ServiceNumberCommand(serviceNumber, serviceControl);
-//    }
+    @Override
+    @Transactional
+    public ServiceNumberCommand findServiceNumberCommandById(Long l) {
+
+        return serviceNumberToServiceNumberCommand.convert(findById(l));
+
+    }
 }
