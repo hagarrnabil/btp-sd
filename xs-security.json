@@ -1,5 +1,6 @@
 {
-  "xsappname": "spring-security-hybrid-usage",
+  "xsappname": "sd-v0",
+  "description": "SAP BTP Spring Security Client Library Hybrid sample application",
   "tenant-mode": "dedicated",
   "oauth2-configuration": {
     "credential-types": ["x509"]
@@ -7,71 +8,42 @@
   "scopes": [
     {
       "name": "$XSAPPNAME.Read",
-      "description": "Read Permissions."
+      "description": "Scope for spring-security-hybrid-usage sample application"
     },
     {
-      "name": "$XSAPPNAME.invoice.read",
-      "description": "Read access to invoices."
-    },
-    {
-      "name": "$XSAPPNAME.invoice.read.exceptTotal",
-      "description": "Read access to invoices except total amount."
-    },
-    {
-      "name": "$XSAPPNAME.salesorder.read",
-      "description": "Read access to sales orders."
+      "name": "$XSAPPNAME.ReadExceptTotal",
+      "description": "Scope for read operations excluding 'Total' in the sample application"
     }
   ],
   "role-templates": [
     {
       "name": "Viewer",
-      "description": "View Data",
+      "description": "Role for spring-security-hybrid-usage sample application",
       "scope-references": [
         "$XSAPPNAME.Read"
       ]
     },
     {
-      "name": "InvoiceViewer",
-      "description": "View Invoice Data",
+      "name": "ReadExceptTotalRole",
+      "description": "Role for reading everything except 'Total' in the sample application",
       "scope-references": [
-        "$XSAPPNAME.invoice.read"
-      ]
-    },
-    {
-      "name": "InvoiceViewerExceptTotal",
-      "description": "View Invoice Data except total amount",
-      "scope-references": [
-        "$XSAPPNAME.invoice.read.exceptTotal"
-      ]
-    },
-    {
-      "name": "SalesOrderViewer",
-      "description": "View Sales Order Data",
-      "scope-references": [
-        "$XSAPPNAME.salesorder.read"
+        "$XSAPPNAME.ReadExceptTotal"
       ]
     }
   ],
   "role-collections": [
     {
-      "name": "XSUAA-Read",
-      "description": "Viewer (read)",
+      "name": "Sample Viewer (spring-security-hybrid-usage)",
+      "description": "Role collection for spring-security-hybrid-usage sample application",
       "role-template-references": [
-        "$XSAPPNAME.Read"
+        "$XSAPPNAME.Viewer"
       ]
     },
     {
-      "name": "Invoice-Read",
-      "description": "Viewer (read access to invoices only)",
+      "name": "ReadExceptTotal Collection",
+      "description": "Role collection for the ReadExceptTotal role",
       "role-template-references": [
-        "$XSAPPNAME.InvoiceViewer"
-      ]
-    },
-    {
-      "name": "Invoice-Read-ExceptTotal",
-      "description": "Viewer (read access to invoices except total amount)",
-      "role-template-references": [
-        "$XSAPPNAME.InvoiceViewerExceptTotal"
+        "$XSAPPNAME.ReadExceptTotalRole"
       ]
     }
   ]

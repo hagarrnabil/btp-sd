@@ -1,24 +1,16 @@
-# SPDX-FileCopyrightText: 2018-2023 SAP SE or an SAP affiliate company and Cloud Security Client Java contributors
-# SPDX-License-Identifier: Apache-2.0
----
-# Configuration:
-# configured for EU10. For other landscapes, please adopt LANDSCAPE_APPS_DOMAIN in ../vars.yml
-# If the route is occupied, you might need to change ID in ../vars.yml
-
-
 applications:
-  - name: SD-App
+  - name: sd-v0
     instances: 1
     memory: 1G
-    health-check-type: process
-    routes:
-      - route: spring-security-hybrid-usage-((ID)).((LANDSCAPE_APPS_DOMAIN))
     path: target/BTP-SD-0.0.1-SNAPSHOT.jar
     buildpacks:
-      - https://github.com/cloudfoundry/java-buildpack.git  # Use the valid Git URI for the buildpack
+      - java_buildpack
     env:
-      JBP_CONFIG_OPEN_JDK_JRE: '{jre: { version: 17.0.+ }}'
+      JBP_CONFIG_OPEN_JDK_JRE: "{jre: { version: 17.0.+ }}"
     services:
-      - hana_migration
-      - xsuaa-authn
-      - ias_authn
+      - name: xsuaa-authn
+      - name: postgres
+      - name: ias-authn
+        parameters: { "credential-type": "X509_GENERATED" }
+    routes:
+      - route: sd-v0.cfapps.us10-001.hana.ondemand.com
