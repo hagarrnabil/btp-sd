@@ -110,49 +110,54 @@ public class ServiceNumber implements Serializable {
     }
 
     public Long getServiceNumberCode() {
-        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL")) {
+        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
             return serviceNumberCode;
         } else {
-            throw new SecurityException("Access denied to service number code field");
+            return null; // Return null if access is denied
         }
     }
 
+    // Getter for unitOfMeasurementCode
     public String getUnitOfMeasurementCode() {
-        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL")) {
-            return description;
+        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+            return unitOfMeasurementCode;
         } else {
-            throw new SecurityException("Access denied to unit of measurement code field");
+            return null; // Return null if access is denied
         }
     }
 
+    // Getter for description
     public String getDescription() {
-        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL")) {
+        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
             return description;
         } else {
-            throw new SecurityException("Access denied to description field");
+            return null; // Return null if access is denied
         }
     }
 
-
+    // Setter for unitOfMeasurementCode
     public void setUnitOfMeasurementCode(String unitOfMeasurementCode) {
-        if (hasRole("ROLE_FULL")) {
+        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
             this.unitOfMeasurementCode = unitOfMeasurementCode;
         } else {
-            throw new SecurityException("Access denied to set UOM field");
+            throw new SecurityException("Access denied to set unit of measurement code field");
         }
     }
 
+    // Setter for description
     public void setDescription(String description) {
-        if (hasRole("ROLE_FULL")) {
+        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
             this.description = description;
         } else {
             throw new SecurityException("Access denied to set description field");
         }
     }
 
+    // Helper method to check roles
     private boolean hasRole(String role) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth != null && auth.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(role));
     }
+
 }

@@ -70,41 +70,64 @@ public class ServiceNumberServiceImpl implements ServiceNumberService{
     }
 
     @Override
-    public ServiceNumber updateServiceNumber(ServiceNumberCommand newServiceNumberCommand, Long l) {
+    public ServiceNumber updateServiceNumber(ServiceNumberCommand newServiceNumberCommand, Long id) {
+        return serviceNumberRepository.findById(id).map(existingServiceNumber -> {
+            // Update unrestricted fields directly
+            if (newServiceNumberCommand.getSearchTerm() != null) {
+                existingServiceNumber.setSearchTerm(newServiceNumberCommand.getSearchTerm());
+            }
+            if (newServiceNumberCommand.getShortTextChangeAllowed() != null) {
+                existingServiceNumber.setShortTextChangeAllowed(newServiceNumberCommand.getShortTextChangeAllowed());
+            }
+            if (newServiceNumberCommand.getDeletionIndicator() != null) {
+                existingServiceNumber.setDeletionIndicator(newServiceNumberCommand.getDeletionIndicator());
+            }
+            if (newServiceNumberCommand.getMainItem() != null) {
+                existingServiceNumber.setMainItem(newServiceNumberCommand.getMainItem());
+            }
+            if (newServiceNumberCommand.getServiceText() != null) {
+                existingServiceNumber.setServiceText(newServiceNumberCommand.getServiceText());
+            }
+            if (newServiceNumberCommand.getNumberToBeConverted() != null) {
+                existingServiceNumber.setNumberToBeConverted(newServiceNumberCommand.getNumberToBeConverted());
+            }
+            if (newServiceNumberCommand.getConvertedNumber() != null) {
+                existingServiceNumber.setConvertedNumber(newServiceNumberCommand.getConvertedNumber());
+            }
+            if (newServiceNumberCommand.getBaseUnitOfMeasurement() != null) {
+                existingServiceNumber.setBaseUnitOfMeasurement(newServiceNumberCommand.getBaseUnitOfMeasurement());
+            }
+            if (newServiceNumberCommand.getToBeConvertedUnitOfMeasurement() != null) {
+                existingServiceNumber.setToBeConvertedUnitOfMeasurement(newServiceNumberCommand.getToBeConvertedUnitOfMeasurement());
+            }
+            if (newServiceNumberCommand.getDefaultUnitOfMeasurement() != null) {
+                existingServiceNumber.setDefaultUnitOfMeasurement(newServiceNumberCommand.getDefaultUnitOfMeasurement());
+            }
+            if (newServiceNumberCommand.getServiceTypeCode() != null) {
+                existingServiceNumber.setServiceTypeCode(newServiceNumberCommand.getServiceTypeCode());
+            }
+            if (newServiceNumberCommand.getMaterialGroupCode() != null) {
+                existingServiceNumber.setMaterialGroupCode(newServiceNumberCommand.getMaterialGroupCode());
+            }
 
-        return serviceNumberRepository.findById(l).map(oldServiceNumber -> {
-            if (newServiceNumberCommand.getSearchTerm() != oldServiceNumber.getSearchTerm())
-                oldServiceNumber.setSearchTerm(newServiceNumberCommand.getSearchTerm());
-            if (newServiceNumberCommand.getDescription() != oldServiceNumber.getDescription())
-                oldServiceNumber.setDescription(newServiceNumberCommand.getDescription());
-            if (newServiceNumberCommand.getShortTextChangeAllowed() != oldServiceNumber.getShortTextChangeAllowed())
-                oldServiceNumber.setShortTextChangeAllowed(newServiceNumberCommand.getShortTextChangeAllowed());
-            if (newServiceNumberCommand.getDeletionIndicator() != oldServiceNumber.getDeletionIndicator())
-                oldServiceNumber.setDeletionIndicator(newServiceNumberCommand.getDeletionIndicator());
-            if (newServiceNumberCommand.getMainItem() != oldServiceNumber.getMainItem())
-                oldServiceNumber.setMainItem(newServiceNumberCommand.getMainItem());
-            if (newServiceNumberCommand.getServiceText() != oldServiceNumber.getServiceText())
-                oldServiceNumber.setServiceText(newServiceNumberCommand.getServiceText());
-            if (newServiceNumberCommand.getNumberToBeConverted() != oldServiceNumber.getNumberToBeConverted())
-                oldServiceNumber.setNumberToBeConverted(newServiceNumberCommand.getNumberToBeConverted());
-            if (newServiceNumberCommand.getConvertedNumber() != oldServiceNumber.getConvertedNumber())
-                oldServiceNumber.setConvertedNumber(newServiceNumberCommand.getConvertedNumber());
-            if (newServiceNumberCommand.getServiceText() != oldServiceNumber.getServiceText())
-                oldServiceNumber.setServiceText(newServiceNumberCommand.getServiceText());
-            if (newServiceNumberCommand.getBaseUnitOfMeasurement() != oldServiceNumber.getBaseUnitOfMeasurement())
-                oldServiceNumber.setBaseUnitOfMeasurement(newServiceNumberCommand.getBaseUnitOfMeasurement());
-            if (newServiceNumberCommand.getToBeConvertedUnitOfMeasurement() != oldServiceNumber.getToBeConvertedUnitOfMeasurement())
-                oldServiceNumber.setToBeConvertedUnitOfMeasurement(newServiceNumberCommand.getToBeConvertedUnitOfMeasurement());
-            if (newServiceNumberCommand.getDefaultUnitOfMeasurement() != oldServiceNumber.getDefaultUnitOfMeasurement())
-                oldServiceNumber.setDefaultUnitOfMeasurement(newServiceNumberCommand.getDefaultUnitOfMeasurement());
-            if (newServiceNumberCommand.getServiceTypeCode() != oldServiceNumber.getServiceTypeCode())
-                oldServiceNumber.setServiceTypeCode(newServiceNumberCommand.getServiceTypeCode());
-            if (newServiceNumberCommand.getMaterialGroupCode() != oldServiceNumber.getMaterialGroupCode())
-                oldServiceNumber.setMaterialGroupCode(newServiceNumberCommand.getMaterialGroupCode());
-            return serviceNumberRepository.save(oldServiceNumber);
+            // Update restricted fields (requires access checks in setters)
+            if (newServiceNumberCommand.getDescription() != null) {
+                try {
+                    existingServiceNumber.setDescription(newServiceNumberCommand.getDescription());
+                } catch (SecurityException e) {
+                    throw new SecurityException("Access denied to update description field.");
+                }
+            }
+            if (newServiceNumberCommand.getUnitOfMeasurementCode() != null) {
+                try {
+                    existingServiceNumber.setUnitOfMeasurementCode(newServiceNumberCommand.getUnitOfMeasurementCode());
+                } catch (SecurityException e) {
+                    throw new SecurityException("Access denied to update unit of measurement field.");
+                }
+            }
+
+            return serviceNumberRepository.save(existingServiceNumber);
         }).orElseThrow(() -> new RuntimeException("Service Number not found"));
-
-
     }
 
     @Override

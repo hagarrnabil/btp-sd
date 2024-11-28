@@ -8,7 +8,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.core.convert.converter.Converter;
@@ -16,6 +19,9 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
@@ -25,16 +31,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class SecurityConfiguration {
 
     @Bean
-    public JwtAuthenticationConverter authConverter() {
-        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-
-        // Map "groups" claim to Spring Security authorities
-        grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("groups");
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-
-        return jwtAuthenticationConverter;
+    public Converter<Jwt, AbstractAuthenticationToken> authConverter() {
+        return jwt -> {
+            Collection<GrantedAuthority> authorities = jwt.getClaimAsStringList("groups").stream()
+                    .map(group -> new SimpleGrantedAuthority("ROLE_" + group.toUpperCase()))
+                    .collect(Collectors.toList());
+            return new JwtAuthenticationToken(jwt, authorities);
+        };
     }
     
     @Bean
