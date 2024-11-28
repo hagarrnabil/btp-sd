@@ -54,6 +54,24 @@ public class InvoiceMainItemController {
         return invoiceMainItemService.getMainItemCommands();
     }
 
+    // @GetMapping("/mainitems")
+    // Set<?> all(Authentication authentication) {
+
+    // if (authentication.getAuthorities().stream()
+    // .anyMatch(grantedAuthority ->
+    // grantedAuthority.getAuthority().equals("InvoiceViewer"))) {
+    // // Return full invoice items for InvoiceViewer role
+    // return invoiceMainItemService.getMainItemCommands();
+    // } else if (authentication.getAuthorities().stream()
+    // .anyMatch(grantedAuthority ->
+    // grantedAuthority.getAuthority().equals("InvoiceViewerExceptTotal"))) {
+    // // Return restricted invoice items for InvoiceViewerExceptTotal role
+    // return invoiceMainItemService.getMainItemsExceptTotal();
+    // } else {
+    // throw new AccessDeniedException("You do not have permission to access this
+    // resource.");
+    // }
+    // }
     @GetMapping("/mainitems/{salesQuotation}/{salesQuotationItem}")
     public StringBuilder findBySalesQuotationAndItem(
             @PathVariable("salesQuotation") String salesQuotation,
@@ -64,7 +82,8 @@ public class InvoiceMainItemController {
     }
 
     @GetMapping("/mainitems/referenceid")
-    public ResponseEntity<List<InvoiceMainItemCommand>> getInvoiceMainItemsByReferenceId(@RequestParam String referenceId) {
+    public ResponseEntity<List<InvoiceMainItemCommand>> getInvoiceMainItemsByReferenceId(
+            @RequestParam String referenceId) {
         // Fetch all InvoiceMainItem items with the given referenceId
         List<InvoiceMainItem> invoiceMainItems = invoiceMainItemRepository.findByReferenceId(referenceId);
 
@@ -73,7 +92,8 @@ public class InvoiceMainItemController {
             return ResponseEntity.notFound().build(); // Return 404 if no items found
         }
 
-        // Convert the list of InvoiceMainItem to InvoiceMainItemCommand for the response
+        // Convert the list of InvoiceMainItem to InvoiceMainItemCommand for the
+        // response
         List<InvoiceMainItemCommand> responseItems = invoiceMainItems.stream()
                 .map(invoiceMainItemToInvoiceMainItemCommand::convert)
                 .collect(Collectors.toList());
@@ -88,7 +108,8 @@ public class InvoiceMainItemController {
     }
 
     @PostMapping("/total")
-    public ResponseEntity<Map<String, Double>> calculateTotal(@RequestBody InvoiceMainItemCommand invoiceMainItemCommand) {
+    public ResponseEntity<Map<String, Double>> calculateTotal(
+            @RequestBody InvoiceMainItemCommand invoiceMainItemCommand) {
         InvoiceMainItem invoiceMainItem = new InvoiceMainItem();
         invoiceMainItem.setQuantity(invoiceMainItemCommand.getQuantity());
         invoiceMainItem.setAmountPerUnit(invoiceMainItemCommand.getAmountPerUnit());
@@ -155,7 +176,8 @@ public class InvoiceMainItemController {
 
         System.out.println("Fetched Invoice Items: " + invoiceItems);
 
-        // Step 5: Convert InvoiceMainItem entities to command objects to return in response
+        // Step 5: Convert InvoiceMainItem entities to command objects to return in
+        // response
         List<InvoiceMainItemCommand> response = new ArrayList<>();
         for (InvoiceMainItem item : invoiceItems) {
             response.add(invoiceMainItemToInvoiceMainItemCommand.convert(item));
@@ -224,7 +246,7 @@ public class InvoiceMainItemController {
         Double totalHeader = invoiceMainItemService.getTotalHeader();
         for (InvoiceMainItem savedItem : savedItems) {
             savedItem.setTotalHeader(totalHeader);
-            invoiceMainItemRepository.save(savedItem);  // Re-save after updating totalHeader
+            invoiceMainItemRepository.save(savedItem); // Re-save after updating totalHeader
         }
 
         // Step 4: Call Invoice Pricing API
@@ -236,7 +258,8 @@ public class InvoiceMainItemController {
             throw new RuntimeException("Failed to update Invoice Pricing Element. Response Code: " + e.getMessage());
         }
 
-        // Step 5: Convert and return the saved items as a list of command objects for the response
+        // Step 5: Convert and return the saved items as a list of command objects for
+        // the response
         List<InvoiceMainItemCommand> response = new ArrayList<>();
         for (InvoiceMainItem savedItem : savedItems) {
             response.add(invoiceMainItemToInvoiceMainItemCommand.convert(savedItem));
@@ -245,14 +268,14 @@ public class InvoiceMainItemController {
         return response;
     }
 
-
-
     @PatchMapping
     @RequestMapping("/mainitems/{mainItemCode}")
     @Transactional
-    InvoiceMainItemCommand updateMainItemCommand(@RequestBody InvoiceMainItemCommand newInvoiceMainItemCommand, @PathVariable Long mainItemCode) {
+    InvoiceMainItemCommand updateMainItemCommand(@RequestBody InvoiceMainItemCommand newInvoiceMainItemCommand,
+            @PathVariable Long mainItemCode) {
 
-        InvoiceMainItemCommand command = invoiceMainItemToInvoiceMainItemCommand.convert(invoiceMainItemService.updateMainItem(newInvoiceMainItemCommand, mainItemCode));
+        InvoiceMainItemCommand command = invoiceMainItemToInvoiceMainItemCommand
+                .convert(invoiceMainItemService.updateMainItem(newInvoiceMainItemCommand, mainItemCode));
         return command;
     }
 
@@ -293,8 +316,8 @@ public class InvoiceMainItemController {
         }
 
         // Step 4: Check if an InvoiceMainItem with the same referenceId already exists
-        List<InvoiceMainItem> existingInvoiceOpt =
-                invoiceMainItemRepository.findByReferenceId(updatedInvoiceMainItemCommand.getReferenceId());
+        List<InvoiceMainItem> existingInvoiceOpt = invoiceMainItemRepository
+                .findByReferenceId(updatedInvoiceMainItemCommand.getReferenceId());
         InvoiceMainItem savedInvoiceMainItem;
 
         if (!existingInvoiceOpt.isEmpty()) {
@@ -321,16 +344,15 @@ public class InvoiceMainItemController {
             throw new RuntimeException("Failed to update Invoice Pricing Element. Response Code: " + e.getMessage());
         }
 
-        // Step 7: Convert the saved InvoiceMainItem back to a command object for the response
+        // Step 7: Convert the saved InvoiceMainItem back to a command object for the
+        // response
         return invoiceMainItemToInvoiceMainItemCommand.convert(savedInvoiceMainItem);
     }
-
 
     @DeleteMapping("/mainitems/{invoiceMainItemCode}")
     void deleteMainItemCommand(@PathVariable Long invoiceMainItemCode) {
         invoiceMainItemService.deleteById(invoiceMainItemCode);
     }
-
 
     @RequestMapping(method = RequestMethod.GET, value = "/mainitems/search")
     @ResponseBody

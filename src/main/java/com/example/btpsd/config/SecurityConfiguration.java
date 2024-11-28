@@ -12,7 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -30,14 +32,27 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "", allowedHeaders = "", maxAge = 3600L)
 public class SecurityConfiguration {
 
+    // @Bean
+    // public Converter<Jwt, AbstractAuthenticationToken> authConverter() {
+    // return jwt -> {
+    // Collection<GrantedAuthority> authorities =
+    // jwt.getClaimAsStringList("groups").stream()
+    // .map(group -> new SimpleGrantedAuthority("ROLE_" + group.toUpperCase()))
+    // .collect(Collectors.toList());
+    // return new JwtAuthenticationToken(jwt, authorities);
+    // };
+    // }
     @Bean
     public Converter<Jwt, AbstractAuthenticationToken> authConverter() {
-        return jwt -> {
-            Collection<GrantedAuthority> authorities = jwt.getClaimAsStringList("groups").stream()
-                    .map(group -> new SimpleGrantedAuthority("ROLE_" + group.toUpperCase()))
-                    .collect(Collectors.toList());
-            return new JwtAuthenticationToken(jwt, authorities);
-        };
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+
+        // Use 'groups' claim instead of 'scope'
+        grantedAuthoritiesConverter.setAuthoritiesClaimName("groups");
+        grantedAuthoritiesConverter.setAuthorityPrefix(""); // No prefix for roles in groups
+
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+        return jwtAuthenticationConverter;
     }
 
     @Bean
@@ -89,19 +104,16 @@ public class SecurityConfiguration {
                                 "/swagger-ui/index.html",
                                 "/swagger-resources/**",
                                 "/webjars/**",
-                                "/localhost/**")
+                                "/localhost/**",
+                                "/accounts/create",
+                                "/accounts/{userId}",
+                                "/accounts/*",
+                                "/accounts/login")
                         .permitAll()
-                        .requestMatchers("/measurements/*",
-                                "/api/v1/auth/**")
-                        .hasAuthority("XSUAA-User")
-                        .requestMatchers("/sayHello").hasAuthority("$XSAPPNAME.User")
                         .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                         .requestMatchers("/**").authenticated()
-                        .requestMatchers("/mainitems").hasAnyAuthority("Read", "ReadExceptTotal")
-                        .requestMatchers("/servicenumbers/**").hasAnyAuthority(
-                                "ROLE_FULL",
-                                "ROLE_MODIFY",
-                                "ROLE_VIEW")
+                        // .requestMatchers("/mainitems/all").hasAnyAuthority("ROLE_Read",
+                        // "ROLE_ReadExceptTotal")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
