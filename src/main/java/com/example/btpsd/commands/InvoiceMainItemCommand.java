@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
 // import lombok.Setter;
 // import lombok.Getter;
-import org.springframework.security.core.Authentication;
+// import org.springframework.security.core.Authentication;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.security.core.context.SecurityContextHolder;
+// import org.springframework.security.core.context.SecurityContextHolder;
 
 // @Getter
 // @Setter
@@ -156,10 +156,7 @@ public class InvoiceMainItemCommand implements Serializable {
     }
 
     public Double getTotal() {
-        // if (hasRole("ROLE_Read")) {
-        return total;
-        // }
-        // return (double) 0;
+        return total;       
     }
 
     public void setTotal(Double total) {
@@ -222,9 +219,9 @@ public class InvoiceMainItemCommand implements Serializable {
         this.subItems = subItems;
     }
 
-    private boolean hasRole(String role) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth != null && auth.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(role));
-    }
+    // private boolean hasRole(String role) {
+    //     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    //     return auth != null && auth.getAuthorities().stream()
+    //             .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(role));
+    // }
 }
