@@ -9,6 +9,10 @@
     {
       "name": "$XSAPPNAME.Read",
       "description": "Scope for spring-security-hybrid-usage sample application"
+    },
+    {
+      "name": "$XSAPPNAME.ReadExceptTotal",
+      "description": "Scope for read operations excluding 'Total' in the sample application"
     }
   ],
   "role-templates": [
@@ -17,6 +21,13 @@
       "description": "Role for spring-security-hybrid-usage sample application",
       "scope-references": [
         "$XSAPPNAME.Read"
+      ]
+    },
+    {
+      "name": "ReadExceptTotalRole",
+      "description": "Role for reading everything except 'Total' in the sample application",
+      "scope-references": [
+        "$XSAPPNAME.ReadExceptTotal"
       ]
     }
   ],
@@ -27,6 +38,13 @@
       "role-template-references": [
         "$XSAPPNAME.Viewer"
       ]
+    },
+    {
+      "name": "ReadExceptTotal Collection",
+      "description": "Role collection for the ReadExceptTotal role",
+      "role-template-references": [
+        "$XSAPPNAME.ReadExceptTotalRole"
+      ]
     }
   ]
-}  
+}

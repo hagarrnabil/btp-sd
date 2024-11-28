@@ -2,7 +2,6 @@ package com.example.btpsd.controllers;
 
 import com.example.btpsd.dtos.UserDto;
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.nio.charset.StandardCharsets;
@@ -27,51 +25,46 @@ import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*" , methods = {  GET,
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { GET,
         HEAD,
         POST,
         PUT,
         PATCH,
         DELETE,
         OPTIONS,
-        TRACE}
-        , maxAge = 3600L)
+        TRACE }, maxAge = 3600L)
 @RestController
 @RequestMapping("/accounts")
 public class AccountsController {
 
-
-    @Value("2baac931-307f-42e6-b71b-cdc13cbceae6")
+    @Value("d14597bc-7f22-4c03-abde-b73d0daa17a2")
     private String clientId;
 
-    @Value("VUkW2OxneB3:wq9z4W-9vJf1u-.KrHMUU")
+    @Value("G7CYTJ]C/hAXJBYtJhwG71Ggglwx?L7K")
     private String clientSecret;
 
-    @Value("https://aji26ufcs.trial-accounts.ondemand.com")
+    @Value("https://avirxf4ow.trial-accounts.ondemand.com")
     private String url;
 
-    @Value("https://aji26ufcs.trial-accounts.ondemand.com/oauth2/authorize")
+    @Value("https://avirxf4ow.trial-accounts.ondemand.com/oauth2/authorize")
     private String authorizationEndpoint;
 
-    @Value("https://aji26ufcs.trial-accounts.ondemand.com/oauth2/logout")
+    @Value("https://avirxf4ow.trial-accounts.ondemand.com/oauth2/logout")
     private String endSessionEndpoint;
 
     private final RestTemplate restTemplate;
 
-
-    @Autowired
     public AccountsController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    // Get all users
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAllUsers() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Set Authorization Header
-        String auth = "facbddf3-d119-4f36-bb81-0dc8a644a8cb" + ":" + "nY17h3A5/YsCGx0K3LsDGhzqp]FBJYZ?7o/";
+        String auth = "d14597bc-7f22-4c03-abde-b73d0daa17a2" + ":" + "G7CYTJ]C/hAXJBYtJhwG71Ggglwx?L7K";
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
@@ -80,14 +73,14 @@ public class AccountsController {
 
         // Call SCIM API to get all users
         RestTemplate restTemplate = new RestTemplate();
-        String scimApiUrl = "https://aji26ufcs.trial-accounts.ondemand.com/service/scim/Users";
+        String scimApiUrl = "https://avirxf4ow.trial-accounts.ondemand.com/service/scim/Users";
 
         ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                 scimApiUrl,
                 HttpMethod.GET,
                 request,
-                new ParameterizedTypeReference<>() {}
-        );
+                new ParameterizedTypeReference<>() {
+                });
 
         // Check response
         if (!response.getStatusCode().is2xxSuccessful()) {
@@ -97,20 +90,19 @@ public class AccountsController {
         return ResponseEntity.ok(response.getBody());
     }
 
-
     @PostMapping
     public String createUser(@RequestBody UserDto userDto) {
         HttpURLConnection con = null;
         try {
             // Set up the connection
-            URL url = new URL("https://aji26ufcs.trial-accounts.ondemand.com/service/scim/Users");
+            URL url = new URL("https://avirxf4ow.trial-accounts.ondemand.com/service/scim/Users");
             con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "application/scim+json");
 
             // Set Authorization Header
-            String user = "facbddf3-d119-4f36-bb81-0dc8a644a8cb";
-            String password = "nY17h3A5/YsCGx0K3LsDGhzqp]FBJYZ?7o/";
+            String user = "d14597bc-7f22-4c03-abde-b73d0daa17a2";
+            String password = "G7CYTJ]C/hAXJBYtJhwG71Ggglwx?L7K";
             String auth = user + ":" + password;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
             String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -153,7 +145,7 @@ public class AccountsController {
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    return response.toString();  // Return the response content
+                    return response.toString(); // Return the response content
                 }
             } else {
                 // If there's an error (not 200 or 201), read the error stream
@@ -181,19 +173,18 @@ public class AccountsController {
         }
     }
 
-
     @PutMapping("/{userId}")
     public String updateUser(@PathVariable String userId, @RequestBody Map<String, Object> userDto) {
         HttpURLConnection con = null;
         try {
-            URL url = new URL("https://aji26ufcs.trial-accounts.ondemand.com/service/scim/Users/" + userId);
+            URL url = new URL("https://avirxf4ow.trial-accounts.ondemand.com/service/scim/Users/" + userId);
             con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PUT");
             con.setRequestProperty("Content-Type", "application/scim+json");
 
             // Set Authorization Header
-            String user = "facbddf3-d119-4f36-bb81-0dc8a644a8cb";
-            String password = "nY17h3A5/YsCGx0K3LsDGhzqp]FBJYZ?7o/";
+            String user = "d14597bc-7f22-4c03-abde-b73d0daa17a2";
+            String password = "G7CYTJ]C/hAXJBYtJhwG71Ggglwx?L7K";
             String auth = user + ":" + password;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
             String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -229,7 +220,8 @@ public class AccountsController {
             // Handle the response
             int responseCode = con.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
                     StringBuilder response = new StringBuilder();
                     String responseLine;
                     while ((responseLine = br.readLine()) != null) {
@@ -238,7 +230,8 @@ public class AccountsController {
                     return response.toString();
                 }
             } else {
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getErrorStream(), StandardCharsets.UTF_8))) {
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(con.getErrorStream(), StandardCharsets.UTF_8))) {
                     StringBuilder errorResponse = new StringBuilder();
                     String responseLine;
                     while ((responseLine = br.readLine()) != null) {
@@ -257,7 +250,6 @@ public class AccountsController {
         }
     }
 
-
     // Get a user by ID
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getUserById(@PathVariable String userId) {
@@ -265,7 +257,7 @@ public class AccountsController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Set Authorization Header
-        String auth = "facbddf3-d119-4f36-bb81-0dc8a644a8cb" + ":" + "nY17h3A5/YsCGx0K3LsDGhzqp]FBJYZ?7o/";
+        String auth = "d14597bc-7f22-4c03-abde-b73d0daa17a2" + ":" + "G7CYTJ]C/hAXJBYtJhwG71Ggglwx?L7K";
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
@@ -274,14 +266,14 @@ public class AccountsController {
 
         // Call SCIM API to get user by ID
         RestTemplate restTemplate = new RestTemplate();
-        String scimApiUrl = "https://aji26ufcs.trial-accounts.ondemand.com/service/scim/Users/" + userId;
+        String scimApiUrl = "https://avirxf4ow.trial-accounts.ondemand.com/service/scim/Users/" + userId;
 
         ResponseEntity<UserDto> response = restTemplate.exchange(
                 scimApiUrl,
                 HttpMethod.GET,
                 request,
-                new ParameterizedTypeReference<>() {}
-        );
+                new ParameterizedTypeReference<>() {
+                });
 
         // Check response
         if (!response.getStatusCode().is2xxSuccessful()) {
@@ -299,7 +291,7 @@ public class AccountsController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Set Authorization Header
-        String auth = "facbddf3-d119-4f36-bb81-0dc8a644a8cb" + ":" + "nY17h3A5/YsCGx0K3LsDGhzqp]FBJYZ?7o/";
+        String auth = "d14597bc-7f22-4c03-abde-b73d0daa17a2" + ":" + "G7CYTJ]C/hAXJBYtJhwG71Ggglwx?L7K";
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
@@ -308,21 +300,19 @@ public class AccountsController {
 
         // Call SCIM API to delete user by ID
         RestTemplate restTemplate = new RestTemplate();
-        String scimApiUrl = "https://aji26ufcs.trial-accounts.ondemand.com/service/scim/Users/" + userId;
+        String scimApiUrl = "https://avirxf4ow.trial-accounts.ondemand.com/service/scim/Users/" + userId;
 
         ResponseEntity<Void> response = restTemplate.exchange(
                 scimApiUrl,
                 HttpMethod.DELETE,
                 request,
-                Void.class
-        );
+                Void.class);
 
         // Check response
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new RuntimeException("Request failed with status: " + response.getStatusCode());
         }
     }
-
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
@@ -351,4 +341,3 @@ public class AccountsController {
         return ResponseEntity.ok("Logged out successfully");
     }
 }
-
