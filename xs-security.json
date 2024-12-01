@@ -1,5 +1,5 @@
 {
-  "xsappname": "sd-v2",
+  "xsappname": "sd-v5",
   "description": "SAP BTP Spring Security Client Library Hybrid sample application",
   "tenant-mode": "dedicated",
   "oauth2-configuration": {

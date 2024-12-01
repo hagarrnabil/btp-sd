@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://postgres-844a8763-6c4b-44ac-9807-3ef3e40c11e8.cqryblsdrbcs.us-east-1.rds.amazonaws.com:5630/KvPFlzlFMIvr
+    url: jdbc:localhost:63306/KvPFlzlFMIvr/KvPFlzlFMIvr
     username: 1d568939107c
     password: ca8bbf2fa529e8443ade6b666c513
     driver-class-name: org.postgresql.Driver
@@ -18,5 +18,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   flyway:
-    enabled: true
-    locations: classpath:db/migration
+     url: jdbc:localhost:63306/KvPFlzlFMIvr/KvPFlzlFMIvr
+     user: 1d568939107c
+     password: ca8bbf2fa529e8443ade6b666c513
+

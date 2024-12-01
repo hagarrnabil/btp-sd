@@ -1,5 +1,5 @@
 applications:
-  - name: sd-v2
+  - name: sd-v5
     instances: 1
     memory: 1G
     path: target/BTP-SD-0.0.1-SNAPSHOT.jar

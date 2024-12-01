@@ -333,7 +333,16 @@
     <build>
         <plugins>
 
-
+<plugin>
+   <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-maven-plugin</artifactId>
+        <version>10.10.0</version>
+    <configuration>
+        <url>jdbc:localhost:63306/KvPFlzlFMIvr</url>
+        <user>1d568939107c</user>
+        <password>ca8bbf2fa529e8443ade6b666c513</password>
+    </configuration>
+</plugin>
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
