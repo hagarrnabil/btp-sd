@@ -1,10 +1,13 @@
 package com.example.btpsd.config;
 
-import com.sap.cloud.security.spring.config.IdentityServicesPropertySourceFactory;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,28 +15,26 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
+import com.sap.cloud.security.spring.config.IdentityServicesPropertySourceFactory;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 @PropertySource(factory = IdentityServicesPropertySourceFactory.class, ignoreResourceNotFound = true, value = { "" })
 @EnableWebSecurity
-@CrossOrigin(origins = "", allowedHeaders = "", maxAge = 3600L)
+@CrossOrigin(origins = "*", allowedHeaders = "*",maxAge = 3600L)
 public class SecurityConfiguration {
 
     @Bean
     public Converter<Jwt, AbstractAuthenticationToken> authConverter() {
         return jwt -> {
-            Collection<GrantedAuthority> authorities = jwt.getClaimAsStringList("groups").stream()
+            Collection<GrantedAuthority> authorities = jwt.getClaimAsStringList("Groups").stream()
                     .map(group -> new SimpleGrantedAuthority("ROLE_" + group.toUpperCase()))
                     .collect(Collectors.toList());
             return new JwtAuthenticationToken(jwt, authorities);
@@ -54,6 +55,11 @@ public class SecurityConfiguration {
     // jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
     // return jwtAuthenticationConverter;
     // }
+  @Bean
+    public JwtDecoder jwtDecoder() {
+        // Replace the following with your own JWK Set URL or signing key
+        return NimbusJwtDecoder.withJwkSetUri("https://avirxf4ow.trial-accounts.ondemand.com/oauth2/authorize/jwks.json").build();
+    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -110,10 +116,6 @@ public class SecurityConfiguration {
                                 "/accounts/*",
                                 "/accounts/login")
                         .permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-                        .requestMatchers("/**").authenticated()
-                        .requestMatchers("/mainitems/all").hasAnyAuthority("ROLE_Read",
-                                "ROLE_ReadExceptTotal")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
@@ -122,4 +124,5 @@ public class SecurityConfiguration {
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
         return http.build();
     }
+
 }

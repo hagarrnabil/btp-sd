@@ -1,5 +1,5 @@
 applications:
-  - name: sd-v5
+  - name: sd-v6
     instances: 1
     memory: 1G
     path: target/BTP-SD-0.0.1-SNAPSHOT.jar
@@ -8,9 +8,9 @@ applications:
     env:
       JBP_CONFIG_OPEN_JDK_JRE: "{jre: { version: 17.0.+ }}"
     services:
-      - name: xsuaa-authn
+      - name: xsuaa-authntication
       - name: postgres
       - name: ias-authn
         parameters: { "credential-type": "X509_GENERATED" }
     routes:
-      - route: sd-v0.cfapps.us10-001.hana.ondemand.com
+      - route: sd-v6.cfapps.us10-001.hana.ondemand.com

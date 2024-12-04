@@ -37,10 +37,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RequestMapping("/accounts")
 public class AccountsController {
 
-    @Value("d14597bc-7f22-4c03-abde-b73d0daa17a2")
+    @Value("663dde93-3c7e-47aa-9d68-97cc8b4cb2a8")
     private String clientId;
 
-    @Value("G7CYTJ]C/hAXJBYtJhwG71Ggglwx?L7K")
+    @Value("/7lgg[f6050O@gNke1uHG]Loy:V].B")
     private String clientSecret;
 
     @Value("https://avirxf4ow.trial-accounts.ondemand.com")
@@ -64,7 +64,7 @@ public class AccountsController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Set Authorization Header
-        String auth = "d14597bc-7f22-4c03-abde-b73d0daa17a2" + ":" + "G7CYTJ]C/hAXJBYtJhwG71Ggglwx?L7K";
+        String auth = "663dde93-3c7e-47aa-9d68-97cc8b4cb2a8" + ":" + "/7lgg[f6050O@gNke1uHG]Loy:V].B";
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
@@ -101,8 +101,8 @@ public class AccountsController {
             con.setRequestProperty("Content-Type", "application/scim+json");
 
             // Set Authorization Header
-            String user = "d14597bc-7f22-4c03-abde-b73d0daa17a2";
-            String password = "G7CYTJ]C/hAXJBYtJhwG71Ggglwx?L7K";
+            String user = "663dde93-3c7e-47aa-9d68-97cc8b4cb2a8";
+            String password = "/7lgg[f6050O@gNke1uHG]Loy:V].B";
             String auth = user + ":" + password;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
             String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -183,8 +183,8 @@ public class AccountsController {
             con.setRequestProperty("Content-Type", "application/scim+json");
 
             // Set Authorization Header
-            String user = "d14597bc-7f22-4c03-abde-b73d0daa17a2";
-            String password = "G7CYTJ]C/hAXJBYtJhwG71Ggglwx?L7K";
+            String user = "663dde93-3c7e-47aa-9d68-97cc8b4cb2a8";
+            String password = "/7lgg[f6050O@gNke1uHG]Loy:V].B";
             String auth = user + ":" + password;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
             String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -257,7 +257,7 @@ public class AccountsController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Set Authorization Header
-        String auth = "d14597bc-7f22-4c03-abde-b73d0daa17a2" + ":" + "G7CYTJ]C/hAXJBYtJhwG71Ggglwx?L7K";
+        String auth = "663dde93-3c7e-47aa-9d68-97cc8b4cb2a8" + ":" + "/7lgg[f6050O@gNke1uHG]Loy:V].B";
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
@@ -291,7 +291,7 @@ public class AccountsController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Set Authorization Header
-        String auth = "d14597bc-7f22-4c03-abde-b73d0daa17a2" + ":" + "G7CYTJ]C/hAXJBYtJhwG71Ggglwx?L7K";
+        String auth = "663dde93-3c7e-47aa-9d68-97cc8b4cb2a8" + ":" + "/7lgg[f6050O@gNke1uHG]Loy:V].B";
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);

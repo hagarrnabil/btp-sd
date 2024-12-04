@@ -1,10 +1,9 @@
-package com.example.btpsd.controllers;
 
+package com.example.btpsd.controllers;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +23,8 @@ import com.example.btpsd.model.InvoiceMainItem;
 import com.example.btpsd.repositories.InvoiceMainItemRepository;
 import com.example.btpsd.services.InvoiceMainItemService;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -35,9 +34,11 @@ public class InvoiceMainItemController {
 
     private final InvoiceMainItemService invoiceMainItemService;
 
+    
     private final InvoiceMainItemToInvoiceMainItemCommand invoiceMainItemToInvoiceMainItemCommand;
     @GetMapping("/mainitems")
-    Set<?> all(Authentication authentication) {
+    Set<?> all() {
+        // Set<?> all(Authentication authentication) {
 
         // if (authentication.getAuthorities().stream()
         //         .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("InvoiceViewer"))) {
@@ -53,7 +54,7 @@ public class InvoiceMainItemController {
     }
 
     @GetMapping("/mainitems/{mainItemCode}")
-    public Optional<InvoiceMainItemCommand> findByIds(@PathVariable @NotNull Long mainItemCode) {
+    public Optional<InvoiceMainItemCommand> findByIds(@PathVariable Long mainItemCode) {
 
         return Optional.ofNullable(invoiceMainItemService.findMainItemCommandById(mainItemCode));
     }
