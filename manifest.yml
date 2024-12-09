@@ -5,12 +5,12 @@
 # configured for EU10. For other landscapes, please adopt LANDSCAPE_APPS_DOMAIN in ../vars.yml
 # If the route is occupied, you might need to change ID in ../vars.yml
 applications:
-  - name: authn
+  - name: authn-v0
     instances: 1
     memory: 1G
     health-check-type: process
     routes:
-      - route: authn.cfapps.us10-001.hana.ondemand.com
+      - route: authn-v0.cfapps.us10-001.hana.ondemand.com
     path: target/BTP-SD-0.0.1-SNAPSHOT.jar
     buildpacks:
       - java_buildpack
@@ -18,6 +18,6 @@ applications:
       JBP_CONFIG_OPEN_JDK_JRE: '{jre: { version: 17.0.+ }}'
     services:
       - name: postgres
-      - name: xsuaaa-authn
-      - name: iaas-authn
+      - name: xsuaa-authn
+      - name: ias-authn
         parameters: { "credential-type": "X509_GENERATED" }

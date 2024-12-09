@@ -1,16 +1,16 @@
 {
-  "xsappname": "authn",
+  "xsappname": "authn-v0",
   "tenant-mode": "dedicated",
   "oauth2-configuration": {
     "credential-types": ["x509"]
   },
   "scopes": [
     {
-      "name": "$XSAPPNAME.Reead",
+      "name": "$XSAPPNAME.Read",
       "description": "Read Permissions."
     },
     {
-      "name": "$XSAPPNAME.Useer",
+      "name": "$XSAPPNAME.User",
       "description": "Does all actions."
     },
     {
@@ -24,21 +24,25 @@
     {
       "name": "$XSAPPNAME.View",
       "description": "Access to view only."
+    },
+    {
+      "name": "$XSAPPNAME.ReadExceptTotal",
+      "description": "Can not read total value."
     }
   ],
   "role-templates": [
     {
-      "name": "Vieewer",
+      "name": "Viewer",
       "description": "View Data",
       "scope-references": [
-        "$XSAPPNAME.Reead"
+        "$XSAPPNAME.Read"
       ]
     },
     {
-      "name": "Useer",
+      "name": "User",
       "description": "Does all actions",
       "scope-references": [
-        "$XSAPPNAME.Useer"
+        "$XSAPPNAME.User"
       ]
     },
     {
@@ -61,21 +65,28 @@
       "scope-references": [
         "$XSAPPNAME.View"
       ]
+    },
+    {
+      "name": "ReadExceptTotal",
+      "description": "Can not read total value.",
+      "scope-references": [
+        "$XSAPPNAME.ReadExceptTotal"
+      ]
     }
   ],
   "role-collections": [
     {
-      "name": "XSUAA-Vieewer",
+      "name": "XSUAA-Viewer",
       "description": "Viewer (read)",
       "role-template-references": [
-        "$XSAPPNAME.Vieewer"
+        "$XSAPPNAME.Viewer"
       ]
     },
     {
-      "name": "XSUAA-Useer",
+      "name": "XSUAA-User",
       "description": "User",
       "role-template-references": [
-        "$XSAPPNAME.Useer"
+        "$XSAPPNAME.User"
       ]
     },
     {
@@ -97,6 +108,13 @@
       "description": "Role collection with view-only permissions",
       "role-template-references": [
         "$XSAPPNAME.View"
+      ]
+    },
+    {
+      "name": "XSUAA-ReadExceptTotal",
+      "description": "Role collection with can not read total value",
+      "role-template-references": [
+        "$XSAPPNAME.ReadExceptTotal"
       ]
     }
   ]
