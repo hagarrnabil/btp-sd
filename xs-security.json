@@ -1,77 +1,48 @@
 {
-  "xsappname": "spring-security-hybrid-usage",
+  "xsappname": "btp-sd-v1",
   "tenant-mode": "dedicated",
   "oauth2-configuration": {
     "credential-types": ["x509"]
   },
   "scopes": [
     {
-      "name": "$XSAPPNAME.Read",
-      "description": "Read Permissions."
+      "name": "$XSAPPNAME.ReadAll",
+      "description": "Full read permissions including invoices and sales orders."
     },
     {
-      "name": "$XSAPPNAME.invoice.read",
-      "description": "Read access to invoices."
-    },
-    {
-      "name": "$XSAPPNAME.invoice.read.exceptTotal",
-      "description": "Read access to invoices except total amount."
-    },
-    {
-      "name": "$XSAPPNAME.salesorder.read",
-      "description": "Read access to sales orders."
+      "name": "$XSAPPNAME.ReadAllExceptTotal",
+      "description": "Read permissions excluding total amount in invoices."
     }
   ],
   "role-templates": [
     {
-      "name": "Viewer",
-      "description": "View Data",
+      "name": "ReadAll",
+      "description": "Full read access to all data.",
       "scope-references": [
-        "$XSAPPNAME.Read"
+        "$XSAPPNAME.ReadAll"
       ]
     },
     {
-      "name": "InvoiceViewer",
-      "description": "View Invoice Data",
+      "name": "ReadAllExceptTotal",
+      "description": "Read access to all data except total amount in invoices.",
       "scope-references": [
-        "$XSAPPNAME.invoice.read"
-      ]
-    },
-    {
-      "name": "InvoiceViewerExceptTotal",
-      "description": "View Invoice Data except total amount",
-      "scope-references": [
-        "$XSAPPNAME.invoice.read.exceptTotal"
-      ]
-    },
-    {
-      "name": "SalesOrderViewer",
-      "description": "View Sales Order Data",
-      "scope-references": [
-        "$XSAPPNAME.salesorder.read"
+        "$XSAPPNAME.ReadAllExceptTotal"
       ]
     }
   ],
   "role-collections": [
     {
-      "name": "XSUAA-Read",
-      "description": "Viewer (read)",
+      "name": "Read-All",
+      "description": "Role for full read access.",
       "role-template-references": [
-        "$XSAPPNAME.Read"
+        "$XSAPPNAME.ReadAll"
       ]
     },
     {
-      "name": "Invoice-Read",
-      "description": "Viewer (read access to invoices only)",
+      "name": "Read-All-Except-Total",
+      "description": "Role for read access excluding total amount in invoices.",
       "role-template-references": [
-        "$XSAPPNAME.InvoiceViewer"
-      ]
-    },
-    {
-      "name": "Invoice-Read-ExceptTotal",
-      "description": "Viewer (read access to invoices except total amount)",
-      "role-template-references": [
-        "$XSAPPNAME.InvoiceViewerExceptTotal"
+        "$XSAPPNAME.ReadAllExceptTotal"
       ]
     }
   ]

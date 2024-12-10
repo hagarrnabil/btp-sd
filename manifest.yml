@@ -7,18 +7,18 @@
 
 
 applications:
-  - name: SD-App
+  - name: btp-sd-v1
     instances: 1
     memory: 1G
-    health-check-type: process
-    routes:
-      - route: spring-security-hybrid-usage-((ID)).((LANDSCAPE_APPS_DOMAIN))
     path: target/BTP-SD-0.0.1-SNAPSHOT.jar
     buildpacks:
-      - https://github.com/cloudfoundry/java-buildpack.git  # Use the valid Git URI for the buildpack
+      - java_buildpack
     env:
-      JBP_CONFIG_OPEN_JDK_JRE: '{jre: { version: 17.0.+ }}'
+      JBP_CONFIG_OPEN_JDK_JRE: "{jre: { version: 17.0.+ }}"
     services:
-      - hana_migration
-      - xsuaa-authn
-      - ias_authn
+      - name: xsuaa-authn
+      - name: postgres
+      - name: ias-authn
+        parameters: { "credential-type": "X509_GENERATED" }
+    routes:
+      - route: btp-sd-v1.cfapps.us10-001.hana.ondemand.com
