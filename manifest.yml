@@ -7,7 +7,7 @@
 
 
 applications:
-  - name: btp-sd-v1
+  - name: btp-sd-v2
     instances: 1
     memory: 1G
     path: target/BTP-SD-0.0.1-SNAPSHOT.jar
@@ -21,4 +21,4 @@ applications:
       - name: ias-authn
         parameters: { "credential-type": "X509_GENERATED" }
     routes:
-      - route: btp-sd-v1.cfapps.us10-001.hana.ondemand.com
+      - route: btp-sd-v2.cfapps.us10-001.hana.ondemand.com

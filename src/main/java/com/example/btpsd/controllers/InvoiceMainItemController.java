@@ -1,22 +1,32 @@
 package com.example.btpsd.controllers;
 
-import com.example.btpsd.commands.InvoiceMainItemCommand;
-import com.example.btpsd.converters.InvoiceMainItemToInvoiceMainItemCommand;
-import com.example.btpsd.model.InvoiceMainItem;
-import com.example.btpsd.model.ModelSpecificationsDetails;
-import com.example.btpsd.repositories.InvoiceMainItemRepository;
-import com.example.btpsd.services.InvoiceMainItemService;
-import jakarta.validation.constraints.NotNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.btpsd.commands.InvoiceMainItemCommand;
+import com.example.btpsd.converters.InvoiceMainItemToInvoiceMainItemCommand;
+import com.example.btpsd.model.InvoiceMainItem;
+import com.example.btpsd.repositories.InvoiceMainItemRepository;
+import com.example.btpsd.services.InvoiceMainItemService;
+
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,20 +38,22 @@ public class InvoiceMainItemController {
 
     private final InvoiceMainItemToInvoiceMainItemCommand invoiceMainItemToInvoiceMainItemCommand;
     @GetMapping("/mainitems")
-    Set<?> all(Authentication authentication) {
-
-        if (authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("InvoiceViewer"))) {
-            // Return full invoice items for Admin role
-            return invoiceMainItemService.getMainItemCommands();
-        } else if (authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("InvoiceViewerExceptTotal"))) {
-            // Return restricted invoice items for InvoiceViewer role
-            return invoiceMainItemService.getMainItemsExceptTotal();
-        } else {
-            throw new AccessDeniedException("You do not have permission to access this resource.");
-        }
+    Set<InvoiceMainItemCommand> getAll(){
+        return invoiceMainItemService.getMainItemCommands();
     }
+    //(Authentication authentication) {
+
+        //if (authentication.getAuthorities().stream()
+                //.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("Read-All"))) {
+            // Return full invoice items for Admin role
+        // } else if (authentication.getAuthorities().stream()
+        //         .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("Read-All-Except-Total"))) {
+        //     // Return restricted invoice items for InvoiceViewer role
+        //     return invoiceMainItemService.getMainItemsExceptTotal();
+        // } else {
+        //     throw new AccessDeniedException("You do not have permission to access this resource.");
+        // }
+    //}
 
     @GetMapping("/mainitems/{mainItemCode}")
     public Optional<InvoiceMainItemCommand> findByIds(@PathVariable @NotNull Long mainItemCode) {

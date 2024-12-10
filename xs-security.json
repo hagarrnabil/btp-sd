@@ -1,5 +1,5 @@
 {
-  "xsappname": "btp-sd-v1",
+  "xsappname": "btp-sd-v2",
   "tenant-mode": "dedicated",
   "oauth2-configuration": {
     "credential-types": ["x509"]

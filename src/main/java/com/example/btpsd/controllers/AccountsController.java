@@ -1,32 +1,45 @@
 package com.example.btpsd.controllers;
 
-import com.example.btpsd.dtos.UserDto;
-
-import org.apache.commons.codec.binary.Base64;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.beans.factory.annotation.Value;
-
-import java.nio.charset.StandardCharsets;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import org.springframework.http.MediaType;
-
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import static org.springframework.web.bind.annotation.RequestMethod.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.HEAD;
+import static org.springframework.web.bind.annotation.RequestMethod.OPTIONS;
+import static org.springframework.web.bind.annotation.RequestMethod.PATCH;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+import static org.springframework.web.bind.annotation.RequestMethod.TRACE;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.example.btpsd.dtos.UserDto;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*" , methods = {  GET,
         HEAD,
@@ -42,19 +55,19 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 public class AccountsController {
 
 
-    @Value("a779edb2-4177-4182-8439-984004d3a93f")
+    @Value("ec0849ac-1c40-4263-8ccc-af6bd4e4c4d4")
     private String clientId;
 
-    @Value("bvhMz6KcPP4WKfSe9UfQuh6:fSOxKPUSl2")
+    @Value("f3_eKFjPvuT:rUQjMC9p9y5KscuezqHC/R")
     private String clientSecret;
 
-    @Value("https://aaubo0ejn.trial-accounts.ondemand.com/")
-    private String url;
+    @Value("https://acsxzt930.trial-accounts.ondemand.com")
+    private String urlR;
 
-    @Value("https://aaubo0ejn.trial-accounts.ondemand.com//oauth2/authorize")
+    @Value("https://acsxzt930.trial-accounts.ondemand.com/oauth2/authorize")
     private String authorizationEndpoint;
 
-    @Value("https://aaubo0ejn.trial-accounts.ondemand.com//oauth2/logout")
+    @Value("https://acsxzt930.trial-accounts.ondemand.com/oauth2/logout")
     private String endSessionEndpoint;
 
     private final RestTemplate restTemplate;
@@ -70,7 +83,7 @@ public class AccountsController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Set Authorization Header
-        String auth = "a779edb2-4177-4182-8439-984004d3a93f" + ":" + "bvhMz6KcPP4WKfSe9UfQuh6:fSOxKPUSl2";
+        String auth = "ba2a4ff2-0261-4088-a606-36f61a1fc861" + ":" + "ibwmh8qlOohe2Q/Asb89WQUqS:b:BQpu";
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
@@ -78,8 +91,8 @@ public class AccountsController {
         HttpEntity<String> request = new HttpEntity<>(headers);
 
         // Call SCIM API to get all users
-        RestTemplate restTemplate = new RestTemplate();
-        String scimApiUrl = "https://aaubo0ejn.trial-accounts.ondemand.com//service/scim/Users";
+        //RestTemplate restTemplate = new RestTemplate();
+        String scimApiUrl = "https://acsxzt930.trial-accounts.ondemand.com/service/scim/Users";
 
         ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                 scimApiUrl,
@@ -102,14 +115,14 @@ public class AccountsController {
         HttpURLConnection con = null;
         try {
             // Set up the connection
-            URL url = new URL("https://aaubo0ejn.trial-accounts.ondemand.com//service/scim/Users");
+            URL url = new URL("https://acsxzt930.trial-accounts.ondemand.com/service/scim/Users");
             con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "application/scim+json");
 
             // Set Authorization Header
-            String user = "a779edb2-4177-4182-8439-984004d3a93f";
-            String password = "bvhMz6KcPP4WKfSe9UfQuh6:fSOxKPUSl2";
+            String user = "ba2a4ff2-0261-4088-a606-36f61a1fc861";
+            String password = "ibwmh8qlOohe2Q/Asb89WQUqS:b:BQpu";
             String auth = user + ":" + password;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
             String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -185,14 +198,14 @@ public class AccountsController {
     public String updateUser(@PathVariable String userId, @RequestBody Map<String, Object> userDto) {
         HttpURLConnection con = null;
         try {
-            URL url = new URL("https://aaubo0ejn.trial-accounts.ondemand.com//service/scim/Users/" + userId);
+            URL url = new URL("https://acsxzt930.trial-accounts.ondemand.com/service/scim/Users/" + userId);
             con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PUT");
             con.setRequestProperty("Content-Type", "application/scim+json");
 
             // Set Authorization Header
-            String user = "a779edb2-4177-4182-8439-984004d3a93f";
-            String password = "bvhMz6KcPP4WKfSe9UfQuh6:fSOxKPUSl2";
+            String user = "ba2a4ff2-0261-4088-a606-36f61a1fc861";
+            String password = "ibwmh8qlOohe2Q/Asb89WQUqS:b:BQpu";
             String auth = user + ":" + password;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
             String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -264,7 +277,7 @@ public class AccountsController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Set Authorization Header
-        String auth = "a779edb2-4177-4182-8439-984004d3a93f" + ":" + "bvhMz6KcPP4WKfSe9UfQuh6:fSOxKPUSl2";
+        String auth = "ba2a4ff2-0261-4088-a606-36f61a1fc861" + ":" + "ibwmh8qlOohe2Q/Asb89WQUqS:b:BQpu";
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
@@ -272,8 +285,8 @@ public class AccountsController {
         HttpEntity<String> request = new HttpEntity<>(headers);
 
         // Call SCIM API to get user by ID
-        RestTemplate restTemplate = new RestTemplate();
-        String scimApiUrl = "https://aaubo0ejn.trial-accounts.ondemand.com//service/scim/Users/" + userId;
+        //RestTemplate restTemplate = new RestTemplate();
+        String scimApiUrl = "https://acsxzt930.trial-accounts.ondemand.com/service/scim/Users/" + userId;
 
         ResponseEntity<UserDto> response = restTemplate.exchange(
                 scimApiUrl,
@@ -298,7 +311,7 @@ public class AccountsController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Set Authorization Header
-        String auth = "a779edb2-4177-4182-8439-984004d3a93f" + ":" + "bvhMz6KcPP4WKfSe9UfQuh6:fSOxKPUSl2";
+        String auth = "ba2a4ff2-0261-4088-a606-36f61a1fc861" + ":" + "ibwmh8qlOohe2Q/Asb89WQUqS:b:BQpu";
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
@@ -306,8 +319,8 @@ public class AccountsController {
         HttpEntity<String> request = new HttpEntity<>(headers);
 
         // Call SCIM API to delete user by ID
-        RestTemplate restTemplate = new RestTemplate();
-        String scimApiUrl = "https://aaubo0ejn.trial-accounts.ondemand.com//service/scim/Users/" + userId;
+        //RestTemplate restTemplate = new RestTemplate();
+        String scimApiUrl = "https://acsxzt930.trial-accounts.ondemand.com/service/scim/Users/" + userId;
 
         ResponseEntity<Void> response = restTemplate.exchange(
                 scimApiUrl,
@@ -325,7 +338,7 @@ public class AccountsController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
-        String tokenUrl = url + "/oauth2/token"; // Adjust based on your OAuth2 token endpoint
+        String tokenUrl = urlR + "/oauth2/token"; // Adjust based on your OAuth2 token endpoint
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(clientId, clientSecret);
         headers.set("Content-Type", "application/x-www-form-urlencoded");
