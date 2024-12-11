@@ -135,7 +135,7 @@ public class AccountsController {
                     "  \"emails\": [\n" +
                     "    {\n" +
                     "      \"primary\": true,\n" +
-                    "      \"value\": \"" + userDto.getValue() + "\"\n" +
+                    "      \"value\": \"" + userDto.getEmail() + "\"\n" +
                     "    }\n" +
                     "  ],\n" +
                     "  \"name\": {\n" +

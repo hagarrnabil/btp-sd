@@ -250,96 +250,59 @@ VALUES (1, 'Standard line', 'Default line type'),
        (2, 'Informatory line', 'Informational line'),
        (3, 'Internal line', 'Internal usage line'),
        (4, 'Contingency line', 'Backup or contingency line');
--- INSERT INTO formula (formula, description, number_of_parameters, parameter_ids, parameter_descriptions, formula_logic,
---                      test_parameters)
--- VALUES ('f',
---         'circumference',
---         1,
---         ARRAY ['r'],
---         ARRAY ['radius'],
---         '22/7*r**2',
---         ARRAY [2, 3, 4]);
--- INSERT INTO model_specifications_details (short_text, gross_price, quantity, deletion_indicator, service_text,
---                                           bidders_line, supplementary_line,
---                                           lot_size_for_costing_is_one, currency_code, material_group_code,
---                                           service_type_code, formula_code,
---                                           personnel_number_code, line_type_code, unit_of_measurement_code)
--- VALUES ('Safety fence',
---         5000,
---         20,
---         false,
---         'service text',
---         false,
---         false,
---         false,
---         'egp',
---         'material group 1',
---         'service type 1',
---         'f1',
---         'personnel number 1',
---         'nz',
---         'Gram');
--- INSERT INTO model_specifications (model_serv_spec, model_spec_details_code, description, search_term,
---                                   blocking_indicator, currency_code)
--- VALUES ('ZKDMS',
---         ARRAY [1],
---         'Excavation Model',
---         'Excavation',
---         false,
---         'egp');
--- INSERT INTO "serviceNumber" (description, deletion_indicator, search_term, number_to_be_converted, converted_number,
---                              service_type_code,
---                              material_group_code, base_unit_of_measurement, to_be_converted_unit_of_measurement,
---                              default_unit_of_measurement,
---                              service_text, short_text_change_allowed)
--- VALUES ('Service Number 1',
---         false,
---         'number',
---         20,
---         2000,
---         'service type 1',
---         'material group 1',
---         'Gram',
---         'Kilogram',
---         'Gram',
---         'service text',
---         false);
--- INSERT INTO service_type (service_id, description)
--- VALUES ('service type',
---         'Service Type');
--- INSERT INTO material_group (code, description)
--- VALUES ('Material group',
---         'Material group');
--- INSERT INTO currency (code, description)
--- VALUES ('eur',
---         'Euro');
--- -- Insert into the main item table
--- INSERT INTO invoicemainitem (unitofmeasurementcode, currencycode, quantity, amountperunit)
--- VALUES ('Gram',
---         'egp',
---         2,
---         10);
---
--- -- Insert into the sub-item table (assuming subItems are stored in a separate table related to main_item)
--- INSERT INTO invoicesubitem (unitofmeasurementcode, currencycode, quantity, amountperunit)
--- VALUES ('Gram',
---         'egp',
---         20,
---         100);
--- INSERT INTO executionordermain (unitofmeasurementcode, currencycode, description, totalquantity, amountperunit)
--- VALUES ('gram',
---         'egp',
---         'trial',
---         10,
---         100);
--- INSERT INTO serviceinvoice (unitofmeasurementcode, servicenumbercode, currencycode, totalquantity, quantity,
---                             amountperunit, unlimitedoverfulfillment)
--- VALUES ('Gram',
---         1,
---         'egp',
---         10,
---         12,
---         10,
---         true);
---
---
+
+-- Insert into currency
+INSERT INTO currency (code, description)
+VALUES ('USD', 'United States Dollar');
+
+-- Insert into formula
+INSERT INTO formula (formula, description, number_of_parameters, formula_logic, expression, result)
+VALUES ('F001', 'Formula Description', 2, 'Logic description', 'a + b', 100.0);
+
+-- Insert into formula_parameter_ids
+INSERT INTO formula_parameter_ids (formula_code, parameter_id)
+VALUES (1, 'param1'); -- Assuming formula_code 1 exists
+
+-- Insert into formula_parameter_descriptions
+INSERT INTO formula_parameter_descriptions (formula_code, parameter_description)
+VALUES (1, 'Parameter description'); -- Assuming formula_code 1 exists
+
+-- Insert into formula_test_parameters
+INSERT INTO formula_test_parameters (formula_code, test_parameter)
+VALUES (1, 10.0); -- Assuming formula_code 1 exists
+
+-- Insert into material_group
+INSERT INTO material_group (code, description)
+VALUES ('MG001', 'Material Group Description');
+
+-- Insert into service_type
+INSERT INTO service_type (service_id, description, last_change_date)
+VALUES ('ST001', 'Service Type Description', CURRENT_DATE);
+
+-- Insert into "serviceNumber"
+INSERT INTO "serviceNumber" (no_service_number, search_term, description, short_text_change_allowed, deletion_indicator, main_item, number_to_be_converted, converted_number, last_change_date, service_text)
+VALUES (1, 'Search Term', 'Service Number Description', TRUE, FALSE, TRUE, 10, 5, CURRENT_DATE, 'Service Text');
+
+-- Insert into model_specifications_details
+INSERT INTO model_specifications_details (service_number_code, no_service_number, service_type_code, material_group_code, personnel_number_code, unit_of_measurement_code, currency_code, formula_code, line_type_code, selection_check_box, line_index, deletion_indicator, short_text, quantity, gross_price, over_fulfilment_percentage, price_changed_allowed, unlimited_over_fulfillment, price_per_unit_of_measurement, external_service_number, net_value, service_text, line_text, line_number, alternatives, bidders_line, supplementary_line, lot_size_for_costing_is_one, last_change_date, service_number_id)
+VALUES (1, 1, 'ST001', 'MG001', 'PN001', 'UOM001', 'USD', 'F001', 'LT001', TRUE, 'IDX001', FALSE, 'Short Text', 10, 100, 20, TRUE, FALSE, 10, 'ESN001', 1000, 'Service Text', 'Line Text', 'LN001', 'ALT001', TRUE, FALSE, FALSE, CURRENT_DATE, 1);
+
+-- Insert into model_specifications
+INSERT INTO model_specifications (model_spec_details_code, currency_code, model_serv_spec, blocking_indicator, service_selection, description, search_term, last_change_date, model_specifications_details_id)
+VALUES (ARRAY[1], 'USD', 'MSS001', TRUE, FALSE, 'Model Specification Description', 'Search Term', CURRENT_DATE, 1);
+
+-- Insert into invoiceMainItem
+INSERT INTO invoiceMainItem (serviceNumberCode, unitOfMeasurementCode, currencyCode, formulaCode, description, quantity, amountPerUnit, total, profitMargin, totalWithProfit, doNotPrint, amountPerUnitWithProfit, service_number_id)
+VALUES (1, 'UOM001', 'USD', 'F001', 'Invoice Main Item Description', 10, 100, 1000, 10, 1100, FALSE, 110, 1);
+
+-- Insert into invoiceSubItem
+INSERT INTO invoiceSubItem (invoiceMainItemCode, serviceNumberCode, unitOfMeasurementCode, currencyCode, formulaCode, description, quantity, amountPerUnit, total, main_item_id, service_number_id)
+VALUES (1, 1, 'UOM001', 'USD', 'F001', 'Invoice Sub Item Description', 5, 200, 1000, 1, 1);
+
+-- Insert into executionOrderMain
+INSERT INTO executionOrderMain (serviceNumberCode, unitOfMeasurementCode, currencyCode, description, totalQuantity, actualQuantity, actualPercentage, amountPerUnit, total, lineNumber, biddersLine, supplementaryLine, lotCostOne, doNotPrint, overFulfillmentPercentage, unlimitedOverFulfillment)
+VALUES (1, 'UOM001', 'USD', 'Execution Order Main Description', 100, 50, 50, 20, 1000, 'LN001', FALSE, FALSE, TRUE, FALSE, 10, FALSE);
+
+-- Insert into serviceInvoice
+INSERT INTO serviceInvoice (serviceNumberCode, description, unitOfMeasurementCode, currencyCode, materialGroupCode, personnelNumberCode, lineTypeCode, serviceTypeCode, remainingQuantity, quantity, totalQuantity, amountPerUnit, total, actualQuantity, actualPercentage, overFulfillmentPercentage, unlimitedOverFulfillment, externalServiceNumber, serviceText, lineText, lineNumber, biddersLine, supplementaryLine, lotCostOne, doNotPrint, alternatives, service_number_id, execution_order_main_id)
+VALUES (1, 'Service Invoice Description', 'UOM001', 'USD', 'MG001', 'PN001', 'LT001', 'ST001', 50, 50, 100, 20, 1000, 50, 50, 10, FALSE, 'ESN001', 'Service Text', 'Line Text', 'LN001', FALSE, FALSE, TRUE, FALSE, 'ALT001', 1, 1);

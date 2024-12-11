@@ -35,67 +35,23 @@ public class SecurityConfiguration {
         grantedAuthoritiesConverter.setAuthorityPrefix(""); // No prefix for roles in groups
 
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-        return jwtAuthenticationConverter;
+
+        // Add exception handling in case of invalid JWT structure or missing claims
+        return jwt -> {
+            try {
+                return jwtAuthenticationConverter.convert(jwt);
+            } catch (Exception e) {
+                // Log the exception and return null or handle appropriately
+                // You can use a custom exception or log it for debugging
+                System.err.println("JWT authentication conversion error: " + e.getMessage());
+                throw new RuntimeException("JWT conversion failed: " + e.getMessage(), e);
+            }
+        };
     }
-
-//    @Bean
-//    public Converter<Jwt, AbstractAuthenticationToken> authConverter() {
-//        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-//        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-//        grantedAuthoritiesConverter.setAuthorityPrefix("");
-//        grantedAuthoritiesConverter.setAuthoritiesClaimName("scope");
-//        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-//        return jwtAuthenticationConverter;
-//    }
-
-    // @Bean
-    // public WebSecurityCustomizer webSecurityCustomizer() {
-    //     return (web) -> web.ignoring().requestMatchers(
-    //             "/accounts",
-    //             "/accounts/**",
-    //             "/v3/api-docs/**",
-    //             "/swagger-ui/**",
-    //             "/swagger-ui/index.html",
-    //             "/swagger-resources/**",
-    //             "/webjars/**",
-    //             "/localhost/**",
-    //             "/accounts/create",
-    //             "/accounts/{userId}",
-    //             "/accounts/*",
-    //             "/accounts/login",
-    //             "/iasusers",
-    //             "/formulas/*",
-    //             "/formulas",
-    //             "/linetypes/*",
-    //             "/linetypes",
-    //             "/materialgroups/*",
-    //             "/materialgroups",
-    //             "/modelspecs",
-    //             "/modelspecs/*",
-    //             "/modelspecdetails/*",
-    //             "/modelspecdetails",
-    //             "/personnelnumbers/*",
-    //             "/personnelnumbers",
-    //             "/servicenumbers/*",
-    //             "/servicenumbers",
-    //             "/servicetypes/*",
-    //             "/servicetypes",
-    //             "/invoices/*",
-    //             "/invoices",
-    //             "/mainitems/*",
-    //             //"/mainitems",
-    //             "/subitems/*",
-    //             "/subitems",
-    //             "/currencies/*",
-    //             "/currencies"
-    //     );
-    // }
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:56033");
         config.addAllowedOrigin("*");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
@@ -123,35 +79,9 @@ public class SecurityConfiguration {
                                 "/accounts/create",
                                 "/accounts/{userId}",
                                 "/accounts/login",
-                                "/iasusers",
-                                "/formulas/*",
-                                "/formulas",
-                                "/linetypes/*",
-                                "/linetypes",
-                                "/materialgroups/*",
-                                "/materialgroups",
-                                "/modelspecs",
-                                "/modelspecs/*",
-                                "/modelspecdetails/*",
-                                "/modelspecdetails",
-                                "/personnelnumbers/*",
-                                "/personnelnumbers",
-                                "/servicenumbers/*",
-                                "/servicenumbers",
-                                "/servicetypes/*",
-                                "/servicetypes",
-                                "/invoices/*",
-                                "/invoices",
-                                "/mainitems/*",
-                                "/mainitems",
-                                "/subitems/*",
-                                "/subitems",
-                                "/currencies/*",
-                                "/currencies"
-                        ).permitAll()
-                        //.requestMatchers("/mainitems").hasAnyAuthority("ReadAll", "ReadAllExceptTotal")
-                       .requestMatchers("/*").authenticated()
-                                //.anyRequest().permitAll()
+                                "/iasusers"
+                                ).permitAll()
+                                .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt

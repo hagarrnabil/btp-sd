@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,8 +37,8 @@ public class InvoiceMainItemController {
 
     private final InvoiceMainItemToInvoiceMainItemCommand invoiceMainItemToInvoiceMainItemCommand;
     @GetMapping("/mainitems")
-    Set<InvoiceMainItemCommand> getAll(){
-        return invoiceMainItemService.getMainItemCommands();
+    public ResponseEntity<Set<InvoiceMainItemCommand>> getAll(){
+        return ResponseEntity.ok(invoiceMainItemService.getMainItemCommands());
     }
     //(Authentication authentication) {
 
