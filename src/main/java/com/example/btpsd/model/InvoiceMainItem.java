@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.Serializable;
 import java.util.*;
@@ -23,12 +25,14 @@ public class InvoiceMainItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long invoiceMainItemCode;
 
-//    @Column(nullable = false, unique = true)
+    //    @Column(nullable = false, unique = true)
     private String uniqueId;
 
     private String referenceSDDocument;
 
     private String salesQuotationItem;
+
+    private String salesQuotationItemText;
 
     private String referenceId;
 
@@ -112,5 +116,215 @@ public class InvoiceMainItem implements Serializable {
     public void generateUniqueId(String referenceSDDocument, String itemNumber) {
         this.uniqueId = referenceSDDocument + "-" + itemNumber;
     }
+
+//    private boolean hasRole(String role) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        return auth != null && auth.getAuthorities().stream()
+//                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(role));
+//    }
+//
+//    public String getCurrencyCode() {
+//        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            return currencyCode;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public void setCurrencyCode(String currencyCode) {
+//        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            this.currencyCode = currencyCode;
+//        } else {
+//            throw new SecurityException("Access denied to set unit of measurement code field");
+//        }
+//    }
+//
+//    public Double getAmountPerUnit() {
+//        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            return amountPerUnit;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public void setAmountPerUnit(Double amountPerUnit) {
+//        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            this.amountPerUnit = amountPerUnit;
+//        } else {
+//            throw new SecurityException("Access denied to set unit of measurement code field");
+//        }
+//    }
+//
+//    public Double getProfitMargin() {
+//        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            return profitMargin;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public void setProfitMargin(Double profitMargin) {
+//        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            this.profitMargin = profitMargin;
+//        } else {
+//            throw new SecurityException("Access denied to set unit of measurement code field");
+//        }
+//    }
+//
+//    public Long getInvoiceMainItemCode() {
+//        return invoiceMainItemCode;
+//    }
+//
+//    public void setInvoiceMainItemCode(Long invoiceMainItemCode) {
+//        this.invoiceMainItemCode = invoiceMainItemCode;
+//    }
+//
+//    public Long getServiceNumberCode() {
+//        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            return serviceNumberCode;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public void setServiceNumberCode(Long serviceNumberCode) {
+//        this.serviceNumberCode = serviceNumberCode;
+//    }
+//
+//    public String getUnitOfMeasurementCode() {
+//        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            return unitOfMeasurementCode;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public void setUnitOfMeasurementCode(String unitOfMeasurementCode) {
+//        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            this.unitOfMeasurementCode = unitOfMeasurementCode;
+//        } else {
+//            throw new SecurityException("Access denied to set unit of measurement code field");
+//        }
+//    }
+//
+//    public String getFormulaCode() {
+//        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            return formulaCode;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public void setFormulaCode(String formulaCode) {
+//        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            this.formulaCode = formulaCode;
+//        } else {
+//            throw new SecurityException("Access denied to set unit of measurement code field");
+//        }
+//    }
+//
+//    public String getDescription() {
+//        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            return description;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public void setDescription(String description) {
+//        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            this.description= description;
+//        } else {
+//            throw new SecurityException("Access denied to set unit of measurement code field");
+//        }
+//    }
+//
+//    public Integer getQuantity() {
+//        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            return quantity;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public void setQuantity(Integer quantity) {
+//        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            this.quantity= quantity;
+//        } else {
+//            throw new SecurityException("Access denied to set unit of measurement code field");
+//        }
+//    }
+//
+//    public Double getTotal() {
+//        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            return total;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public void setTotal(Double total) {
+//        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            this.total= total;
+//        } else {
+//            throw new SecurityException("Access denied to set unit of measurement code field");
+//        }
+//    }
+//
+//    public Double getTotalHeader() {
+//        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            return totalHeader;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public void setTotalHeader(Double totalHeader) {
+//        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            this.totalHeader= totalHeader;
+//        } else {
+//            throw new SecurityException("Access denied to set unit of measurement code field");
+//        }
+//    }
+//
+//    public Double getTotalWithProfit() {
+//        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            return totalWithProfit;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public void setTotalWithProfit(Double totalWithProfit) {
+//        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            this.totalWithProfit= totalWithProfit;
+//        } else {
+//            throw new SecurityException("Access denied to set unit of measurement code field");
+//        }
+//    }
+//
+//    public Boolean getDoNotPrint() {
+//        return doNotPrint;
+//    }
+//
+//    public void setDoNotPrint(Boolean doNotPrint) {
+//        this.doNotPrint = doNotPrint;
+//    }
+//
+//    public Double getAmountPerUnitWithProfit() {
+//        if (hasRole("ROLE_VIEW") || hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            return amountPerUnitWithProfit;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public void setAmountPerUnitWithProfit(Double amountPerUnitWithProfit) {
+//        if (hasRole("ROLE_FULL") || hasRole("ROLE_MODIFY")) {
+//            this.amountPerUnitWithProfit= amountPerUnitWithProfit;
+//        } else {
+//            throw new SecurityException("Access denied to set unit of measurement code field");
+//        }
+//    }
 
 }

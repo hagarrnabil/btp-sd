@@ -12,6 +12,8 @@ import com.example.btpsd.repositories.ExecutionOrderMainRepository;
 import com.example.btpsd.repositories.InvoiceMainItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,11 +85,14 @@ public class InvoiceMainItemServiceImpl implements InvoiceMainItemService {
 
     @Override
     public void deleteById(Long idToDelete) {
-
-        invoiceMainItemRepository.deleteById(idToDelete);
-
+            invoiceMainItemRepository.deleteById(idToDelete);
     }
 
+//    private boolean hasRole(String role) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        return auth != null && auth.getAuthorities().stream()
+//                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(role));
+//    }
 
     public Double getTotalHeader() {
         List<InvoiceMainItem> allItems = (List<InvoiceMainItem>) invoiceMainItemRepository.findAll();

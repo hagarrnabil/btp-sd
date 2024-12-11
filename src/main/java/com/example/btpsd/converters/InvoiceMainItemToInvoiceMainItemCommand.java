@@ -66,6 +66,7 @@ public class InvoiceMainItemToInvoiceMainItemCommand implements Converter<Invoic
         invoiceMainItemCommand.setUniqueId(source.getUniqueId());
         invoiceMainItemCommand.setSalesQuotationItem(source.getSalesQuotationItem());
         invoiceMainItemCommand.setReferenceSDDocument(source.getReferenceSDDocument());
+        invoiceMainItemCommand.setSalesQuotationItemText(source.getSalesQuotationItemText());
         return invoiceMainItemCommand;
     }
 

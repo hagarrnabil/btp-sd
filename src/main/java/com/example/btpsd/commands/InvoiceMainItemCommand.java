@@ -20,6 +20,8 @@ public class InvoiceMainItemCommand implements Serializable {
 
     private String salesQuotationItem;
 
+    private String salesQuotationItemText;
+
     private String referenceSDDocument;
 
     private String referenceId;

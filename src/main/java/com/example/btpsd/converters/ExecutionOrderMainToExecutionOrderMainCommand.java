@@ -30,6 +30,7 @@ public class ExecutionOrderMainToExecutionOrderMainCommand implements Converter<
 
         final ExecutionOrderMainCommand executionOrderMainCommand = new ExecutionOrderMainCommand();
         executionOrderMainCommand.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
+        executionOrderMainCommand.setSalesOrderItemText(source.getSalesOrderItemText());
         executionOrderMainCommand.setDescription(source.getDescription());
         executionOrderMainCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         executionOrderMainCommand.setCurrencyCode(source.getCurrencyCode());

@@ -31,60 +31,57 @@ public class ServiceNumberController {
 
 
 //    @PreAuthorize("hasAnyAuthority('ROLE_VIEW', 'ROLE_FULL')")
-    @GetMapping("/servicenumbers")
-    public ResponseEntity<List<ServiceNumber>> fetchAndUpdateServiceNumbers() throws Exception {
-        // Fetch all existing service numbers
-        List<ServiceNumber> existingServiceNumbers = (List<ServiceNumber>) serviceNumberRepository.findAll();
-        Set<Long> existingProductCodes = new HashSet<>();
+@GetMapping("/servicenumbers")
+public ResponseEntity<List<ServiceNumber>> fetchAndUpdateServiceNumbers() throws Exception {
+    // Fetch all existing service numbers
+    List<ServiceNumber> existingServiceNumbers = (List<ServiceNumber>) serviceNumberRepository.findAll();
+    Set<String> existingProductCodes = new HashSet<>();
 
-        // Populate the set with existing product codes
-        for (ServiceNumber serviceNumber : existingServiceNumbers) {
-            existingProductCodes.add(serviceNumber.getServiceNumberCode());
-        }
-
-        // Check if we need to fetch new products from the cloud
-        if (shouldFetchFromCloud(existingServiceNumbers.size())) {
-            // Fetch combined product data from the cloud
-            StringBuilder combinedProductDetails = productCloudController.getCombinedProductDetails();
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode combinedProducts = objectMapper.readTree(combinedProductDetails.toString());
-
-            for (JsonNode productNode : combinedProducts) {
-                String productCode = productNode.path("Product").asText();
-                Long productCodeLong = Long.valueOf(productCode);
-
-                // Check if the product code already exists
-                if (!existingProductCodes.contains(productCodeLong)) {
-                    String productDescription = productNode.path("ProductDescription").asText();
-                    String productType = productNode.path("ProductType").asText();
-                    String baseUnit = productNode.path("BaseUnit").asText();
-
-                    // If not, create a new ServiceNumber
-                    ServiceNumber newServiceNumber = new ServiceNumber();
-                    newServiceNumber.setServiceNumberCode(productCodeLong);
-                    newServiceNumber.setDescription(productDescription);
-                    newServiceNumber.setMaterialGroupCode(productType); // Map productType to materialGroupCode
-                    newServiceNumber.setUnitOfMeasurementCode(baseUnit);
-
-                    // Save the new service number to the database
-                    serviceNumberRepository.save(newServiceNumber);
-                    // Optionally add the new code to the existing set
-                    existingProductCodes.add(productCodeLong);
-                }
-            }
-        }
-
-        // Return all existing service numbers
-        List<ServiceNumber> allServiceNumbers = (List<ServiceNumber>) serviceNumberRepository.findAll();
-        return ResponseEntity.ok(allServiceNumbers); // Return the list of service numbers
+    // Populate the set with existing product codes
+    for (ServiceNumber serviceNumber : existingServiceNumbers) {
+        existingProductCodes.add(serviceNumber.getServiceNumberCodeString()); // Use a String field for service number
     }
 
-    private boolean shouldFetchFromCloud(int existingCount) {
-        // Define logic to decide if we should fetch from the cloud
-        // For example, fetch only if the existing count is less than a threshold
-        int expectedCount = 50; // Set your expected count based on your requirements
-        return existingCount < expectedCount; // Fetch if we have less than expected
+    // Fetch combined product data from the cloud
+    StringBuilder combinedProductDetails = productCloudController.getCombinedProductDetails();
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode combinedProducts = objectMapper.readTree(combinedProductDetails.toString());
+
+    for (JsonNode productNode : combinedProducts) {
+        String productCode = productNode.path("Product").asText(); // Keep as String for non-numeric codes
+
+        // Check if the product code already exists
+        if (!existingProductCodes.contains(productCode)) {
+            String productDescription = productNode.path("ProductDescription").asText();
+            String productType = productNode.path("ProductType").asText();
+            String baseUnit = productNode.path("BaseUnit").asText();
+
+            // If not, create a new ServiceNumber
+            ServiceNumber newServiceNumber = new ServiceNumber();
+            newServiceNumber.setServiceNumberCodeString(productCode); // Use the String representation
+            newServiceNumber.setDescription(productDescription);
+            newServiceNumber.setMaterialGroupCode(productType); // Map productType to materialGroupCode
+            newServiceNumber.setUnitOfMeasurementCode(baseUnit);
+
+            // Save the new service number to the database
+            serviceNumberRepository.save(newServiceNumber);
+            // Optionally add the new code to the existing set
+            existingProductCodes.add(productCode);
+        }
     }
+
+    // Return all existing service numbers
+    List<ServiceNumber> allServiceNumbers = (List<ServiceNumber>) serviceNumberRepository.findAll();
+    return ResponseEntity.ok(allServiceNumbers); // Return the list of service numbers
+}
+
+
+//    private boolean shouldFetchFromCloud(int existingCount) {
+//        // Define logic to decide if we should fetch from the cloud
+//        // For example, fetch only if the existing count is less than a threshold
+//        int expectedCount = 50; // Set your expected count based on your requirements
+//        return existingCount < expectedCount; // Fetch if we have less than expected
+//    }
 
 
 //    @GetMapping("/servicenumbers/{serviceNumberCode}")

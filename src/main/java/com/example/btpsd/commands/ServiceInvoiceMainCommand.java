@@ -24,6 +24,8 @@ public class ServiceInvoiceMainCommand implements Serializable {
 
     private String referenceSDDocument;
 
+    private String debitMemoRequestItemText;
+
     private Long serviceNumberCode;
 
     private String description;

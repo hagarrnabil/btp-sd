@@ -97,6 +97,7 @@ public class InvoiceMainItemCommandToInvoiceMainItem implements Converter<Invoic
         mainItem.setTotalHeader(0.0);
         mainItem.setUniqueId(source.getUniqueId());
         mainItem.setSalesQuotationItem(source.getSalesQuotationItem());
+        mainItem.setSalesQuotationItemText(source.getSalesQuotationItemText());
         mainItem.setReferenceId(source.getReferenceId());
         return mainItem;
         }

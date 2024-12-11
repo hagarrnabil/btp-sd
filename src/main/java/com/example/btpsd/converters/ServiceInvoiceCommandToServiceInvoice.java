@@ -24,7 +24,6 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
 
     private final ExecutionOrderMainRepository executionOrderMainRepository;
     private final ServiceInvoiceMainRepository serviceInvoiceMainRepository;
-//    private final ExecutionOrderMainToExecutionOrderMainCommand executionOrderMainToExecutionOrderMainCommand;
 
     @Synchronized
     @Nullable
@@ -37,6 +36,7 @@ public class ServiceInvoiceCommandToServiceInvoice implements Converter<ServiceI
         final ServiceInvoiceMain serviceInvoiceMain = new ServiceInvoiceMain();
         serviceInvoiceMain.setServiceInvoiceCode(source.getServiceInvoiceCode());
         serviceInvoiceMain.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
+        serviceInvoiceMain.setDebitMemoRequestItemText(source.getDebitMemoRequestItemText());
         serviceInvoiceMain.setReferenceId(source.getReferenceId());
         serviceInvoiceMain.setDescription(source.getDescription());
         serviceInvoiceMain.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());

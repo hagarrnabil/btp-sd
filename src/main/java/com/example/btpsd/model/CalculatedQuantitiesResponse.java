@@ -7,16 +7,17 @@ public class CalculatedQuantitiesResponse {
     private int actualPercentage;
     private double totalHeader;
 
-    // Constructor
-    public CalculatedQuantitiesResponse(int actualQuantity, int remainingQuantity, double total, int actualPercentage, double totalHeader) {
+    public CalculatedQuantitiesResponse(int actualQuantity, int remainingQuantity, double total, int actualPercentage, Double totalHeader) {
         this.actualQuantity = actualQuantity;
         this.remainingQuantity = remainingQuantity;
         this.total = total;
         this.actualPercentage = actualPercentage;
-        this.totalHeader = totalHeader;
+
+        // Assign totalHeader directly or default to 0.0 if null
+        this.totalHeader = (totalHeader != null) ? totalHeader : 0.0;
     }
 
-    // Getters and Setters
+
     public int getActualQuantity() {
         return actualQuantity;
     }

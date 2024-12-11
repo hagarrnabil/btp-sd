@@ -64,7 +64,7 @@ public class ServiceInvoiceMainController {
     }
 
     @GetMapping("/serviceinvoice/referenceid")
-    public ResponseEntity<List<ServiceInvoiceMainCommand>> getInvoiceMainItemsByReferenceId(@RequestParam String referenceId) {
+    public ResponseEntity<List<ServiceInvoiceMainCommand>> getServiceInvoiceItemsByReferenceId(@RequestParam String referenceId) throws Exception {
         // Fetch all ServiceInvoiceMain items with the given referenceId
         List<ServiceInvoiceMain> serviceInvoiceMains = serviceInvoiceMainRepository.findByReferenceId(referenceId);
 
@@ -73,12 +73,44 @@ public class ServiceInvoiceMainController {
             return ResponseEntity.notFound().build(); // Return 404 if no items found
         }
 
+        // Fetch Debit Memo Item text from the S4 API for the given debit memo request (referenceId)
+        StringBuilder response = salesOrderCloudController.getDebitMemoRequestItems(referenceId);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode responseJson = objectMapper.readTree(response.toString());
+
+        // DebitMemoRequestItemNumber is fixed as "10"
+        String debitMemoItemNumber = "10";
+
+        // Find the matching node for DebitMemoRequestItemNumber "10"
+        JsonNode matchingNode = findMatchingNodeForDebitMemo(responseJson);
+
+        // If the matching node is found, update all ServiceInvoiceMain records
+        if (matchingNode != null) {
+            String itemText = matchingNode.path("DebitMemoRequestItemText").asText();
+
+            for (ServiceInvoiceMain item : serviceInvoiceMains) {
+                // Update the debitMemoRequestItemText field
+                item.setDebitMemoRequestItemText(itemText);
+
+                // Optionally save the updated item in the database
+                serviceInvoiceMainRepository.save(item);
+            }
+        }
+
         // Convert the list of ServiceInvoiceMain to ServiceInvoiceMainCommand for the response
         List<ServiceInvoiceMainCommand> responseItems = serviceInvoiceMains.stream()
                 .map(serviceInvoiceToServiceInvoiceCommand::convert)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(responseItems);
+    }
+
+    private JsonNode findMatchingNodeForDebitMemo(JsonNode responseJson) {
+        // Search for the specific DebitMemoRequestItemNumber in the API response
+        for (JsonNode node : responseJson.path("d").path("results")) {
+                return node;
+        }
+        return null;
     }
 
 
@@ -186,6 +218,44 @@ public class ServiceInvoiceMainController {
         return ResponseEntity.ok(response);
     }
 
+
+    @PostMapping("/calculatequantities")
+    public ResponseEntity<?> calculateQuantitiesWithoutAccumulation(@RequestBody ServiceInvoiceMainCommand command) {
+        // Initialize a temporary service invoice object for calculations
+        ServiceInvoiceMain tempServiceInvoice = new ServiceInvoiceMain();
+        tempServiceInvoice.setQuantity(command.getQuantity());
+        tempServiceInvoice.setAmountPerUnit(command.getAmountPerUnit());
+        tempServiceInvoice.setTotalQuantity(command.getTotalQuantity());
+
+        // Calculate total (quantity * amount per unit)
+        double total = command.getQuantity() * command.getAmountPerUnit();
+        tempServiceInvoice.setTotal(total);
+
+        // Set AQ as the currently entered quantity
+        int actualQuantity = command.getQuantity();
+        tempServiceInvoice.setActualQuantity(actualQuantity);
+
+        // Calculate RQ (remaining quantity)
+        int remainingQuantity = command.getTotalQuantity() - command.getQuantity();
+        tempServiceInvoice.setRemainingQuantity(Math.max(remainingQuantity, 0)); // Ensure non-negative RQ
+
+        // Calculate AP (percentage of AQ from TQ)
+        double actualPercentage = (command.getTotalQuantity() > 0)
+                ? ((double) command.getQuantity() / command.getTotalQuantity()) * 100
+                : 0.0;
+        tempServiceInvoice.setActualPercentage((int) actualPercentage);
+
+        // Prepare the response
+        CalculatedQuantitiesResponse response = new CalculatedQuantitiesResponse(
+                tempServiceInvoice.getActualQuantity(),      // AQ
+                tempServiceInvoice.getRemainingQuantity(),   // RQ
+                tempServiceInvoice.getTotal(),              // Total
+                tempServiceInvoice.getActualPercentage(),   // AP
+                null // No totalHeader as accumulation is not required
+        );
+
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/serviceinvoice")
     public List<ServiceInvoiceMainCommand> saveOrUpdateServiceInvoiceCommands(

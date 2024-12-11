@@ -32,6 +32,7 @@ public class ExecutionOrderMainCommandToExecutionOrderMain implements Converter<
             serviceNumber.addExecutionOrderMainItem(executionOrderMain);
         }
         executionOrderMain.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
+        executionOrderMain.setSalesOrderItemText(source.getSalesOrderItemText());
         executionOrderMain.setDescription(source.getDescription());
         executionOrderMain.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         executionOrderMain.setCurrencyCode(source.getCurrencyCode());

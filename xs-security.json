@@ -1,102 +1,48 @@
 {
-  "xsappname": "authn",
+  "xsappname": "btpsd",
   "tenant-mode": "dedicated",
   "oauth2-configuration": {
     "credential-types": ["x509"]
   },
   "scopes": [
     {
-      "name": "$XSAPPNAME.Reead",
+      "name": "$XSAPPNAME.Read",
       "description": "Read Permissions."
     },
     {
-      "name": "$XSAPPNAME.Useer",
+      "name": "$XSAPPNAME.User",
       "description": "Does all actions."
-    },
-    {
-      "name": "$XSAPPNAME.Full",
-      "description": "Full access to create, update, delete, and view."
-    },
-    {
-      "name": "$XSAPPNAME.Modify",
-      "description": "Access to update and delete."
-    },
-    {
-      "name": "$XSAPPNAME.View",
-      "description": "Access to view only."
     }
   ],
   "role-templates": [
     {
-      "name": "Vieewer",
+      "name": "Viewer",
       "description": "View Data",
       "scope-references": [
-        "$XSAPPNAME.Reead"
+        "$XSAPPNAME.Read"
       ]
     },
     {
-      "name": "Useer",
+      "name": "User",
       "description": "Does all actions",
       "scope-references": [
-        "$XSAPPNAME.Useer"
-      ]
-    },
-    {
-      "name": "Full",
-      "description": "Role with full access (create, update, delete, view)",
-      "scope-references": [
-        "$XSAPPNAME.Full"
-      ]
-    },
-    {
-      "name": "Modify",
-      "description": "Role with modify access (update, delete)",
-      "scope-references": [
-        "$XSAPPNAME.Modify"
-      ]
-    },
-    {
-      "name": "View",
-      "description": "Role with view-only access",
-      "scope-references": [
-        "$XSAPPNAME.View"
+        "$XSAPPNAME.User"
       ]
     }
   ],
   "role-collections": [
     {
-      "name": "XSUAA-Vieewer",
+      "name": "XSUAA-Viewer",
       "description": "Viewer (read)",
       "role-template-references": [
-        "$XSAPPNAME.Vieewer"
+        "$XSAPPNAME.Viewer"
       ]
     },
     {
-      "name": "XSUAA-Useer",
+      "name": "XSUAA-User",
       "description": "User",
       "role-template-references": [
-        "$XSAPPNAME.Useer"
-      ]
-    },
-    {
-      "name": "XSUAA-Full",
-      "description": "Role collection with full access permissions",
-      "role-template-references": [
-        "$XSAPPNAME.Full"
-      ]
-    },
-    {
-      "name": "XSUAA-Modify",
-      "description": "Role collection with modify access permissions",
-      "role-template-references": [
-        "$XSAPPNAME.Modify"
-      ]
-    },
-    {
-      "name": "XSUAA-View",
-      "description": "Role collection with view-only permissions",
-      "role-template-references": [
-        "$XSAPPNAME.View"
+        "$XSAPPNAME.User"
       ]
     }
   ]

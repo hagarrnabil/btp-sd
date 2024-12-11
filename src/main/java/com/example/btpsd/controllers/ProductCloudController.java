@@ -32,7 +32,7 @@ public class ProductCloudController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_Product?%24inlinecount=allpages&%24top=50";
+        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_Product?%24inlinecount=allpages&%24";
 
 
         URL urlObj = new URL(url);
@@ -78,7 +78,7 @@ public class ProductCloudController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_ProductDescription?%24inlinecount=allpages&%24top=50";
+        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_ProductDescription?%24inlinecount=allpages&%24";
 
 
         URL urlObj = new URL(url);
@@ -114,14 +114,15 @@ public class ProductCloudController {
 
         return response;
     }
+
     @RequestMapping(value = "/allproductscloud", method = RequestMethod.GET)
     public StringBuilder getCombinedProductDetails() throws Exception {
         final int BLOCK_SIZE = 1024;
         final int BUFFER_SIZE = 8 * BLOCK_SIZE;
 
         // API endpoints
-        String productUrl = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_Product?%24inlinecount=allpages&%24top=50";
-        String productDescUrl = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_ProductDescription?%24inlinecount=allpages&%24top=50";
+        String productUrl = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_Product?%24inlinecount=allpages&%24";
+        String productDescUrl = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_ProductDescription?%24inlinecount=allpages&%24";
 
         // Fetch product data
         StringBuilder productResponse = fetchDataFromAPI(productUrl, BUFFER_SIZE);

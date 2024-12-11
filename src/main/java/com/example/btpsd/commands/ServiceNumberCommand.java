@@ -18,6 +18,8 @@ public class ServiceNumberCommand implements Serializable {
 
     private Long serviceNumberCode;
 
+    private String serviceNumberCodeString;
+
     private Long noServiceNumber;
 
     private String searchTerm;

@@ -14,8 +14,6 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
 
     private final ModelSpecDetailsToModelSpecDetailsCommand modelSpecDetailsConverter;
 
-//    private final InvoiceToInvoiceCommand invoiceConverter;
-
     private final InvoiceMainItemToInvoiceMainItemCommand mainItemConverter;
 
     private final InvoiceSubItemToInvoiceSubItemCommand subItemConverter;
@@ -31,6 +29,7 @@ public class ServiceNumberToServiceNumberCommand implements Converter<ServiceNum
 
         final ServiceNumberCommand serviceNumberCommand = new ServiceNumberCommand();
         serviceNumberCommand.setServiceNumberCode(source.getServiceNumberCode());
+        serviceNumberCommand.setServiceNumberCodeString(source.getServiceNumberCodeString());
         serviceNumberCommand.setNoServiceNumber(source.getNoServiceNumber());
         serviceNumberCommand.setSearchTerm(source.getSearchTerm());
         serviceNumberCommand.setDescription(source.getDescription());

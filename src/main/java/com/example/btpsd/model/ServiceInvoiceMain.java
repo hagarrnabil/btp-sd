@@ -31,6 +31,8 @@ public class ServiceInvoiceMain implements Serializable {
 
     private String referenceSDDocument;
 
+    private String debitMemoRequestItemText;
+
     private String referenceId;
 
     private Long serviceNumberCode;

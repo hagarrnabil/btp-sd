@@ -118,18 +118,53 @@ ExecutionOrderMainController {
     }
 
     @GetMapping("/executionordermain/referenceid")
-    public ResponseEntity<List<ExecutionOrderMainCommand>> getInvoiceMainItemsByReferenceId(@RequestParam String referenceId) {
-        List<ExecutionOrderMain> executionOrderMain = executionOrderMainRepository.findByReferenceId(referenceId);
+    public ResponseEntity<List<ExecutionOrderMainCommand>> getExecutionOrderMainByReferenceId(@RequestParam String referenceId) throws Exception {
+        // Fetch all ExecutionOrderMain items with the given salesOrderID (referenceId)
+        List<ExecutionOrderMain> executionOrderMainList = executionOrderMainRepository.findByReferenceId(referenceId);
 
-        if (executionOrderMain.isEmpty()) {
+        // Check if the list is empty and return 404 if no items are found
+        if (executionOrderMainList.isEmpty()) {
             return ResponseEntity.notFound().build(); // Return 404 if no items found
         }
 
-        List<ExecutionOrderMainCommand> responseItems = executionOrderMain.stream()
+        // SalesOrderItemNumber is fixed as "10"
+//        String salesOrderItemNumber = "10";
+
+        // Fetch Sales Order Item text from the S4 API for the given salesOrderID
+        StringBuilder response = salesOrderCloudController.getSalesOrderItems(referenceId);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode responseJson = objectMapper.readTree(response.toString());
+
+        // Find the matching node for SalesOrderItemNumber "10"
+        JsonNode matchingNode = findMatchingNode(responseJson);
+
+        // If the matching node is found, update all ExecutionOrderMain records
+        if (matchingNode != null) {
+            String itemText = matchingNode.path("SalesOrderItemText").asText();
+
+            for (ExecutionOrderMain item : executionOrderMainList) {
+                // Update the salesOrderItemText field
+                item.setSalesOrderItemText(itemText);
+
+                // Optionally save the updated item in the database
+                executionOrderMainRepository.save(item);
+            }
+        }
+
+        // Convert the list of ExecutionOrderMain to ExecutionOrderMainCommand for the response
+        List<ExecutionOrderMainCommand> responseItems = executionOrderMainList.stream()
                 .map(executionOrderMainToExecutionOrderMainCommand::convert)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(responseItems);
+    }
+
+    private JsonNode findMatchingNode(JsonNode responseJson) {
+        // Search for the specific SalesOrderItemNumber in the API response
+        for (JsonNode node : responseJson.path("d").path("results")) {
+                return node;
+        }
+        return null;
     }
 
 

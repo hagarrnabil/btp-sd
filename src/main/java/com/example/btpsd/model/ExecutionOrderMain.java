@@ -27,6 +27,8 @@ public class ExecutionOrderMain implements Serializable {
 
     private String referenceSDDocument;
 
+    private String salesOrderItemText;
+
     private String referenceId;
 
     private Long serviceNumberCode;

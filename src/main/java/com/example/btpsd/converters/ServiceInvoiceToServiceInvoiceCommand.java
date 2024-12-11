@@ -32,6 +32,7 @@ public class ServiceInvoiceToServiceInvoiceCommand implements Converter<ServiceI
         final ServiceInvoiceMainCommand command = new ServiceInvoiceMainCommand();
         command.setServiceInvoiceCode(source.getServiceInvoiceCode());
         command.setExecutionOrderMainCode(source.getExecutionOrderMainCode());
+        command.setDebitMemoRequestItemText(source.getDebitMemoRequestItemText());
         command.setDescription(source.getDescription());
         command.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
         command.setCurrencyCode(source.getCurrencyCode());

@@ -34,7 +34,6 @@
     </properties>
 
 
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -353,7 +352,6 @@
         <plugins>
 
 
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -368,29 +366,6 @@
                         </exclude>
                     </excludes>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.sap.cloud.sdk.datamodel</groupId>
-                <artifactId>odata-v4-generator-maven-plugin</artifactId>
-                <version>5.6.0</version>
-                <executions>
-                    <execution>
-                        <id>generate-consumption</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputDirectory>${project.basedir}/src/main/resources/edmx</inputDirectory>
-                            <outputDirectory>${project.build.sourceDirectory}</outputDirectory>
-                            <packageName>com.example.datamodel.odata</packageName>
-                            <defaultBasePath>odata/v4/</defaultBasePath>
-                            <serviceMethodsPerEntitySet>true</serviceMethodsPerEntitySet>
-                            <compileScope>COMPILE</compileScope>
-                            <overwriteFiles>true</overwriteFiles>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

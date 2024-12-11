@@ -7,6 +7,8 @@ import com.example.btpsd.model.*;
 import com.example.btpsd.repositories.ServiceNumberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,11 +52,15 @@ public class ServiceNumberServiceImpl implements ServiceNumberService{
 
     }
 
+//    private boolean hasRole(String role) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        return auth != null && auth.getAuthorities().stream()
+//                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(role));
+//    }
+
     @Override
     public void deleteById(Long idToDelete) {
-
-        serviceNumberRepository.deleteById(idToDelete);
-
+            serviceNumberRepository.deleteById(idToDelete);
     }
 
     @Override

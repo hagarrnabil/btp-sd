@@ -149,14 +149,14 @@ public class SalesOrderCloudController {
 
 
     @RequestMapping(value = "/salesorderitemcloud/{SalesOrderID}", method = RequestMethod.GET)
-    private StringBuilder getSalesOrderItems(@PathVariable("SalesOrderID") String salesOrderID) throws Exception {
+    public StringBuilder getSalesOrderItems(@PathVariable("SalesOrderID") String salesOrderID) throws Exception {
 
         final int BLOCK_SIZE = 1024;
         final int BUFFER_SIZE = 8 * BLOCK_SIZE;
         BufferedReader in = null;
 
         // API endpoint with dynamic SalesOrderID
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder('" + salesOrderID + "')/to_Item?%24inlinecount=allpages&%24top=50";
+        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder('" + salesOrderID + "')/to_Item?%24inlinecount=allpages&%24";
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
@@ -400,7 +400,7 @@ public class SalesOrderCloudController {
     }
 
     @RequestMapping(value = "/salesquotationitemcloud/{SalesQuotationID}", method = RequestMethod.GET)
-    private StringBuilder getSalesQuotationItem(@PathVariable("SalesQuotationID") String salesQuotationID) throws Exception {
+    public StringBuilder getSalesQuotationItem(@PathVariable("SalesQuotationID") String salesQuotationID) throws Exception {
 
         final int BLOCK_SIZE = 1024;
         final int BUFFER_SIZE = 8 * BLOCK_SIZE;
@@ -458,7 +458,7 @@ public class SalesOrderCloudController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem?%24inlinecount=allpages&%24top=50";
+        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem?%24inlinecount=allpages&%24";
 
 
         URL urlObj = new URL(url);
@@ -723,6 +723,54 @@ public class SalesOrderCloudController {
         return response;
     }
 
+    @RequestMapping(value = "/debitmemorequestitemcloud/{DebitMemoRequest}", method = RequestMethod.GET)
+    public StringBuilder getDebitMemoRequestItems(@PathVariable("DebitMemoRequest") String debitMemoRequest) throws Exception {
+        final int BLOCK_SIZE = 1024;
+        final int BUFFER_SIZE = 8 * BLOCK_SIZE;
+        BufferedReader in = null;
+
+        // API endpoint with dynamic DebitMemoRequest
+        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequest('" + debitMemoRequest + "')/to_Item?%24inlinecount=allpages&%24";
+
+        URL urlObj = new URL(url);
+        HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
+
+        String user = "BTP_USER1";
+        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String auth = user + ":" + password;
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
+        String authHeaderValue = "Basic " + new String(encodedAuth);
+
+        // Setting request method to GET
+        connection.setRequestMethod("GET");
+
+        // Adding headers
+        connection.setRequestProperty("Authorization", authHeaderValue);
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setDoInput(true);
+
+        int responseCode = connection.getResponseCode();
+
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            // Read the response
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            char[] charArray = new char[BUFFER_SIZE];
+            int charsCount;
+            while ((charsCount = in.read(charArray)) != -1) {
+                response.append(String.valueOf(charArray, 0, charsCount));
+            }
+
+            // Print and return the response
+            System.out.println(response.toString());
+            return response;
+
+        } else {
+            // Handle error
+            throw new Exception("Error in API call, Response Code: " + responseCode);
+        }
+    }
+
     public StringBuilder getDebitMemoRequestItem(String debitMemoRequest, String debitMemoRequestItem) {
         logger.debug("Entered getDebitMemoRequestItem method with DebitMemoRequest: {} and DebitMemoRequestItem: {}", debitMemoRequest, debitMemoRequestItem);
 
@@ -936,79 +984,6 @@ public class SalesOrderCloudController {
         }
     }
 
-//    @PostMapping("/debitmemopostcloud")
-//    public ResponseEntity<String> postDebitMemo(@RequestBody String requestBody) throws Exception {
-//
-//        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequest";
-//        String tokenURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequest?%24inlinecount=allpages&%24top=50";
-//
-//        // Step 1: Fetch CSRF Token with a GET request
-//        HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenURL).openConnection();
-//        String user = "BTP_USER1";
-//        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
-//        String auth = user + ":" + password;
-//        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
-//        String authHeaderValue = "Basic " + new String(encodedAuth);
-//
-//        tokenConn.setRequestMethod("GET");
-//        tokenConn.setRequestProperty("Authorization", authHeaderValue);
-//        tokenConn.setRequestProperty("x-csrf-token", "Fetch");
-//        tokenConn.setRequestProperty("Accept", "application/json");
-//
-//        // Get session cookies for CSRF validation
-//        String cookies = tokenConn.getHeaderField("Set-Cookie");
-//
-//        // Read the CSRF token from the response headers
-//        String csrfToken = tokenConn.getHeaderField("x-csrf-token");
-//
-//        System.out.println("CSRF Token: " + csrfToken);
-//        System.out.println("Cookies: " + cookies);
-//
-//        if (csrfToken == null || csrfToken.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Failed to fetch CSRF token");
-//        }
-//
-//        // Step 2: Send POST request with CSRF token and session cookies
-//        HttpURLConnection postConn = (HttpURLConnection) new URL(url).openConnection();
-//        postConn.setRequestMethod("POST");
-//        postConn.setRequestProperty("Authorization", authHeaderValue);
-//        postConn.setRequestProperty("x-csrf-token", csrfToken);
-//        postConn.setRequestProperty("Content-Type", "application/json");
-//
-//        // Attach session cookies to maintain the session
-//        if (cookies != null) {
-//            postConn.setRequestProperty("Cookie", cookies);
-//        }
-//
-//        postConn.setDoOutput(true);
-//
-//        // Write the request body (sales order details) to the output stream
-//        try (OutputStream os = postConn.getOutputStream()) {
-//            byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
-//            os.write(input, 0, input.length);
-//        }
-//
-//        int responseCode = postConn.getResponseCode();
-//        System.out.println("Response Code: " + responseCode);
-//        StringBuilder response = new StringBuilder();
-//
-//        try (BufferedReader br = new BufferedReader(new InputStreamReader(
-//                responseCode >= 200 && responseCode < 300 ?
-//                        postConn.getInputStream() : postConn.getErrorStream(), StandardCharsets.UTF_8))) {
-//            String responseLine;
-//            while ((responseLine = br.readLine()) != null) {
-//                response.append(responseLine.trim());
-//            }
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error reading response: " + e.getMessage());
-//        }
-//
-//        if (responseCode == HttpURLConnection.HTTP_OK) {
-//            return ResponseEntity.ok(response.toString());
-//        } else {
-//            return ResponseEntity.status(responseCode).body("Error: " + response.toString());
-//        }
-//    }
 
     @RequestMapping(value = "/salesorderitempricingcloudpost/{SalesOrder}/{SalesOrderItem}", method = RequestMethod.POST)
     public ResponseEntity<String> postSalesOrderItemPricing(@PathVariable("SalesOrder") String SalesOrder,

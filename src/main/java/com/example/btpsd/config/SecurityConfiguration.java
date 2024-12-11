@@ -54,7 +54,7 @@ public class SecurityConfiguration {
 //                "/debitmemoitemscloud", "/debitmemoitemscloud/*","/salesorderallpricingcloud", "/salesorderallpricingcloud/*", "/salesorderitempricingcloudpost/*/*",
 //                "/salesquotationricingcloudpatch/*/*/*/*", "/productcloud", "/productdescriptioncloud", "/businesspartner", "/salesquotationitem/*/*",
 //                "/salesorderitem/*/*", "/debitmemoitems/*/*", "/allproductscloud", "/quantities", "/total", "/totalheader", "/totalsrv", "/totalheadersrv",
-//                "/fetchSalesOrderDetails", "/measurements", "/measurements/*");
+//                "/fetchSalesOrderDetails", "/measurements", "/measurements/*","calculatequantities");
     }
 
     @Bean
