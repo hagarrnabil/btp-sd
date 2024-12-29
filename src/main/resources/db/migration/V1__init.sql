@@ -1,9 +1,9 @@
 -- Clear records from tables using CASCADE to handle dependencies
-TRUNCATE TABLE formula_parameter_ids, formula_parameter_descriptions, formula_test_parameters CASCADE;
-TRUNCATE TABLE invoiceSubItem, invoiceMainItem, serviceInvoice, executionOrderMain, "serviceNumber" CASCADE;
-TRUNCATE TABLE model_specifications_details, model_specifications CASCADE;
-TRUNCATE TABLE currency, material_group, service_type, line_type CASCADE;
-TRUNCATE TABLE formula CASCADE;
+-- TRUNCATE TABLE formula_parameter_ids, formula_parameter_descriptions, formula_test_parameters CASCADE;
+-- TRUNCATE TABLE invoiceSubItem, invoiceMainItem, serviceInvoice, executionOrderMain, "serviceNumber" CASCADE;
+-- TRUNCATE TABLE model_specifications_details, model_specifications CASCADE;
+-- TRUNCATE TABLE currency, material_group, service_type, line_type CASCADE;
+-- TRUNCATE TABLE formula CASCADE;
 -- Drop all tables, handling dependencies with CASCADE
 DROP TABLE IF EXISTS formula_parameter_ids, formula_parameter_descriptions, formula_test_parameters CASCADE;
 DROP TABLE IF EXISTS invoiceSubItem, invoiceMainItem, serviceInvoice, executionOrderMain, "serviceNumber" CASCADE;

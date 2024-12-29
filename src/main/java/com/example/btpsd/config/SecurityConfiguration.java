@@ -30,19 +30,19 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", allowedHeaders = "*",maxAge = 3600L)
 public class SecurityConfiguration {
 
-    @Bean
-    public Converter<Jwt, AbstractAuthenticationToken> authConverter() {
-        return jwt -> {
-            Collection<GrantedAuthority> authorities = jwt.getClaimAsStringList("groups").stream()
-                    .map(group -> new SimpleGrantedAuthority("ROLE_" + group.toUpperCase()))
-                    .collect(Collectors.toList());
-            return new JwtAuthenticationToken(jwt, authorities);
-        };
-    }
+//    @Bean
+//    public Converter<Jwt, AbstractAuthenticationToken> authConverter() {
+//        return jwt -> {
+//            Collection<GrantedAuthority> authorities = jwt.getClaimAsStringList("groups").stream()
+//                    .map(group -> new SimpleGrantedAuthority("ROLE_" + group.toUpperCase()))
+//                    .collect(Collectors.toList());
+//            return new JwtAuthenticationToken(jwt, authorities);
+//        };
+//    }
     
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/iasusers");
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().requestMatchers("/iasusers");
 //        return (web) -> web.ignoring().requestMatchers("/iasusers", "/formulas/*", "/formulas", "/linetypes/*", "/linetypes", "/materialgroups/*", "/materialgroups", "/modelspecs", "/modelspecs/*",
 //                "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*", "/personnelnumbers", "/servicenumbers/*", "/servicenumbers", "/servicetypes/*", "/servicetypes",
 //                "/invoices/*", "/invoices", "/mainitems/*/*/*/*/*", "/mainitems/*/*", "/mainitems","/mainitems/*", "/subitems/*", "/subitems", "/currencies/*", "/currencies", "/salesorder", "/salesorder/*", "/salesorderitems", "/salesorderitems/*," ,
@@ -55,7 +55,7 @@ public class SecurityConfiguration {
 //                "/salesquotationricingcloudpatch/*/*/*/*", "/productcloud", "/productdescriptioncloud", "/businesspartner", "/salesquotationitem/*/*",
 //                "/salesorderitem/*/*", "/debitmemoitems/*/*", "/allproductscloud", "/quantities", "/total", "/totalheader", "/totalsrv", "/totalheadersrv",
 //                "/fetchSalesOrderDetails", "/measurements", "/measurements/*","calculatequantities");
-    }
+   // }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -68,22 +68,21 @@ public class SecurityConfiguration {
                                 "/swagger-ui/index.html",
                                 "/swagger-resources/**",
                                 "/webjars/**",
-                                "/localhost/**"
-                        ).permitAll()
-                        .requestMatchers( "/measurements/*",
-                                "/api/v1/auth/**")
-                        .hasAuthority("XSUAA-User")
-                        .requestMatchers("/sayHello").hasAuthority("$XSAPPNAME.User")
-                        .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-                        .requestMatchers("/**").authenticated()
-                        .requestMatchers("/servicenumbers/**").hasAnyAuthority(
-                                "ROLE_FULL",
-                                "ROLE_MODIFY",
-                                "ROLE_VIEW")
-                        .anyRequest().authenticated())
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt
-                                .jwtAuthenticationConverter(authConverter())))
+                                "/localhost/**","/measurements/*","/api/v1/auth/**",
+                                "/sayHello","/h2-console/**","/**","/servicenumbers/**",
+                                "/iasusers", "/formulas/*", "/formulas", "/linetypes/*", "/linetypes", "/materialgroups/*", "/materialgroups", "/modelspecs", "/modelspecs/*",
+                "/modelspecdetails/*", "/modelspecdetails", "/personnelnumbers/*", "/personnelnumbers", "/servicenumbers/*", "/servicenumbers", "/servicetypes/*", "/servicetypes",
+                "/invoices/*", "/invoices", "/mainitems/*/*/*/*/*", "/mainitems/*/*", "/mainitems","/mainitems/*", "/subitems/*", "/subitems", "/currencies/*", "/currencies", "/salesorder", "/salesorder/*", "/salesorderitems", "/salesorderitems/*," ,
+                "/salesorderpricing", "/salesorderpricing/*", "/executionordersub", "/executionordersub/*", "/executionordermain/*/*", "/executionordermain/*/*/*", "/executionordermain", "/executionordermain/*","/salesordercloud", "/salesordercloud/*",
+                "/salesorderpostcloud", "/salesorderpostcloud/*", "/serviceinvoice/*/*/*/*/*", "/serviceinvoice/*/*", "/serviceinvoice", "/serviceinvoice/*", "/salesorderitemcloud/*", "/salesorderitemcloud",
+                "/salesorderitemscloud/*", "/salesorderitemscloud", "/salesorderpricingcloud/*/*", "/salesorderpricingcloud", "/salesquotationcloud", "/salesquotationcloud/*",
+                "/salesquotationpostcloud/*", "/salesquotationpostcloud", "/salesquotationitemcloud/*", "/salesquotationitemcloud", "/salesquotationitemscloud", "/salesquotationitemscloud/*",
+                "/salesquotationpricingcloud/*/*", "/salesquotationpricingcloud", "/debitmemocloud/*" , "/debitmemocloud", "/debitmemopostcloud/*", "/debitmemopostcloud",
+                "/debitmemoitemscloud", "/debitmemoitemscloud/*","/salesorderallpricingcloud", "/salesorderallpricingcloud/*", "/salesorderitempricingcloudpost/*/*",
+                "/salesquotationricingcloudpatch/*/*/*/*", "/productcloud", "/productdescriptioncloud", "/businesspartner", "/salesquotationitem/*/*",
+                "/salesorderitem/*/*", "/debitmemoitems/*/*", "/allproductscloud", "/quantities", "/total", "/totalheader", "/totalsrv", "/totalheadersrv",
+                "/fetchSalesOrderDetails", "/measurements", "/measurements/*","calculatequantities"
+                        ).permitAll())
                 .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
         return http.build();

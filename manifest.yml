@@ -9,8 +9,6 @@ applications:
     instances: 1
     memory: 1G
     health-check-type: process
-    routes:
-      - route: btpsd.cfapps.us10-001.hana.ondemand.com
     path: target/BTP-SD-0.0.1-SNAPSHOT.jar
     buildpacks:
       - java_buildpack
@@ -18,6 +16,3 @@ applications:
       JBP_CONFIG_OPEN_JDK_JRE: '{jre: { version: 17.0.+ }}'
     services:
       - name: postgres
-      - name: xsuaa-authn
-      - name: ias-authn
-        parameters: { "credential-type": "X509_GENERATED" }
