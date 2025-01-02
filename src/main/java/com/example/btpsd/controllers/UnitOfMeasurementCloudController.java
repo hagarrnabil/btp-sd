@@ -19,7 +19,7 @@ public class UnitOfMeasurementCloudController {
     @GetMapping("/measurementsCloud")
     private StringBuilder sendingGetRequest() throws Exception {
 
-        String urlString = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/YY1_UOM4_CDS/YY1_UOM4?$format=json";
+        String urlString = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/YY1_UOM4_CDS/YY1_UOM4?$format=json";
 
         URL url = new URL(urlString);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();

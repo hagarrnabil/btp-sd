@@ -26,12 +26,12 @@ public class BusinessPartnerCloudController {
         BufferedReader in = null;
 
         // API endpoint with customer number variable
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_Customer('" + customerNumber + "')/to_CustomerSalesArea?$inlinecount=allpages&$top=50";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_Customer('" + customerNumber + "')/to_CustomerSalesArea?$inlinecount=allpages&$top=50";
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);

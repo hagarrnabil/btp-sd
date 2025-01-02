@@ -64,12 +64,12 @@ public class SalesOrderCloudController {
         BufferedReader in = null;
 
         // API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder?%24inlinecount=allpages&%24";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder?%24inlinecount=allpages&%24";
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -110,13 +110,13 @@ public class SalesOrderCloudController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem?%24inlinecount=allpages&%24top=50";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem?%24inlinecount=allpages&%24top=50";
 
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -156,13 +156,13 @@ public class SalesOrderCloudController {
         BufferedReader in = null;
 
         // API endpoint with dynamic SalesOrderID
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder('" + salesOrderID + "')/to_Item?%24inlinecount=allpages&%24";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder('" + salesOrderID + "')/to_Item?%24inlinecount=allpages&%24";
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
 
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -204,7 +204,7 @@ public class SalesOrderCloudController {
         final int BUFFER_SIZE = 8 * BLOCK_SIZE;
 
         // Construct API endpoint with dynamic SalesOrder and SalesOrderItem
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem(SalesOrder='"
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem(SalesOrder='"
                 + salesOrder + "',SalesOrderItem='" + salesOrderItem + "')/to_SalesOrder";
 
         logger.debug("Constructed URL: {}", url);
@@ -217,7 +217,7 @@ public class SalesOrderCloudController {
             connection = (HttpURLConnection) urlObj.openConnection();
 
             String user = "BTP_USER1";
-            String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+            String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
             String auth = user + ":" + password;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
             String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -272,13 +272,13 @@ public class SalesOrderCloudController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItemPrElement?%24inlinecount=allpages&%24top=50";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItemPrElement?%24inlinecount=allpages&%24top=50";
 
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -318,13 +318,13 @@ public class SalesOrderCloudController {
 
 
         // API endpoint with dynamic SalesOrder and SalesOrderItem
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem(SalesOrder='" + salesOrder + "',SalesOrderItem='" + salesOrderItem + "')/to_PricingElement?%24inlinecount=allpages&%24top=50";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem(SalesOrder='" + salesOrder + "',SalesOrderItem='" + salesOrderItem + "')/to_PricingElement?%24inlinecount=allpages&%24top=50";
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
 
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -362,13 +362,13 @@ public class SalesOrderCloudController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotation?%24inlinecount=allpages&%24top=50";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotation?%24inlinecount=allpages&%24top=50";
 
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -407,13 +407,13 @@ public class SalesOrderCloudController {
         BufferedReader in = null;
 
         // API endpoint with dynamic SalesOrderID
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotation('" + salesQuotationID + "')/to_Item?%24inlinecount=allpages&%24top=50";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotation('" + salesQuotationID + "')/to_Item?%24inlinecount=allpages&%24top=50";
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
 
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -458,13 +458,13 @@ public class SalesOrderCloudController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem?%24inlinecount=allpages&%24";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem?%24inlinecount=allpages&%24";
 
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -502,7 +502,7 @@ public class SalesOrderCloudController {
         final int BUFFER_SIZE = 8 * BLOCK_SIZE;
 
         // Construct API endpoint with dynamic SalesQuotation and SalesQuotationItem
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='"
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='"
                 + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem + "')/to_SalesQuotation";
 
         logger.debug("Constructed URL: {}", url);
@@ -515,7 +515,7 @@ public class SalesOrderCloudController {
             connection = (HttpURLConnection) urlObj.openConnection();
 
             String user = "BTP_USER1";
-            String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+            String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
             String auth = user + ":" + password;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
             String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -570,7 +570,7 @@ public class SalesOrderCloudController {
         final int BUFFER_SIZE = 8 * BLOCK_SIZE;
 
         // Construct API endpoint with dynamic SalesQuotation and SalesQuotationItem
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='"
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='"
                 + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem + "')/to_PricingElement?%24inlinecount=allpages&%24top=50";
 
         logger.debug("Constructed URL: {}", url);
@@ -583,7 +583,7 @@ public class SalesOrderCloudController {
             connection = (HttpURLConnection) urlObj.openConnection();
 
             String user = "BTP_USER1";
-            String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+            String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
             String auth = user + ":" + password;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
             String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -639,13 +639,13 @@ public class SalesOrderCloudController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequest?%24inlinecount=allpages&%24top=50";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequest?%24inlinecount=allpages&%24top=50";
 
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -686,13 +686,13 @@ public class SalesOrderCloudController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoReqItemPrcgElmnt?%24inlinecount=allpages&%24top=50";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoReqItemPrcgElmnt?%24inlinecount=allpages&%24top=50";
 
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -730,13 +730,13 @@ public class SalesOrderCloudController {
         BufferedReader in = null;
 
         // API endpoint with dynamic DebitMemoRequest
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequest('" + debitMemoRequest + "')/to_Item?%24inlinecount=allpages&%24";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequest('" + debitMemoRequest + "')/to_Item?%24inlinecount=allpages&%24";
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
 
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -778,7 +778,7 @@ public class SalesOrderCloudController {
         final int BUFFER_SIZE = 8 * BLOCK_SIZE;
 
         // Construct API endpoint with dynamic DebitMemoRequest and DebitMemoRequestItem
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequestItem(DebitMemoRequest='"
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequestItem(DebitMemoRequest='"
                 + debitMemoRequest + "',DebitMemoRequestItem='" + debitMemoRequestItem + "')/to_DebitMemoRequest";
 
         logger.debug("Constructed URL: {}", url);
@@ -791,7 +791,7 @@ public class SalesOrderCloudController {
             connection = (HttpURLConnection) urlObj.openConnection();
 
             String user = "BTP_USER1";
-            String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+            String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
             String auth = user + ":" + password;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
             String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -839,13 +839,13 @@ public class SalesOrderCloudController {
     @PostMapping("/salesorderpostcloud")
     public ResponseEntity<String> postSalesOrder(@RequestBody String requestBody) throws Exception {
 
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata4/sap/api_salesorder/srvd_a2x/sap/salesorder/0001/SalesOrder";
-        String tokenURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder?%24inlinecount=allpages&%24top=50";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata4/sap/api_salesorder/srvd_a2x/sap/salesorder/0001/SalesOrder";
+        String tokenURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder?%24inlinecount=allpages&%24top=50";
 
         // Step 1: Fetch CSRF Token with a GET request
         HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenURL).openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -913,13 +913,13 @@ public class SalesOrderCloudController {
     @PostMapping("/salesquotationpostcloud")
     public ResponseEntity<String> postSalesQuotation(@RequestBody String requestBody) throws Exception {
 
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotation";
-        String tokenURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotation?%24inlinecount=allpages&%24top=50";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotation";
+        String tokenURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotation?%24inlinecount=allpages&%24top=50";
 
         // Step 1: Fetch CSRF Token with a GET request
         HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenURL).openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -1008,17 +1008,17 @@ public class SalesOrderCloudController {
         String modifiedRequestBody = requestBodyJson.toString();
 
         // URL to get the CSRF Token
-        String tokenURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem(SalesOrder='"
+        String tokenURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem(SalesOrder='"
                 + SalesOrder + "',SalesOrderItem='" + SalesOrderItem + "')/to_PricingElement";
 
         // URL to post the data after fetching the CSRF token
-        String postURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata4/sap/api_salesorder/srvd_a2x/sap/salesorder/0001/SalesOrderItem/"
+        String postURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata4/sap/api_salesorder/srvd_a2x/sap/salesorder/0001/SalesOrderItem/"
                 + SalesOrder + "/" + SalesOrderItem + "/_ItemPricingElement";
 
         // Step 3: Fetch CSRF Token
         HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenURL).openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -1094,18 +1094,18 @@ public class SalesOrderCloudController {
                 SalesQuotation, SalesQuotationItem, PricingProcedureStep, PricingProcedureCounter);
 
         // URL to get the CSRF Token (assuming you use the same for token fetching)
-        String tokenURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='"
+        String tokenURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='"
                 + SalesQuotation + "',SalesQuotationItem='" + SalesQuotationItem + "')/to_PricingElement?%24inlinecount=allpages&%24top=50";
 
         // The URL where you will PATCH the data after fetching the token
-        String patchURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItemPrcgElmnt(SalesQuotation='"
+        String patchURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItemPrcgElmnt(SalesQuotation='"
                 + SalesQuotation + "',SalesQuotationItem='" + SalesQuotationItem + "',PricingProcedureStep='"
                 + PricingProcedureStep + "',PricingProcedureCounter='" + PricingProcedureCounter + "')";
 
         // Step 1: Fetch CSRF Token with a GET request
         HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenURL).openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);

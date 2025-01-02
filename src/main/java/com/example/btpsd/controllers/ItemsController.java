@@ -27,13 +27,13 @@ public class ItemsController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder('1')/to_Item?%24inlinecount=allpages&%24top=50";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder('1')/to_Item?%24inlinecount=allpages&%24top=50";
 
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);

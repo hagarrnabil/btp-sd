@@ -32,13 +32,14 @@ public class ProductCloudController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_Product?%24inlinecount=allpages&%24";
+        String url = 
+                "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_Product?%24inlinecount=allpages&%24";
 
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -78,13 +79,13 @@ public class ProductCloudController {
 
 
         //API endpoint
-        String url = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_ProductDescription?%24inlinecount=allpages&%24";
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_ProductDescription?%24inlinecount=allpages&%24";
 
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -121,8 +122,8 @@ public class ProductCloudController {
         final int BUFFER_SIZE = 8 * BLOCK_SIZE;
 
         // API endpoints
-        String productUrl = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_Product?%24inlinecount=allpages&%24";
-        String productDescUrl = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_ProductDescription?%24inlinecount=allpages&%24";
+        String productUrl = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_Product?%24inlinecount=allpages&%24";
+        String productDescUrl = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_PRODUCT_SRV/A_ProductDescription?%24inlinecount=allpages&%24";
 
         // Fetch product data
         StringBuilder productResponse = fetchDataFromAPI(productUrl, BUFFER_SIZE);
@@ -168,7 +169,7 @@ public class ProductCloudController {
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
