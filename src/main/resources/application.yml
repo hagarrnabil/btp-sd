@@ -12,6 +12,7 @@
 
 
 
+
 logging.level:
   com.sap.cloud.security.samples.resecurity: DEBUG
   org.springframework: ERROR
