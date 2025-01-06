@@ -4,12 +4,15 @@ TRUNCATE TABLE invoiceSubItem, invoiceMainItem, serviceInvoice, executionOrderMa
 TRUNCATE TABLE model_specifications_details, model_specifications CASCADE;
 TRUNCATE TABLE currency, material_group, service_type, line_type CASCADE;
 TRUNCATE TABLE formula CASCADE;
+
 -- Drop all tables, handling dependencies with CASCADE
 DROP TABLE IF EXISTS formula_parameter_ids, formula_parameter_descriptions, formula_test_parameters CASCADE;
 DROP TABLE IF EXISTS invoiceSubItem, invoiceMainItem, serviceInvoice, executionOrderMain, "serviceNumber" CASCADE;
 DROP TABLE IF EXISTS model_specifications_details, model_specifications CASCADE;
 DROP TABLE IF EXISTS currency, material_group, service_type, line_type CASCADE;
 DROP TABLE IF EXISTS formula CASCADE;
+
+
 -- Create table for LineType
 CREATE TABLE line_type
 (
