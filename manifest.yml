@@ -5,12 +5,10 @@
 # configured for EU10. For other landscapes, please adopt LANDSCAPE_APPS_DOMAIN in ../vars.yml
 # If the route is occupied, you might need to change ID in ../vars.yml
 applications:
-  - name: btpsd
+  - name: btpsdtesting
     instances: 1
     memory: 1G
     health-check-type: process
-    routes:
-      - route: btpsd.cfapps.us10-001.hana.ondemand.com
     path: target/BTP-SD-0.0.1-SNAPSHOT.jar
     buildpacks:
       - java_buildpack

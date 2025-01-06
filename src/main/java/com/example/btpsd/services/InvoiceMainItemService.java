@@ -48,12 +48,12 @@ public interface InvoiceMainItemService {
             MediaType mediaType = MediaType.parse("application/json");
 
             // Encode authorization using Base64 from Apache Commons Codec
-            String credentials = "BTP_USER1:Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+            String credentials = "BTP_USER1:#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
             String encodedCredentials = new String(Base64.encodeBase64(credentials.getBytes(StandardCharsets.UTF_8)));
 
             // First, we fetch the CSRF token by sending a GET request
             Request tokenRequest = new Request.Builder()
-                    .url("https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='" + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem + "')/to_PricingElement?%24inlinecount=allpages&%24top=50")
+                    .url("https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem(SalesQuotation='" + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem + "')/to_PricingElement?%24inlinecount=allpages&%24top=50")
                     .method("GET", null)
                     .addHeader("x-csrf-token", "Fetch")
                     .addHeader("Authorization", "Basic " + encodedCredentials)
@@ -71,7 +71,7 @@ public interface InvoiceMainItemService {
             log.debug("Fetched CSRF token successfully: " + csrfToken);
 
             // Step 3: Make the PATCH request to update the Sales Quotation Pricing Element
-            String patchURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItemPrcgElmnt(SalesQuotation='" + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem + "',PricingProcedureStep='" + pricingProcedureStep + "',PricingProcedureCounter='" + pricingProcedureCounter + "')";
+            String patchURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItemPrcgElmnt(SalesQuotation='" + salesQuotation + "',SalesQuotationItem='" + salesQuotationItem + "',PricingProcedureStep='" + pricingProcedureStep + "',PricingProcedureCounter='" + pricingProcedureCounter + "')";
 
             // Now, we make the PATCH request
             Request patchRequest = new Request.Builder()

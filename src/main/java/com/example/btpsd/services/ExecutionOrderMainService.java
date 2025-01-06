@@ -100,12 +100,12 @@ public interface ExecutionOrderMainService {
         String requestBody = requestBodyJson.toString();
 
         // Step 2: Fetch CSRF token
-        String tokenURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem(SalesOrder='"
+        String tokenURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem(SalesOrder='"
                 + salesOrder + "',SalesOrderItem='" + salesOrderItem + "')/to_PricingElement";
 
         HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenURL).openConnection();
         String user = "BTP_USER1";
-        String password = "Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt"; // Keep this secure
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5"; // Keep this secure
         String auth = user + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeaderValue = "Basic " + new String(encodedAuth);
@@ -127,7 +127,7 @@ public interface ExecutionOrderMainService {
         log.debug("Fetched CSRF token successfully: " + csrfToken);
 
         // Step 3: Make the POST request to update the Sales Order Pricing Element
-        String postURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata4/sap/api_salesorder/srvd_a2x/sap/salesorder/0001/SalesOrderItem/"
+        String postURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata4/sap/api_salesorder/srvd_a2x/sap/salesorder/0001/SalesOrderItem/"
                 + salesOrder + "/" + salesOrderItem + "/_ItemPricingElement";
 
         HttpURLConnection postConn = (HttpURLConnection) new URL(postURL).openConnection();

@@ -55,12 +55,12 @@ public interface ServiceInvoiceMainService {
             MediaType mediaType = MediaType.parse("application/json");
 
             // Encode authorization using Base64 from Apache Commons Codec
-            String credentials = "BTP_USER1:Gw}tDHMrhuAWnzRWkwEbpcguYKsxugDuoKMeJ8Lt";
+            String credentials = "BTP_USER1:#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
             String encodedCredentials = new String(Base64.encodeBase64(credentials.getBytes(StandardCharsets.UTF_8)));
 
             // First, we fetch the CSRF token by sending a GET request
             Request tokenRequest = new Request.Builder()
-                    .url("https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequest?%24inlinecount=allpages&%24top=50")
+                    .url("https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequest?%24inlinecount=allpages&%24top=50")
                     .method("GET", null)
                     .addHeader("x-csrf-token", "Fetch")
                     .addHeader("Authorization", "Basic " + encodedCredentials)
@@ -78,7 +78,7 @@ public interface ServiceInvoiceMainService {
             log.debug("Fetched CSRF token successfully: " + csrfToken);
 
             // Step 3: Make the PATCH request to update the Debit Memo Pricing Element
-            String patchURL = "https://my405604-api.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoReqItemPrcgElmnt(DebitMemoRequest='"
+            String patchURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoReqItemPrcgElmnt(DebitMemoRequest='"
                     + debitMemoRequest + "',DebitMemoRequestItem='" + debitMemoRequestItem
                     + "',PricingProcedureStep='" + pricingProcedureStep
                     + "',PricingProcedureCounter='" + pricingProcedureCounter + "')";
