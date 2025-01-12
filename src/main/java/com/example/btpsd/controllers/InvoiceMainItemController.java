@@ -213,6 +213,8 @@ public class InvoiceMainItemController {
             @RequestParam(required = false) Integer pricingProcedureCounter,
             @RequestParam(required = false) String customerNumber) throws Exception {
 
+        invoiceMainItemRepository.deleteAll();
+
         List<InvoiceMainItem> savedItems = new ArrayList<>();
 
         // Step 1: Set reference ID and unique ID

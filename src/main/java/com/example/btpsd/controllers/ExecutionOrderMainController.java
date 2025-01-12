@@ -66,45 +66,68 @@ ExecutionOrderMainController {
             @RequestParam(required = false) String salesOrderItem,
             @RequestParam(required = false) String customerNumber) throws Exception {
 
-        // Step 0: Delete all existing ExecutionOrderMain records
+        // Step 1: Delete all existing ExecutionOrderMain records
         executionOrderMainRepository.deleteAll();
 
-        List<ExecutionOrderMainCommand> response = new ArrayList<>();
+        List<ExecutionOrderMain> savedOrders = new ArrayList<>();
 
-        for (ExecutionOrderMainCommand command : executionOrderCommands) {
-            // Step 1: Set the reference ID (salesOrder) in each execution order
-            command.setReferenceId(salesOrder);
+        // Step 2: Set reference ID and fetch Sales Order details
+        if (salesOrder != null) {
+            for (ExecutionOrderMainCommand command : executionOrderCommands) {
+                command.setReferenceId(salesOrder);
 
-            // Step 2: Fetch Sales Order details and set ReferenceSDDocument if applicable
-            String salesOrderApiResponse = salesOrderCloudController.getAllSalesOrders().toString();
-            ObjectMapper objectMapper = new ObjectMapper();
+                // Fetch Sales Order details and set ReferenceSDDocument
+                String salesOrderApiResponse = salesOrderCloudController.getAllSalesOrders().toString();
+                ObjectMapper objectMapper = new ObjectMapper();
+                try {
+                    JsonNode responseJson = objectMapper.readTree(salesOrderApiResponse);
+                    JsonNode salesOrderResults = responseJson.path("d").path("results");
 
-            try {
-                JsonNode responseJson = objectMapper.readTree(salesOrderApiResponse);
-                JsonNode salesOrderResults = responseJson.path("d").path("results");
-
-                for (JsonNode order : salesOrderResults) {
-                    String orderID = order.path("SalesOrder").asText();
-                    if (orderID.equals(salesOrder)) {
-                        String referenceSDDocument = order.path("ReferenceSDDocument").asText();
-                        command.setReferenceSDDocument(referenceSDDocument);
-                        break; // Exit loop once ReferenceSDDocument is found
+                    for (JsonNode order : salesOrderResults) {
+                        String orderID = order.path("SalesOrder").asText();
+                        if (orderID.equals(salesOrder)) {
+                            String referenceSDDocument = order.path("ReferenceSDDocument").asText();
+                            command.setReferenceSDDocument(referenceSDDocument);
+                            break; // Exit loop once ReferenceSDDocument is found
+                        }
                     }
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException("Error processing Sales Order API response", e);
                 }
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException("Error processing Sales Order API response", e);
             }
+        }
 
-            // Step 3: Call Sales Order Pricing API to set Total Header for each execution order
-            executionOrderMainService.callSalesOrderPricingAPI(salesOrder, salesOrderItem, command.getTotalHeader());
+        // Step 3: Save each execution order and generate unique ID
+        for (ExecutionOrderMainCommand command : executionOrderCommands) {
+            ExecutionOrderMain executionOrder = executionOrderMainCommandToExecutionOrderMain.convert(command);
 
-            // Step 4: Save the execution order and add to the response
-            ExecutionOrderMainCommand savedCommand = executionOrderMainService.saveExecutionOrderMainCommand(command);
-            response.add(savedCommand);
+            // Save each execution order individually
+            savedOrders.add(executionOrderMainRepository.save(executionOrder));
+        }
+
+        // Step 4: Calculate totalHeader
+        Double totalHeader = executionOrderMainService.getTotalHeader(); // Ensure this method calculates correctly
+        for (ExecutionOrderMain savedOrder : savedOrders) {
+            savedOrder.setTotalHeader(totalHeader);
+            executionOrderMainRepository.save(savedOrder); // Re-save after updating totalHeader
+        }
+
+        // Step 5: Call Sales Order Pricing API
+        try {
+            executionOrderMainService.callSalesOrderPricingAPI(salesOrder, salesOrderItem, totalHeader);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to update Sales Order Pricing Element. Response Code: " + e.getMessage());
+        }
+
+        // Step 6: Convert and return the saved orders as a list of command objects for the response
+        List<ExecutionOrderMainCommand> response = new ArrayList<>();
+        for (ExecutionOrderMain savedOrder : savedOrders) {
+            response.add(executionOrderMainToExecutionOrderMainCommand.convert(savedOrder));
         }
 
         return response;
     }
+
 
 
 

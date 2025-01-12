@@ -266,7 +266,10 @@ public class ServiceInvoiceMainController {
             @RequestParam(required = false) Integer pricingProcedureCounter,
             @RequestParam(required = false) String customerNumber) throws Exception {
 
-        List<ServiceInvoiceMainCommand> savedCommands = new ArrayList<>();
+        // Step 0: Clear the repository
+        serviceInvoiceMainRepository.deleteAll();
+
+        List<ServiceInvoiceMainCommand> response = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
 
         // Step 1: Fetch ReferenceSDDocument if debitMemoRequest is provided
@@ -291,33 +294,26 @@ public class ServiceInvoiceMainController {
 
         // Step 2: Process each ServiceInvoiceMainCommand
         for (ServiceInvoiceMainCommand command : serviceInvoiceMainCommands) {
-            // Fetch ExecutionOrderMain by its code
-            ExecutionOrderMain executionOrderMain = executionOrderMainRepository
-                    .findById(command.getExecutionOrderMainCode())
-                    .orElseThrow(() -> new EntityNotFoundException(
-                            "ExecutionOrderMain not found with code: " + command.getExecutionOrderMainCode()));
-
-            // Fetch all related invoices and calculate the current totalHeader
-            List<ServiceInvoiceMain> relatedInvoices = serviceInvoiceMainRepository
-                    .findByExecutionOrderMainCode(command.getExecutionOrderMainCode());
-
-            double totalHeader = relatedInvoices.stream()
-                    .mapToDouble(ServiceInvoiceMain::getTotal)
-                    .sum();
-
-            // Set totalHeader in the command
-            command.setTotalHeader(totalHeader);
-
-            // Set additional fields in the command
+            // Set referenceId and ReferenceSDDocument in the command
             command.setReferenceId(debitMemoRequest);
             command.setReferenceSDDocument(referenceSDDocument);
 
             // Save or update using the service layer
             ServiceInvoiceMainCommand savedCommand = serviceInvoiceMainService.saveServiceInvoiceMainCommand(command);
 
-            // Update the totalHeader after saving
-            totalHeader += savedCommand.getTotal();
+            // Fetch all saved invoices and calculate the totalHeader
+            List<ServiceInvoiceMain> allInvoices = (List<ServiceInvoiceMain>) serviceInvoiceMainRepository.findAll();
+            double totalHeader = allInvoices.stream()
+                    .mapToDouble(ServiceInvoiceMain::getTotal)
+                    .sum();
+
+            // Update totalHeader for the saved command
             savedCommand.setTotalHeader(new BigDecimal(totalHeader).setScale(2, RoundingMode.HALF_UP).doubleValue());
+
+            // Save the updated totalHeader back to the database
+            ServiceInvoiceMain savedInvoice = serviceInvoiceCommandToServiceInvoice.convert(savedCommand);
+            savedInvoice.setTotalHeader(totalHeader);
+            serviceInvoiceMainRepository.save(savedInvoice);
 
             // Call Debit Memo Pricing API
             try {
@@ -330,10 +326,10 @@ public class ServiceInvoiceMainController {
             }
 
             // Add the saved command to the response list
-            savedCommands.add(savedCommand);
+            response.add(savedCommand);
         }
 
-        return savedCommands;
+        return response;
     }
 
 
