@@ -448,53 +448,6 @@ public class SalesOrderCloudController {
         }
     }
 
-    @RequestMapping(value = "/salesquotationitemscloud", method = RequestMethod.GET)
-    private StringBuilder getSalesQuotationItems() throws Exception {
-
-        final int BLOCK_SIZE = 1024;
-        final int BUFFER_SIZE = 8 * BLOCK_SIZE;
-        DataOutputStream dataOut = null;
-        BufferedReader in = null;
-
-
-        //API endpoint
-        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem?%24inlinecount=allpages&%24";
-
-
-        URL urlObj = new URL(url);
-        HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
-        String user = "BTP_USER1";
-        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
-        String auth = user + ":" + password;
-        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
-        String authHeaderValue = "Basic " + new String(encodedAuth);
-
-        //setting request method
-        connection.setRequestMethod("GET");
-
-        //adding headers
-        connection.setRequestProperty("Authorization", authHeaderValue);
-        connection.setRequestProperty("Accept", "application/json");
-
-
-        connection.setDoInput(true);
-
-        int responseCode = connection.getResponseCode();
-        in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        StringBuilder response = new StringBuilder();
-        char[] charArray = new char[BUFFER_SIZE];
-        int charsCount = 0;
-        while ((charsCount = in.read(charArray)) != -1) {
-            response.append(String.valueOf(charArray, 0, charsCount));
-        }
-
-        //printing response
-        System.out.println(response.toString());
-
-
-        return response;
-    }
-
     public StringBuilder getSalesQuotationItemById(String salesQuotation, String salesQuotationItem) {
         logger.debug("Entered getSalesQuotationItem method with SalesQuotation: {} and SalesQuotationItem: {}", salesQuotation, salesQuotationItem);
 
@@ -560,6 +513,118 @@ public class SalesOrderCloudController {
         return response;
     }
 
+
+    @RequestMapping(value = "/salesquotationitemscloud", method = RequestMethod.GET)
+    private StringBuilder getSalesQuotationItems() throws Exception {
+
+        final int BLOCK_SIZE = 1024;
+        final int BUFFER_SIZE = 8 * BLOCK_SIZE;
+        DataOutputStream dataOut = null;
+        BufferedReader in = null;
+
+
+        //API endpoint
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotationItem?%24inlinecount=allpages&%24";
+
+
+        URL urlObj = new URL(url);
+        HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
+        String user = "BTP_USER1";
+        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
+        String auth = user + ":" + password;
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
+        String authHeaderValue = "Basic " + new String(encodedAuth);
+
+        //setting request method
+        connection.setRequestMethod("GET");
+
+        //adding headers
+        connection.setRequestProperty("Authorization", authHeaderValue);
+        connection.setRequestProperty("Accept", "application/json");
+
+
+        connection.setDoInput(true);
+
+        int responseCode = connection.getResponseCode();
+        in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        char[] charArray = new char[BUFFER_SIZE];
+        int charsCount = 0;
+        while ((charsCount = in.read(charArray)) != -1) {
+            response.append(String.valueOf(charArray, 0, charsCount));
+        }
+
+        //printing response
+        System.out.println(response.toString());
+
+
+        return response;
+    }
+
+    public StringBuilder getSalesQuotationItemsByQuotation(String salesQuotation) {
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_QUOTATION_SRV/A_SalesQuotation('"
+                + salesQuotation + "')/to_Item?$inlinecount=allpages&$select=SalesQuotationItem,SalesQuotationItemText,TransactionCurrency";
+        return fetchDataFromS4(url);
+    }
+
+    public StringBuilder getSalesOrderItemsBySalesOrder(String salesOrder) {
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder('"
+                + salesOrder + "')/to_Item?$inlinecount=allpages&$select=SalesOrderItem,SalesOrderItemText,TransactionCurrency";
+        return fetchDataFromS4(url);
+    }
+
+    public StringBuilder getDebitMemoRequestItemsByDebitMemoRequest(String debitMemoRequest) {
+        String url = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_DEBIT_MEMO_REQUEST_SRV/A_DebitMemoRequest('"
+                + debitMemoRequest + "')/to_Item?$inlinecount=allpages&$select=DebitMemoRequestItem,DebitMemoRequestItemText,TransactionCurrency";
+        return fetchDataFromS4(url);
+    }
+
+    private StringBuilder fetchDataFromS4(String url) {
+        HttpURLConnection connection = null;
+        StringBuilder response = new StringBuilder();
+
+        try {
+            URL urlObj = new URL(url);
+            connection = (HttpURLConnection) urlObj.openConnection();
+
+            String user = "BTP_USER1";
+            String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
+            String auth = user + ":" + password;
+            byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
+            String authHeaderValue = "Basic " + new String(encodedAuth);
+
+            // Set HTTP method and headers
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", authHeaderValue);
+            connection.setRequestProperty("Accept", "application/json");
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // Parse the response
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line;
+                while ((line = in.readLine()) != null) {
+                    response.append(line);
+                }
+                in.close();
+            } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                logger.error("404 Not Found: The resource at '{}' does not exist or the endpoint is incorrect.", url);
+                return new StringBuilder("Error: Resource not found.");
+            } else {
+                logger.error("Failed to fetch data. Response Code: {}", responseCode);
+                return new StringBuilder("Error: Response Code " + responseCode);
+            }
+        } catch (IOException e) {
+            logger.error("IOException occurred: ", e);
+            return new StringBuilder("IOException: " + e.getMessage());
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+
+        return response;
+    }
 
     @RequestMapping(value = "/salesquotationpricingcloud/{SalesQuotation}/{SalesQuotationItem}", method = RequestMethod.GET)
     public StringBuilder getSalesQuotationPricing(@PathVariable("SalesQuotation") String salesQuotation,

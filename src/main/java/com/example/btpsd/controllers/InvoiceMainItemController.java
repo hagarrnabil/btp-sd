@@ -118,12 +118,17 @@ public class InvoiceMainItemController {
         return invoiceMainItemService.getMainItemCommands();
     }
 
+    @GetMapping("/mainitems/{salesQuotation}")
+    public StringBuilder findItemsBySalesQuotation(
+            @PathVariable("salesQuotation") String salesQuotation) {
+        return salesOrderCloudController.getSalesQuotationItemsByQuotation(salesQuotation);
+    }
+
     @GetMapping("/mainitems/{salesQuotation}/{salesQuotationItem}")
     public StringBuilder findBySalesQuotationAndItem(
             @PathVariable("salesQuotation") String salesQuotation,
             @PathVariable("salesQuotationItem") String salesQuotationItem) {
 
-        // Use the method to fetch Sales Quotation Item based on path variables
         return salesOrderCloudController.getSalesQuotationItemById(salesQuotation, salesQuotationItem);
     }
 

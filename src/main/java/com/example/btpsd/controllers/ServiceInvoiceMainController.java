@@ -59,8 +59,12 @@ public class ServiceInvoiceMainController {
             @PathVariable("debitMemoRequest") String debitMemoRequest,
             @PathVariable("debitMemoRequestItem") String debitMemoRequestItem) {
 
-        // Call the method to fetch Debit Memo Request Item based on path variables
         return salesOrderCloudController.getDebitMemoRequestItem(debitMemoRequest, debitMemoRequestItem);
+    }
+
+    @GetMapping("/serviceinvoice/{debitMemoRequest}")
+    public StringBuilder findItemsByDebitMemoRequest(@PathVariable("debitMemoRequest") String debitMemoRequest) {
+        return salesOrderCloudController.getDebitMemoRequestItemsByDebitMemoRequest(debitMemoRequest);
     }
 
     @GetMapping("/serviceinvoice/referenceid")

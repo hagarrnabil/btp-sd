@@ -129,15 +129,17 @@ ExecutionOrderMainController {
     }
 
 
-
-
     @GetMapping("/executionordermain/{salesOrder}/{salesOrderItem}")
     public StringBuilder findBySalesOrderAndItem(
             @PathVariable("salesOrder") String salesOrder,
             @PathVariable("salesOrderItem") String salesOrderItem) {
 
-        // Use the method to fetch Sales Order Item based on path variables
         return salesOrderCloudController.getSalesOrderItem(salesOrder, salesOrderItem);
+    }
+
+    @GetMapping("/executionordermain/{salesOrder}")
+    public StringBuilder findItemsBySalesOrder(@PathVariable("salesOrder") String salesOrder) {
+        return salesOrderCloudController.getSalesOrderItemsBySalesOrder(salesOrder);
     }
 
     @GetMapping("/executionordermain/referenceid")
