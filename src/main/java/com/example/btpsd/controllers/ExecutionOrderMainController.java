@@ -59,6 +59,71 @@ ExecutionOrderMainController {
     }
 
 
+    @GetMapping("/executionordermain")
+    public List<ExecutionOrderMainCommand> fetchExecutionOrderMainByServiceInvoice(
+            @RequestParam String debitMemoRequest) {
+
+        System.out.println("Fetching Execution Orders using Service Invoice: " + debitMemoRequest);
+
+        // Step 1: Fetch service invoice details from S4
+        String serviceInvoiceApiResponse;
+        try {
+            serviceInvoiceApiResponse = salesOrderCloudController.getDebitMemo().toString();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to fetch service invoices from S4", e);
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String referenceSDDocument = null;
+
+        try {
+            JsonNode responseJson = objectMapper.readTree(serviceInvoiceApiResponse);
+            JsonNode serviceInvoiceResults = responseJson.path("d").path("results");
+
+            if (!serviceInvoiceResults.isArray() || serviceInvoiceResults.isEmpty()) {
+                throw new RuntimeException("No service invoice results found in the API response.");
+            }
+
+            // Step 2: Find the ReferenceSDDocument for the given service invoice
+            for (JsonNode invoice : serviceInvoiceResults) {
+                String invoiceID = invoice.path("DebitMemoRequest").asText();
+
+                System.out.println("Checking Service Invoice: " + invoiceID);
+
+                if (invoiceID.equals(debitMemoRequest)) {
+                    referenceSDDocument = invoice.path("ReferenceSDDocument").asText();
+                    System.out.println("Match found: ReferenceSDDocument = " + referenceSDDocument);
+                    break;
+                }
+            }
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error processing Service Invoice API response", e);
+        }
+
+        if (referenceSDDocument == null || referenceSDDocument.isEmpty()) {
+            throw new RuntimeException("No ReferenceSDDocument found for Service Invoice: " + debitMemoRequest +
+                    ". Ensure the ServiceInvoice is correct.");
+        }
+
+        // Step 3: Fetch ExecutionOrderMain records by ReferenceSDDocument
+        List<ExecutionOrderMain> executionOrders = executionOrderMainRepository.findByReferenceId(referenceSDDocument);
+
+        if (executionOrders.isEmpty()) {
+            throw new RuntimeException("No Execution Order Main found with ReferenceSDDocument: " +
+                    referenceSDDocument);
+        }
+
+        System.out.println("Fetched Execution Orders: " + executionOrders);
+
+        // Step 4: Convert ExecutionOrderMain entities to command objects to return in response
+        List<ExecutionOrderMainCommand> response = new ArrayList<>();
+        for (ExecutionOrderMain order : executionOrders) {
+            response.add(executionOrderMainToExecutionOrderMainCommand.convert(order));
+        }
+
+        return response;
+    }
+
     @PostMapping("/executionordermain")
     public List<ExecutionOrderMainCommand> saveOrUpdateExecutionOrders(
             @RequestBody List<ExecutionOrderMainCommand> executionOrderCommands,

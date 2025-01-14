@@ -273,21 +273,21 @@ public class ServiceInvoiceMainController {
         // Step 0: Clear the repository
         serviceInvoiceMainRepository.deleteAll();
 
-        List<ServiceInvoiceMainCommand> response = new ArrayList<>();
+        List<ServiceInvoiceMain> savedItems = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
 
         // Step 1: Fetch ReferenceSDDocument if debitMemoRequest is provided
         String referenceSDDocument = null;
         if (debitMemoRequest != null) {
             try {
-                String salesQuotationApiResponse = salesOrderCloudController.getDebitMemo().toString();
-                JsonNode responseJson = objectMapper.readTree(salesQuotationApiResponse);
-                JsonNode salesQuotationResults = responseJson.path("d").path("results");
+                String debitMemoApiResponse = salesOrderCloudController.getDebitMemo().toString();
+                JsonNode responseJson = objectMapper.readTree(debitMemoApiResponse);
+                JsonNode debitMemoResults = responseJson.path("d").path("results");
 
-                for (JsonNode quotation : salesQuotationResults) {
-                    String quotationID = quotation.path("DebitMemoRequest").asText();
-                    if (quotationID.equals(debitMemoRequest)) {
-                        referenceSDDocument = quotation.path("ReferenceSDDocument").asText();
+                for (JsonNode memo : debitMemoResults) {
+                    String memoID = memo.path("DebitMemoRequest").asText();
+                    if (memoID.equals(debitMemoRequest)) {
+                        referenceSDDocument = memo.path("ReferenceSDDocument").asText();
                         break;
                     }
                 }
@@ -296,41 +296,41 @@ public class ServiceInvoiceMainController {
             }
         }
 
-        // Step 2: Process each ServiceInvoiceMainCommand
+        // Step 2: Save each ServiceInvoiceMainCommand with uniqueId and reference data
         for (ServiceInvoiceMainCommand command : serviceInvoiceMainCommands) {
-            // Set referenceId and ReferenceSDDocument in the command
             command.setReferenceId(debitMemoRequest);
             command.setReferenceSDDocument(referenceSDDocument);
 
-            // Save or update using the service layer
-            ServiceInvoiceMainCommand savedCommand = serviceInvoiceMainService.saveServiceInvoiceMainCommand(command);
+            // Convert to entity and generate uniqueId
+            ServiceInvoiceMain invoice = serviceInvoiceCommandToServiceInvoice.convert(command);
+//            invoice.generateUniqueId(debitMemoRequest, debitMemoRequestItem);
 
-            // Fetch all saved invoices and calculate the totalHeader
-            List<ServiceInvoiceMain> allInvoices = (List<ServiceInvoiceMain>) serviceInvoiceMainRepository.findAll();
-            double totalHeader = allInvoices.stream()
-                    .mapToDouble(ServiceInvoiceMain::getTotal)
-                    .sum();
+            // Save the entity
+            savedItems.add(serviceInvoiceMainRepository.save(invoice));
+        }
 
-            // Update totalHeader for the saved command
-            savedCommand.setTotalHeader(new BigDecimal(totalHeader).setScale(2, RoundingMode.HALF_UP).doubleValue());
+        // Step 3: Calculate totalHeader
+        Double totalHeader = savedItems.stream()
+                .mapToDouble(ServiceInvoiceMain::getTotal)
+                .sum();
+        for (ServiceInvoiceMain savedItem : savedItems) {
+            savedItem.setTotalHeader(totalHeader);
+            serviceInvoiceMainRepository.save(savedItem); // Re-save after updating totalHeader
+        }
 
-            // Save the updated totalHeader back to the database
-            ServiceInvoiceMain savedInvoice = serviceInvoiceCommandToServiceInvoice.convert(savedCommand);
-            savedInvoice.setTotalHeader(totalHeader);
-            serviceInvoiceMainRepository.save(savedInvoice);
+        // Step 4: Call Debit Memo Pricing API
+        try {
+            serviceInvoiceMainService.callDebitMemoPricingAPI(
+                    debitMemoRequest, debitMemoRequestItem, pricingProcedureStep, pricingProcedureCounter, totalHeader);
+        } catch (Exception e) {
+            log.error("Error while calling Debit Memo Pricing API: " + e.getMessage(), e);
+            throw new RuntimeException("Failed to update Debit Memo Pricing Element. Response Code: " + e.getMessage());
+        }
 
-            // Call Debit Memo Pricing API
-            try {
-                serviceInvoiceMainService.callDebitMemoPricingAPI(
-                        debitMemoRequest, debitMemoRequestItem, pricingProcedureStep, pricingProcedureCounter,
-                        savedCommand.getTotalHeader());
-            } catch (Exception e) {
-                log.error("Error while calling Debit Memo Pricing API: " + e.getMessage(), e);
-                throw new RuntimeException("Failed to update Invoice Pricing Element. Response Code: " + e.getMessage());
-            }
-
-            // Add the saved command to the response list
-            response.add(savedCommand);
+        // Step 5: Convert and return the saved items as a list of command objects for the response
+        List<ServiceInvoiceMainCommand> response = new ArrayList<>();
+        for (ServiceInvoiceMain savedItem : savedItems) {
+            response.add(serviceInvoiceToServiceInvoiceCommand.convert(savedItem));
         }
 
         return response;
