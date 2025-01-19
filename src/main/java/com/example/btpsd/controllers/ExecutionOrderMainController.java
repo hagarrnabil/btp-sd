@@ -129,6 +129,8 @@ ExecutionOrderMainController {
             @RequestBody List<ExecutionOrderMainCommand> executionOrderCommands,
             @RequestParam(required = false) String salesOrder,
             @RequestParam(required = false) String salesOrderItem,
+            @RequestParam(required = false) Integer pricingProcedureStep,
+            @RequestParam(required = false) Integer pricingProcedureCounter,
             @RequestParam(required = false) String customerNumber) throws Exception {
 
         // Step 1: Delete all existing ExecutionOrderMain records
@@ -153,7 +155,7 @@ ExecutionOrderMainController {
                         if (orderID.equals(salesOrder)) {
                             String referenceSDDocument = order.path("ReferenceSDDocument").asText();
                             command.setReferenceSDDocument(referenceSDDocument);
-                            break; // Exit loop once ReferenceSDDocument is found
+                            break;
                         }
                     }
                 } catch (JsonProcessingException e) {
@@ -179,7 +181,8 @@ ExecutionOrderMainController {
 
         // Step 5: Call Sales Order Pricing API
         try {
-            executionOrderMainService.callSalesOrderPricingAPI(salesOrder, salesOrderItem, totalHeader);
+            executionOrderMainService.callSalesOrderPricingAPI(
+                    salesOrder, salesOrderItem, pricingProcedureStep, pricingProcedureCounter, totalHeader);
         } catch (Exception e) {
             throw new RuntimeException("Failed to update Sales Order Pricing Element. Response Code: " + e.getMessage());
         }

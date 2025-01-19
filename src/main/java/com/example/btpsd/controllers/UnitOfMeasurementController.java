@@ -7,6 +7,7 @@ import com.example.btpsd.model.UnitOfMeasurement;
 import com.example.btpsd.repositories.UnitOfMeasurementRepository;
 //import com.example.btpsd.repositories.dCloudRepository;
 import com.example.btpsd.services.UnitOfMeasurementService;
+import com.example.btpsd.services.UnitOfMeasurementServiceImpl;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
@@ -31,12 +32,16 @@ import java.util.*;
 @RestController
 public class UnitOfMeasurementController {
 
-    private final UnitOfMeasurementRepository unitOfMeasurementRepository;
+//    private final UnitOfMeasurementRepository unitOfMeasurementRepository;
 
-    private final UnitOfMeasurementService unitOfMeasurementService;
+    private final UnitOfMeasurementServiceImpl unitOfMeasurementService;
 
-    private final UnitOfMeasurementToUnitOfMeasurementCommand unitOfMeasurementToUnitOfMeasurementCommand;
+//    private final UnitOfMeasurementToUnitOfMeasurementCommand unitOfMeasurementToUnitOfMeasurementCommand;
 
+    @GetMapping("/measurements")
+    public List<UnitOfMeasurement> getUnitOfMeasurements() {
+        return unitOfMeasurementService.fetchUnitOfMeasurements();
+    }
 
 //    @GetMapping("/measurements")
 //    @ResponseBody
@@ -88,30 +93,30 @@ public class UnitOfMeasurementController {
 //
 //
 
-
-    @GetMapping("/measurements")
-    Set<UnitOfMeasurementCommand> all() {
-        return unitOfMeasurementService.getUnitOfMeasurementCommands();
-    }
-
-    @GetMapping("/measurements/{unitOfMeasurementCode}")
-    public Optional<UnitOfMeasurementCommand> findByIds(@PathVariable @NotNull Long unitOfMeasurementCode) {
-
-        return Optional.ofNullable(unitOfMeasurementService.findUnitOfMeasurementCommandById(unitOfMeasurementCode));
-    }
-
-    @PostMapping("/measurements")
-    UnitOfMeasurementCommand newUomCommand(@RequestBody UnitOfMeasurementCommand newUomCommand) {
-
-        UnitOfMeasurementCommand savedCommand = unitOfMeasurementService.saveUnitOfMeasurementCommand(newUomCommand);
-        return savedCommand;
-
-    }
-
-    @DeleteMapping("/measurements/{unitOfMeasurementCode}")
-    void deleteUomCommand(@PathVariable Long unitOfMeasurementCode) {
-        unitOfMeasurementService.deleteById(unitOfMeasurementCode);
-    }
+//
+//    @GetMapping("/measurements")
+//    Set<UnitOfMeasurementCommand> all() {
+//        return unitOfMeasurementService.getUnitOfMeasurementCommands();
+//    }
+//
+//    @GetMapping("/measurements/{unitOfMeasurementCode}")
+//    public Optional<UnitOfMeasurementCommand> findByIds(@PathVariable @NotNull Long unitOfMeasurementCode) {
+//
+//        return Optional.ofNullable(unitOfMeasurementService.findUnitOfMeasurementCommandById(unitOfMeasurementCode));
+//    }
+//
+//    @PostMapping("/measurements")
+//    UnitOfMeasurementCommand newUomCommand(@RequestBody UnitOfMeasurementCommand newUomCommand) {
+//
+//        UnitOfMeasurementCommand savedCommand = unitOfMeasurementService.saveUnitOfMeasurementCommand(newUomCommand);
+//        return savedCommand;
+//
+//    }
+//
+//    @DeleteMapping("/measurements/{unitOfMeasurementCode}")
+//    void deleteUomCommand(@PathVariable Long unitOfMeasurementCode) {
+//        unitOfMeasurementService.deleteById(unitOfMeasurementCode);
+//    }
 
 //    @PutMapping
 //    @RequestMapping("/measurements/{unitOfMeasurementCode}")

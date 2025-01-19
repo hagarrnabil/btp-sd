@@ -8,13 +8,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.Set;
@@ -87,80 +90,78 @@ public interface ExecutionOrderMainService {
             target.getServiceInvoiceMain().updateFromExecutionOrder(target);
         }
     }
-    default void callSalesOrderPricingAPI(String salesOrder, String salesOrderItem, Double totalHeader) throws Exception {
 
-        // Initialize the logger
+    public default ResponseEntity<String> callSalesOrderPricingAPI(String salesOrder,
+                                                                   String salesOrderItem,
+                                                                   Integer pricingProcedureStep,
+                                                                   Integer pricingProcedureCounter,
+                                                                   Double totalHeader) throws Exception {
+
         Logger log = LogManager.getLogger(this.getClass());
+        try {
+            // Step 1: Prepare the request body with totalHeader
+            String requestBody = "{\n \"ConditionType\": \"PPR0\",\n \"ConditionRateValue\": \"" + totalHeader + "\"\n}";
 
-        // Step 1: Prepare the request body with totalHeader
-        JSONObject requestBodyJson = new JSONObject();
-        requestBodyJson.put("ConditionType", "PPR0"); // Set ConditionType to "PPR0"
-        requestBodyJson.put("ConditionRateAmount", totalHeader); // Set ConditionRateAmount to totalHeader
+            // Step 2: Fetch CSRF token
+            OkHttpClient client = new OkHttpClient().newBuilder().build();
+            MediaType mediaType = MediaType.parse("application/json");
 
-        String requestBody = requestBodyJson.toString();
+            // Encode authorization using Base64 from Apache Commons Codec
+            String credentials = "BTP_USER1:#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5";
+            String encodedCredentials = new String(Base64.encodeBase64(credentials.getBytes(StandardCharsets.UTF_8)));
 
-        // Step 2: Fetch CSRF token
-        String tokenURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem(SalesOrder='"
-                + salesOrder + "',SalesOrderItem='" + salesOrderItem + "')/to_PricingElement";
+            // First, fetch the CSRF token with a GET request
+            String tokenURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItem(SalesOrder='"
+                    + salesOrder + "',SalesOrderItem='" + salesOrderItem + "')/to_PricingElement?%24inlinecount=allpages&%24top=50";
 
-        HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenURL).openConnection();
-        String user = "BTP_USER1";
-        String password = "#yiVfheJbFolFxgkEwCBFcWvYkPzrQDENEArAXn5"; // Keep this secure
-        String auth = user + ":" + password;
-        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
-        String authHeaderValue = "Basic " + new String(encodedAuth);
+            Request tokenRequest = new Request.Builder()
+                    .url(tokenURL)
+                    .method("GET", null)
+                    .addHeader("x-csrf-token", "Fetch")
+                    .addHeader("Authorization", "Basic " + encodedCredentials)
+                    .addHeader("Accept", "application/json")
+                    .build();
 
-        tokenConn.setRequestMethod("GET");
-        tokenConn.setRequestProperty("Authorization", authHeaderValue);
-        tokenConn.setRequestProperty("x-csrf-token", "Fetch");
-        tokenConn.setRequestProperty("Accept", "application/json");
+            Response tokenResponse = client.newCall(tokenRequest).execute();
+            String csrfToken = tokenResponse.header("x-csrf-token");
+            String cookies = tokenResponse.header("Set-Cookie");
 
-        // Fetch CSRF Token and cookies
-        String csrfToken = tokenConn.getHeaderField("x-csrf-token");
-        String cookies = tokenConn.getHeaderField("Set-Cookie");
+            if (csrfToken == null || csrfToken.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Failed to fetch CSRF token");
+            }
 
-        if (csrfToken == null || csrfToken.isEmpty()) {
-            log.error("Failed to fetch CSRF token");
-            throw new RuntimeException("Failed to fetch CSRF token");
+            log.debug("Fetched CSRF token successfully: " + csrfToken);
+
+            // Step 3: Make the PATCH request to update the Sales Order Pricing Element
+            String patchURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrderItemPrElement(SalesOrder='"
+                    + salesOrder + "',SalesOrderItem='" + salesOrderItem + "',PricingProcedureStep='"
+                    + pricingProcedureStep + "',PricingProcedureCounter='" + pricingProcedureCounter + "')";
+
+            Request patchRequest = new Request.Builder()
+                    .url(patchURL)
+                    .method("PATCH", RequestBody.create(mediaType, requestBody))
+                    .addHeader("Authorization", "Basic " + encodedCredentials)
+                    .addHeader("x-csrf-token", csrfToken)
+                    .addHeader("If-Match", "*")
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Cookie", cookies)
+                    .build();
+
+            Response patchResponse = client.newCall(patchRequest).execute();
+            int responseCode = patchResponse.code();
+            String responseString = patchResponse.body().string();
+
+            log.debug("Response Code: " + responseCode);
+
+            if (responseCode >= 200 && responseCode < 300) {
+                return ResponseEntity.status(responseCode).body(responseString);
+            } else {
+                return ResponseEntity.status(responseCode).body("Failed to update Sales Order Pricing Element. Response: " + responseString);
+            }
+        } catch (Exception e) {
+            log.error("Error while calling Sales Order Pricing API: " + e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
         }
-
-        log.debug("Fetched CSRF token successfully: " + csrfToken);
-
-        // Step 3: Make the POST request to update the Sales Order Pricing Element
-        String postURL = "https://my418629.s4hana.cloud.sap/sap/opu/odata4/sap/api_salesorder/srvd_a2x/sap/salesorder/0001/SalesOrderItem/"
-                + salesOrder + "/" + salesOrderItem + "/_ItemPricingElement";
-
-        HttpURLConnection postConn = (HttpURLConnection) new URL(postURL).openConnection();
-        postConn.setRequestMethod("POST");
-        postConn.setRequestProperty("Authorization", authHeaderValue);
-        postConn.setRequestProperty("x-csrf-token", csrfToken);
-        postConn.setRequestProperty("Content-Type", "application/json");
-
-        if (cookies != null) {
-            postConn.setRequestProperty("Cookie", cookies);
-        }
-
-        postConn.setDoOutput(true);
-        try (OutputStream os = postConn.getOutputStream()) {
-            byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
-            os.write(input, 0, input.length);
-        }
-
-        int responseCode = postConn.getResponseCode();
-        log.debug("Response Code: " + responseCode);
-
-        // Enhanced error handling for various response codes
-        if (responseCode != HttpURLConnection.HTTP_OK && responseCode != HttpURLConnection.HTTP_CREATED) {
-            String errorMessage = "Failed to post Sales Order Pricing Element. Response Code: " + responseCode;
-            String responseBody = new String(postConn.getErrorStream().readAllBytes(), StandardCharsets.UTF_8);
-            log.error("Error Response Body: " + responseBody);
-            throw new RuntimeException(errorMessage);
-        }
-
-        // Handle the successful response
-        InputStream responseStream = postConn.getInputStream();
-        String response = new BufferedReader(new InputStreamReader(responseStream)).lines().collect(Collectors.joining("\n"));
-        log.info("Successfully posted Sales Order Pricing Element. Response: " + response);
     }
-
 }
+

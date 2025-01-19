@@ -23,8 +23,7 @@ public class UnitOfMeasurementToUnitOfMeasurementCommand implements Converter<Un
         }
 
         final UnitOfMeasurementCommand unitOfMeasurementCommand = new UnitOfMeasurementCommand();
-        unitOfMeasurementCommand.setUnitOfMeasurementCode(source.getUnitOfMeasurementCode());
-        unitOfMeasurementCommand.setCode(source.getCode());
+        unitOfMeasurementCommand.setUnit(source.getUnit());
         unitOfMeasurementCommand.setDescription(source.getDescription());
         return unitOfMeasurementCommand;
     }

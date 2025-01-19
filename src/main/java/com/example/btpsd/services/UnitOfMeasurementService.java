@@ -8,16 +8,14 @@ import java.util.Set;
 
 public interface UnitOfMeasurementService {
 
-    Set<UnitOfMeasurementCommand> getUnitOfMeasurementCommands();
-
-    UnitOfMeasurement findById(Long l);
-
-    void deleteById(Long idToDelete);
-
-    UnitOfMeasurementCommand saveUnitOfMeasurementCommand(UnitOfMeasurementCommand command);
-
-//    UnitOfMeasurement updateUnitOfMeasurement(UnitOfMeasurementCommand newUnitOfMeasurementCommand, Long l);
-
-    UnitOfMeasurementCommand findUnitOfMeasurementCommandById(Long l);
+//    Set<UnitOfMeasurementCommand> getUnitOfMeasurementCommands();
+//
+//    UnitOfMeasurement findById(Long l);
+//
+//    void deleteById(Long idToDelete);
+//
+//    UnitOfMeasurementCommand saveUnitOfMeasurementCommand(UnitOfMeasurementCommand command);
+//
+//    UnitOfMeasurementCommand findUnitOfMeasurementCommandById(Long l);
 
 }
